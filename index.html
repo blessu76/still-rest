@@ -304,6 +304,35 @@
   .plan-note{margin-top:36px;font-size:13px;color:var(--muted);}
   .pricing-honest{margin-top:36px;font-size:13.5px;color:var(--muted);font-style:italic;font-family:var(--serif);}
 
+  /* ---------- 6.5 STILL LETTERS (Phase-1) ---------- */
+  .letters{padding:120px 0;background:var(--surface);text-align:center;}
+  .letters .eyebrow{margin-bottom:18px;}
+  .letters h2{max-width:20ch;margin:0 auto 16px;}
+  .letters .lede{margin:0 auto 40px;}
+  .letters-form{
+    display:flex;gap:10px;max-width:440px;margin:0 auto;
+    flex-wrap:wrap;justify-content:center;
+  }
+  .letters-form input[type=email]{
+    flex:1;min-width:220px;
+    font-family:var(--sans);font-size:15px;color:var(--ink);
+    background:var(--parchment);border:1px solid rgba(35,42,54,.14);
+    border-radius:999px;padding:14px 20px;outline:none;
+    transition:border-color .3s ease;
+  }
+  .letters-form input[type=email]:focus{border-color:var(--sage);}
+  .letters-form input[type=email]::placeholder{color:var(--muted);}
+  .btn-sage{background:var(--sage);color:var(--cream);border:1px solid var(--sage);white-space:nowrap;}
+  .btn-sage:hover{background:transparent;color:var(--sage);}
+  .letters-note{
+    margin-top:20px;font-size:13px;color:var(--muted);
+    font-family:var(--serif);font-style:italic;
+  }
+  .letters-thanks{
+    margin-top:22px;font-family:var(--serif);font-size:16px;color:var(--sage);
+    min-height:1.2em;
+  }
+
   /* ---------- 7. CTA ---------- */
   .cta{padding:150px 0;text-align:center;}
   .cta h2{
@@ -532,6 +561,23 @@
   </div>
 </section>
 
+<!-- 6.5 · STILL LETTERS (Phase-1, pre-launch email circle) -->
+<section class="letters">
+  <div class="wrap">
+    <div class="eyebrow reveal" data-i18n="letters_eyebrow">still letters</div>
+    <h2 class="reveal" data-i18n="letters_h2">A quiet letter, once a week.</h2>
+    <p class="lede reveal" data-i18n="letters_lede">One verse and a gentle word, sent on a slow morning. No noise, no feed — just a small still point in the week. Beginning soon.</p>
+    <!-- COMMUNITY: connect newsletter action -->
+    <!-- No backend yet: submit shows a gentle confirmation only, nothing is stored. Connect Buttondown/ConvertKit action here. -->
+    <form class="letters-form reveal" id="lettersForm" novalidate>
+      <input type="email" id="lettersEmail" data-i18n-ph="letters_placeholder" placeholder="your email" aria-label="Email address" autocomplete="email">
+      <button class="btn btn-sage" type="submit"><span data-i18n="letters_cta">Join the still letters</span></button>
+    </form>
+    <p class="letters-note reveal" data-i18n="letters_note">Unsubscribe anytime. Your email stays yours.</p>
+    <p class="letters-thanks" id="lettersThanks" role="status" aria-live="polite"></p>
+  </div>
+</section>
+
 <!-- 7 · CTA -->
 <section class="cta dark">
   <div class="wrap">
@@ -607,6 +653,13 @@
       plan2_note:"Cancel anytime, in one tap. No questions.",
       price_honest:"No countdowns. No “last chance.” Peace shouldn't be sold with urgency.",
       cta_h2:"When the noise is too much, be still.",
+      letters_eyebrow:"still letters",
+      letters_h2:"A quiet letter, once a week.",
+      letters_lede:"One verse and a gentle word, sent on a slow morning. No noise, no feed — just a small still point in the week. Beginning soon.",
+      letters_placeholder:"your email",
+      letters_cta:"Join the still letters",
+      letters_note:"Unsubscribe anytime. Your email stays yours.",
+      letters_thanks:"Thank you — the first letter will find you soon.",
       foot_privacy:"Privacy", foot_support:"Support", foot_studio:"an ipe studio app"
     },
     ko: {
@@ -648,6 +701,13 @@
       plan2_note:"언제든 한 번의 탭으로 해지. 이유는 묻지 않습니다.",
       price_honest:"카운트다운도, “마지막 기회”도 없습니다. 평안은 조급함으로 파는 것이 아니니까요.",
       cta_h2:"소음이 너무 클 때, 고요히.",
+      letters_eyebrow:"still letters",
+      letters_h2:"일주일에 한 번, 조용한 편지.",
+      letters_lede:"느린 아침에 보내는 한 구절과 다정한 말 한 마디. 소음도, 피드도 없이 — 그저 한 주에 놓인 작은 고요의 점 하나. 곧 시작합니다.",
+      letters_placeholder:"이메일 주소",
+      letters_cta:"still letters 구독하기",
+      letters_note:"언제든 구독 해지. 이메일은 당신 것으로 남습니다.",
+      letters_thanks:"고맙습니다 — 첫 편지가 곧 당신을 찾아갈 거예요.",
       foot_privacy:"개인정보", foot_support:"지원", foot_studio:"an ipe studio app"
     },
     // ---- ja (MT, brand-voice, pending native review) ----
@@ -690,6 +750,13 @@
       plan2_note:"いつでもワンタップで解約。理由は問いません。",
       price_honest:"カウントダウンも「最後のチャンス」もありません。平安は、焦りで売るものではないから。",
       cta_h2:"騒がしさが度を越したら、静まれ。",
+      letters_eyebrow:"still letters",
+      letters_h2:"週に一度の、静かな手紙。",
+      letters_lede:"ゆっくりとした朝に届く、一節とやさしい言葉。騒がしさも、フィードもなく — ただ一週間に置かれた、小さな静けさのひと点。まもなく始まります。",
+      letters_placeholder:"メールアドレス",
+      letters_cta:"still letters を購読",
+      letters_note:"いつでも購読解除できます。あなたのメールはあなたのもの。",
+      letters_thanks:"ありがとう — 最初の手紙が、まもなくあなたを訪れます。",
       foot_privacy:"プライバシー", foot_support:"サポート", foot_studio:"an ipe studio app"
     },
     // ---- zh (简体, MT, pending native review) ----
@@ -732,6 +799,13 @@
       plan2_note:"随时一点即可取消。绝不多问。",
       price_honest:"没有倒计时，没有“最后机会”。平安，不该用急迫来兜售。",
       cta_h2:"当喧嚣太甚，就安静。",
+      letters_eyebrow:"still letters",
+      letters_h2:"每周一封，安静的信。",
+      letters_lede:"在一个从容的清晨，寄来一节经文和一句温柔的话。没有喧嚣，没有信息流 —— 只是一周之中一个小小的安静之点。即将开始。",
+      letters_placeholder:"你的邮箱",
+      letters_cta:"订阅 still letters",
+      letters_note:"随时可退订。你的邮箱只属于你。",
+      letters_thanks:"谢谢你 —— 第一封信很快就会找到你。",
       foot_privacy:"隐私", foot_support:"支持", foot_studio:"an ipe studio app"
     },
     // ---- es (MT, pending native review) ----
@@ -774,6 +848,13 @@
       plan2_note:"Cancela cuando quieras, con un toque. Sin preguntas.",
       price_honest:"Sin cuentas atrás. Sin “última oportunidad”. La paz no debería venderse con urgencia.",
       cta_h2:"Cuando el ruido sea demasiado, aquiétate.",
+      letters_eyebrow:"still letters",
+      letters_h2:"Una carta serena, una vez por semana.",
+      letters_lede:"Un versículo y una palabra amable, enviados en una mañana sin prisa. Sin ruido, sin feed — solo un pequeño punto de calma en la semana. Comienza pronto.",
+      letters_placeholder:"tu correo",
+      letters_cta:"Unirme a las still letters",
+      letters_note:"Cancela cuando quieras. Tu correo sigue siendo tuyo.",
+      letters_thanks:"Gracias — la primera carta te encontrará pronto.",
       foot_privacy:"Privacidad", foot_support:"Soporte", foot_studio:"an ipe studio app"
     },
     // ---- pt (MT, pending native review) ----
@@ -816,6 +897,13 @@
       plan2_note:"Cancele quando quiser, com um toque. Sem perguntas.",
       price_honest:"Sem contagens regressivas. Sem “última chance”. A paz não deveria ser vendida com pressa.",
       cta_h2:"Quando o barulho for demais, aquiete-se.",
+      letters_eyebrow:"still letters",
+      letters_h2:"Uma carta serena, uma vez por semana.",
+      letters_lede:"Um versículo e uma palavra gentil, enviados numa manhã sem pressa. Sem barulho, sem feed — apenas um pequeno ponto de quietude na semana. Começa em breve.",
+      letters_placeholder:"seu e-mail",
+      letters_cta:"Entrar nas still letters",
+      letters_note:"Cancele quando quiser. Seu e-mail continua seu.",
+      letters_thanks:"Obrigado — a primeira carta vai encontrar você em breve.",
       foot_privacy:"Privacidade", foot_support:"Suporte", foot_studio:"an ipe studio app"
     },
     // ---- id (MT, pending native review) ----
@@ -858,6 +946,13 @@
       plan2_note:"Batalkan kapan saja, dengan satu ketukan. Tanpa pertanyaan.",
       price_honest:"Tanpa hitung mundur. Tanpa “kesempatan terakhir”. Kedamaian tak seharusnya dijual dengan desakan.",
       cta_h2:"Ketika keramaian terlalu berat, berdiam dirilah.",
+      letters_eyebrow:"still letters",
+      letters_h2:"Sepucuk surat yang tenang, sekali seminggu.",
+      letters_lede:"Satu ayat dan sepatah kata lembut, dikirim pada pagi yang tak terburu-buru. Tanpa keramaian, tanpa linimasa — hanya sebuah titik hening kecil dalam sepekan. Segera dimulai.",
+      letters_placeholder:"emailmu",
+      letters_cta:"Ikut still letters",
+      letters_note:"Berhenti berlangganan kapan saja. Emailmu tetap milikmu.",
+      letters_thanks:"Terima kasih — surat pertama akan segera menemukanmu.",
       foot_privacy:"Privasi", foot_support:"Dukungan", foot_studio:"an ipe studio app"
     },
     // ---- ru (MT, pending native review) ----
@@ -900,6 +995,13 @@
       plan2_note:"Отмена в любой момент, одним касанием. Без вопросов.",
       price_honest:"Никаких обратных отсчётов. Никакого “последнего шанса”. Покой не продают спешкой.",
       cta_h2:"Когда шума слишком много — остановись.",
+      letters_eyebrow:"still letters",
+      letters_h2:"Тихое письмо, раз в неделю.",
+      letters_lede:"Один стих и тихое доброе слово, присланные неспешным утром. Ни шума, ни ленты — лишь маленькая точка покоя среди недели. Скоро начнём.",
+      letters_placeholder:"ваш e-mail",
+      letters_cta:"Подписаться на still letters",
+      letters_note:"Отписаться можно в любой момент. Ваш e-mail остаётся вашим.",
+      letters_thanks:"Спасибо — первое письмо скоро найдёт вас.",
       foot_privacy:"Конфиденциальность", foot_support:"Поддержка", foot_studio:"an ipe studio app"
     },
     // ---- vi (MT, pending native review) ----
@@ -942,14 +1044,23 @@
       plan2_note:"Hủy bất cứ lúc nào, chỉ một chạm. Không hỏi lý do.",
       price_honest:"Không đếm ngược. Không “cơ hội cuối cùng”. Sự bình an không nên được bán bằng sự vội vã.",
       cta_h2:"Khi tiếng ồn quá đỗi, hãy lặng yên.",
+      letters_eyebrow:"still letters",
+      letters_h2:"Một lá thư tĩnh lặng, mỗi tuần một lần.",
+      letters_lede:"Một câu Kinh Thánh và một lời dịu dàng, gửi đến trong một buổi sáng thong thả. Không ồn ào, không dòng thời gian — chỉ một điểm tĩnh lặng nhỏ giữa tuần. Sắp bắt đầu.",
+      letters_placeholder:"email của bạn",
+      letters_cta:"Tham gia still letters",
+      letters_note:"Hủy đăng ký bất cứ lúc nào. Email của bạn vẫn là của bạn.",
+      letters_thanks:"Cảm ơn bạn — lá thư đầu tiên sẽ sớm tìm đến bạn.",
       foot_privacy:"Quyền riêng tư", foot_support:"Hỗ trợ", foot_studio:"an ipe studio app"
     }
   };
 
   function setMeta(sel, attr, val){ var el = document.querySelector(sel); if(el) el.setAttribute(attr, val); }
 
+  var CUR_LANG = DEFAULT_LANG;
   function applyLang(lang){
     if(!I18N[lang]) lang = DEFAULT_LANG;
+    CUR_LANG = lang;
     var dict = I18N[lang];
     document.documentElement.setAttribute('lang', lang);
     var nodes = document.querySelectorAll('[data-i18n]');
@@ -957,6 +1068,12 @@
       var key = nodes[i].getAttribute('data-i18n');
       var val = dict[key] || I18N.en[key];
       if(val != null) nodes[i].textContent = val;
+    }
+    var phNodes = document.querySelectorAll('[data-i18n-ph]');
+    for(var p=0;p<phNodes.length;p++){
+      var pk = phNodes[p].getAttribute('data-i18n-ph');
+      var pv = dict[pk] || I18N.en[pk];
+      if(pv != null) phNodes[p].setAttribute('placeholder', pv);
     }
     if(dict.meta_title){ document.title = dict.meta_title; setMeta('#og-title','content',dict.meta_title); setMeta('#tw-title','content',dict.meta_title); }
     if(dict.meta_desc){ setMeta('#meta-desc','content',dict.meta_desc); setMeta('#og-desc','content',dict.meta_desc); setMeta('#tw-desc','content',dict.meta_desc); }
@@ -998,6 +1115,27 @@
     });
   },{threshold:.18});
   document.querySelectorAll('.reveal:not(.in), .reveal-line:not(.in)').forEach(el=>io.observe(el));
+
+  // still letters — Phase-1, pre-launch. No backend: gentle confirmation only, nothing is stored.
+  // COMMUNITY: connect newsletter action (Buttondown/ConvertKit) here.
+  (function(){
+    var form = document.getElementById('lettersForm');
+    if(!form) return;
+    var emailEl = document.getElementById('lettersEmail');
+    var thanksEl = document.getElementById('lettersThanks');
+    form.addEventListener('submit', function(ev){
+      ev.preventDefault();
+      var v = (emailEl.value || '').trim();
+      if(!v || v.indexOf('@') === -1 || v.indexOf('.') === -1){
+        emailEl.focus();
+        return;
+      }
+      var dict = (typeof I18N !== 'undefined' && I18N[CUR_LANG]) ? I18N[CUR_LANG] : (typeof I18N !== 'undefined' ? I18N.en : null);
+      var msg = dict && dict.letters_thanks ? dict.letters_thanks : "Thank you — the first letter will find you soon.";
+      thanksEl.textContent = msg;
+      form.style.display = 'none';
+    });
+  })();
 </script>
 </body>
 </html>
