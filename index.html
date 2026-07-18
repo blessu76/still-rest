@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>still() — Be still. A Bible for hard days.</title>
+<meta name="description" content="A private, on-device AI companion for Christians. Tell it what you're going through; receive a comforting Bible verse and a gentle word on what it means. Nothing you type leaves your phone. Rooted in Psalm 46:10." />
+<meta property="og:title" content="still() — Be still. A Bible for hard days." />
+<meta property="og:description" content="A private, on-device Bible companion. A verse that meets you where you are — and a gentle word on what it means. Be still, and know. (Psalm 46:10)" />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Gentium+Book+Plus:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --navy: #0F1218;        /* deep navy, warmed slightly */
+    --ink: #232A36;         /* body text on light */
+    --parchment: #F7F2E9;   /* light section bg */
+    --surface: #FFFDF8;     /* cards */
+    --gold: #C9A84C;        /* hairlines / parens / accents only */
+    --gold-deep: #85672C;   /* gold text on light (AA) */
+    --sage: #5F7D5F;        /* quiet positive action */
+    --cream: #F5F0E8;       /* text on dark */
+    --muted: #5C6470;       /* secondary text */
+    --maxw: 720px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--parchment);
+    color: var(--ink);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+
+  section { padding: 108px 0; }
+
+  /* ---------- shared type ---------- */
+  h1, h2, h3 { font-weight: 600; letter-spacing: -0.01em; line-height: 1.2; }
+  .eyebrow {
+    font-size: 0.74rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--gold-deep); font-weight: 600; margin-bottom: 22px;
+  }
+  .lead { font-size: 1.18rem; color: var(--muted); font-weight: 300; }
+
+  .hairline { height: 1px; background: var(--gold); opacity: 0.55; border: 0; }
+
+  /* wordmark */
+  .wordmark {
+    font-family: 'Gentium Book Plus', serif;
+    font-weight: 700; letter-spacing: 0.01em;
+  }
+  .wordmark .paren { color: var(--gold); font-weight: 400; }
+
+  /* ---------- hero ---------- */
+  .hero {
+    background: radial-gradient(120% 100% at 50% 0%, #171C26 0%, var(--navy) 58%);
+    color: var(--cream);
+    text-align: center;
+    padding: 132px 0 120px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero .wrap { position: relative; z-index: 2; }
+  .hero-mark {
+    font-size: clamp(3.2rem, 11vw, 5.4rem);
+    position: relative; display: inline-block; margin-bottom: 34px;
+    color: var(--cream);
+  }
+  /* faint dawn light-point breathing between the parens */
+  .hero-mark .lightpoint {
+    position: absolute; left: 50%; top: 52%;
+    width: 7px; height: 7px; margin-left: -3.5px; margin-top: -3.5px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 16px 5px rgba(201,168,76,0.55);
+    animation: breathe 5.5s ease-in-out infinite;
+  }
+  @keyframes breathe {
+    0%, 100% { opacity: 0.25; transform: scale(0.85); }
+    50%      { opacity: 0.9;  transform: scale(1.15); }
+  }
+  .hero h1 {
+    font-family: 'Gentium Book Plus', serif;
+    font-size: clamp(1.9rem, 6vw, 2.9rem);
+    font-weight: 700; color: var(--cream); margin-bottom: 20px;
+  }
+  .hero p.sub {
+    font-size: 1.12rem; color: #C7CBD3; font-weight: 300;
+    max-width: 460px; margin: 0 auto 40px;
+  }
+  .hero .hairline { width: 64px; margin: 30px auto; opacity: 0.7; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 9px;
+    font-size: 0.98rem; font-weight: 500;
+    padding: 14px 26px; border-radius: 40px;
+    text-decoration: none; cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  }
+  .btn-appstore {
+    background: var(--cream); color: var(--navy);
+    border: 1px solid var(--cream);
+  }
+  .btn-appstore:hover { transform: translateY(-2px); background: #fff; }
+  .btn-ghost {
+    background: transparent; color: var(--cream);
+    border: 1px solid rgba(245,240,232,0.35);
+  }
+  .btn-ghost:hover { border-color: var(--cream); transform: translateY(-2px); }
+  .btn .apple { font-size: 1.15rem; line-height: 1; }
+
+  /* ---------- the heart / verse card ---------- */
+  .heart { background: var(--parchment); text-align: center; }
+  .heart h2 { font-size: clamp(1.5rem, 4.5vw, 2.05rem); color: var(--ink); margin-bottom: 14px; }
+  .heart .lead { max-width: 520px; margin: 0 auto 54px; }
+
+  .verse-card {
+    background: var(--surface);
+    border-radius: 18px;
+    padding: 0;
+    max-width: 468px; margin: 0 auto;
+    box-shadow: 0 30px 70px -34px rgba(15,18,24,0.32), 0 2px 10px -4px rgba(15,18,24,0.12);
+    overflow: hidden;
+    text-align: left;
+  }
+  .verse-card .card-hair { height: 3px; background: var(--gold); }
+  .verse-card .card-body { padding: 40px 38px 30px; }
+  .verse-card .verse {
+    font-family: 'Gentium Book Plus', serif;
+    font-size: 1.5rem; line-height: 1.5; color: var(--ink);
+    font-weight: 400;
+  }
+  .verse-card .ref {
+    display: block; margin-top: 22px;
+    font-size: 0.86rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gold-deep); font-weight: 600;
+  }
+  .verse-card .card-foot {
+    display: flex; gap: 26px; align-items: center;
+    padding: 18px 38px; border-top: 1px solid rgba(35,42,54,0.08);
+    color: var(--muted); font-size: 0.9rem;
+  }
+  .verse-card .card-foot span { display: inline-flex; align-items: center; gap: 8px; }
+  .verse-card .glyph { font-size: 1.05rem; color: var(--sage); }
+
+  /* ---------- how it works ---------- */
+  .how { background: var(--surface); }
+  .how h2 { font-size: clamp(1.5rem, 4.5vw, 2.05rem); text-align: center; margin-bottom: 60px; color: var(--ink); }
+  .steps { display: flex; flex-direction: column; gap: 40px; }
+  .step { display: flex; gap: 22px; align-items: flex-start; }
+  .step .num {
+    flex: none; width: 34px; height: 34px; border-radius: 50%;
+    border: 1px solid var(--sage); color: var(--sage);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; font-weight: 600; margin-top: 3px;
+  }
+  .step h3 { font-size: 1.12rem; color: var(--ink); margin-bottom: 4px; font-weight: 600; }
+  .step p { color: var(--muted); font-size: 1rem; }
+
+  /* ---------- features ---------- */
+  .features { background: var(--parchment); }
+  .features h2 { font-size: clamp(1.5rem, 4.5vw, 2.05rem); text-align: center; margin-bottom: 50px; color: var(--ink); }
+  .feat-row {
+    display: flex; gap: 16px; align-items: baseline;
+    padding: 22px 0; border-top: 1px solid rgba(35,42,54,0.09);
+  }
+  .feat-row:last-child { border-bottom: 1px solid rgba(35,42,54,0.09); }
+  .feat-row .dot { color: var(--sage); font-size: 1.1rem; flex: none; }
+  .feat-row p { color: var(--ink); font-size: 1.06rem; font-weight: 400; }
+  .feat-row p .q { color: var(--muted); }
+
+  /* ---------- privacy band ---------- */
+  .privacy {
+    background: var(--navy); color: var(--cream); text-align: center;
+  }
+  .privacy .eyebrow { color: var(--gold); opacity: 0.85; }
+  .privacy h2 {
+    font-family: 'Gentium Book Plus', serif; font-weight: 700;
+    font-size: clamp(1.7rem, 5vw, 2.4rem); margin-bottom: 20px; color: var(--cream);
+  }
+  .privacy p { color: #C7CBD3; font-weight: 300; max-width: 500px; margin: 0 auto; font-size: 1.08rem; }
+  .privacy .hairline { width: 64px; margin: 30px auto 0; opacity: 0.6; }
+
+  /* ---------- pricing ---------- */
+  .pricing { background: var(--surface); text-align: center; }
+  .pricing h2 { font-size: clamp(1.5rem, 4.5vw, 2.05rem); color: var(--ink); margin-bottom: 12px; }
+  .pricing .lead { margin-bottom: 50px; }
+  .plans { display: flex; gap: 22px; justify-content: center; flex-wrap: wrap; }
+  .plan {
+    background: var(--parchment); border: 1px solid rgba(35,42,54,0.09);
+    border-radius: 16px; padding: 34px 30px; width: 280px; text-align: left;
+  }
+  .plan.featured { border-color: var(--gold); }
+  .plan .pname { font-family: 'Gentium Book Plus', serif; font-size: 1.3rem; font-weight: 700; color: var(--ink); }
+  .plan .price { font-size: 2rem; font-weight: 600; color: var(--ink); margin: 12px 0 4px; }
+  .plan .price small { font-size: 0.95rem; font-weight: 400; color: var(--muted); }
+  .plan ul { list-style: none; margin: 22px 0 0; }
+  .plan li { color: var(--muted); font-size: 0.98rem; padding: 7px 0 7px 22px; position: relative; }
+  .plan li::before { content: "·"; color: var(--sage); position: absolute; left: 6px; font-weight: 700; }
+  .pricing .honest { margin-top: 34px; color: var(--muted); font-size: 0.95rem; font-style: italic; }
+
+  /* ---------- closing cta ---------- */
+  .cta {
+    background: radial-gradient(120% 100% at 50% 100%, #171C26 0%, var(--navy) 60%);
+    color: var(--cream); text-align: center;
+  }
+  .cta h2 {
+    font-family: 'Gentium Book Plus', serif; font-weight: 700;
+    font-size: clamp(1.8rem, 5.5vw, 2.6rem); margin-bottom: 34px; color: var(--cream);
+  }
+
+  /* ---------- footer ---------- */
+  footer { background: var(--navy); color: var(--cream); padding: 54px 0; text-align: center; border-top: 1px solid rgba(245,240,232,0.08); }
+  footer .fmark { font-size: 1.6rem; margin-bottom: 10px; }
+  footer .tagline { color: var(--gold); opacity: 0.8; font-size: 0.85rem; letter-spacing: 0.14em; margin-bottom: 24px; }
+  footer .links { display: flex; gap: 26px; justify-content: center; margin-bottom: 20px; }
+  footer .links a { color: #9AA0AB; text-decoration: none; font-size: 0.9rem; }
+  footer .links a:hover { color: var(--cream); }
+  footer .studio { color: var(--muted); font-size: 0.82rem; }
+
+  /* ---------- reveal ---------- */
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity 1s ease, transform 1s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (max-width: 560px) {
+    section { padding: 78px 0; }
+    .plans { flex-direction: column; align-items: center; }
+    .verse-card .card-body { padding: 32px 28px 24px; }
+    .verse-card .card-foot { padding: 16px 28px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-mark .lightpoint { animation: none; opacity: 0.6; }
+    .reveal { transition: none; opacity: 1; transform: none; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- 1) HERO -->
+  <header class="hero">
+    <div class="wrap">
+      <div class="wordmark hero-mark">still<span class="paren">(</span><span class="lightpoint"></span><span class="paren">)</span></div>
+      <h1>Be still.<br />A Bible for the hard days.</h1>
+      <p class="sub">Some days the words won't come. Tell it what you can — it will find one for you.</p>
+      <hr class="hairline" />
+      <a class="btn btn-appstore" href="#"><span class="apple">&#63743;</span> Download on the App Store</a>
+    </div>
+  </header>
+
+  <!-- 2) THE HEART / verse card -->
+  <section class="heart">
+    <div class="wrap">
+      <p class="eyebrow reveal">for the moment you're in</p>
+      <h2 class="reveal">A verse that meets you where you are.</h2>
+      <p class="lead reveal">You don't need the right words, or a chapter and verse. You just need somewhere to put the weight down.</p>
+
+      <div class="verse-card reveal">
+        <div class="card-hair"></div>
+        <div class="card-body">
+          <p class="verse">&ldquo;Be still, and know that I am God.&rdquo;</p>
+          <span class="ref">Psalm 46:10</span>
+        </div>
+        <div class="card-foot">
+          <span><span class="glyph">&#9825;</span> Save</span>
+          <span><span class="glyph">&#9835;</span> Listen &amp; rest</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3) HOW IT WORKS -->
+  <section class="how">
+    <div class="wrap">
+      <h2 class="reveal">How it works</h2>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="num">1</div>
+          <div><h3>Tell it what's weighing on you.</h3><p>A sentence is enough. There's no wrong way to begin.</p></div>
+        </div>
+        <div class="step reveal">
+          <div class="num">2</div>
+          <div><h3>Receive a verse, and a gentle word on what it means.</h3><p>A comforting passage for your moment — with a plain, unhurried explanation.</p></div>
+        </div>
+        <div class="step reveal">
+          <div class="num">3</div>
+          <div><h3>Sit with it — and with calm ipe music made for rest.</h3><p>Stay a while. Let the noise settle.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4) FEATURES -->
+  <section class="features">
+    <div class="wrap">
+      <h2 class="reveal">Quiet by design</h2>
+      <div class="reveal">
+        <div class="feat-row"><span class="dot">&#8226;</span><p>A comforting verse for your moment <span class="q">— not a search result, an answer.</span></p></div>
+        <div class="feat-row"><span class="dot">&#8226;</span><p>A plain-language explanation, <span class="q">never preachy.</span></p></div>
+        <div class="feat-row"><span class="dot">&#8226;</span><p>Calm ipe lofi to rest with, <span class="q">made for sitting still.</span></p></div>
+        <div class="feat-row"><span class="dot">&#8226;</span><p>A quiet home for the verses you save.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5) PRIVACY (on-device) -->
+  <!-- ██ PRIVACY MESSAGE MODULE — still is on-device (decision 0061). Swap only if backend moves. ██ -->
+  <section class="privacy" data-block="privacy-positioning">
+    <div class="wrap">
+      <p class="eyebrow">on-device</p>
+      <h2>It stays with you.</h2>
+      <p>still understands your words right here, on your phone. What you type is never sent to a server, never stored, never seen. The quietest things you carry stay yours.</p>
+      <hr class="hairline" />
+    </div>
+  </section>
+
+  <!-- 6) PRICING -->
+  <section class="pricing">
+    <div class="wrap">
+      <h2 class="reveal">Simple, and honest.</h2>
+      <p class="lead reveal">A free way in, and a gentle way deeper.</p>
+      <div class="plans reveal">
+        <div class="plan">
+          <div class="pname">Still</div>
+          <div class="price">Free</div>
+          <ul>
+            <li>A verse for your moment, any time</li>
+            <li>Gentle explanations</li>
+            <li>Save the verses you return to</li>
+          </ul>
+        </div>
+        <div class="plan featured">
+          <div class="pname">Still &amp; Deep</div>
+          <div class="price">$3.99 <small>/ month</small></div>
+          <ul>
+            <li>Everything in Still</li>
+            <li>The full ipe lofi library to rest with</li>
+            <li>Unlimited saved verses &amp; collections</li>
+          </ul>
+        </div>
+      </div>
+      <p class="honest">No countdowns. Peace shouldn't be sold with urgency.</p>
+    </div>
+  </section>
+
+  <!-- 7) CLOSING CTA -->
+  <section class="cta">
+    <div class="wrap">
+      <h2>When the noise is too much,<br />be still.</h2>
+      <a class="btn btn-appstore" href="#"><span class="apple">&#63743;</span> Download on the App Store</a>
+    </div>
+  </section>
+
+  <!-- 8) FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div class="wordmark fmark">still<span class="paren">()</span></div>
+      <div class="tagline">be still — Psalm 46:10</div>
+      <div class="links">
+        <a href="#">Privacy</a>
+        <a href="#">Support</a>
+      </div>
+      <div class="studio">an ipe studio app</div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.14 });
+      document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+    })();
+  </script>
+</body>
+</html>
