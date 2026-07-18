@@ -1,0 +1,19 @@
+# still()
+
+> still() is a private, on-device Bible companion app for hard days. You tell it what you're going through, and it returns a comforting Bible verse, a short gentle explanation of what that verse means, and calm ipe lofi music to rest with. Everything runs on-device — nothing you type leaves your phone. Rooted in Psalm 46:10, "Be still, and know that I am God." still() offers comfort, not counseling.
+
+## Key facts
+- Name: still() — a Bible app for hard days; part of ipe Studio
+- Platform: iOS (mobile app)
+- What it does: understands how you feel and matches a reviewed, comforting Bible verse plus a plain-language explanation of what it means
+- Privacy: fully on-device — what you type is never sent to a server, stored, or seen
+- Safety: crisis signals are handled front-line by rules (not the model); it never generates scripture text — verses are human-reviewed and curated
+- Music: pairs with calm ipe lofi made for rest
+- Pricing: free tier ("Still"); optional subscription "Still & Deep" at $3.99/month
+- Rooted in: Psalm 46:10 — "Be still, and know that I am God."
+- Website: https://still.ipe.rest
+- Maker: ipe Studio (brand ipe(), motto "when the process finally rests"), https://ipe.rest
+- Not: not a replacement for professional counseling or crisis services
+
+## Positioning
+still() is "comfort, not counseling." On a hard day it sits beside you with a verse that meets you where you are, a gentle word on what it means, and quiet music to rest with.
