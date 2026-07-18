@@ -3,30 +3,42 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>still() — Be still. A Bible for hard days.</title>
-<meta name="description" content="A private, on-device companion for hard days. Tell it what you're carrying — it finds a verse, a gentle word, and calm music to rest with. Rooted in Psalm 46:10.">
+<title id="meta-title">still() — Be still. A Bible for hard days.</title>
+<meta id="meta-desc" name="description" content="A private, on-device companion for hard days. Tell it what you're carrying — it finds a verse, a gentle word, and calm music to rest with. Rooted in Psalm 46:10.">
 <meta name="keywords" content="Bible app, Bible verse, comfort, Christian app, on-device AI, private, Psalm 46:10, be still, devotional, prayer, still, ipe">
 <meta name="author" content="ipe Studio">
 <meta name="theme-color" content="#0F1218">
-<link rel="canonical" href="https://still.ipe.rest/">
+<link id="canonical" rel="canonical" href="https://still.ipe.rest/">
 <meta name="robots" content="index, follow, max-image-preview:large">
+
+<!-- hreflang (client-side i18n via ?lang=) — supportedLangs matches still app L10n -->
+<link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/">
+<link rel="alternate" hreflang="en" href="https://still.ipe.rest/?lang=en">
+<link rel="alternate" hreflang="ko" href="https://still.ipe.rest/?lang=ko">
+<link rel="alternate" hreflang="ja" href="https://still.ipe.rest/?lang=ja">
+<link rel="alternate" hreflang="zh" href="https://still.ipe.rest/?lang=zh">
+<link rel="alternate" hreflang="es" href="https://still.ipe.rest/?lang=es">
+<link rel="alternate" hreflang="pt" href="https://still.ipe.rest/?lang=pt">
+<link rel="alternate" hreflang="id" href="https://still.ipe.rest/?lang=id">
+<link rel="alternate" hreflang="ru" href="https://still.ipe.rest/?lang=ru">
+<link rel="alternate" hreflang="vi" href="https://still.ipe.rest/?lang=vi">
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="still()">
-<meta property="og:url" content="https://still.ipe.rest/">
-<meta property="og:title" content="still() — Be still. A Bible for hard days.">
-<meta property="og:description" content="Tell it what you're carrying — still() finds a comforting verse, a gentle word on what it means, and calm music to rest with. Private and on-device. Psalm 46:10.">
+<meta id="og-url" property="og:url" content="https://still.ipe.rest/">
+<meta id="og-title" property="og:title" content="still() — Be still. A Bible for hard days.">
+<meta id="og-desc" property="og:description" content="Tell it what you're carrying — still() finds a comforting verse, a gentle word on what it means, and calm music to rest with. Private and on-device. Psalm 46:10.">
 <meta property="og:image" content="https://still.ipe.rest/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="still() — the Bible for hard days. Psalm 46:10.">
-<meta property="og:locale" content="en_US">
+<meta id="og-locale" property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="still() — Be still. A Bible for hard days.">
-<meta name="twitter:description" content="A private, on-device Bible companion. A verse that meets you where you are — and a gentle word on what it means.">
+<meta id="tw-title" name="twitter:title" content="still() — Be still. A Bible for hard days.">
+<meta id="tw-desc" name="twitter:description" content="A private, on-device Bible companion. A verse that meets you where you are — and a gentle word on what it means.">
 <meta name="twitter:image" content="https://still.ipe.rest/og-image.png">
 
 <!-- Structured data (SEO + GEO) -->
@@ -313,11 +325,29 @@
   .foot-links a:hover{color:var(--cream);}
   .foot-studio{margin-top:26px;font-size:12px;letter-spacing:.06em;color:#565e6b;}
 
+  /* ---------- language selector (calm, top-right) ---------- */
+  .langsel{
+    position:fixed;top:18px;right:18px;z-index:50;
+    display:inline-flex;align-items:center;gap:7px;
+    background:rgba(15,18,24,.55);backdrop-filter:blur(8px);
+    border:1px solid rgba(245,240,232,.16);border-radius:999px;
+    padding:7px 12px 7px 13px;color:var(--cream);
+    transition:border-color .3s ease,background .3s ease;
+  }
+  .langsel:hover{border-color:rgba(201,168,76,.5);}
+  .langsel svg{width:14px;height:14px;opacity:.75;flex-shrink:0;}
+  .langsel select{
+    appearance:none;-webkit-appearance:none;background:transparent;border:0;
+    color:var(--cream);font-family:var(--sans);font-size:12.5px;font-weight:500;
+    letter-spacing:.02em;cursor:pointer;padding-right:2px;outline:none;
+  }
+  .langsel select option{color:#1a1f28;background:#fff;}
   @media (max-width:640px){
     .plans{grid-template-columns:1fr;}
     .verse-card-body{padding:36px 28px 30px;}
     .verse-actions{padding:0 28px 22px;}
     .step{grid-template-columns:48px 1fr;gap:18px;}
+    .langsel{top:12px;right:12px;padding:6px 10px;}
   }
   @media (prefers-reduced-motion:reduce){
     .reveal,.reveal-line{opacity:1;transform:none;transition:none;}
@@ -328,45 +358,61 @@
 </head>
 <body>
 
+<!-- language selector -->
+<label class="langsel" aria-label="Language">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.8 5.8 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.8-3.8-9S9.5 5.5 12 3z"/></svg>
+  <select id="lang" aria-label="Language">
+    <option value="en">English</option>
+    <option value="ko">한국어</option>
+    <option value="ja">日本語</option>
+    <option value="zh">中文</option>
+    <option value="es">Español</option>
+    <option value="pt">Português</option>
+    <option value="id">Bahasa Indonesia</option>
+    <option value="ru">Русский</option>
+    <option value="vi">Tiếng Việt</option>
+  </select>
+</label>
+
 <!-- 1 · HERO -->
 <header class="hero dark">
   <div class="hero-glow" aria-hidden="true"></div>
   <div class="reveal in" style="transition-delay:.1s">
     <div class="wordmark">still<span class="paren">(</span><span class="dawn-point" aria-hidden="true"></span><span class="paren">)</span></div>
   </div>
-  <h1 class="reveal in" style="transition-delay:.35s">Be still. A Bible for the hard days.</h1>
-  <p class="hero-sub reveal in" style="transition-delay:.5s">Tell it what you're carrying. It sits with you, and finds a word for the weight.</p>
+  <h1 class="reveal in" style="transition-delay:.35s" data-i18n="hero_h1">Be still. A Bible for the hard days.</h1>
+  <p class="hero-sub reveal in" style="transition-delay:.5s" data-i18n="hero_sub">Tell it what you're carrying. It sits with you, and finds a word for the weight.</p>
   <hr class="hairline reveal-line in" aria-hidden="true">
   <div class="reveal in" style="transition-delay:.75s">
     <a class="btn btn-cream" href="#">
       <svg class="apple-glyph" viewBox="0 0 384 512" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
-      Download on the App Store
+      <span data-i18n="cta_download">Download on the App Store</span>
     </a>
   </div>
-  <div class="hero-tag reveal in" style="transition-delay:1s">be still — Psalm 46:10</div>
+  <div class="hero-tag reveal in" style="transition-delay:1s" data-i18n="hero_tag">be still — Psalm 46:10</div>
 </header>
 
 <!-- 2 · THE HEART -->
 <section class="heart">
   <div class="wrap">
-    <div class="eyebrow reveal">The heart of it</div>
-    <h2 class="reveal">Some days the words won't come.</h2>
-    <p class="lede reveal">Tell it what you can — a sentence, a sigh, a single word. It will find one for you.</p>
+    <div class="eyebrow reveal" data-i18n="heart_eyebrow">The heart of it</div>
+    <h2 class="reveal" data-i18n="heart_h2">Some days the words won't come.</h2>
+    <p class="lede reveal" data-i18n="heart_lede">Tell it what you can — a sentence, a sigh, a single word. It will find one for you.</p>
     <figure class="verse-card reveal" aria-label="Example verse card">
       <div class="verse-card-top" aria-hidden="true"></div>
       <div class="verse-card-body">
-        <blockquote class="verse-text">"Be still, and know that I am God."</blockquote>
+        <blockquote class="verse-text" data-i18n="verse_text">"Be still, and know that I am God."</blockquote>
         <div class="verse-ref">Psalm 46:10</div>
-        <p class="verse-note">You don't have to fix anything tonight. This verse is a hand on the shoulder — an invitation to stop striving for a moment, and remember you are held.</p>
+        <p class="verse-note" data-i18n="verse_note">You don't have to fix anything tonight. This verse is a hand on the shoulder — an invitation to stop striving for a moment, and remember you are held.</p>
       </div>
       <figcaption class="verse-actions">
         <button type="button" aria-label="Save this verse">
           <svg class="glyph" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-          Save
+          <span data-i18n="btn_save">Save</span>
         </button>
         <button type="button" aria-label="Listen with calm music">
           <svg class="glyph" viewBox="0 0 24 24"><path d="M9 18V6l11-2v12"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>
-          Listen
+          <span data-i18n="btn_listen">Listen</span>
         </button>
       </figcaption>
     </figure>
@@ -377,8 +423,8 @@
 <section class="how">
   <div class="wrap">
     <div class="how-head">
-      <div class="eyebrow reveal">How it works</div>
-      <h2 class="reveal">Three small steps toward quiet.</h2>
+      <div class="eyebrow reveal" data-i18n="how_eyebrow">How it works</div>
+      <h2 class="reveal" data-i18n="how_h2">Three small steps toward quiet.</h2>
     </div>
     <div class="steps">
       <div class="step reveal">
@@ -386,8 +432,8 @@
           <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         </div>
         <div>
-          <h3>Tell it what's weighing on you.</h3>
-          <p>In your own words. There's no right way to say it.</p>
+          <h3 data-i18n="how1_h">Tell it what's weighing on you.</h3>
+          <p data-i18n="how1_p">In your own words. There's no right way to say it.</p>
         </div>
       </div>
       <div class="step reveal">
@@ -395,8 +441,8 @@
           <svg viewBox="0 0 24 24"><path d="M2 6s2-2 5-2 5 2 5 2v14s-2-2-5-2-5 2-5 2zM12 6s2-2 5-2 5 2 5 2v14s-2-2-5-2-5 2-5 2z"/></svg>
         </div>
         <div>
-          <h3>Receive a verse, and a gentle word on what it means.</h3>
-          <p>Plain language. Never a sermon — just a light for where you are.</p>
+          <h3 data-i18n="how2_h">Receive a verse, and a gentle word on what it means.</h3>
+          <p data-i18n="how2_p">Plain language. Never a sermon — just a light for where you are.</p>
         </div>
       </div>
       <div class="step reveal">
@@ -404,8 +450,8 @@
           <svg viewBox="0 0 24 24"><path d="M9 18V6l11-2v12"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>
         </div>
         <div>
-          <h3>Sit with it — and with calm ipe music made for rest.</h3>
-          <p>Soft lofi, tuned for stillness. Stay as long as you need.</p>
+          <h3 data-i18n="how3_h">Sit with it — and with calm ipe music made for rest.</h3>
+          <p data-i18n="how3_p">Soft lofi, tuned for stillness. Stay as long as you need.</p>
         </div>
       </div>
     </div>
@@ -415,24 +461,24 @@
 <!-- 4 · FEATURES -->
 <section class="features">
   <div class="wrap">
-    <div class="eyebrow reveal" style="text-align:center">What it holds</div>
-    <h2 class="reveal" style="text-align:center">A quiet set of things, done gently.</h2>
+    <div class="eyebrow reveal" style="text-align:center" data-i18n="feat_eyebrow">What it holds</div>
+    <h2 class="reveal" style="text-align:center" data-i18n="feat_h2">A quiet set of things, done gently.</h2>
     <div class="feature-rows">
       <div class="frow reveal">
         <span class="frow-dot" aria-hidden="true"></span>
-        <p>A comforting verse for your moment<em>Chosen for what you actually said — not a verse of the day.</em></p>
+        <p><span data-i18n="feat1_t">A comforting verse for your moment</span><em data-i18n="feat1_d">Chosen for what you actually said — not a verse of the day.</em></p>
       </div>
       <div class="frow reveal">
         <span class="frow-dot" aria-hidden="true"></span>
-        <p>A plain-language explanation, never preachy<em>A few honest sentences on what the verse is offering you.</em></p>
+        <p><span data-i18n="feat2_t">A plain-language explanation, never preachy</span><em data-i18n="feat2_d">A few honest sentences on what the verse is offering you.</em></p>
       </div>
       <div class="frow reveal">
         <span class="frow-dot" aria-hidden="true"></span>
-        <p>Calm ipe lofi to rest with<em>Music made for stillness, one tap away from every verse.</em></p>
+        <p><span data-i18n="feat3_t">Calm ipe lofi to rest with</span><em data-i18n="feat3_d">Music made for stillness, one tap away from every verse.</em></p>
       </div>
       <div class="frow reveal">
         <span class="frow-dot" aria-hidden="true"></span>
-        <p>A quiet home for verses you save<em>The words that found you, kept in one gentle place.</em></p>
+        <p><span data-i18n="feat4_t">A quiet home for verses you save</span><em data-i18n="feat4_d">The words that found you, kept in one gentle place.</em></p>
       </div>
     </div>
   </div>
@@ -444,12 +490,12 @@
     <div class="privacy-seal reveal" aria-hidden="true">
       <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
     </div>
-    <h2 class="reveal">It stays with you.</h2>
-    <p class="lede reveal">Everything runs on your device. The words you type are understood right there, on your phone — and they never leave it.</p>
+    <h2 class="reveal" data-i18n="priv_h2">It stays with you.</h2>
+    <p class="lede reveal" data-i18n="priv_lede">Everything runs on your device. The words you type are understood right there, on your phone — and they never leave it.</p>
     <div class="privacy-points">
-      <div class="ppoint reveal">Nothing you write is sent to a server. Not stored, not analyzed, not seen.</div>
-      <div class="ppoint reveal">It works with no account and no sign-in. Your hard day is nobody's data.</div>
-      <div class="ppoint reveal">What passes between you and the Word stays between you and the Word.</div>
+      <div class="ppoint reveal" data-i18n="priv1">Nothing you write is sent to a server. Not stored, not analyzed, not seen.</div>
+      <div class="ppoint reveal" data-i18n="priv2">It works with no account and no sign-in. Your hard day is nobody's data.</div>
+      <div class="ppoint reveal" data-i18n="priv3">What passes between you and the Word stays between you and the Word.</div>
     </div>
   </div>
 </section>
@@ -457,44 +503,44 @@
 <!-- 6 · PRICING -->
 <section class="pricing">
   <div class="wrap-wide">
-    <div class="eyebrow reveal">Pricing</div>
-    <h2 class="reveal">Simple, and honest.</h2>
-    <p class="lede reveal" style="margin:0 auto">A free way in, always. A gentle subscription if you'd like more.</p>
+    <div class="eyebrow reveal" data-i18n="price_eyebrow">Pricing</div>
+    <h2 class="reveal" data-i18n="price_h2">Simple, and honest.</h2>
+    <p class="lede reveal" style="margin:0 auto" data-i18n="price_lede">A free way in, always. A gentle subscription if you'd like more.</p>
     <div class="plans">
       <div class="plan reveal">
-        <div class="plan-name">Still</div>
-        <div class="plan-price">Free</div>
+        <div class="plan-name" data-i18n="plan1_name">Still</div>
+        <div class="plan-price" data-i18n="plan1_price">Free</div>
         <ul>
-          <li>A verse and a gentle word, every day</li>
-          <li>Save the verses that find you</li>
-          <li>A selection of calm ipe music</li>
+          <li data-i18n="plan1_li1">A verse and a gentle word, every day</li>
+          <li data-i18n="plan1_li2">Save the verses that find you</li>
+          <li data-i18n="plan1_li3">A selection of calm ipe music</li>
         </ul>
-        <div class="plan-note">Free for as long as you need it.</div>
+        <div class="plan-note" data-i18n="plan1_note">Free for as long as you need it.</div>
       </div>
       <div class="plan reveal">
         <div class="plan-name">Still &amp; Deep</div>
-        <div class="plan-price">$3.99<span>/ month</span></div>
+        <div class="plan-price">$3.99<span data-i18n="per_month">/ month</span></div>
         <ul>
-          <li>Unlimited moments, whenever they come</li>
-          <li>The full library of ipe rest music</li>
-          <li>Longer, quieter reflections on each verse</li>
+          <li data-i18n="plan2_li1">Unlimited moments, whenever they come</li>
+          <li data-i18n="plan2_li2">The full library of ipe rest music</li>
+          <li data-i18n="plan2_li3">Longer, quieter reflections on each verse</li>
         </ul>
-        <div class="plan-note">Cancel anytime, in one tap. No questions.</div>
+        <div class="plan-note" data-i18n="plan2_note">Cancel anytime, in one tap. No questions.</div>
       </div>
     </div>
-    <p class="pricing-honest reveal">No countdowns. No "last chance." Peace shouldn't be sold with urgency.</p>
+    <p class="pricing-honest reveal" data-i18n="price_honest">No countdowns. No "last chance." Peace shouldn't be sold with urgency.</p>
   </div>
 </section>
 
 <!-- 7 · CTA -->
 <section class="cta dark">
   <div class="wrap">
-    <h2 class="reveal">When the noise is too much, be still.</h2>
+    <h2 class="reveal" data-i18n="cta_h2">When the noise is too much, be still.</h2>
     <hr class="hairline reveal-line" aria-hidden="true">
     <div class="reveal">
       <a class="btn btn-cream" href="#">
         <svg class="apple-glyph" viewBox="0 0 384 512" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
-        Download on the App Store
+        <span data-i18n="cta_download">Download on the App Store</span>
       </a>
     </div>
   </div>
@@ -504,14 +550,446 @@
 <footer class="dark">
   <div class="wrap">
     <div class="foot-mark">still<span class="paren">(</span><span class="paren">)</span></div>
-    <div class="foot-verse">be still — Psalm 46:10</div>
+    <div class="foot-verse" data-i18n="hero_tag">be still — Psalm 46:10</div>
     <nav class="foot-links" aria-label="Footer">
-      <a href="#">Privacy</a>
-      <a href="#">Support</a>
+      <a href="#" data-i18n="foot_privacy">Privacy</a>
+      <a href="#" data-i18n="foot_support">Support</a>
     </nav>
-    <div class="foot-studio">an ipe studio app</div>
+    <div class="foot-studio" data-i18n="foot_studio">an ipe studio app</div>
   </div>
 </footer>
+
+<!-- ===== i18n ===== -->
+<script>
+  // supportedLangs mirrors the still app's L10n. en/ko = high quality (ko native-tuned).
+  // ja/zh/es/pt/id/ru/vi = brand-voice MT, pending native review.
+  // Brand-fixed (never translated): still(), "ipe. be still", "when the process finally rests".
+  var DEFAULT_LANG = 'en';
+  var LOCALE = { en:'en_US', ko:'ko_KR', ja:'ja_JP', zh:'zh_CN', es:'es_ES', pt:'pt_BR', id:'id_ID', ru:'ru_RU', vi:'vi_VN' };
+
+  var I18N = {
+    en: {
+      meta_title:"still() — Be still. A Bible for hard days.",
+      meta_desc:"A private, on-device companion for hard days. Tell it what you're carrying — it finds a verse, a gentle word, and calm music to rest with. Rooted in Psalm 46:10.",
+      hero_h1:"Be still. A Bible for the hard days.",
+      hero_sub:"Tell it what you're carrying. It sits with you, and finds a word for the weight.",
+      hero_tag:"be still — Psalm 46:10",
+      cta_download:"Download on the App Store",
+      heart_eyebrow:"The heart of it",
+      heart_h2:"Some days the words won't come.",
+      heart_lede:"Tell it what you can — a sentence, a sigh, a single word. It will find one for you.",
+      verse_text:"“Be still, and know that I am God.”",
+      verse_note:"You don't have to fix anything tonight. This verse is a hand on the shoulder — an invitation to stop striving for a moment, and remember you are held.",
+      btn_save:"Save", btn_listen:"Listen",
+      how_eyebrow:"How it works",
+      how_h2:"Three small steps toward quiet.",
+      how1_h:"Tell it what's weighing on you.", how1_p:"In your own words. There's no right way to say it.",
+      how2_h:"Receive a verse, and a gentle word on what it means.", how2_p:"Plain language. Never a sermon — just a light for where you are.",
+      how3_h:"Sit with it — and with calm ipe music made for rest.", how3_p:"Soft lofi, tuned for stillness. Stay as long as you need.",
+      feat_eyebrow:"What it holds",
+      feat_h2:"A quiet set of things, done gently.",
+      feat1_t:"A comforting verse for your moment", feat1_d:"Chosen for what you actually said — not a verse of the day.",
+      feat2_t:"A plain-language explanation, never preachy", feat2_d:"A few honest sentences on what the verse is offering you.",
+      feat3_t:"Calm ipe lofi to rest with", feat3_d:"Music made for stillness, one tap away from every verse.",
+      feat4_t:"A quiet home for verses you save", feat4_d:"The words that found you, kept in one gentle place.",
+      priv_h2:"It stays with you.",
+      priv_lede:"Everything runs on your device. The words you type are understood right there, on your phone — and they never leave it.",
+      priv1:"Nothing you write is sent to a server. Not stored, not analyzed, not seen.",
+      priv2:"It works with no account and no sign-in. Your hard day is nobody's data.",
+      priv3:"What passes between you and the Word stays between you and the Word.",
+      price_eyebrow:"Pricing", price_h2:"Simple, and honest.",
+      price_lede:"A free way in, always. A gentle subscription if you'd like more.",
+      plan1_name:"Still", plan1_price:"Free",
+      plan1_li1:"A verse and a gentle word, every day", plan1_li2:"Save the verses that find you", plan1_li3:"A selection of calm ipe music",
+      plan1_note:"Free for as long as you need it.",
+      per_month:"/ month",
+      plan2_li1:"Unlimited moments, whenever they come", plan2_li2:"The full library of ipe rest music", plan2_li3:"Longer, quieter reflections on each verse",
+      plan2_note:"Cancel anytime, in one tap. No questions.",
+      price_honest:"No countdowns. No “last chance.” Peace shouldn't be sold with urgency.",
+      cta_h2:"When the noise is too much, be still.",
+      foot_privacy:"Privacy", foot_support:"Support", foot_studio:"an ipe studio app"
+    },
+    ko: {
+      meta_title:"still() — 고요히. 힘든 날을 위한 성경.",
+      meta_desc:"힘든 날을 위한, 오롯이 내 것인 온디바이스 동반자. 지금 짊어진 것을 말하면 — 한 구절과 다정한 말, 그리고 쉬어갈 잔잔한 음악을 찾아줍니다. 시편 46:10에 뿌리를 둔 앱.",
+      hero_h1:"고요히. 힘든 날을 위한 성경.",
+      hero_sub:"지금 짊어진 것을 말해 보세요. 곁에 앉아, 그 무게에 맞는 한 마디를 찾아줍니다.",
+      hero_tag:"be still — 시편 46:10",
+      cta_download:"App Store에서 다운로드",
+      heart_eyebrow:"이 앱의 마음",
+      heart_h2:"어떤 날은, 말이 떠오르지 않습니다.",
+      heart_lede:"말할 수 있는 만큼만 — 한 문장, 한숨, 단어 하나라도. 대신 한 구절을 찾아드립니다.",
+      verse_text:"“너희는 가만히 있어 내가 하나님 됨을 알지어다.”",
+      verse_note:"오늘 밤 무언가를 바로잡지 않아도 됩니다. 이 구절은 어깨에 얹힌 손 — 잠시 애쓰기를 멈추고, 당신이 붙들려 있음을 기억하라는 초대입니다.",
+      btn_save:"저장", btn_listen:"듣기",
+      how_eyebrow:"이렇게 작동합니다",
+      how_h2:"고요로 향하는 작은 세 걸음.",
+      how1_h:"마음을 누르는 것을 말해 보세요.", how1_p:"당신의 언어로. 옳은 표현 같은 건 없습니다.",
+      how2_h:"한 구절과, 그 뜻에 대한 다정한 말을 받습니다.", how2_p:"쉬운 말로. 설교가 아니라 — 지금 있는 자리를 비추는 빛으로.",
+      how3_h:"머물러 보세요 — 쉼을 위해 만든 잔잔한 ipe 음악과 함께.", how3_p:"고요를 위해 결을 맞춘 부드러운 로파이. 필요한 만큼 머무세요.",
+      feat_eyebrow:"이 앱이 담은 것",
+      feat_h2:"조용한 것들을, 다정하게.",
+      feat1_t:"지금 이 순간을 위한 위로의 구절", feat1_d:"오늘의 구절이 아니라 — 당신이 실제로 한 말에 맞춰 고른 구절.",
+      feat2_t:"설교하지 않는, 쉬운 말의 풀이", feat2_d:"그 구절이 당신에게 건네는 것을, 몇 마디 정직한 문장으로.",
+      feat3_t:"쉬어갈 잔잔한 ipe 로파이", feat3_d:"고요를 위해 만든 음악, 모든 구절에서 한 번의 탭으로.",
+      feat4_t:"저장한 구절이 머무는 조용한 자리", feat4_d:"당신을 찾아온 말들을, 한곳에 다정히.",
+      priv_h2:"모든 것은 당신 곁에 머뭅니다.",
+      priv_lede:"모든 처리가 당신의 기기에서 이루어집니다. 입력한 말은 바로 그 자리, 당신의 폰에서 이해되고 — 결코 밖으로 나가지 않습니다.",
+      priv1:"쓴 내용은 서버로 전송되지 않습니다. 저장도, 분석도, 열람도 없습니다.",
+      priv2:"계정도 로그인도 필요 없습니다. 당신의 힘든 하루는 누구의 데이터도 아닙니다.",
+      priv3:"당신과 말씀 사이를 오가는 것은, 당신과 말씀 사이에 남습니다.",
+      price_eyebrow:"요금", price_h2:"단순하고, 정직하게.",
+      price_lede:"언제나 무료로 시작할 수 있습니다. 더 원하신다면, 부담 없는 구독으로.",
+      plan1_name:"Still", plan1_price:"무료",
+      plan1_li1:"매일 한 구절과 다정한 말 한 마디", plan1_li2:"당신을 찾아온 구절 저장", plan1_li3:"엄선된 잔잔한 ipe 음악",
+      plan1_note:"필요한 만큼, 언제까지나 무료.",
+      per_month:"/ 월",
+      plan2_li1:"찾아오는 순간마다, 무제한으로", plan2_li2:"ipe 쉼의 음악 전체 라이브러리", plan2_li3:"구절마다 더 길고 고요한 묵상",
+      plan2_note:"언제든 한 번의 탭으로 해지. 이유는 묻지 않습니다.",
+      price_honest:"카운트다운도, “마지막 기회”도 없습니다. 평안은 조급함으로 파는 것이 아니니까요.",
+      cta_h2:"소음이 너무 클 때, 고요히.",
+      foot_privacy:"개인정보", foot_support:"지원", foot_studio:"an ipe studio app"
+    },
+    // ---- ja (MT, brand-voice, pending native review) ----
+    ja: {
+      meta_title:"still() — 静まれ。つらい日のための聖書。",
+      meta_desc:"つらい日のための、あなただけのオンデバイスの伴侶。抱えているものを話すと、一節と、やさしい言葉、そして休むための静かな音楽を見つけます。詩篇46:10に根ざしたアプリ。",
+      hero_h1:"静まれ。つらい日のための聖書。",
+      hero_sub:"今、抱えているものを話してみてください。そばに寄り添い、その重さにふさわしい言葉を見つけます。",
+      hero_tag:"be still — 詩篇46:10",
+      cta_download:"App Storeでダウンロード",
+      heart_eyebrow:"このアプリの心",
+      heart_h2:"言葉が出てこない日もあります。",
+      heart_lede:"話せるぶんだけで — 一文でも、ため息でも、たったひとことでも。代わりに一節を見つけます。",
+      verse_text:"“静まって、わたしこそ神であることを知れ。”",
+      verse_note:"今夜、何かを直さなくていいのです。この一節は肩に置かれた手 — しばし努めるのをやめ、あなたが支えられていることを思い出すための招きです。",
+      btn_save:"保存", btn_listen:"聴く",
+      how_eyebrow:"使い方",
+      how_h2:"静けさへ向かう、三つの小さな歩み。",
+      how1_h:"心に重くのしかかることを話してみてください。", how1_p:"あなたの言葉で。正しい言い方などありません。",
+      how2_h:"一節と、その意味へのやさしい言葉を受け取ります。", how2_p:"平易な言葉で。説教ではなく — 今いる場所を照らす光として。",
+      how3_h:"そこにとどまって — 休むために作られた静かなipeの音楽とともに。", how3_p:"静けさに調えたやわらかなローファイ。必要なだけとどまってください。",
+      feat_eyebrow:"このアプリが抱えるもの",
+      feat_h2:"静かなものたちを、やさしく。",
+      feat1_t:"今この瞬間のための、慰めの一節", feat1_d:"今日の一節ではなく — あなたが実際に語ったことに合わせて選ばれます。",
+      feat2_t:"説教くさくない、平易な言葉の解き明かし", feat2_d:"その一節があなたに差し出すものを、いくつかの正直な文で。",
+      feat3_t:"休むための静かなipeローファイ", feat3_d:"静けさのために作られた音楽、どの一節からもワンタップで。",
+      feat4_t:"保存した一節がとどまる静かな場所", feat4_d:"あなたを見つけた言葉たちを、ひとつのやさしい場所に。",
+      priv_h2:"すべては、あなたのもとに。",
+      priv_lede:"すべての処理はあなたの端末で行われます。入力した言葉はその場、あなたのスマホで理解され — 決して外へ出ることはありません。",
+      priv1:"書いた内容がサーバーに送られることはありません。保存も、分析も、閲覧もされません。",
+      priv2:"アカウントもサインインも不要。あなたのつらい一日は、誰のデータでもありません。",
+      priv3:"あなたと御言葉のあいだを行き交うものは、あなたと御言葉のあいだに留まります。",
+      price_eyebrow:"料金", price_h2:"シンプルで、正直に。",
+      price_lede:"いつでも無料で始められます。もっと望むなら、負担のないサブスクリプションを。",
+      plan1_name:"Still", plan1_price:"無料",
+      plan1_li1:"毎日、一節とやさしいひとこと", plan1_li2:"あなたを見つけた一節を保存", plan1_li3:"厳選された静かなipeの音楽",
+      plan1_note:"必要なあいだ、いつまでも無料。",
+      per_month:"/ 月",
+      plan2_li1:"訪れるその瞬間ごとに、無制限で", plan2_li2:"ipeの休息の音楽、すべてのライブラリ", plan2_li3:"一節ごとに、より長く静かな黙想",
+      plan2_note:"いつでもワンタップで解約。理由は問いません。",
+      price_honest:"カウントダウンも「最後のチャンス」もありません。平安は、焦りで売るものではないから。",
+      cta_h2:"騒がしさが度を越したら、静まれ。",
+      foot_privacy:"プライバシー", foot_support:"サポート", foot_studio:"an ipe studio app"
+    },
+    // ---- zh (简体, MT, pending native review) ----
+    zh: {
+      meta_title:"still() — 安静。为艰难日子而生的圣经。",
+      meta_desc:"为艰难的日子而生、只属于你的设备端伴侣。说出你所背负的——它会为你找到一节经文、一句温柔的话，以及可以安歇的宁静音乐。根植于诗篇46:10。",
+      hero_h1:"安静。为艰难日子而生的圣经。",
+      hero_sub:"说出你正背负的。它陪你静坐，为那份重量找到一句话。",
+      hero_tag:"be still — 诗篇46:10",
+      cta_download:"在 App Store 下载",
+      heart_eyebrow:"它的核心",
+      heart_h2:"有些日子，话怎么也说不出口。",
+      heart_lede:"能说多少就说多少——一句话、一声叹息、哪怕一个字。它会为你找到一节。",
+      verse_text:"“你们要休息，要知道我是神。”",
+      verse_note:"今晚，你不必修好任何事。这节经文是搭在肩上的一只手——邀请你暂且停下奔忙，记起自己一直被托住。",
+      btn_save:"保存", btn_listen:"聆听",
+      how_eyebrow:"运作方式",
+      how_h2:"通往安静的三个小步。",
+      how1_h:"说出压在心头的事。", how1_p:"用你自己的话。没有所谓正确的说法。",
+      how2_h:"收到一节经文，以及对它含义的温柔解读。", how2_p:"用平实的语言。绝不是说教——只是照亮你此刻处境的一束光。",
+      how3_h:"与它同坐——伴着为安歇而作的宁静 ipe 音乐。", how3_p:"为静默调校的轻柔 lofi。想待多久就待多久。",
+      feat_eyebrow:"它所承载的",
+      feat_h2:"一组安静的事物，温柔地成就。",
+      feat1_t:"为你此刻而设的抚慰经文", feat1_d:"按你真正所说而选——不是每日一节。",
+      feat2_t:"平实的解读，从不说教", feat2_d:"用几句诚恳的话，讲这节经文向你所献上的。",
+      feat3_t:"可安歇的宁静 ipe lofi", feat3_d:"为静默而作的音乐，每一节经文都只需轻点一下。",
+      feat4_t:"你所收藏经文的宁静居所", feat4_d:"那些寻到你的话语，妥帖地存于一处。",
+      priv_h2:"一切都留在你身边。",
+      priv_lede:"一切都在你的设备上运行。你输入的字句就在那里、在你的手机上被理解——从不离开它。",
+      priv1:"你所写的不会被发往服务器。不存储、不分析、无人查看。",
+      priv2:"无需账号，无需登录。你的艰难一日，不是任何人的数据。",
+      priv3:"在你与主话语之间往来的，只留在你与主话语之间。",
+      price_eyebrow:"价格", price_h2:"简单，且诚实。",
+      price_lede:"永远有一条免费的入口。若想要更多，则有一份温和的订阅。",
+      plan1_name:"Still", plan1_price:"免费",
+      plan1_li1:"每天一节经文和一句温柔的话", plan1_li2:"收藏寻到你的经文", plan1_li3:"精选的宁静 ipe 音乐",
+      plan1_note:"需要多久，就免费多久。",
+      per_month:"/ 月",
+      plan2_li1:"每当来临的时刻，皆无限畅享", plan2_li2:"ipe 安歇音乐的完整曲库", plan2_li3:"对每节经文更长、更宁静的默想",
+      plan2_note:"随时一点即可取消。绝不多问。",
+      price_honest:"没有倒计时，没有“最后机会”。平安，不该用急迫来兜售。",
+      cta_h2:"当喧嚣太甚，就安静。",
+      foot_privacy:"隐私", foot_support:"支持", foot_studio:"an ipe studio app"
+    },
+    // ---- es (MT, pending native review) ----
+    es: {
+      meta_title:"still() — Aquiétate. Una Biblia para los días difíciles.",
+      meta_desc:"Un compañero privado, en tu dispositivo, para los días difíciles. Dile lo que cargas: encuentra un versículo, una palabra amable y música serena para descansar. Arraigado en el Salmo 46:10.",
+      hero_h1:"Aquiétate. Una Biblia para los días difíciles.",
+      hero_sub:"Dile lo que estás cargando. Se sienta contigo y encuentra una palabra para ese peso.",
+      hero_tag:"be still — Salmo 46:10",
+      cta_download:"Descargar en el App Store",
+      heart_eyebrow:"El corazón de todo",
+      heart_h2:"Algunos días las palabras no llegan.",
+      heart_lede:"Di lo que puedas: una frase, un suspiro, una sola palabra. Él encontrará una para ti.",
+      verse_text:"“Quédate quieto, y reconoce que yo soy Dios.”",
+      verse_note:"No tienes que arreglar nada esta noche. Este versículo es una mano en el hombro: una invitación a dejar de esforzarte por un momento y recordar que eres sostenido.",
+      btn_save:"Guardar", btn_listen:"Escuchar",
+      how_eyebrow:"Cómo funciona",
+      how_h2:"Tres pequeños pasos hacia la calma.",
+      how1_h:"Dile qué te pesa.", how1_p:"Con tus propias palabras. No hay una forma correcta de decirlo.",
+      how2_h:"Recibe un versículo y una palabra amable sobre su sentido.", how2_p:"En lenguaje sencillo. Nunca un sermón: solo una luz para donde estás.",
+      how3_h:"Quédate con él, y con la música serena de ipe hecha para descansar.", how3_p:"Lofi suave, afinado para la quietud. Quédate el tiempo que necesites.",
+      feat_eyebrow:"Lo que ofrece",
+      feat_h2:"Un conjunto sereno de cosas, hechas con delicadeza.",
+      feat1_t:"Un versículo que consuela tu momento", feat1_d:"Elegido por lo que de verdad dijiste, no un versículo del día.",
+      feat2_t:"Una explicación en lenguaje sencillo, nunca predicadora", feat2_d:"Unas pocas frases honestas sobre lo que el versículo te ofrece.",
+      feat3_t:"Lofi sereno de ipe para descansar", feat3_d:"Música hecha para la quietud, a un toque de cada versículo.",
+      feat4_t:"Un hogar tranquilo para los versículos que guardas", feat4_d:"Las palabras que te encontraron, reunidas en un lugar sereno.",
+      priv_h2:"Se queda contigo.",
+      priv_lede:"Todo funciona en tu dispositivo. Las palabras que escribes se entienden ahí mismo, en tu teléfono, y nunca lo abandonan.",
+      priv1:"Nada de lo que escribes se envía a un servidor. Ni se guarda, ni se analiza, ni se ve.",
+      priv2:"Funciona sin cuenta y sin iniciar sesión. Tu día difícil no es dato de nadie.",
+      priv3:"Lo que pasa entre tú y la Palabra se queda entre tú y la Palabra.",
+      price_eyebrow:"Precios", price_h2:"Simple y honesto.",
+      price_lede:"Una entrada gratuita, siempre. Una suscripción amable si quieres más.",
+      plan1_name:"Still", plan1_price:"Gratis",
+      plan1_li1:"Un versículo y una palabra amable, cada día", plan1_li2:"Guarda los versículos que te encuentran", plan1_li3:"Una selección de música serena de ipe",
+      plan1_note:"Gratis todo el tiempo que lo necesites.",
+      per_month:"/ mes",
+      plan2_li1:"Momentos ilimitados, cuando lleguen", plan2_li2:"La biblioteca completa de música de descanso de ipe", plan2_li3:"Reflexiones más largas y serenas sobre cada versículo",
+      plan2_note:"Cancela cuando quieras, con un toque. Sin preguntas.",
+      price_honest:"Sin cuentas atrás. Sin “última oportunidad”. La paz no debería venderse con urgencia.",
+      cta_h2:"Cuando el ruido sea demasiado, aquiétate.",
+      foot_privacy:"Privacidad", foot_support:"Soporte", foot_studio:"an ipe studio app"
+    },
+    // ---- pt (MT, pending native review) ----
+    pt: {
+      meta_title:"still() — Aquieta-te. Uma Bíblia para os dias difíceis.",
+      meta_desc:"Um companheiro privado, no seu dispositivo, para os dias difíceis. Diga o que você carrega: ele encontra um versículo, uma palavra gentil e música serena para descansar. Enraizado no Salmo 46:10.",
+      hero_h1:"Aquieta-te. Uma Bíblia para os dias difíceis.",
+      hero_sub:"Diga o que você está carregando. Ele senta com você e encontra uma palavra para esse peso.",
+      hero_tag:"be still — Salmo 46:10",
+      cta_download:"Baixar na App Store",
+      heart_eyebrow:"O coração de tudo",
+      heart_h2:"Em alguns dias, as palavras não vêm.",
+      heart_lede:"Diga o que puder: uma frase, um suspiro, uma única palavra. Ele encontrará uma para você.",
+      verse_text:"“Aquietai-vos e sabei que eu sou Deus.”",
+      verse_note:"Você não precisa consertar nada esta noite. Este versículo é uma mão no ombro: um convite para parar de se esforçar por um instante e lembrar que você é amparado.",
+      btn_save:"Salvar", btn_listen:"Ouvir",
+      how_eyebrow:"Como funciona",
+      how_h2:"Três pequenos passos rumo ao sossego.",
+      how1_h:"Diga o que está pesando em você.", how1_p:"Com suas próprias palavras. Não há um jeito certo de dizer.",
+      how2_h:"Receba um versículo e uma palavra gentil sobre o que ele significa.", how2_p:"Em linguagem simples. Nunca um sermão: apenas uma luz para onde você está.",
+      how3_h:"Fique com ele, e com a música serena da ipe feita para descansar.", how3_p:"Lofi suave, afinado para a quietude. Fique o tempo que precisar.",
+      feat_eyebrow:"O que ele guarda",
+      feat_h2:"Um conjunto sereno de coisas, feitas com delicadeza.",
+      feat1_t:"Um versículo que conforta o seu momento", feat1_d:"Escolhido pelo que você realmente disse — não um versículo do dia.",
+      feat2_t:"Uma explicação em linguagem simples, nunca pregadora", feat2_d:"Algumas frases honestas sobre o que o versículo lhe oferece.",
+      feat3_t:"Lofi sereno da ipe para descansar", feat3_d:"Música feita para a quietude, a um toque de cada versículo.",
+      feat4_t:"Um lar tranquilo para os versículos que você guarda", feat4_d:"As palavras que encontraram você, reunidas em um lugar sereno.",
+      priv_h2:"Fica com você.",
+      priv_lede:"Tudo funciona no seu dispositivo. As palavras que você digita são compreendidas ali mesmo, no seu telefone — e nunca o deixam.",
+      priv1:"Nada do que você escreve é enviado a um servidor. Não é guardado, não é analisado, não é visto.",
+      priv2:"Funciona sem conta e sem login. O seu dia difícil não é dado de ninguém.",
+      priv3:"O que passa entre você e a Palavra permanece entre você e a Palavra.",
+      price_eyebrow:"Preços", price_h2:"Simples e honesto.",
+      price_lede:"Uma entrada gratuita, sempre. Uma assinatura gentil, se quiser mais.",
+      plan1_name:"Still", plan1_price:"Grátis",
+      plan1_li1:"Um versículo e uma palavra gentil, todos os dias", plan1_li2:"Salve os versículos que encontram você", plan1_li3:"Uma seleção de música serena da ipe",
+      plan1_note:"Grátis por quanto tempo você precisar.",
+      per_month:"/ mês",
+      plan2_li1:"Momentos ilimitados, sempre que vierem", plan2_li2:"A biblioteca completa de música de descanso da ipe", plan2_li3:"Reflexões mais longas e serenas sobre cada versículo",
+      plan2_note:"Cancele quando quiser, com um toque. Sem perguntas.",
+      price_honest:"Sem contagens regressivas. Sem “última chance”. A paz não deveria ser vendida com pressa.",
+      cta_h2:"Quando o barulho for demais, aquiete-se.",
+      foot_privacy:"Privacidade", foot_support:"Suporte", foot_studio:"an ipe studio app"
+    },
+    // ---- id (MT, pending native review) ----
+    id: {
+      meta_title:"still() — Berdiam dirilah. Alkitab untuk hari-hari yang berat.",
+      meta_desc:"Pendamping pribadi di perangkatmu untuk hari-hari yang berat. Ceritakan apa yang kamu pikul — ia menemukan sebuah ayat, sepatah kata lembut, dan musik tenang untuk beristirahat. Berakar pada Mazmur 46:10.",
+      hero_h1:"Berdiam dirilah. Alkitab untuk hari-hari yang berat.",
+      hero_sub:"Ceritakan apa yang sedang kamu pikul. Ia duduk bersamamu, dan menemukan sepatah kata untuk beban itu.",
+      hero_tag:"be still — Mazmur 46:10",
+      cta_download:"Unduh di App Store",
+      heart_eyebrow:"Inti dari semuanya",
+      heart_h2:"Ada hari-hari ketika kata-kata tak kunjung datang.",
+      heart_lede:"Katakan apa yang kamu bisa — sebuah kalimat, sebuah helaan napas, satu kata pun. Ia akan menemukan satu untukmu.",
+      verse_text:"“Diamlah, dan ketahuilah, bahwa Akulah Allah.”",
+      verse_note:"Kamu tak perlu membereskan apa pun malam ini. Ayat ini adalah tangan di pundak — undangan untuk berhenti berjuang sejenak, dan mengingat bahwa kamu sedang dipeluk.",
+      btn_save:"Simpan", btn_listen:"Dengarkan",
+      how_eyebrow:"Cara kerjanya",
+      how_h2:"Tiga langkah kecil menuju ketenangan.",
+      how1_h:"Ceritakan apa yang membebani hatimu.", how1_p:"Dengan kata-katamu sendiri. Tak ada cara yang benar untuk mengatakannya.",
+      how2_h:"Terima sebuah ayat, dan sepatah kata lembut tentang maknanya.", how2_p:"Bahasa yang sederhana. Bukan khotbah — hanya cahaya untuk tempatmu berada.",
+      how3_h:"Diamlah bersamanya — dan bersama musik ipe yang tenang, dibuat untuk beristirahat.", how3_p:"Lofi lembut, ditata untuk keheningan. Tinggallah selama yang kamu perlukan.",
+      feat_eyebrow:"Apa yang ia bawa",
+      feat_h2:"Sekumpulan hal yang tenang, dilakukan dengan lembut.",
+      feat1_t:"Ayat yang menghibur untuk saat ini", feat1_d:"Dipilih dari apa yang benar-benar kamu katakan — bukan ayat harian.",
+      feat2_t:"Penjelasan berbahasa sederhana, tak pernah menggurui", feat2_d:"Beberapa kalimat jujur tentang apa yang ayat itu tawarkan padamu.",
+      feat3_t:"Lofi ipe yang tenang untuk beristirahat", feat3_d:"Musik yang dibuat untuk keheningan, satu ketukan dari setiap ayat.",
+      feat4_t:"Rumah yang tenang bagi ayat-ayat yang kamu simpan", feat4_d:"Kata-kata yang menemukanmu, tersimpan di satu tempat yang lembut.",
+      priv_h2:"Semuanya tetap bersamamu.",
+      priv_lede:"Semuanya berjalan di perangkatmu. Kata-kata yang kamu ketik dipahami di sana, di ponselmu — dan tak pernah meninggalkannya.",
+      priv1:"Tak ada yang kamu tulis dikirim ke server. Tak disimpan, tak dianalisis, tak dilihat.",
+      priv2:"Bekerja tanpa akun dan tanpa masuk. Hari beratmu bukan data siapa pun.",
+      priv3:"Apa yang mengalir antara kamu dan Firman tetap tinggal antara kamu dan Firman.",
+      price_eyebrow:"Harga", price_h2:"Sederhana, dan jujur.",
+      price_lede:"Selalu ada jalan masuk gratis. Sebuah langganan yang lembut jika kamu mau lebih.",
+      plan1_name:"Still", plan1_price:"Gratis",
+      plan1_li1:"Sebuah ayat dan sepatah kata lembut, setiap hari", plan1_li2:"Simpan ayat-ayat yang menemukanmu", plan1_li3:"Pilihan musik ipe yang tenang",
+      plan1_note:"Gratis selama kamu membutuhkannya.",
+      per_month:"/ bulan",
+      plan2_li1:"Momen tanpa batas, kapan pun datang", plan2_li2:"Pustaka lengkap musik istirahat ipe", plan2_li3:"Renungan yang lebih panjang dan tenang untuk setiap ayat",
+      plan2_note:"Batalkan kapan saja, dengan satu ketukan. Tanpa pertanyaan.",
+      price_honest:"Tanpa hitung mundur. Tanpa “kesempatan terakhir”. Kedamaian tak seharusnya dijual dengan desakan.",
+      cta_h2:"Ketika keramaian terlalu berat, berdiam dirilah.",
+      foot_privacy:"Privasi", foot_support:"Dukungan", foot_studio:"an ipe studio app"
+    },
+    // ---- ru (MT, pending native review) ----
+    ru: {
+      meta_title:"still() — Остановись. Библия для трудных дней.",
+      meta_desc:"Личный спутник на вашем устройстве для трудных дней. Расскажите, что вы несёте, — он найдёт стих, тихое доброе слово и спокойную музыку, чтобы отдохнуть. В основе — Псалом 46:10.",
+      hero_h1:"Остановись. Библия для трудных дней.",
+      hero_sub:"Расскажите, что вы несёте. Он сядет рядом и найдёт слово для этой тяжести.",
+      hero_tag:"be still — Псалом 46:10",
+      cta_download:"Загрузить в App Store",
+      heart_eyebrow:"Суть",
+      heart_h2:"В иные дни слова не приходят.",
+      heart_lede:"Скажите, сколько сможете, — фразу, вздох, одно единственное слово. Он найдёт слово для вас.",
+      verse_text:"“Остановитесь и познайте, что Я — Бог.”",
+      verse_note:"Сегодня вечером вам не нужно ничего исправлять. Этот стих — рука на плече: приглашение на миг перестать бороться и вспомнить, что вас держат.",
+      btn_save:"Сохранить", btn_listen:"Слушать",
+      how_eyebrow:"Как это работает",
+      how_h2:"Три маленьких шага к тишине.",
+      how1_h:"Расскажите, что вас тяготит.", how1_p:"Своими словами. Нет правильного способа это сказать.",
+      how2_h:"Получите стих и тихое слово о том, что он значит.", how2_p:"Простым языком. Никогда не проповедь — лишь свет для того места, где вы сейчас.",
+      how3_h:"Побудьте с ним — и со спокойной музыкой ipe, созданной для отдыха.", how3_p:"Мягкий лоу-фай, настроенный на тишину. Оставайтесь столько, сколько нужно.",
+      feat_eyebrow:"Что он хранит",
+      feat_h2:"Тихий набор вещей, сделанных бережно.",
+      feat1_t:"Утешающий стих для вашего мгновения", feat1_d:"Выбран по тому, что вы и вправду сказали, — не стих дня.",
+      feat2_t:"Объяснение простыми словами, без нравоучений", feat2_d:"Несколько честных фраз о том, что предлагает вам этот стих.",
+      feat3_t:"Спокойный лоу-фай ipe для отдыха", feat3_d:"Музыка, созданная для тишины, в одном касании от каждого стиха.",
+      feat4_t:"Тихий дом для стихов, которые вы сохранили", feat4_d:"Слова, что нашли вас, бережно собраны в одном месте.",
+      priv_h2:"Всё остаётся с вами.",
+      priv_lede:"Всё работает на вашем устройстве. Слова, которые вы вводите, понимаются прямо там, на вашем телефоне, — и никогда его не покидают.",
+      priv1:"Ничто из написанного не отправляется на сервер. Не хранится, не анализируется, не просматривается.",
+      priv2:"Работает без учётной записи и без входа. Ваш трудный день — ничьи данные.",
+      priv3:"То, что проходит между вами и Словом, остаётся между вами и Словом.",
+      price_eyebrow:"Цены", price_h2:"Просто и честно.",
+      price_lede:"Бесплатный вход — всегда. Мягкая подписка, если хотите большего.",
+      plan1_name:"Still", plan1_price:"Бесплатно",
+      plan1_li1:"Стих и тихое слово каждый день", plan1_li2:"Сохраняйте стихи, которые находят вас", plan1_li3:"Подборка спокойной музыки ipe",
+      plan1_note:"Бесплатно столько, сколько нужно.",
+      per_month:"/ месяц",
+      plan2_li1:"Безграничные мгновения, когда бы они ни пришли", plan2_li2:"Полная библиотека музыки покоя ipe", plan2_li3:"Более длинные, тихие размышления над каждым стихом",
+      plan2_note:"Отмена в любой момент, одним касанием. Без вопросов.",
+      price_honest:"Никаких обратных отсчётов. Никакого “последнего шанса”. Покой не продают спешкой.",
+      cta_h2:"Когда шума слишком много — остановись.",
+      foot_privacy:"Конфиденциальность", foot_support:"Поддержка", foot_studio:"an ipe studio app"
+    },
+    // ---- vi (MT, pending native review) ----
+    vi: {
+      meta_title:"still() — Hãy lặng yên. Một cuốn Kinh Thánh cho những ngày nặng nề.",
+      meta_desc:"Một người bạn đồng hành riêng tư, chạy ngay trên thiết bị, cho những ngày nặng nề. Hãy nói điều bạn đang mang — nó tìm cho bạn một câu Kinh Thánh, một lời dịu dàng, và âm nhạc êm ả để nghỉ ngơi. Bắt rễ từ Thi Thiên 46:10.",
+      hero_h1:"Hãy lặng yên. Một cuốn Kinh Thánh cho những ngày nặng nề.",
+      hero_sub:"Hãy nói điều bạn đang mang. Nó ngồi lại bên bạn, và tìm một lời cho gánh nặng ấy.",
+      hero_tag:"be still — Thi Thiên 46:10",
+      cta_download:"Tải trên App Store",
+      heart_eyebrow:"Cốt lõi của nó",
+      heart_h2:"Có những ngày, lời chẳng thể cất thành.",
+      heart_lede:"Hãy nói những gì bạn có thể — một câu, một tiếng thở dài, dù chỉ một từ. Nó sẽ tìm một lời cho bạn.",
+      verse_text:"“Hãy yên lặng và biết rằng ta là Đức Chúa Trời.”",
+      verse_note:"Tối nay bạn không cần phải sửa chữa điều gì cả. Câu Kinh Thánh này là một bàn tay đặt trên vai — một lời mời hãy ngừng gắng sức trong chốc lát, và nhớ rằng bạn đang được nâng đỡ.",
+      btn_save:"Lưu", btn_listen:"Nghe",
+      how_eyebrow:"Cách hoạt động",
+      how_h2:"Ba bước nhỏ hướng về sự tĩnh lặng.",
+      how1_h:"Hãy nói điều đang đè nặng lòng bạn.", how1_p:"Bằng chính lời của bạn. Không có cách nói nào là đúng cả.",
+      how2_h:"Nhận một câu Kinh Thánh, và một lời dịu dàng về ý nghĩa của nó.", how2_p:"Bằng ngôn ngữ giản dị. Không bao giờ là một bài giảng — chỉ là ánh sáng cho nơi bạn đang đứng.",
+      how3_h:"Hãy ở lại với nó — cùng âm nhạc ipe êm ả, được tạo ra để nghỉ ngơi.", how3_p:"Lofi dịu nhẹ, được tinh chỉnh cho sự tĩnh lặng. Ở lại bao lâu tùy bạn.",
+      feat_eyebrow:"Những gì nó chứa đựng",
+      feat_h2:"Một tập hợp lặng lẽ những điều, được làm một cách dịu dàng.",
+      feat1_t:"Một câu Kinh Thánh an ủi cho khoảnh khắc của bạn", feat1_d:"Được chọn theo điều bạn thật sự nói — không phải câu của ngày.",
+      feat2_t:"Một lời giải thích giản dị, không bao giờ giáo điều", feat2_d:"Vài câu chân thành về điều mà câu Kinh Thánh đang trao cho bạn.",
+      feat3_t:"Lofi ipe êm ả để nghỉ ngơi", feat3_d:"Âm nhạc được tạo cho sự tĩnh lặng, chỉ một chạm từ mỗi câu Kinh Thánh.",
+      feat4_t:"Một mái nhà tĩnh lặng cho những câu bạn lưu lại", feat4_d:"Những lời đã tìm đến bạn, được giữ ở một nơi dịu dàng.",
+      priv_h2:"Nó ở lại với bạn.",
+      priv_lede:"Mọi thứ chạy trên thiết bị của bạn. Những lời bạn gõ được thấu hiểu ngay tại đó, trên điện thoại của bạn — và không bao giờ rời khỏi nó.",
+      priv1:"Không điều gì bạn viết được gửi đến máy chủ. Không lưu, không phân tích, không ai thấy.",
+      priv2:"Hoạt động mà không cần tài khoản, không cần đăng nhập. Ngày nặng nề của bạn không là dữ liệu của ai cả.",
+      priv3:"Những gì đi lại giữa bạn và Lời Chúa vẫn ở lại giữa bạn và Lời Chúa.",
+      price_eyebrow:"Giá", price_h2:"Đơn giản, và chân thật.",
+      price_lede:"Luôn có một lối vào miễn phí. Một gói đăng ký nhẹ nhàng nếu bạn muốn nhiều hơn.",
+      plan1_name:"Still", plan1_price:"Miễn phí",
+      plan1_li1:"Một câu Kinh Thánh và một lời dịu dàng, mỗi ngày", plan1_li2:"Lưu những câu đã tìm đến bạn", plan1_li3:"Một tuyển tập âm nhạc ipe êm ả",
+      plan1_note:"Miễn phí bao lâu bạn cần.",
+      per_month:"/ tháng",
+      plan2_li1:"Những khoảnh khắc không giới hạn, bất cứ khi nào chúng đến", plan2_li2:"Toàn bộ thư viện âm nhạc nghỉ ngơi của ipe", plan2_li3:"Những suy niệm dài hơn, tĩnh lặng hơn cho mỗi câu",
+      plan2_note:"Hủy bất cứ lúc nào, chỉ một chạm. Không hỏi lý do.",
+      price_honest:"Không đếm ngược. Không “cơ hội cuối cùng”. Sự bình an không nên được bán bằng sự vội vã.",
+      cta_h2:"Khi tiếng ồn quá đỗi, hãy lặng yên.",
+      foot_privacy:"Quyền riêng tư", foot_support:"Hỗ trợ", foot_studio:"an ipe studio app"
+    }
+  };
+
+  function setMeta(sel, attr, val){ var el = document.querySelector(sel); if(el) el.setAttribute(attr, val); }
+
+  function applyLang(lang){
+    if(!I18N[lang]) lang = DEFAULT_LANG;
+    var dict = I18N[lang];
+    document.documentElement.setAttribute('lang', lang);
+    var nodes = document.querySelectorAll('[data-i18n]');
+    for(var i=0;i<nodes.length;i++){
+      var key = nodes[i].getAttribute('data-i18n');
+      var val = dict[key] || I18N.en[key];
+      if(val != null) nodes[i].textContent = val;
+    }
+    if(dict.meta_title){ document.title = dict.meta_title; setMeta('#og-title','content',dict.meta_title); setMeta('#tw-title','content',dict.meta_title); }
+    if(dict.meta_desc){ setMeta('#meta-desc','content',dict.meta_desc); setMeta('#og-desc','content',dict.meta_desc); setMeta('#tw-desc','content',dict.meta_desc); }
+    setMeta('#og-locale','content', LOCALE[lang] || 'en_US');
+    var base = 'https://still.ipe.rest/';
+    var url = lang === DEFAULT_LANG ? base : base + '?lang=' + lang;
+    setMeta('#canonical','href',url); setMeta('#og-url','content',url);
+    try{ history.replaceState(null,'', lang === DEFAULT_LANG ? location.pathname : '?lang=' + lang); }catch(e){}
+    try{ localStorage.setItem('still_lang', lang); }catch(e){}
+  }
+
+  var urlLang = null;
+  try{ urlLang = new URLSearchParams(location.search).get('lang'); }catch(e){}
+  var stored = null;
+  try{ stored = localStorage.getItem('still_lang'); }catch(e){}
+  function detectBrowserLang(){
+    try{
+      var list = navigator.languages || [navigator.language || navigator.userLanguage];
+      for(var i=0;i<list.length;i++){
+        var code = (list[i] || '').toLowerCase().split('-')[0];
+        if(I18N[code]) return code;
+      }
+    }catch(e){}
+    return DEFAULT_LANG;
+  }
+  // priority: URL ?lang= > stored choice > browser language > en
+  var initial = (urlLang && I18N[urlLang]) ? urlLang
+              : ((stored && I18N[stored]) ? stored
+              : detectBrowserLang());
+  var sel = document.getElementById('lang');
+  if(sel){ sel.value = initial; sel.addEventListener('change', function(){ applyLang(this.value); }); }
+  applyLang(initial);
+</script>
 
 <script>
   const io = new IntersectionObserver((entries)=>{
