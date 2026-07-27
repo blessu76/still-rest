@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — still()</title>
+<meta name="description" content="Privacy policy for still() — a Bible-companion app. We collect no personal data, in the app or on the website.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://still.ipe.rest/privacy">
+<!-- inline favicon (brand mark) -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230F1218'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='18' fill='%23C9A84C' text-anchor='middle'%3E()%3C/text%3E%3Ccircle cx='16' cy='15.5' r='1.6' fill='%23F5F0E8'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gentium+Book+Plus:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ANALYTICS: Cloudflare Web Analytics — insert data-cf-beacon token then uncomment (cookieless, no PII) -->
+<!-- <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "__CF_TOKEN__"}'></script> -->
+
+<style>
+  :root{
+    --navy:#0F1218;
+    --ink:#232A36;
+    --parchment:#F7F2E9;
+    --surface:#FFFDF8;
+    --gold:#C9A84C;
+    --gold-deep:#85672C;
+    --sage:#5F7D5F;
+    --cream:#F5F0E8;
+    --muted:#5C6470;
+    --serif:'Gentium Book Plus', Georgia, serif;
+    --sans:'Inter','Noto Sans',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;font-family:var(--sans);
+    background:var(--parchment);color:var(--ink);
+    line-height:1.7;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:44rem;margin:0 auto;padding:0 22px;}
+
+  /* top bar */
+  .topbar{
+    border-bottom:1px solid rgba(35,42,54,.1);
+    padding:20px 0;
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+  }
+  .brand{
+    font-family:var(--serif);font-size:26px;color:var(--ink);
+    text-decoration:none;display:inline-flex;align-items:baseline;
+  }
+  .brand .paren{color:var(--gold);}
+  .topbar-right{display:flex;align-items:center;gap:18px;}
+  .back{
+    font-size:14px;color:var(--muted);text-decoration:none;font-weight:500;
+  }
+  .back:hover{color:var(--ink);}
+  .langtoggle{display:inline-flex;gap:2px;font-size:13px;font-weight:600;}
+  .langtoggle button{
+    background:none;border:0;cursor:pointer;padding:4px 8px;border-radius:6px;
+    color:var(--muted);font-family:var(--sans);font-weight:600;font-size:13px;
+  }
+  .langtoggle button[aria-pressed="true"]{color:var(--ink);background:rgba(201,168,76,.16);}
+  .langtoggle .sep{color:rgba(35,42,54,.25);align-self:center;}
+
+  main{padding:52px 0 96px;}
+  h1{
+    font-family:var(--serif);font-weight:400;
+    font-size:clamp(30px,6vw,42px);letter-spacing:.01em;
+    color:var(--ink);margin:0 0 8px;
+  }
+  .updated{color:var(--muted);font-size:14px;margin:0 0 8px;font-weight:500;}
+  .draftnote{color:var(--gold-deep);font-size:13px;margin:0 0 34px;font-style:italic;}
+  .lede{
+    font-family:var(--serif);font-size:19px;line-height:1.6;color:var(--ink);
+    margin:0 0 40px;padding-bottom:34px;border-bottom:1px solid rgba(35,42,54,.1);
+  }
+  h2{
+    font-family:var(--serif);font-weight:400;
+    font-size:22px;color:var(--ink);margin:44px 0 12px;
+  }
+  p{margin:0 0 16px;font-size:16px;}
+  ul{margin:0 0 16px;padding-left:22px;}
+  li{margin:0 0 10px;font-size:16px;}
+  a{color:var(--gold-deep);}
+  strong{font-weight:600;color:var(--ink);}
+  hr.rule{border:0;height:1px;background:rgba(35,42,54,.1);margin:48px 0;}
+
+  footer{
+    border-top:1px solid rgba(35,42,54,.1);
+    padding:30px 0 46px;color:var(--muted);font-size:13.5px;text-align:center;
+  }
+  footer a{color:var(--muted);text-decoration:none;}
+  footer a:hover{color:var(--ink);}
+  .foot-studio{margin-top:8px;font-family:var(--serif);font-style:italic;letter-spacing:.04em;}
+
+  [data-lang-block]{display:none;}
+  [data-lang-block].on{display:block;}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:44rem;">
+    <a class="brand" href="/">still<span class="paren">(</span><span class="paren">)</span></a>
+    <div class="topbar-right">
+      <a class="back" href="/" data-t="back">&larr; back</a>
+      <div class="langtoggle" role="group" aria-label="Language">
+        <button type="button" data-setlang="en" aria-pressed="true">EN</button>
+        <span class="sep">/</span>
+        <button type="button" data-setlang="ko" aria-pressed="false">KO</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <!-- ===================== EN ===================== -->
+    <div data-lang-block="en" class="on">
+      <h1>Privacy Policy — still()</h1>
+      <p class="updated">Effective date: (to be published)</p>
+      <p class="lede">The short version — and the whole version: we collect no personal data. Not through the App, and not through the Website.</p>
+
+      <p>still() ("the App") is a Bible-companion app operated by <strong>Davy Kim (ipe Studio)</strong>, an individual developer ("we", "us"). This policy also covers our website <strong>still.ipe.rest</strong> ("the Website").</p>
+
+      <h2>1. Information we collect — none</h2>
+      <ul>
+        <li><strong>The App:</strong> what you type, how you feel, saved verses, and notes are processed and stored <strong>only on your device, encrypted locally.</strong> They are never transmitted to us or any server, never stored on our systems, and never seen by us. The App contains no analytics or tracking SDKs.</li>
+        <li><strong>The Website:</strong> uses <strong>no analytics, no cookies, and no third-party trackers.</strong> We do not log or profile visitors.</li>
+        <li><strong>Sensitive information:</strong> because still() is a faith app, your entries may relate to religious belief. Such content is processed <strong>on-device only and is never collected, transmitted, or stored by us.</strong></li>
+      </ul>
+
+      <h2>2. On-device processing</h2>
+      <p>still() uses an on-device AI model to match a comforting, human-reviewed Bible verse to your words, locally on your device. The App downloads the model file from our servers — a <strong>one-way download</strong>; nothing you enter is ever uploaded.</p>
+
+      <h2>3. Subscriptions &amp; purchases</h2>
+      <p>Optional subscriptions (e.g., "Still &amp; Deep") are processed by <strong>Apple</strong> via the App Store. Apple handles payment and receives the transaction; <strong>we never receive your payment details, card number, or Apple ID.</strong> Your subscription status is verified on your device. See <a href="https://www.apple.com/legal/privacy/">Apple's Privacy Policy</a>.</p>
+
+      <h2>4. Third parties</h2>
+      <ul>
+        <li><strong>Apple</strong> — App distribution and subscription processing.</li>
+      </ul>
+      <p>We use no analytics providers, advertising networks, or data brokers, and we never sell data.</p>
+
+      <h2>5. Security</h2>
+      <p>Content you create is stored <strong>encrypted on your device</strong> and <strong>never transmitted off it</strong>. We practice strict data minimization: we collect nothing.</p>
+
+      <h2>6. Your rights</h2>
+      <p>You may request access, correction, deletion, or suspension of any personal information. Because we hold none, there is nothing on our side to act on; content on your device is removed when you delete the App or clear its data. For any request, contact <strong>ipe.haven@gmail.com</strong>.</p>
+
+      <h2>7. Children</h2>
+      <p>still() is not directed to children under 14 (or the minimum age in your region), and collects no personal information from anyone regardless.</p>
+
+      <h2>8. Privacy Officer</h2>
+      <ul>
+        <li><strong>Name:</strong> Davy Kim (ipe Studio) &middot; <strong>Contact:</strong> ipe.haven@gmail.com</li>
+      </ul>
+      <p>Responsible for personal-information handling and complaints.</p>
+
+      <h2>9. Remedies (Korea)</h2>
+      <ul>
+        <li>개인정보분쟁조정위원회: 1833-6972 &middot; kopico.go.kr</li>
+        <li>개인정보침해신고센터: 118 &middot; privacy.kisa.or.kr</li>
+        <li>대검찰청 사이버수사과: 1301 &middot; 경찰청 사이버수사국: 182</li>
+      </ul>
+
+      <h2>10. Not medical or crisis care</h2>
+      <p>still() offers comfort and Scripture, <strong>not</strong> counseling, medical, or emergency services. In a crisis, contact local emergency services or a crisis line shown in the App.</p>
+
+      <h2>11. International users (GDPR / CCPA)</h2>
+      <p>Because we collect no personal data, there is no processing to access, delete, object to, or transfer. You retain all statutory rights; contact us to exercise any of them.</p>
+
+      <h2>12. Changes</h2>
+      <p>We may update this policy; material changes will be posted here with a new "Last updated" date.</p>
+
+      <h2>13. Contact</h2>
+      <p>Davy Kim (ipe Studio) — ipe.haven@gmail.com</p>
+    </div>
+
+    <!-- ===================== KO ===================== -->
+    <div data-lang-block="ko">
+      <h1>개인정보 처리방침 — still()</h1>
+      <p class="updated">시행일: (게시 예정)</p>
+      <p class="lede">핵심 — 그리고 전부: 당사는 어떠한 개인정보도 수집하지 않습니다. 앱에서도, 웹사이트에서도.</p>
+
+      <p>still()("본 앱")은 개인 개발자 <strong>Davy Kim (ipe Studio)</strong>("당사")이 운영하는 성경 동반 앱입니다. 본 방침은 웹사이트 <strong>still.ipe.rest</strong>("본 사이트")에도 적용됩니다.</p>
+
+      <h2>1. 수집하는 개인정보 — 없음</h2>
+      <ul>
+        <li><strong>앱:</strong> 입력한 내용, 감정, 저장한 말씀, 메모는 <strong>기기 내에서만 처리되고 암호화 저장</strong>되며, 당사나 어떤 서버로도 전송되지 않고 저장·열람되지 않습니다. 앱에는 분석·추적 SDK가 없습니다.</li>
+        <li><strong>웹사이트:</strong> 분석 도구, 쿠키, 제3자 추적기를 <strong>사용하지 않습니다.</strong> 방문자를 기록하거나 프로파일링하지 않습니다.</li>
+        <li><strong>민감정보:</strong> 신앙 앱 특성상 종교적 신념과 관련된 내용이 있을 수 있으나, 전부 <strong>기기 내에서만 처리</strong>되며 당사가 수집·전송·저장하지 않습니다.</li>
+      </ul>
+
+      <h2>2. 온디바이스 처리</h2>
+      <p>still()은 기기 내 AI 모델로 말씀을 매칭하며, 모두 기기에서 로컬로 실행됩니다. 모델 파일은 당사 서버에서 <strong>단방향 다운로드</strong>되며, 입력한 내용이 업로드되는 일은 없습니다.</p>
+
+      <h2>3. 구독·결제</h2>
+      <p>"Still &amp; Deep" 등 선택 구독은 <strong>Apple</strong>(App Store)이 처리합니다. Apple이 결제를 처리하며, <strong>당사는 결제정보·카드번호·Apple ID를 받지 않습니다.</strong> 구독 상태는 기기에서 확인됩니다.</p>
+
+      <h2>4. 제3자 제공</h2>
+      <ul>
+        <li><strong>Apple</strong> — 앱 배포 및 구독 처리.</li>
+      </ul>
+      <p>분석 제공자·광고 네트워크·데이터 브로커를 사용하지 않으며, 데이터를 판매하지 않습니다.</p>
+
+      <h2>5. 안전성 확보조치</h2>
+      <p>이용자가 생성한 내용은 <strong>기기 내에서 암호화 저장</strong>되고 <strong>기기 밖으로 전송되지 않습니다.</strong> 당사는 철저한 최소수집(무수집)을 실천합니다.</p>
+
+      <h2>6. 정보주체의 권리·행사방법</h2>
+      <p>열람, 정정, 삭제, 처리정지를 요청할 수 있습니다. 당사가 보유한 개인정보가 없어 당사 측에서 처리할 대상이 없으며, 기기 내 데이터는 앱 삭제 또는 데이터 삭제 시 파기됩니다. 요청은 <strong>ipe.haven@gmail.com</strong> 으로 연락 주십시오.</p>
+
+      <h2>7. 아동</h2>
+      <p>still()은 만 14세 미만(또는 거주 지역의 최소 연령) 아동을 대상으로 하지 않으며, 누구로부터도 개인정보를 수집하지 않습니다.</p>
+
+      <h2>8. 개인정보 보호책임자</h2>
+      <ul>
+        <li><strong>성명:</strong> Davy Kim (ipe Studio) &middot; <strong>연락처:</strong> ipe.haven@gmail.com</li>
+      </ul>
+      <p>개인정보 처리 및 관련 고충을 담당합니다.</p>
+
+      <h2>9. 권익침해 구제방법</h2>
+      <ul>
+        <li>개인정보분쟁조정위원회: 1833-6972 &middot; kopico.go.kr</li>
+        <li>개인정보침해신고센터: 118 &middot; privacy.kisa.or.kr</li>
+        <li>대검찰청 사이버수사과: 1301 &middot; 경찰청 사이버수사국: 182</li>
+      </ul>
+
+      <h2>10. 의료·위기 서비스가 아닙니다</h2>
+      <p>still()은 위로와 말씀을 제공하며 <strong>상담·의료·응급 서비스가 아닙니다.</strong> 위기 상황에서는 지역 응급서비스 또는 앱에 안내된 위기상담 연락처를 이용하십시오.</p>
+
+      <h2>11. 국외 이용자 (GDPR/CCPA)</h2>
+      <p>당사는 개인정보를 수집하지 않으므로 접근·삭제·이의·이전 대상 처리가 없습니다. 관련 법정 권리는 유지되며, 행사를 원하시면 연락 주십시오.</p>
+
+      <h2>12. 변경</h2>
+      <p>본 방침은 개정될 수 있으며, 중요한 변경은 갱신일과 함께 본 페이지에 공지합니다.</p>
+
+      <h2>13. 문의</h2>
+      <p>Davy Kim (ipe Studio) — ipe.haven@gmail.com</p>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><a href="/">still.ipe.rest</a> &middot; <a href="mailto:ipe.haven@gmail.com">ipe.haven@gmail.com</a></div>
+    <div class="foot-studio">an ipe studio app</div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var STR = {
+      en:{ back:"← back", htmlLang:"en", title:"Privacy Policy — still()" },
+      ko:{ back:"← 뒤로", htmlLang:"ko", title:"개인정보 처리방침 — still()" }
+    };
+    function setLang(lang){
+      if(lang!=="ko") lang="en";
+      document.querySelectorAll('[data-lang-block]').forEach(function(b){
+        b.classList.toggle('on', b.getAttribute('data-lang-block')===lang);
+      });
+      document.querySelectorAll('[data-setlang]').forEach(function(btn){
+        btn.setAttribute('aria-pressed', String(btn.getAttribute('data-setlang')===lang));
+      });
+      var back=document.querySelector('[data-t="back"]');
+      if(back) back.textContent=STR[lang].back;
+      document.documentElement.lang=STR[lang].htmlLang;
+      document.title=STR[lang].title;
+      try{ localStorage.setItem('still_privacy_lang', lang); }catch(e){}
+    }
+    // priority: ?lang= > saved > browser > en
+    var params=new URLSearchParams(location.search);
+    var pick=params.get('lang');
+    if(!pick){ try{ pick=localStorage.getItem('still_privacy_lang'); }catch(e){} }
+    if(!pick){ pick=(navigator.language||'en').toLowerCase().indexOf('ko')===0?'ko':'en'; }
+    setLang(pick);
+    document.querySelectorAll('[data-setlang]').forEach(function(btn){
+      btn.addEventListener('click', function(){ setLang(btn.getAttribute('data-setlang')); });
+    });
+  })();
+</script>
+</body>
+</html>
