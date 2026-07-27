@@ -24,6 +24,8 @@
 <link rel="alternate" hreflang="id" href="https://still.ipe.rest/?lang=id">
 <link rel="alternate" hreflang="ru" href="https://still.ipe.rest/?lang=ru">
 <link rel="alternate" hreflang="vi" href="https://still.ipe.rest/?lang=vi">
+<link rel="alternate" hreflang="fr" href="https://still.ipe.rest/?lang=fr">
+<link rel="alternate" hreflang="de" href="https://still.ipe.rest/?lang=de">
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
@@ -402,6 +404,8 @@
     <option value="id">Bahasa Indonesia</option>
     <option value="ru">Русский</option>
     <option value="vi">Tiếng Việt</option>
+    <option value="fr">Français</option>
+    <option value="de">Deutsch</option>
   </select>
 </label>
 
@@ -610,10 +614,12 @@
 <!-- ===== i18n ===== -->
 <script>
   // supportedLangs mirrors the still app's L10n. en/ko = high quality (ko native-tuned).
-  // ja/zh/es/pt/id/ru/vi = brand-voice MT, pending native review.
+  // ja/zh/es/pt/id/ru/vi/fr/de = brand-voice MT, pending native review.
   // Brand-fixed (never translated): still(), "ipe. be still", "when the process finally rests".
+  // Scripture uses each language's standard translation + its own verse numbering:
+  //   fr = Louis Segond (Psaume 46:10) · de = Lutherbibel 2017 (Psalm 46:11 — Luther counts the superscription).
   var DEFAULT_LANG = 'en';
-  var LOCALE = { en:'en_US', ko:'ko_KR', ja:'ja_JP', zh:'zh_CN', es:'es_ES', pt:'pt_BR', id:'id_ID', ru:'ru_RU', vi:'vi_VN' };
+  var LOCALE = { en:'en_US', ko:'ko_KR', ja:'ja_JP', zh:'zh_CN', es:'es_ES', pt:'pt_BR', id:'id_ID', ru:'ru_RU', vi:'vi_VN', fr:'fr_FR', de:'de_DE' };
 
   var I18N = {
     en: {
@@ -1054,6 +1060,104 @@
       letters_note:"Hủy đăng ký bất cứ lúc nào. Email của bạn vẫn là của bạn.",
       letters_thanks:"Cảm ơn bạn — lá thư đầu tiên sẽ sớm tìm đến bạn.",
       foot_privacy:"Quyền riêng tư", foot_support:"Hỗ trợ", foot_studio:"an ipe studio app"
+    },
+    // ---- fr (MT, pending native review) — scripture: Louis Segond, Psaume 46:10 ----
+    fr: {
+      meta_title:"still() — Sois tranquille. Une Bible pour les jours difficiles.",
+      meta_desc:"Un compagnon privé, sur votre appareil, pour les jours difficiles. Dites-lui ce que vous portez — il trouve un verset, une parole douce et une musique paisible pour vous poser. Enraciné dans le Psaume 46:10.",
+      hero_h1:"Sois tranquille. Une Bible pour les jours difficiles.",
+      hero_sub:"Dites-lui ce que vous portez. Il s'assied près de vous, et trouve une parole pour ce poids.",
+      hero_tag:"be still — Psaume 46:10",
+      cta_download:"Télécharger dans l'App Store",
+      heart_eyebrow:"Le cœur de tout cela",
+      heart_h2:"Certains jours, les mots ne viennent pas.",
+      heart_lede:"Dites ce que vous pouvez — une phrase, un soupir, un seul mot. Il en trouvera un pour vous.",
+      verse_text:"« Arrêtez, et sachez que je suis Dieu. »",
+      verse_note:"Vous n'avez rien à réparer ce soir. Ce verset est une main posée sur l'épaule — une invitation à cesser de lutter un instant, et à vous rappeler que vous êtes soutenu.",
+      btn_save:"Enregistrer", btn_listen:"Écouter",
+      how_eyebrow:"Comment ça marche",
+      how_h2:"Trois petits pas vers le calme.",
+      how1_h:"Dites-lui ce qui vous pèse.", how1_p:"Avec vos propres mots. Il n'y a pas de bonne façon de le dire.",
+      how2_h:"Recevez un verset, et une parole douce sur son sens.", how2_p:"En langage simple. Jamais un sermon — seulement une lumière pour là où vous êtes.",
+      how3_h:"Restez avec lui — et avec la musique paisible d'ipe faite pour le repos.", how3_p:"Un lofi doux, accordé à la quiétude. Restez aussi longtemps qu'il le faut.",
+      feat_eyebrow:"Ce qu'il contient",
+      feat_h2:"Un ensemble de choses paisibles, faites avec douceur.",
+      feat1_t:"Un verset réconfortant pour votre moment", feat1_d:"Choisi selon ce que vous avez vraiment dit — pas un verset du jour.",
+      feat2_t:"Une explication en langage simple, jamais moralisatrice", feat2_d:"Quelques phrases honnêtes sur ce que le verset vous offre.",
+      feat3_t:"Un lofi ipe paisible pour se poser", feat3_d:"Une musique faite pour la quiétude, à une touche de chaque verset.",
+      feat4_t:"Un foyer paisible pour les versets que vous gardez", feat4_d:"Les mots qui vous ont trouvé, réunis en un lieu doux.",
+      priv_h2:"Tout reste avec vous.",
+      priv_lede:"Tout fonctionne sur votre appareil. Les mots que vous tapez sont compris là même, sur votre téléphone — et ne le quittent jamais.",
+      priv1:"Rien de ce que vous écrivez n'est envoyé à un serveur. Ni stocké, ni analysé, ni vu.",
+      priv2:"Cela fonctionne sans compte et sans connexion. Votre jour difficile n'est les données de personne.",
+      priv3:"Ce qui passe entre vous et la Parole reste entre vous et la Parole.",
+      price_eyebrow:"Tarifs", price_h2:"Simple, et honnête.",
+      price_lede:"Une entrée gratuite, toujours. Un abonnement doux si vous en voulez davantage.",
+      plan1_name:"Still", plan1_price:"Gratuit",
+      plan1_li1:"Un verset et une parole douce, chaque jour", plan1_li2:"Gardez les versets qui vous trouvent", plan1_li3:"Une sélection de musique ipe paisible",
+      plan1_note:"Gratuit aussi longtemps que vous en avez besoin.",
+      per_month:"/ mois",
+      plan2_li1:"Des moments illimités, quand ils viennent", plan2_li2:"La bibliothèque complète de la musique de repos ipe", plan2_li3:"Des réflexions plus longues et plus paisibles sur chaque verset",
+      plan2_note:"Résiliez à tout moment, d'une touche. Sans questions.",
+      price_honest:"Pas de compte à rebours. Pas de « dernière chance ». La paix ne devrait pas se vendre dans l'urgence.",
+      cta_h2:"Quand le bruit est trop fort, sois tranquille.",
+      letters_eyebrow:"still letters",
+      letters_h2:"Une lettre paisible, une fois par semaine.",
+      letters_lede:"Un verset et une parole douce, envoyés un matin sans hâte. Pas de bruit, pas de fil — juste un petit point de calme dans la semaine. Bientôt.",
+      letters_placeholder:"votre e-mail",
+      letters_cta:"Rejoindre les still letters",
+      letters_note:"Désabonnement à tout moment. Votre e-mail reste le vôtre.",
+      letters_thanks:"Merci — la première lettre vous trouvera bientôt.",
+      foot_privacy:"Confidentialité", foot_support:"Assistance", foot_studio:"an ipe studio app"
+    },
+    // ---- de (MT, pending native review) — scripture: Lutherbibel 2017, Psalm 46:11 (Luther zählt die Überschrift) ----
+    de: {
+      meta_title:"still() — Sei still. Eine Bibel für schwere Tage.",
+      meta_desc:"Ein privater Begleiter auf deinem Gerät für schwere Tage. Sag ihm, was dich beschwert — er findet einen Vers, ein sanftes Wort und ruhige Musik, um zur Ruhe zu kommen. Verwurzelt in Psalm 46,11.",
+      hero_h1:"Sei still. Eine Bibel für die schweren Tage.",
+      hero_sub:"Sag ihm, was du trägst. Er setzt sich zu dir und findet ein Wort für das Gewicht.",
+      hero_tag:"be still — Psalm 46,11",
+      cta_download:"Im App Store laden",
+      heart_eyebrow:"Der Kern davon",
+      heart_h2:"An manchen Tagen kommen die Worte nicht.",
+      heart_lede:"Sag, was du kannst — einen Satz, einen Seufzer, ein einziges Wort. Er wird eins für dich finden.",
+      verse_text:"„Seid stille und erkennet, dass ich Gott bin.“",
+      verse_note:"Du musst heute Nacht nichts in Ordnung bringen. Dieser Vers ist eine Hand auf der Schulter — eine Einladung, für einen Moment vom Ringen abzulassen und dich zu erinnern, dass du gehalten bist.",
+      btn_save:"Speichern", btn_listen:"Anhören",
+      how_eyebrow:"So funktioniert es",
+      how_h2:"Drei kleine Schritte zur Stille.",
+      how1_h:"Sag ihm, was dich bedrückt.", how1_p:"Mit deinen eigenen Worten. Es gibt keinen richtigen Weg, es zu sagen.",
+      how2_h:"Erhalte einen Vers und ein sanftes Wort zu seiner Bedeutung.", how2_p:"In einfacher Sprache. Nie eine Predigt — nur ein Licht für den Ort, an dem du bist.",
+      how3_h:"Verweile bei ihm — und bei ruhiger ipe-Musik, gemacht für die Ruhe.", how3_p:"Sanfter Lofi, auf Stille abgestimmt. Bleib, so lange du brauchst.",
+      feat_eyebrow:"Was es birgt",
+      feat_h2:"Eine stille Sammlung von Dingen, sanft gemacht.",
+      feat1_t:"Ein tröstender Vers für deinen Moment", feat1_d:"Gewählt nach dem, was du wirklich gesagt hast — kein Vers des Tages.",
+      feat2_t:"Eine Erklärung in einfacher Sprache, nie belehrend", feat2_d:"Ein paar ehrliche Sätze darüber, was der Vers dir anbietet.",
+      feat3_t:"Ruhiger ipe-Lofi zum Ausruhen", feat3_d:"Musik für die Stille, nur eine Berührung von jedem Vers entfernt.",
+      feat4_t:"Ein stilles Zuhause für die Verse, die du bewahrst", feat4_d:"Die Worte, die dich gefunden haben, an einem sanften Ort verwahrt.",
+      priv_h2:"Es bleibt bei dir.",
+      priv_lede:"Alles läuft auf deinem Gerät. Die Worte, die du tippst, werden genau dort verstanden, auf deinem Telefon — und verlassen es nie.",
+      priv1:"Nichts, was du schreibst, wird an einen Server gesendet. Nicht gespeichert, nicht analysiert, nicht gesehen.",
+      priv2:"Es funktioniert ohne Konto und ohne Anmeldung. Dein schwerer Tag sind niemandes Daten.",
+      priv3:"Was zwischen dir und dem Wort geschieht, bleibt zwischen dir und dem Wort.",
+      price_eyebrow:"Preise", price_h2:"Einfach und ehrlich.",
+      price_lede:"Ein kostenloser Zugang, immer. Ein sanftes Abo, wenn du mehr möchtest.",
+      plan1_name:"Still", plan1_price:"Kostenlos",
+      plan1_li1:"Ein Vers und ein sanftes Wort, jeden Tag", plan1_li2:"Speichere die Verse, die dich finden", plan1_li3:"Eine Auswahl ruhiger ipe-Musik",
+      plan1_note:"Kostenlos, so lange du es brauchst.",
+      per_month:"/ Monat",
+      plan2_li1:"Unbegrenzte Momente, wann immer sie kommen", plan2_li2:"Die vollständige Bibliothek der ipe-Ruhemusik", plan2_li3:"Längere, stillere Betrachtungen zu jedem Vers",
+      plan2_note:"Jederzeit kündbar, mit einer Berührung. Ohne Fragen.",
+      price_honest:"Kein Countdown. Keine „letzte Chance“. Frieden sollte nicht mit Dringlichkeit verkauft werden.",
+      cta_h2:"Wenn der Lärm zu viel wird, sei still.",
+      letters_eyebrow:"still letters",
+      letters_h2:"Ein stiller Brief, einmal in der Woche.",
+      letters_lede:"Ein Vers und ein sanftes Wort, an einem langsamen Morgen geschickt. Kein Lärm, kein Feed — nur ein kleiner stiller Punkt in der Woche. Beginnt bald.",
+      letters_placeholder:"deine E-Mail",
+      letters_cta:"Den still letters beitreten",
+      letters_note:"Jederzeit abbestellbar. Deine E-Mail bleibt deine.",
+      letters_thanks:"Danke — der erste Brief wird dich bald finden.",
+      foot_privacy:"Datenschutz", foot_support:"Support", foot_studio:"an ipe studio app"
     }
   };
 

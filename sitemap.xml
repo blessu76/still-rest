@@ -16,5 +16,7 @@
     <xhtml:link rel="alternate" hreflang="id" href="https://still.ipe.rest/?lang=id"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/?lang=ru"/>
     <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/?lang=vi"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://still.ipe.rest/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://still.ipe.rest/?lang=de"/>
   </url>
 </urlset>
