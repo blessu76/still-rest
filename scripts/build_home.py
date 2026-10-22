@@ -61,8 +61,9 @@ LEGACY_JS = ("<script>(function(){try{var l=new URLSearchParams(location.search)
 HINT_CSS_ID = "langHint"
 
 
-def render_page(tpl, strings, lang, root, cards_html=None):
-    """one home page. root=True -> /index.html (x-default); lang is then 'en'. cards_html: journal cards or None."""
+def render_page(tpl, strings, lang, root, cards_html=None, journal_href="/journal/"):
+    """one home page. root=True -> /index.html (x-default); lang is then 'en'. cards_html: journal cards or None.
+    journal_href: where this page's Journal links go (/journal/<lang>/ when that language has posts, else the hub)."""
     d = dict(strings["en"], **strings[lang])
     canonical = SITE + "/" if root else lang_url(lang)
     out = tpl
@@ -100,7 +101,7 @@ def render_page(tpl, strings, lang, root, cards_html=None):
         "meta_title": esc(d["meta_title"]), "meta_desc": esc(d["meta_desc"]),
         # social cards: English keeps its own two short texts; other languages reuse their meta description
         "og_desc": esc(strings[lang].get("og_desc") or d["meta_desc"]), "tw_desc": esc(strings[lang].get("tw_desc") or d["meta_desc"]),
-        "JOURNAL_HREF": "/journal/",
+        "JOURNAL_HREF": journal_href,
     }
     out = re.sub(r"\{\{(\w+)\}\}", lambda m: subs[m.group(1)], out)
     if cards_html is not None:  # journal section (present in the template once the journal exists)
@@ -138,9 +139,9 @@ def llms_block():
     return "\n".join(lines) + "\n"
 
 
-def build(root, cards_by_lang=None, newest_post_date=None):
+def build(root, cards_by_lang=None, href_by_lang=None, newest_post_date=None):
     """write /index.html + /<lang>/index.html and the home blocks of sitemap.xml and llms.txt.
-    cards_by_lang: {lang: cards html} from build_journal (None -> no journal section content)."""
+    cards_by_lang / href_by_lang: {lang: ...} from build_journal (None -> no journal cards, links go to the hub)."""
     tpl = (root / TEMPLATE).read_text(encoding="utf-8")
     strings = json.loads((root / STRINGS).read_text(encoding="utf-8"))
     missing = [l for l in LANGS if l not in strings]
@@ -149,7 +150,7 @@ def build(root, cards_by_lang=None, newest_post_date=None):
     written = []
     for lang, is_root in [("en", True)] + [(l, False) for l in LANGS]:
         cards = None if cards_by_lang is None else cards_by_lang.get(lang, "")
-        page = render_page(tpl, strings, lang, is_root, cards)
+        page = render_page(tpl, strings, lang, is_root, cards, (href_by_lang or {}).get(lang, "/journal/"))
         path = root / "index.html" if is_root else root / lang / "index.html"
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(page, encoding="utf-8")

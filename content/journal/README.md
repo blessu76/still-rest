@@ -1,0 +1,57 @@
+# still() 저널 원고 형식 (11개 언어)
+
+빌드: `python3 scripts/build_journal.py` (저널 + 홈 11개 언어를 한 번에). 검증만: `--check` (형식·안전 데이터 검사 + 커밋된 산출물이 최신인지). 초안 미리보기: 사이트 **복사본**에서 `--root /tmp/x --drafts`. 테스트: `python3 -m unittest discover -s tests`.
+
+## 파일 구조와 URL
+
+원고는 **`content/journal/<lang>/<slug>.md`** (폴더 = 언어, 파일명 = slug). 한 글의 모든 언어판은 **같은 slug**. 언어: `en ko ja zh es pt id ru vi fr de`.
+
+| 구분 | 파일 | URL |
+|---|---|---|
+| 원문 (`translation_of` 없음 — ko 또는 en 만 가능) | `content/journal/ko/<slug>.md` | `/journal/ko/<slug>/` |
+| 번역 (`translation_of: ko`) | `content/journal/<lang>/<slug>.md` | `/journal/<lang>/<slug>/` |
+
+- 언어별 목록 `/journal/<lang>/` (그 언어 글이 1편 이상일 때만). `/journal/` = x-default 허브(원문 목록) · `/journal/feed.xml` = 원문 RSS.
+- canonical = 자기 자신. hreflang = 그 글이 있는 언어 전부 + x-default(en, 없으면 ko), 서로 상호참조. 번역이 없는 언어는 페이지·sitemap·hreflang·llms.txt 어디에도 나오지 않는다.
+- slug 는 `[a-z0-9-]+`, 언어 코드와 `feed` 는 쓸 수 없다. `?lang=` 은 쓰지 않는다.
+
+## front matter
+
+```
+---
+title: (그 언어 제목)
+date: 2026-10-23               # KST 게시일. 번역본은 원문과 같은 날짜
+slug: my-first-story            # 모든 언어판 동일, 파일명과 같게
+lang: ko                        # 폴더 이름과 같아야 한다
+description: (그 언어 한 문장)
+category: 번아웃                # 그 언어의 자유 문구
+bible_version: 개역한글(1961)   # 성경을 인용(> 인용 블록)하면 필수. 성경 인용이 아니면 `bible_version: none`
+translation_of: ko              # 번역본만(ko·en 외 언어는 필수). 있으면 「AI 번역」 표시 + 원문 링크
+draft: true                     # 선택: 어디에도 나가지 않음
+---
+```
+
+선택 칸: `updated`·`image`·`image_alt`·`keywords`·`citations`·`aliases`(옛 주소 → 정적 리다이렉트). 자세한 건 `scripts/build_journal.py` 맨 위 docstring. 샘플: `ko/sample-template.md` + `en/sample-template.md` (draft).
+성경 번역본은 언어별 퍼블릭 도메인 본(결정 0088): en=WEB · ko=개역한글(1961) · ja=口語訳(1955) · zh=和合本(1919) · es=Reina-Valera 1909 · pt=Almeida · id=Terjemahan Lama · ru=Synodal · vi=Kinh Thánh 1926/1934 · fr=Louis Segond 1910 · de=Lutherbibel 1912.
+
+## 🔴 안전 블록 (모든 글·모든 언어에 템플릿이 자동으로 붙인다)
+
+글쓴이가 고치거나 뺄 수 없다 — 문구·번호는 전부 **`content/journal/safety.json`** 한 파일에서만 온다(원어민 검수 대상).
+
+1. 제목 아래 띠: 「여러 사람의 경험을 엮어 쓴 이야기입니다」(창작 명시) + 「의료 조언이 아니며 진료·치료를 대신하지 않습니다」 + 위기 상자로 가는 링크.
+2. 본문 뒤: 성경 번역본 이름(`bible_version`) → 위기 상담 상자(`id="help"`: 안내문 + 나라별 번호 + findahelpline.com 폴백, 결정 D2) → 면책 한 줄 더.
+3. 위기 문구에는 성경 구절·기도 권유를 넣지 않는다(CRISIS_PROTOCOL §2.2).
+
+`safety.json`: `text.<lang>` = 문구 7개, `lines.<lang>` = `{status: draft|verified, regions: [{country, items: [{name, number, tel, hours}]}]}` (번호가 없으면 `regions: []` → 폴백 링크만).
+**지금 번호는 전부 `draft`(미확정)** — CRISIS_PROTOCOL §2.3 초안표와 웹 브리프 값. 검수 뒤 `status` 를 `verified` 로, `--strict-safety` 가 이를 강제한다.
+
+## 게시 절차
+
+1. 원고(ko 원문 + 번역) 작성 → `python3 scripts/build_journal.py` (형식 오류를 빌드가 잡는다).
+2. 게이트 — 하나라도 실패하면 커밋·배포 금지:
+   `python3 -m unittest discover -s tests` · `python3 scripts/build_journal.py --check` · `python3 scripts/check_sitemap.py`
+   **게시(공개 글이 1편이라도 있는 상태로 배포)할 때는 `--check --strict-safety` 도 통과해야 한다** — 그 글의 언어에 `draft` 위기 번호가 남아 있으면 실패. (배포 워크플로가 같은 검사를 돌린다.)
+3. 커밋·push → 배포 후 `python3 scripts/check_sitemap.py --live` (모든 URL HTTP 200) → `python3 scripts/indexnow.py <새 URL…>`.
+
+빌드가 대신 잡아 주는 것: 필수 칸 누락 · 폴더/`lang`/파일명 불일치 · 번역에 `translation_of` 없음/원문 없음/원문이 draft · 인용 블록인데 `bible_version` 없음 · 예약 slug · alias 중복 · 이미지 파일 없음 · 안전 데이터 누락(11개 언어 전부). `draft: true` 는 sitemap·llms·목록·hreflang 어디에도 나오지 않는다(테스트로 보장).
+`content/`·`scripts/`·`tests/` 는 배포 산출물에서 제외된다(원고 .md 가 공개 URL 이 되지 않음).

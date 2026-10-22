@@ -27,6 +27,13 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      - name: Verify (tests, generated pages up to date, sitemap, safety data)
+        # --strict-safety: once any journal post is published, its language's crisis-line data must be `verified`.
+        run: |
+          python3 -m unittest discover -s tests
+          python3 scripts/build_journal.py --check --strict-safety
+          python3 scripts/check_sitemap.py
+
       - name: Assemble site (repo root minus sources)
         # content/ (home template + strings, journal .md drafts), scripts/ and tests/ are build-time only — never public raw URLs.
         run: |

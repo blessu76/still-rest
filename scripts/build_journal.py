@@ -1,0 +1,1023 @@
+#!/usr/bin/env python3
+"""Build the still.ipe.rest Journal — no dependencies (Python 3.8+ stdlib only).
+
+Reads   content/journal/<lang>/<slug>.md   (front matter + Markdown; one folder per language, ko and en included)
+        content/journal/safety.json        the fixed safety block of every article (disclaimer, crisis lines, ...) — 11 languages
+        content/journal/ui.json            list/hub/UI strings — 11 languages
+Writes  journal/index.html                 x-default hub (language links + the originals)
+        journal/<lang>/index.html          one list page per language that has posts
+        journal/<lang>/<slug>/index.html   one page per post and language  (11 languages: en ko ja zh es pt id ru vi fr de)
+        <old alias path>/index.html        static redirect stubs (front matter `aliases`) — not in the sitemap
+        journal/feed.xml                   RSS 2.0 (originals = posts without translation_of)
+        sitemap.xml                        between <!-- journal:start --> / <!-- journal:end -->
+        llms.txt                           "Journal" section between <!-- journal:llms:start --> / <!-- journal:llms:end -->
+        index.html + <lang>/index.html     home page, 11 static language pages (scripts/build_home.py)
+
+All language versions of a post share ONE slug (that is what groups them for hreflang / translationOfWork).
+
+Front matter (between two `---` lines):
+    title:       required
+    date:        required, YYYY-MM-DD (publication date, KST)
+    slug:        required, [a-z0-9-]+ (= file name), same in every language; not a language code, not "feed"
+    lang:        required, one of en ko ja zh es pt id ru vi fr de (= folder name)
+    description: required, one sentence (meta description, cards, RSS)
+    category:    required, free text in the post's language (e.g. 우울 · panic · work)
+    draft:       optional, true → skipped everywhere (output, list, home, sitemap, feed)
+    translation_of: ko | en — the original language this version was translated from. Required for every language except
+                    ko and en; optional on those two (en: `translation_of: ko`). A post with it shows the "AI translation" notice.
+    bible_version:  name of the Bible translation quoted in the post (e.g. "WEB", "개역한글(1961)"). Shown under the text.
+                    REQUIRED when the body has a quotation block (`> ...`); write `bible_version: none` when the quote is not Scripture.
+    aliases:     optional, comma separated old site paths (/journal/old-slug/) → static redirect stubs to this page
+  Optional GEO fields (omitted → simply not emitted):
+    updated:        YYYY-MM-DD, dateModified / sitemap lastmod
+    image:          hero image, /assets/journal/<slug>/x.jpg (or https URL); default = first body image, else og-image
+    image_alt:      alt text of the hero image (ImageObject.caption)
+    keywords:       comma separated
+    citations:      "Title @ url | Title @ url"  → citation (external links in the body are added automatically)
+
+Every article page carries the same fixed safety block in its own language, taken from content/journal/safety.json
+(never from the post): ① "not medical advice" disclaimer ② crisis-line box ③ "woven from many people's experiences"
+notice ④ Bible translation name (bible_version).
+
+Usage:
+    python3 scripts/build_journal.py            # build into this repo
+    python3 scripts/build_journal.py --check    # validate posts + safety data and fail if the committed output is stale
+    python3 scripts/build_journal.py --check --strict-safety
+        # also fail while any language that has a published post still has unreviewed (draft) crisis-line data
+    python3 scripts/build_journal.py --root /tmp/preview --drafts
+        # preview: include drafts (marked DRAFT + noindex). Use only on a COPY of the site.
+"""
+import argparse
+import datetime as dt
+import html
+import json
+import re
+import shutil
+import sys
+import urllib.parse
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from site_common import GEN_MARK, LANGS, SITE, check_fresh, esc, lang_url, replace_between  # noqa: E402
+
+ASSET_V = "20261022"  # ?v= of assets/journal.css — bump when the file changes
+CF_TOKEN = "eab6249a56894cb084b7bcc8f1a860a6"  # Cloudflare Web Analytics (cookieless), same as the home page
+REQUIRED = ("title", "date", "slug", "lang", "description", "category")
+SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+KST = dt.timezone(dt.timedelta(hours=9))
+ROOT = Path(__file__).resolve().parent.parent  # overwritten in main() from --root (image sizes are read from here)
+IMG_NS = "http://www.google.com/schemas/sitemap-image/1.1"
+SOCIAL_HOSTS = ("youtube.com", "youtu.be", "instagram.com", "x.com", "twitter.com", "facebook.com", "ipe.rest")  # never auto-cited
+ORG = {"@type": "Organization", "name": "ipe Studio", "url": "https://ipe.rest"}
+ORIGINAL_LANGS = ("ko", "en")  # may be an original without translation_of; every other language is a translation
+FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' "
+           "fill='%230F1218'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='18' fill='%23C9A84C' text-anchor='middle'"
+           "%3E()%3C/text%3E%3Ccircle cx='16' cy='15.5' r='1.6' fill='%23F5F0E8'/%3E%3C/svg%3E")
+UI_KEYS = ("journal", "sub", "empty", "back", "read_more", "view_all", "skip", "rss", "ai_note", "ai_orig", "other_langs")
+SAFETY_KEYS = ("fiction", "disclaimer", "jump", "help_title", "help_intro", "fallback", "bible_label")
+FALLBACK_HELPLINE = "https://findahelpline.com"  # decision D2 (CRISIS_PROTOCOL): the worldwide directory for places without a listed line
+
+UI = {}      # {lang: {...}}  loaded from content/journal/ui.json
+HOME = {}    # {lang: {...}}  content/home/i18n.json (footer wording is shared with the home page)
+SAFETY = {}  # content/journal/safety.json
+LIST_LANGS = None  # set by main(): languages that have a list page; None = assume all (other scripts importing this module)
+
+
+def load_data(root):
+    """read the three data files into the module globals; returns a list of problems (empty = fine)."""
+    global UI, HOME, SAFETY
+    errs = []
+    try:
+        UI = json.loads((root / "content" / "journal" / "ui.json").read_text(encoding="utf-8"))
+        SAFETY = json.loads((root / "content" / "journal" / "safety.json").read_text(encoding="utf-8"))
+        HOME = json.loads((root / "content" / "home" / "i18n.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError) as ex:
+        return ["data files: %s" % ex]
+    for l in LANGS:
+        for k in UI_KEYS:
+            if not UI.get(l, {}).get(k):
+                errs.append("ui.json: %s lacks %r" % (l, k))
+        for k in SAFETY_KEYS:
+            if not SAFETY.get("text", {}).get(l, {}).get(k):
+                errs.append("safety.json: text.%s lacks %r (every article needs the full safety block in every language)" % (l, k))
+        ent = SAFETY.get("lines", {}).get(l)
+        if ent is None or ent.get("status") not in ("draft", "verified") or not isinstance(ent.get("regions"), list):
+            errs.append("safety.json: lines.%s needs status draft|verified and a regions list (may be empty)" % l)
+            continue
+        for r in ent["regions"]:
+            for it in r.get("items", []):
+                if not it.get("name") or not it.get("number"):
+                    errs.append("safety.json: lines.%s has an entry without name/number" % l)
+    return errs
+
+
+def strict_safety_errors(langs):
+    """crisis-line data that is still a draft for languages that have published posts (deploy gate)."""
+    return ["safety.json: crisis lines for %s are still `draft` (not verified by a native reviewer) but %s has published posts"
+            % (l, l) for l in LANGS if l in langs and SAFETY["lines"][l]["status"] != "verified"]
+
+
+def ui(lang):
+    return UI.get(lang) or UI["en"]
+
+
+# ---------------------------------------------------------------- front matter
+def parse_post(path):
+    text = path.read_text(encoding="utf-8").replace("\r\n", "\n")
+    if not text.startswith("---\n"):
+        raise ValueError("missing front matter (file must start with ---)")
+    end = text.find("\n---", 4)
+    if end == -1:
+        raise ValueError("front matter is not closed with ---")
+    meta = {}
+    for line in text[4:end].split("\n"):
+        if not line.strip() or line.lstrip().startswith("#"):
+            continue
+        if ":" not in line:
+            raise ValueError("bad front matter line: %r" % line)
+        k, v = line.split(":", 1)
+        v = v.strip()
+        if len(v) >= 2 and v[0] == v[-1] and v[0] in "\"'":
+            v = v[1:-1]
+        meta[k.strip().lower()] = v
+    body = text[end + 4:].lstrip("\n")
+    missing = [k for k in REQUIRED if not meta.get(k)]
+    if missing:
+        raise ValueError("missing front matter: " + ", ".join(missing))
+    if not SLUG_RE.match(meta["slug"]):
+        raise ValueError("slug must match [a-z0-9-]+: %r" % meta["slug"])
+    if meta["slug"] in LANGS or meta["slug"] == "feed":
+        raise ValueError("slug %r is reserved (language codes and 'feed' are URL segments)" % meta["slug"])
+    if meta["lang"] not in LANGS:
+        raise ValueError("lang must be one of %s: %r" % (" ".join(LANGS), meta["lang"]))
+    of = meta.get("translation_of")
+    if meta["lang"] not in ORIGINAL_LANGS and not of:
+        raise ValueError("lang %s is a translation: `translation_of: ko` (or en) is required" % meta["lang"])
+    if of and (of not in ORIGINAL_LANGS or of == meta["lang"]):
+        raise ValueError("translation_of must be the language code of the ko/en original (ko or en, not this post's own language): %r" % of)
+    try:
+        meta["_date"] = dt.date.fromisoformat(meta["date"])
+    except ValueError:
+        raise ValueError("date must be YYYY-MM-DD: %r" % meta["date"])
+    meta["draft"] = str(meta.get("draft", "false")).lower() in ("true", "yes", "1")
+    if meta.get("updated"):
+        try:
+            dt.date.fromisoformat(meta["updated"])
+        except ValueError:
+            raise ValueError("updated must be YYYY-MM-DD: %r" % meta["updated"])
+    meta["_aliases"] = []
+    for a in [x.strip() for x in meta.get("aliases", "").split(",") if x.strip()]:
+        if not re.match(r"^/journal/[a-z0-9/-]*$", a):
+            raise ValueError("alias must be a site path like /journal/old-slug/ : %r" % a)
+        meta["_aliases"].append(a if a.endswith("/") else a + "/")
+    meta["_keywords"] = [x.strip() for x in meta.get("keywords", "").split(",") if x.strip()]
+    meta["_citations"] = parse_entries(meta.get("citations", ""))
+    bv = meta.get("bible_version", "").strip()
+    meta["_bible"] = None if bv.lower() == "none" else (bv or None)
+    if meta["_bible"] is None and bv.lower() != "none" and re.search(r"(?m)^\s*>", body):
+        raise ValueError("the text has a quotation block (`> ...`) but no `bible_version:` — name the Bible translation "
+                         "(e.g. bible_version: WEB), or write `bible_version: none` if the quote is not Scripture")
+    meta["_body"] = body
+    meta["_src"] = path.name
+    return meta
+
+
+def parse_entries(v):
+    """'Title @ url | Title @ url' -> [(title, url|None)]. url must be http(s) or site-relative."""
+    out = []
+    for part in v.split("|"):
+        part = part.strip()
+        if not part:
+            continue
+        title, _, url = part.rpartition(" @ ") if " @ " in part else (part, "", "")
+        title, url = title.strip(), url.strip()
+        if url and not re.match(r"^(https?://|/)", url):
+            raise ValueError("bad url in %r (need http(s):// or /path)" % part)
+        out.append((title, abs_url(url) if url else None))
+    return out
+
+
+def abs_url(u):
+    return SITE + u if u.startswith("/") else u
+
+
+def image_size(rel):
+    """(w, h) of a site image (png/jpeg/gif/webp) read from its header, or None. stdlib only."""
+    if not rel.startswith("/"):
+        return None
+    f = ROOT / rel.lstrip("/")
+    try:
+        b = f.read_bytes()[:262144]
+    except OSError:
+        return None
+    try:
+        if b[:8] == b"\x89PNG\r\n\x1a\n":
+            return int.from_bytes(b[16:20], "big"), int.from_bytes(b[20:24], "big")
+        if b[:6] in (b"GIF87a", b"GIF89a"):
+            return int.from_bytes(b[6:8], "little"), int.from_bytes(b[8:10], "little")
+        if b[:4] == b"RIFF" and b[8:12] == b"WEBP":
+            k = b[12:16]
+            if k == b"VP8X":
+                return 1 + int.from_bytes(b[24:27], "little"), 1 + int.from_bytes(b[27:30], "little")
+            if k == b"VP8 ":
+                return int.from_bytes(b[26:28], "little") & 0x3FFF, int.from_bytes(b[28:30], "little") & 0x3FFF
+            if k == b"VP8L":
+                v = int.from_bytes(b[21:25], "little")
+                return (v & 0x3FFF) + 1, ((v >> 14) & 0x3FFF) + 1
+        if b[:2] == b"\xff\xd8":
+            i = 2
+            while i + 9 < len(b):
+                if b[i] != 0xFF:
+                    i += 1
+                    continue
+                m = b[i + 1]
+                if m in (0xD8, 0x01) or 0xD0 <= m <= 0xD7:
+                    i += 2
+                    continue
+                n = int.from_bytes(b[i + 2:i + 4], "big")
+                if m in range(0xC0, 0xCF) and m not in (0xC4, 0xC8, 0xCC):
+                    return int.from_bytes(b[i + 7:i + 9], "big"), int.from_bytes(b[i + 5:i + 7], "big")
+                i += 2 + n
+    except Exception:
+        pass
+    return None
+
+
+# ---------------------------------------------------------------- markdown (small, safe subset)
+def safe_url(u):
+    u = u.strip()
+    if re.match(r"^(https?://|/|#|mailto:)", u):
+        return u
+    if re.match(r"^[\w./-]+$", u) and ":" not in u:  # relative path
+        return u
+    return "#"
+
+
+def img_tag(src, alt):
+    wh = image_size(src)
+    dims = ' width="%d" height="%d"' % wh if wh else ""
+    return '<img src="%s" alt="%s"%s loading="lazy" decoding="async">' % (esc(src), esc(alt), dims)
+
+
+FIG_RE = re.compile(r'^!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)$')
+
+
+def inline(text):
+    parts = re.split(r"(`[^`]+`)", text)
+    out = []
+    for p in parts:
+        if len(p) > 1 and p.startswith("`") and p.endswith("`"):
+            out.append("<code>%s</code>" % esc(p[1:-1]))
+            continue
+        s = esc(p)
+        s = re.sub(r"!\[([^\]]*)\]\(([^)\s]+)\)",
+                   lambda m: img_tag(safe_url(html.unescape(m.group(2))), html.unescape(m.group(1))), s)
+
+        def link(m):
+            url = safe_url(html.unescape(m.group(2)))
+            ext = url.startswith("http") and not url.startswith(SITE)
+            return '<a href="%s"%s>%s</a>' % (esc(url), ' rel="noopener"' if ext else "", m.group(1))
+        s = re.sub(r"\[([^\]]+)\]\(([^)\s]+)\)", link, s)
+        s = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
+        s = re.sub(r"(?<!\*)\*(?![\s*])(.+?)(?<![\s*])\*(?!\*)", r"<em>\1</em>", s)
+        s = re.sub(r"(?<![\w_])_(?!\s)(.+?)(?<!\s)_(?![\w_])", r"<em>\1</em>", s)
+        out.append(s)
+    return "".join(out)
+
+
+def markdown(src):
+    lines = src.split("\n")
+    out, para, i = [], [], 0
+
+    def flush():
+        if para:
+            out.append("<p>%s</p>" % inline(" ".join(x.strip() for x in para)))
+            para.clear()
+
+    while i < len(lines):
+        line = lines[i]
+        st = line.strip()
+        if st.startswith("```"):
+            flush()
+            code = []
+            i += 1
+            while i < len(lines) and not lines[i].strip().startswith("```"):
+                code.append(lines[i])
+                i += 1
+            out.append("<pre><code>%s</code></pre>" % esc("\n".join(code)))
+            i += 1
+            continue
+        if not st:
+            flush()
+            i += 1
+            continue
+        fm = FIG_RE.match(st)
+        if fm:  # a line that is only an image -> <figure>; optional "caption" after the url
+            flush()
+            cap = "<figcaption>%s</figcaption>" % inline(fm.group(3)) if fm.group(3) else ""
+            out.append("<figure>%s%s</figure>" % (img_tag(safe_url(fm.group(2)), fm.group(1)), cap))
+            i += 1
+            continue
+        m = re.match(r"^(#{1,4})\s+(.*)$", st)
+        if m:
+            flush()
+            level = {1: 2, 2: 2, 3: 3, 4: 4}[len(m.group(1))]
+            out.append("<h%d>%s</h%d>" % (level, inline(m.group(2)), level))
+            i += 1
+            continue
+        if re.match(r"^(-{3,}|\*{3,})$", st):
+            flush()
+            out.append("<hr>")
+            i += 1
+            continue
+        if st.startswith(">"):
+            flush()
+            paras, cur = [], []
+            while i < len(lines) and lines[i].strip().startswith(">"):
+                t = lines[i].strip()[1:].strip()
+                if t:
+                    cur.append(t)
+                elif cur:  # an empty `>` line splits the quote into paragraphs (verse text, then the reference)
+                    paras.append(cur)
+                    cur = []
+                i += 1
+            if cur:
+                paras.append(cur)
+            out.append("<blockquote>%s</blockquote>" % "".join("<p>%s</p>" % inline(" ".join(x)) for x in paras))
+            continue
+        if re.match(r"^[-*+]\s+", st) or re.match(r"^\d+[.)]\s+", st):
+            flush()
+            ordered = bool(re.match(r"^\d", st))
+            pat = r"^\d+[.)]\s+" if ordered else r"^[-*+]\s+"
+            items = []
+            while i < len(lines) and re.match(pat, lines[i].strip()):
+                items.append(re.sub(pat, "", lines[i].strip()))
+                i += 1
+            tag = "ol" if ordered else "ul"
+            out.append("<%s>%s</%s>" % (tag, "".join("<li>%s</li>" % inline(x) for x in items), tag))
+            continue
+        para.append(line)
+        i += 1
+    flush()
+    return "\n".join(out)
+
+
+# ---------------------------------------------------------------- page chrome
+def fmt_date(d):
+    return "%04d. %02d. %02d" % (d.year, d.month, d.day)
+
+
+def lang_path(lang):
+    """site path of a language's journal list: /journal/<lang>/ (all 11 languages; /journal/ itself is the x-default hub)."""
+    return "/journal/%s/" % lang
+
+
+def jhome(lang):
+    """where a page in `lang` sends its 'Journal' link: that language's list if it exists, else the x-default hub."""
+    return lang_path(lang) if LIST_LANGS is None or lang in LIST_LANGS else "/journal/"
+
+
+def post_path(p):
+    return "%s%s/" % (lang_path(p["lang"]), p["slug"])
+
+
+def post_url(p):
+    return SITE + post_path(p)
+
+
+def head(title, desc, canonical, lang, noindex, extra="", hint="edit content/journal/*.md and rebuild", image=None, alternates="", locales=()):
+    image = image or SITE + "/og-image.png"
+    robots = "noindex, follow" if noindex else "index, follow, max-image-preview:large"
+    alts = "".join('<meta property="og:locale:alternate" content="%s">\n' % LANGS[l]["og"] for l in locales if l != lang)
+    return f"""<!DOCTYPE html>
+<html lang="{esc(lang)}" dir="{LANGS[lang]["dir"]}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- {GEN_MARK} — do not hand-edit; {hint} -->
+<title>{esc(title)}</title>
+<meta name="description" content="{esc(desc)}">
+<meta name="author" content="ipe Studio">
+<meta name="robots" content="{robots}">
+<meta name="theme-color" content="#F7F2E9">
+<link rel="icon" href="{FAVICON}">
+<link rel="canonical" href="{esc(canonical)}">
+{alternates}<link rel="alternate" type="application/rss+xml" title="still() Journal" href="{SITE}/journal/feed.xml">
+<meta property="og:site_name" content="still()">
+<meta property="og:title" content="{esc(title)}">
+<meta property="og:description" content="{esc(desc)}">
+<meta property="og:url" content="{esc(canonical)}">
+<meta property="og:locale" content="{LANGS[lang]["og"]}">
+{alts}<meta property="og:image" content="{esc(image)}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{esc(title)}">
+<meta name="twitter:description" content="{esc(desc)}">
+<meta name="twitter:image" content="{esc(image)}">
+{extra}<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gentium+Book+Plus:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/journal.css?v={ASSET_V}">
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{{"token": "{CF_TOKEN}"}}'></script>
+</head>
+<body>
+"""
+
+
+def lang_select(lang, targets, neutral=None):
+    """the home page's language <select> (same look), option value = site path of the same page in that language.
+    targets = {lang: path}; only languages that really have this page. neutral = (label, path): a first, selected
+    option for pages that belong to no single language (the x-default hub). No targets -> no select at all."""
+    if not targets:
+        return ""
+    opts = ('      <option value="%s" selected>%s</option>\n' % (esc(neutral[1]), esc(neutral[0])) if neutral else "") + "\n".join('      <option value="%s"%s>%s</option>' % (esc(targets[l]), " selected" if l == lang and not neutral else "", esc(LANGS[l]["name"]))
+                     for l in LANGS if l in targets)
+    return f"""<label class="langsel">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.8 5.8 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.8-3.8-9S9.5 5.5 12 3z"/></svg>
+    <select id="lang" aria-label="{esc(ui(lang)['other_langs'])}">
+{opts}
+    </select>
+  </label>"""
+
+
+def header(lang, targets, neutral=None):
+    t = ui(lang)
+    return f"""<a class="skip-link" href="#main">{esc(t['skip'])}</a>
+<header class="topbar">
+  <div class="wrap-wide bar">
+    <a class="brand" href="/{lang}/" aria-label="still() home">still<span class="paren">(</span><span class="paren">)</span></a>
+    <nav class="bar-nav" aria-label="primary"><a href="{jhome(lang)}" aria-current="page">{esc(t['journal'])}</a></nav>
+    {lang_select(lang, targets, neutral)}
+  </div>
+</header>
+"""
+
+
+def footer(lang):
+    t, h = ui(lang), HOME.get(lang) or HOME["en"]
+    g = lambda k: h.get(k) or HOME["en"][k]
+    return f"""<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-mark">still<span class="paren">(</span><span class="paren">)</span></div>
+    <div class="foot-verse">{esc(g('hero_tag'))}</div>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="/{lang}/">still()</a>
+      <a href="{jhome(lang)}">{esc(t['journal'])}</a>
+      <a href="/journal/feed.xml">{esc(t['rss'])}</a>
+      <a href="/privacy">{esc(g('foot_privacy'))}</a>
+      <a href="mailto:ipe.haven@gmail.com">{esc(g('foot_support'))}</a>
+    </nav>
+    <div class="foot-studio">{esc(g('foot_studio'))}</div>
+  </div>
+</footer>
+<script>
+(function () {{
+  var sel = document.getElementById('lang');
+  if (sel) sel.addEventListener('change', function () {{
+    var m = String(this.value).match(/^\\/journal\\/([a-z]{{2}})\\//);
+    try {{ if (m) localStorage.setItem('still_lang', m[1]); }} catch (e) {{}}
+    location.href = this.value;
+  }});
+}})();
+</script>
+</body>
+</html>
+"""
+
+
+def ld(obj):
+    return '<script type="application/ld+json">\n%s\n</script>\n' % json.dumps(obj, ensure_ascii=False, indent=2).replace("</", "<\\/")
+
+
+# ---------------------------------------------------------------- safety block (fixed on every article, every language)
+def render_help(lang):
+    """the crisis-line box. Wording + numbers come only from content/journal/safety.json."""
+    txt, ent = SAFETY["text"][lang], SAFETY["lines"][lang]
+    regions = []
+    for r in ent["regions"]:
+        rows = []
+        for it in r.get("items", []):
+            num = esc(it["number"])
+            num = '<a class="help-num" href="tel:%s">%s</a>' % (esc(it["tel"]), num) if it.get("tel") else '<span class="help-num">%s</span>' % num
+            hours = ' <span class="help-hours">%s</span>' % esc(it["hours"]) if it.get("hours") else ""
+            rows.append('        <li><span class="help-name">%s</span> %s%s</li>' % (esc(it["name"]), num, hours))
+        if rows:
+            regions.append('      <div class="help-region">\n        <h3>%s</h3>\n        <ul>\n%s\n        </ul>\n      </div>' % (esc(r["country"]), "\n".join(rows)))
+    more = txt["fallback"]
+    return f"""    <div class="help" id="help" data-crisis-lines="{esc(ent['status'])}">
+      <h2>{esc(txt['help_title'])}</h2>
+      <p>{esc(txt['help_intro'])}</p>
+{chr(10).join(regions)}
+      <p class="help-more">{esc(more)} <a href="{FALLBACK_HELPLINE}" rel="noopener">findahelpline.com</a></p>
+    </div>
+"""
+
+
+def render_notice(lang):
+    """short strip under the title: creative-work notice + disclaimer + jump link to the crisis box."""
+    txt = SAFETY["text"][lang]
+    return f"""    <aside class="notice" data-safety="notice">
+      <p>{esc(txt['fiction'])}</p>
+      <p>{esc(txt['disclaimer'])} <a href="#help">{esc(txt['jump'])}</a></p>
+    </aside>
+"""
+
+
+def render_safety(p):
+    """bottom block: Bible translation, crisis lines, disclaimer again. Same for every post; only bible_version is per post."""
+    txt = SAFETY["text"][p["lang"]]
+    bible = ('    <p class="bible-version" data-safety="bible"><strong>%s</strong> %s</p>\n' % (esc(txt["bible_label"]), esc(p["_bible"]))) if p["_bible"] else ""
+    return f"""{bible}  <section class="safety" data-safety="block" aria-label="{esc(txt['help_title'])}">
+{render_help(p['lang'])}    <p class="small-print">{esc(txt['disclaimer'])}</p>
+  </section>
+"""
+
+
+# ---------------------------------------------------------------- pages
+def hero_image(p):
+    """front matter image -> first body asset image -> None (caller falls back to og-image)."""
+    if p.get("image"):
+        return p["image"]
+    m = re.search(r"!\[[^\]]*\]\((/assets/journal/[^)\s]+)", p["_body"])
+    return m.group(1) if m else None
+
+
+def body_images(p):
+    seen, out = set(), []
+    for u in ([p["image"]] if p.get("image") else []) + re.findall(r"!\[[^\]]*\]\((/assets/[^)\s]+)", p["_body"]):
+        if u not in seen:
+            seen.add(u)
+            out.append(u)
+    return out
+
+
+def check_post_images(p):
+    """Errors for local images (front matter `image` + body `![](/assets/...)`) that are not real files."""
+    errs = []
+    for u in body_images(p):
+        if not u.startswith("/"):
+            continue  # external URL — not ours to check
+        f = (ROOT / urllib.parse.unquote(re.split(r"[?#]", u, 1)[0]).lstrip("/")).resolve()
+        if ROOT not in f.parents or not f.is_file():
+            errs.append("%s: image file not found: %s" % (p["_src"], u))
+    return errs
+
+
+def groups(posts):
+    """{id(post): [published posts with the same slug]} — one post in every language it exists in."""
+    by = {}
+    for p in posts:
+        by.setdefault(p["slug"], []).append(p)
+    return {id(p): by[p["slug"]] for p in posts}
+
+
+def check_translations(posts, all_posts, drafts_ok):
+    """Errors for translation groups (= posts sharing a slug): one post per language; `translation_of: <lang>` names a
+    ko/en version of the same slug that is published (not missing, not a hidden draft). Alias paths must be unique."""
+    errs = []
+    for g in {id(g): g for g in groups(posts).values()}.values():
+        langs = {}
+        for m in g:
+            if m["lang"] in langs:
+                errs.append("%s and %s are both lang %s of slug %r (one post per language)" % (m["_src"], langs[m["lang"]]["_src"], m["lang"], m["slug"]))
+            langs[m["lang"]] = m
+    for p in posts:
+        of = p.get("translation_of")
+        if not of:
+            continue
+        other = all_posts.get((p["slug"], of))
+        if other is None:
+            errs.append("%s: translation_of %s but there is no %s post with slug %r (content/journal/%s/%s.md)" % (p["_src"], of, of, p["slug"], of, p["slug"]))
+        elif other["draft"] and not drafts_ok:
+            errs.append("%s: translation_of %s refers to a draft (%s) — draft pages are not published" % (p["_src"], of, other["_src"]))
+    pages = {post_path(p) for p in posts} | {lang_path(l) for l in LANGS} | {"/journal/"}
+    seen = {}
+    for p in posts:
+        for al in p["_aliases"]:
+            if al in pages:
+                errs.append("%s: alias %s is a real page" % (p["_src"], al))
+            elif al in seen:
+                errs.append("%s: alias %s already used by %s" % (p["_src"], al, seen[al]))
+            seen[al] = p["_src"]
+    return errs
+
+
+def image_obj(rel, caption=None):
+    url = abs_url(rel)
+    wh = image_size(rel)
+    if not wh and not caption:
+        return url
+    o = {"@type": "ImageObject", "url": url}
+    if wh:
+        o["width"], o["height"] = wh
+    if caption:
+        o["caption"] = caption
+    return o
+
+
+def word_count(text, lang):
+    """words; ja/zh have no spaces between words -> count characters (excluding whitespace/punctuation) instead."""
+    if lang in ("ja", "zh"):
+        return len(re.findall(r"\w", text))
+    return len(text.split())
+
+
+def plain_text(html_body):
+    return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", html_body))).strip()
+
+
+def citations(p):
+    out, seen = [], set()
+    for t, u in p["_citations"]:
+        if u not in seen:
+            seen.add(u)
+            out.append({"@type": "CreativeWork", "name": t or u, "url": u})
+    for m in re.finditer(r'<a href="(https?://[^"]+)" rel="noopener">(.*?)</a>', p["_html"]):
+        u = html.unescape(m.group(1))
+        host = re.sub(r"^www\.", "", u.split("/")[2].lower())
+        if u in seen or any(host == h or host.endswith("." + h) for h in SOCIAL_HOSTS):
+            continue
+        seen.add(u)
+        out.append({"@type": "CreativeWork", "name": plain_text(m.group(2)) or u, "url": u})
+    return out
+
+
+def breadcrumb(lang, name, url, jurl=None):
+    t = ui(lang)
+    items = [("still()", lang_url(lang)), (t["journal"], jurl or SITE + lang_path(lang))] + ([(name, url)] if name else [])
+    return {"@context": "https://schema.org", "@type": "BreadcrumbList",
+            "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": n, "item": u} for i, (n, u) in enumerate(items)]}
+
+
+def pair_urls(p, grp):
+    """{hreflang: url} of the whole translation group (published members only) + x-default (en, else the original)."""
+    pair = {m["lang"]: post_url(m) for m in grp.get(id(p), [p])}
+    pair.setdefault(p["lang"], post_url(p))
+    default = pair.get("en") or pair.get("ko") or post_url(p)
+    return pair, default
+
+
+def alternates(p, grp):
+    """hreflang <link>s: every language of the group (incl. self) + x-default. Same set on every member -> always mutual."""
+    pair, default = pair_urls(p, grp)
+    rows = ['<link rel="alternate" hreflang="%s" href="%s">' % (esc(l), esc(u)) for l, u in sorted(pair.items())]
+    rows.append('<link rel="alternate" hreflang="x-default" href="%s">' % esc(default))
+    return "\n".join(rows) + "\n"
+
+
+def render_post(p, grp=None):
+    grp = grp or {}
+    members = grp.get(id(p), [p])
+    t = ui(p["lang"])
+    url = post_url(p)
+    hero = hero_image(p)
+    data = {
+        "@context": "https://schema.org", "@type": "BlogPosting",
+        "headline": p["title"], "description": p["description"],
+        "datePublished": p["_date"].isoformat(), "dateModified": p.get("updated") or p["_date"].isoformat(),
+        "inLanguage": p["lang"], "articleSection": p["category"],
+        "mainEntityOfPage": {"@type": "WebPage", "@id": url}, "url": url,
+        "image": image_obj(hero, p.get("image_alt")) if hero else SITE + "/og-image.png",
+        "wordCount": word_count(plain_text(p["_html"]), p["lang"]),
+        "author": dict(ORG), "publisher": dict(ORG),
+        "isPartOf": {"@type": "Blog", "name": "still() Journal", "url": SITE + lang_path(p["lang"])},
+    }
+    if p["_keywords"]:
+        data["keywords"] = ", ".join(p["_keywords"])
+    cites = citations(p)
+    if cites:
+        data["citation"] = cites
+    ref = lambda m: {"@type": "BlogPosting", "@id": post_url(m), "url": post_url(m), "headline": m["title"], "inLanguage": m["lang"]}
+    source = next((m for m in members if m["lang"] == p.get("translation_of")), None)
+    if source:
+        data["translationOfWork"] = ref(source)
+    derived = [ref(m) for m in members if m is not p and m.get("translation_of") == p["lang"]]
+    if derived:
+        data["workTranslation"] = derived[0] if len(derived) == 1 else derived
+    translated = bool(p.get("translation_of"))
+    if translated:
+        data["translator"] = dict(ORG, description="AI translation of the original post")
+    extra = ('<meta property="og:type" content="article">\n'
+             '<meta property="article:published_time" content="%s">\n'
+             '<meta property="article:modified_time" content="%s">\n'
+             '<meta property="article:section" content="%s">\n' % (p["_date"].isoformat(), p.get("updated") or p["_date"].isoformat(), esc(p["category"]))
+             + "".join('<meta property="article:tag" content="%s">\n' % esc(k) for k in p["_keywords"])
+             ) + ld(data) + ld(breadcrumb(p["lang"], p["title"], url))
+    draft = '<span class="draft-flag">DRAFT</span>' if p["draft"] else ""
+    ai_note = ""
+    if translated:
+        ai_note = '    <p class="ai-note"><span class="ai-badge">AI</span> %s%s</p>\n' % (
+            esc(t["ai_note"]),
+            (' <a href="%s" hreflang="%s" lang="%s">%s</a>' % (esc(post_path(source)), source["lang"], source["lang"], esc(t["ai_orig"] + " (" + LANGS[source["lang"]]["name"] + ")"))) if source else "")
+    pair, _ = pair_urls(p, grp)
+    return (head("%s — still() %s" % (p["title"], t["journal"]), p["description"], url, p["lang"], p["draft"], extra,
+                 image=abs_url(hero) if hero else None, alternates=alternates(p, grp),
+                 locales=[m["lang"] for m in members])
+            + header(p["lang"], {l: urllib.parse.urlsplit(u).path for l, u in pair.items()}) + f"""<main id="main" class="wrap">
+  <article class="article">
+    <header class="article-head">
+      <p class="eyebrow"><time datetime="{p['_date'].isoformat()}">{fmt_date(p['_date'])}</time> · {esc(p['category'])}{draft}</p>
+      <h1>{esc(p['title'])}</h1>
+      <p class="lede">{esc(p['description'])}</p>
+    </header>
+{render_notice(p['lang'])}{ai_note}    <div class="prose">
+{p['_html']}
+    </div>
+{render_safety(p)}    <nav class="article-foot" aria-label="{esc(t['journal'])}">
+      <a class="more-link" href="{jhome(p['lang'])}"><span aria-hidden="true">←</span> {esc(t['back'])}</a>
+    </nav>
+  </article>
+</main>
+""" + footer(p["lang"]))
+
+
+def list_pairs(list_langs):
+    """{hreflang: url} of the journal list pages that exist: /journal/<lang>/ for every language with a post."""
+    return {l: SITE + lang_path(l) for l in list_langs}
+
+
+def render_list(posts, lang=None, list_langs=("en",)):
+    """lang=None -> /journal/ (x-default hub: language select + the originals). lang=xx -> /journal/xx/ (that language only)."""
+    pages = list_pairs(list_langs)
+    loc = lang or "en"
+    t = ui(loc)
+    url = SITE + (lang_path(lang) if lang else "/journal/")
+    data = {"@context": "https://schema.org", "@type": "Blog", "name": "still() %s" % t["journal"], "url": url,
+            "publisher": dict(ORG), "inLanguage": sorted({p["lang"] for p in posts}) if not lang else lang,
+            "blogPost": [{"@type": "BlogPosting", "headline": p["title"], "url": post_url(p),
+                          "datePublished": p["_date"].isoformat(), "inLanguage": p["lang"]} for p in posts]}
+    itemlist = {"@context": "https://schema.org", "@type": "ItemList", "name": "still() %s" % t["journal"], "url": url,
+                "numberOfItems": len(posts), "itemListOrder": "https://schema.org/ItemListOrderDescending",
+                "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": post_url(p), "name": p["title"]}
+                                    for i, p in enumerate(posts)]}
+    if posts:
+        items = "\n".join(f"""      <li lang="{esc(p['lang'])}">
+        <p class="eyebrow"><time datetime="{p['_date'].isoformat()}">{fmt_date(p['_date'])}</time> · {esc(p['category'])}{' <span class="draft-flag">DRAFT</span>' if p['draft'] else ''}</p>
+        <h2><a href="{post_path(p)}">{esc(p['title'])}</a></h2>
+        <p>{esc(p['description'])}</p>
+        <a class="more-link" href="{post_path(p)}" aria-label="{esc(ui(p['lang'])['read_more'])}: {esc(p['title'])}"><span>{esc(ui(p['lang'])['read_more'])}</span> <span aria-hidden="true">→</span></a>
+      </li>""" for p in posts)
+        body = '    <ol class="j-list">\n%s\n    </ol>' % items
+    else:
+        body = f'    <div class="empty-note"><strong>{esc(t["empty"])}</strong></div>'
+    alts = "".join('<link rel="alternate" hreflang="%s" href="%s">\n' % (l, u) for l, u in sorted(pages.items()))
+    alts += '<link rel="alternate" hreflang="x-default" href="%s">\n' % (SITE + "/journal/")
+    return (head("%s — still()" % t["journal"], t["sub"], url, loc, not posts,
+                 ld(data) + ld(itemlist) + ld(breadcrumb(loc, None, url, SITE + "/journal/" if not lang else None)), alternates=alts, locales=list(pages))
+            + header(loc, {l: lang_path(l) for l in pages}, None if lang else (t['other_langs'], '/journal/')) + f"""<main id="main" class="wrap">
+  <div class="page-head">
+    <p class="eyebrow">still()</p>
+    <h1>{esc(t['journal'])}</h1>
+    <p class="lede">{esc(t['sub'])}</p>
+  </div>
+{body}
+  <p class="rss-line"><a class="more-link" href="/journal/feed.xml">RSS</a></p>
+</main>
+""" + footer(loc))
+
+
+def card_posts(lang, posts):
+    """journal cards on a home page: that language's posts; none yet -> the English originals (else Korean)."""
+    own = [p for p in posts if p["lang"] == lang]
+    return (own or [p for p in posts if p["lang"] == "en"] or [p for p in posts if p["lang"] == "ko"])[:3]
+
+
+def render_home_cards(posts):
+    if not posts:
+        return ""
+    cards = "\n".join(f"""      <article class="j-card" lang="{esc(p['lang'])}">
+        <p class="j-date"><time datetime="{p['_date'].isoformat()}">{fmt_date(p['_date'])}</time></p>
+        <h3><a href="{post_path(p)}">{esc(p['title'])}</a></h3>
+        <p>{esc(p['description'])}</p>
+        <a class="more-link" href="{post_path(p)}" aria-label="{esc(ui(p['lang'])['read_more'])}: {esc(p['title'])}"><span>{esc(ui(p['lang'])['read_more'])}</span> <span aria-hidden="true">→</span></a>
+      </article>""" for p in posts)
+    return '    <div class="journal-grid">\n%s\n    </div>' % cards
+
+
+def render_redirect(new_url):
+    """static redirect stub for a moved URL: canonical + meta refresh + visible link (no JS, no ?lang=)."""
+    u = esc(new_url)
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- {GEN_MARK} — redirect stub for a moved page -->
+<title>Moved — still()</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="canonical" href="{u}">
+<meta http-equiv="refresh" content="0; url={u}">
+<meta name="robots" content="noindex, follow">
+</head>
+<body>
+<p><a href="{u}">{u}</a></p>
+</body>
+</html>
+"""
+
+
+def sweep_generated(root, written):
+    """delete pages this script generated earlier (posts that are gone / now draft, dropped aliases) and empty dirs."""
+    base = root / "journal"
+    if not base.is_dir():
+        return
+    for idx in sorted(base.rglob("index.html")):
+        if idx not in written and GEN_MARK in idx.read_text(encoding="utf-8"):
+            idx.unlink()
+    for d in sorted((x for x in base.rglob("*") if x.is_dir()), key=lambda x: len(x.parts), reverse=True):
+        if not any(d.iterdir()):
+            d.rmdir()
+
+
+def rfc822(d):
+    return dt.datetime(d.year, d.month, d.day, 9, 0, tzinfo=KST).strftime("%a, %d %b %Y %H:%M:%S +0900")
+
+
+def render_feed(posts):
+    items = "\n".join(f"""    <item>
+      <title>{esc(p['title'])}</title>
+      <link>{post_url(p)}</link>
+      <guid isPermaLink="true">{post_url(p)}</guid>
+      <pubDate>{rfc822(p['_date'])}</pubDate>
+      <category>{esc(p['category'])}</category>
+      <description>{esc(p['description'])}</description>
+    </item>""" for p in posts)
+    last = rfc822(posts[0]["_date"]) if posts else rfc822(dt.date(2026, 10, 22))
+    return f"""<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>still() Journal</title>
+    <link>{SITE}/journal/</link>
+    <atom:link href="{SITE}/journal/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>{esc(UI['en']['sub'])}</description>
+    <language>en</language>
+    <lastBuildDate>{last}</lastBuildDate>
+{items}
+  </channel>
+</rss>
+"""
+
+
+def render_sitemap_block(posts, grp, list_langs):
+    if not posts:
+        return ""
+    xl = lambda pairs, default: "".join('    <xhtml:link rel="alternate" hreflang="%s" href="%s"/>\n' % (l, u) for l, u in sorted(pairs.items())) \
+        + '    <xhtml:link rel="alternate" hreflang="x-default" href="%s"/>\n' % default
+    pages = list_pairs(list_langs)
+    hub = SITE + "/journal/"
+    last = lambda ps: max(p.get("updated") or p["_date"].isoformat() for p in ps)
+    rows = ["  <url>\n    <loc>%s</loc>\n    <lastmod>%s</lastmod>\n    <changefreq>daily</changefreq>\n    <priority>0.6</priority>\n%s  </url>"
+            % (hub, last(posts), xl(pages, hub))]
+    for l in list_langs:  # only languages that have at least one post
+        ps = [p for p in posts if p["lang"] == l]
+        rows.append("  <url>\n    <loc>%s%s</loc>\n    <lastmod>%s</lastmod>\n    <priority>0.4</priority>\n%s  </url>"
+                    % (SITE, lang_path(l), last(ps), xl(pages, hub)))
+    for p in posts:
+        pair, default = pair_urls(p, grp)
+        links = xl(pair, default)
+        imgs = body_images(p) or ["/og-image.png"]
+        imgs = "".join("    <image:image>\n      <image:loc>%s</image:loc>\n    </image:image>\n" % esc(abs_url(u)) for u in imgs)
+        rows.append("  <url>\n    <loc>%s</loc>\n    <lastmod>%s</lastmod>\n    <priority>0.5</priority>\n%s%s  </url>"
+                    % (post_url(p), (p.get("updated") or p["_date"].isoformat()), links, imgs))
+    return "\n".join(rows) + "\n"
+
+
+def render_llms_block(posts):
+    if not posts:
+        return ""
+    lines = ["## Journal", "%s Feed: %s/journal/feed.xml · Index: %s/journal/ · Every post exists at /journal/<lang>/<slug>/ in each language listed below. "
+             "These are stories, not medical advice, and they do not replace professional care; each page lists crisis lines." % (UI["en"]["sub"], SITE, SITE)]
+    for l in LANGS:  # one section per language that has posts
+        ps = [p for p in posts if p["lang"] == l]
+        if ps:
+            lines += ["", "### Journal — %s (%s) · Index: %s%s" % (LANGS[l]["name"], l, SITE, lang_path(l)), ""]
+            lines += ["- [%s](%s) — %s (%s, %s%s)" % (p["title"], post_url(p), p["description"], l, p["_date"].isoformat(), ", AI translation" if p.get("translation_of") else "") for p in ps]
+    return "\n".join(lines) + "\n"
+
+
+# ---------------------------------------------------------------- sources
+def read_posts(root, drafts):
+    """-> (published posts [with _html], all posts {(slug, lang): post}, errors). Drafts are skipped unless `drafts`."""
+    src = root / "content" / "journal"
+    posts, errors, all_posts = [], [], {}
+    files = sorted(src.glob("*/*.md")) if src.is_dir() else []
+    for f in (sorted(src.glob("*.md")) if src.is_dir() else []):
+        if f.name.lower() != "readme.md":
+            errors.append("%s: move to content/journal/<lang>/%s (one folder per language, ko and en included)" % (f.name, f.name))
+    for f in files:
+        if f.name.lower() == "readme.md":
+            continue
+        name = str(f.relative_to(src))
+        try:
+            p = parse_post(f)
+            p["_src"] = name
+            if f.parent.name != p["lang"]:
+                raise ValueError("file is in %s/ but lang is %s" % (f.parent.name, p["lang"]))
+            if f.stem != p["slug"]:
+                raise ValueError("file name must be <slug>.md (slug is %r)" % p["slug"])
+        except ValueError as ex:
+            errors.append("%s: %s" % (name, ex))
+            continue
+        all_posts[(p["slug"], p["lang"])] = p
+        if p["draft"] and not drafts:
+            continue
+        p["_html"] = markdown(p["_body"])
+        posts.append(p)
+    return posts, all_posts, errors
+
+
+def expected_sitemap_urls(root):
+    """URLs check_sitemap.py requires in sitemap.xml for the journal (published = non-draft posts). May raise ValueError."""
+    root = Path(root)
+    global ROOT
+    ROOT = root
+    posts, _, errors = read_posts(root, drafts=False)
+    if errors:
+        raise ValueError("; ".join(errors))
+    want = {SITE + "/journal/"} if posts else set()
+    for p in posts:
+        want.add(post_url(p))
+        want.add(SITE + lang_path(p["lang"]))
+    return want
+
+
+def build(root, drafts=False, strict_safety=False, check_only=False):
+    """validate everything and (unless check_only) write the site. Returns (exit code, message)."""
+    global ROOT, LIST_LANGS
+    ROOT = root
+    errors = load_data(root)
+    if errors:
+        return 1, "journal: errors\n  " + "\n  ".join(errors)
+    posts, all_posts, errors = read_posts(root, drafts)
+    if not errors:
+        errors += check_translations(posts, all_posts, drafts)
+        for p in posts:
+            errors += check_post_images(p)
+    if strict_safety:
+        errors += strict_safety_errors({p["lang"] for p in posts})
+    if errors:
+        return 1, "journal: errors\n  " + "\n  ".join(errors)
+    posts.sort(key=lambda p: (p["_date"], p["slug"], p["lang"]), reverse=True)
+    grp = groups(posts)
+    originals = [p for p in posts if not p.get("translation_of")]
+    list_langs = [l for l in LANGS if any(p["lang"] == l for p in posts)]
+    LIST_LANGS = set(list_langs)
+    if check_only:
+        return 0, "journal: OK — %d post(s) ready%s" % (len(posts), " (incl. drafts)" if drafts else "")
+
+    out = root / "journal"
+    out.mkdir(exist_ok=True)
+    written = set()
+
+    def write(path, text):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(text, encoding="utf-8")
+        written.add(path)
+
+    for p in posts:
+        write(root / post_path(p).strip("/") / "index.html", render_post(p, grp))
+        for al in p["_aliases"]:  # old URL -> static redirect stub to the new address
+            write(root / al.strip("/") / "index.html", render_redirect(post_url(p)))
+    write(out / "index.html", render_list(originals, None, list_langs))
+    for l in list_langs:
+        write(root / lang_path(l).strip("/") / "index.html", render_list([p for p in posts if p["lang"] == l], l, list_langs))
+    write(out / "feed.xml", render_feed(originals))
+    sweep_generated(root, written)
+
+    sm = root / "sitemap.xml"
+    sm_xml = replace_between(sm.read_text(encoding="utf-8"), r"<!-- journal:start[^>]*-->",
+                             "  <!-- journal:end -->", render_sitemap_block(posts, grp, list_langs), "sitemap.xml")
+    if "xmlns:image=" not in sm_xml:
+        sm_xml = sm_xml.replace("<urlset ", '<urlset xmlns:image="%s"\n        ' % IMG_NS, 1)
+    sm.write_text(sm_xml, encoding="utf-8")
+    llms = root / "llms.txt"
+    llms.write_text(replace_between(llms.read_text(encoding="utf-8"), r"<!-- journal:llms:start[^>]*-->",
+                                    "<!-- journal:llms:end -->", render_llms_block(posts), "llms.txt"), encoding="utf-8")
+    import build_home  # home page: 11 static language pages + their sitemap/llms blocks
+    build_home.build(root, {l: render_home_cards(card_posts(l, posts)) for l in LANGS}, {l: jhome(l) for l in LANGS},
+                     max([p.get("updated") or p["_date"].isoformat() for p in posts], default=None))
+    return 0, "journal: built %d post(s)%s → %s" % (len(posts), " (incl. drafts)" if drafts else "", out)
+
+
+# ---------------------------------------------------------------- main
+def main():
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--root", default=str(Path(__file__).resolve().parent.parent), help="site root (default: this repo)")
+    ap.add_argument("--drafts", action="store_true", help="include draft posts (preview only — never commit the result)")
+    ap.add_argument("--check", action="store_true", help="validate posts + safety data and require the committed output to be up to date; write nothing")
+    ap.add_argument("--strict-safety", action="store_true",
+                    help="fail while a language with published posts still has draft (unreviewed) crisis-line data — the deploy gate")
+    a = ap.parse_args()
+    root = Path(a.root).resolve()
+    if a.check:
+        code, msg = build(root, a.drafts, a.strict_safety, check_only=True)
+        if code == 0 and not a.drafts:
+            diffs = check_fresh(root, lambda r: build(r, False, False))
+            if diffs:
+                code, msg = 1, "journal: out of date — run python3 scripts/build_journal.py\n  " + "\n  ".join(diffs)
+    else:
+        code, msg = build(root, a.drafts, a.strict_safety)
+    print(msg, file=sys.stderr if code else sys.stdout)
+    return code
+
+
+if __name__ == "__main__":
+    sys.exit(main())

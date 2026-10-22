@@ -1,0 +1,153 @@
+{
+ "_readme": [
+  "The fixed safety block printed on EVERY journal article, in the article's own language (scripts/build_journal.py reads only this file for it).",
+  "text.<lang>: disclaimer / creative-work notice / crisis-box wording. Native review required for every language (CRISIS_PROTOCOL D4). No Scripture, no prayer language in the crisis box.",
+  "lines.<lang>: crisis lines shown in that language's articles. status = draft | verified. A line list may be EMPTY: the box then shows only the worldwide directory link (CRISIS_PROTOCOL D2).",
+  "Numbers below are placeholders from CRISIS_PROTOCOL §2.3 (draft table) and the F-001 web brief — NOT verified. `build_journal.py --check --strict-safety` fails while any language with a published post is still `draft`.",
+  "To verify: confirm each number/hours with the operator, set status to verified, fill reviewed_by / reviewed_on. Item fields: name, number (as displayed), tel (digits for the tap-to-call link; omit when the number is not dialable as written), hours (optional)."
+ ],
+ "text": {
+  "en": {
+   "fiction": "This is a story woven from the experiences of many people. It is not about any one real person or event.",
+   "disclaimer": "This article is not medical advice and does not replace a doctor's visit, diagnosis, or treatment.",
+   "jump": "Need support right now?",
+   "help_title": "If you are struggling right now",
+   "help_intro": "You don't have to carry this alone. If you are thinking of harming yourself or are in immediate danger, contact your local emergency number or a crisis line now, or reach out to someone you trust.",
+   "fallback": "Somewhere else? Find a free helpline in your country:",
+   "bible_label": "Bible quotations:"
+  },
+  "ko": {
+   "fiction": "여러 사람의 경험을 엮어 쓴 이야기입니다. 특정한 실제 인물이나 사건이 아닙니다.",
+   "disclaimer": "이 글은 의료 조언이 아니며, 진료·진단·치료를 대신하지 않습니다.",
+   "jump": "지금 도움이 필요하세요?",
+   "help_title": "지금 많이 힘드시다면",
+   "help_intro": "혼자 견디지 않아도 돼요. 스스로를 해치고 싶은 생각이 들거나 위급한 상황이라면, 지금 바로 가까운 응급 연락처나 아래 위기 상담 전화에 연락하거나 믿을 수 있는 사람에게 알려 주세요.",
+   "fallback": "다른 나라에 계신가요? 거주 국가의 무료 상담 전화를 찾아보세요:",
+   "bible_label": "성경 인용:"
+  },
+  "ja": {
+   "fiction": "この記事は、多くの人の経験を織り合わせて書いた物語です。特定の実在の人物や出来事ではありません。",
+   "disclaimer": "この記事は医療上の助言ではなく、診察・診断・治療に代わるものではありません。",
+   "jump": "いま支えが必要ですか？",
+   "help_title": "いまとてもつらいときは",
+   "help_intro": "ひとりで抱え込まなくて大丈夫です。自分を傷つけたい気持ちがあるとき、または身の危険があるときは、いますぐお住まいの地域の緊急連絡先や相談窓口に連絡するか、信頼できる人に打ち明けてください。",
+   "fallback": "ほかの国にいますか？お住まいの国の無料相談窓口を探せます：",
+   "bible_label": "聖書の引用："
+  },
+  "zh": {
+   "fiction": "这是一个由许多人的经历编织而成的故事，并非讲述某一位真实的人或事件。",
+   "disclaimer": "本文不构成医疗建议，也不能替代就诊、诊断或治疗。",
+   "jump": "现在需要帮助吗？",
+   "help_title": "如果你此刻正很难受",
+   "help_intro": "你不必独自承受。如果你有伤害自己的念头，或处于紧急危险中，请立即联系当地紧急电话或心理危机热线，也可以告诉你信任的人。",
+   "fallback": "在其他国家或地区？可以查找当地的免费求助热线：",
+   "bible_label": "圣经引文："
+  },
+  "es": {
+   "fiction": "Es una historia tejida con las experiencias de muchas personas. No trata de una persona ni de un hecho real concretos.",
+   "disclaimer": "Este artículo no es un consejo médico y no sustituye la consulta, el diagnóstico ni el tratamiento profesional.",
+   "jump": "¿Necesitas apoyo ahora mismo?",
+   "help_title": "Si estás pasando por un momento muy difícil",
+   "help_intro": "No tienes que cargar con esto a solas. Si piensas en hacerte daño o estás en peligro inmediato, llama ahora al número de emergencias de tu país o a una línea de crisis, o habla con alguien de confianza.",
+   "fallback": "¿En otro lugar? Encuentra una línea de ayuda gratuita en tu país:",
+   "bible_label": "Citas bíblicas:"
+  },
+  "pt": {
+   "fiction": "É uma história tecida com as experiências de muitas pessoas. Não trata de uma pessoa nem de um fato real específico.",
+   "disclaimer": "Este artigo não é aconselhamento médico e não substitui consulta, diagnóstico ou tratamento profissional.",
+   "jump": "Precisa de apoio agora?",
+   "help_title": "Se você está passando por um momento muito difícil",
+   "help_intro": "Você não precisa carregar isso sozinho(a). Se estiver pensando em se machucar ou estiver em perigo imediato, ligue agora para o número de emergência do seu país ou para um serviço de apoio em crise, ou procure alguém de confiança.",
+   "fallback": "Em outro lugar? Encontre uma linha de ajuda gratuita no seu país:",
+   "bible_label": "Citações bíblicas:"
+  },
+  "id": {
+   "fiction": "Ini cerita yang dirangkai dari pengalaman banyak orang. Bukan tentang satu orang atau peristiwa nyata tertentu.",
+   "disclaimer": "Tulisan ini bukan nasihat medis dan tidak menggantikan konsultasi, diagnosis, atau pengobatan oleh tenaga profesional.",
+   "jump": "Butuh dukungan sekarang?",
+   "help_title": "Jika kamu sedang sangat kesulitan",
+   "help_intro": "Kamu tidak harus menanggung ini sendirian. Jika kamu terpikir untuk melukai diri sendiri atau berada dalam bahaya, segera hubungi nomor darurat setempat atau layanan krisis, atau bicaralah dengan orang yang kamu percaya.",
+   "fallback": "Berada di tempat lain? Temukan layanan bantuan gratis di negaramu:",
+   "bible_label": "Kutipan Alkitab:"
+  },
+  "ru": {
+   "fiction": "Это история, сплетённая из опыта многих людей. Она не о конкретном реальном человеке или событии.",
+   "disclaimer": "Эта статья не является медицинской рекомендацией и не заменяет приём у врача, диагностику или лечение.",
+   "jump": "Нужна поддержка прямо сейчас?",
+   "help_title": "Если вам сейчас очень тяжело",
+   "help_intro": "Вам не нужно справляться с этим в одиночку. Если у вас есть мысли причинить себе вред или вы в опасности, немедленно позвоните по номеру экстренной помощи в вашей стране или на линию помощи в кризисе либо обратитесь к близкому человеку.",
+   "fallback": "Находитесь в другой стране? Найдите бесплатную линию помощи:",
+   "bible_label": "Цитаты из Библии:"
+  },
+  "vi": {
+   "fiction": "Đây là câu chuyện được kết từ trải nghiệm của nhiều người. Không nói về một người hay sự việc có thật cụ thể nào.",
+   "disclaimer": "Bài viết này không phải lời khuyên y tế và không thay thế việc thăm khám, chẩn đoán hay điều trị.",
+   "jump": "Bạn cần được hỗ trợ ngay bây giờ?",
+   "help_title": "Nếu bạn đang rất khó khăn",
+   "help_intro": "Bạn không phải gánh chịu một mình. Nếu bạn nghĩ đến việc làm hại bản thân hoặc đang gặp nguy hiểm, hãy gọi ngay số khẩn cấp ở nơi bạn sống hoặc một đường dây hỗ trợ khủng hoảng, hay nói với người bạn tin tưởng.",
+   "fallback": "Ở quốc gia khác? Tìm đường dây hỗ trợ miễn phí tại nước bạn:",
+   "bible_label": "Trích dẫn Kinh Thánh:"
+  },
+  "fr": {
+   "fiction": "C'est une histoire tissée à partir des expériences de nombreuses personnes. Elle ne parle d'aucune personne ni d'aucun événement réel en particulier.",
+   "disclaimer": "Cet article ne constitue pas un avis médical et ne remplace ni une consultation, ni un diagnostic, ni un traitement.",
+   "jump": "Besoin de soutien maintenant ?",
+   "help_title": "Si vous traversez un moment très difficile",
+   "help_intro": "Vous n'avez pas à porter cela seul(e). Si vous pensez à vous faire du mal ou si vous êtes en danger immédiat, appelez dès maintenant le numéro d'urgence de votre pays ou une ligne d'écoute de crise, ou parlez à une personne de confiance.",
+   "fallback": "Dans un autre pays ? Trouvez une ligne d'aide gratuite près de chez vous :",
+   "bible_label": "Citations bibliques :"
+  },
+  "de": {
+   "fiction": "Dies ist eine Geschichte, die aus den Erfahrungen vieler Menschen gewoben ist. Sie handelt nicht von einer bestimmten realen Person oder einem bestimmten Ereignis.",
+   "disclaimer": "Dieser Beitrag ist keine medizinische Beratung und ersetzt weder Arztbesuch noch Diagnose oder Behandlung.",
+   "jump": "Brauchst du jetzt Unterstützung?",
+   "help_title": "Wenn es dir gerade sehr schlecht geht",
+   "help_intro": "Du musst das nicht allein tragen. Wenn du daran denkst, dir etwas anzutun, oder in akuter Gefahr bist, wähle jetzt den Notruf deines Landes oder eine Krisenhotline – oder sprich mit einem Menschen, dem du vertraust.",
+   "fallback": "In einem anderen Land? Finde eine kostenlose Hilfe-Hotline in deinem Land:",
+   "bible_label": "Bibelzitate:"
+  }
+ },
+ "lines": {
+  "en": {
+   "status": "draft",
+   "regions": [
+    {"country": "United States", "items": [{"name": "988 Suicide & Crisis Lifeline (call or text)", "number": "988", "tel": "988"}]},
+    {"country": "United Kingdom", "items": [{"name": "Samaritans", "number": "116 123", "tel": "116123"}]}
+   ]
+  },
+  "ko": {
+   "status": "draft",
+   "regions": [
+    {"country": "대한민국", "items": [
+     {"name": "자살예방상담전화", "number": "109", "tel": "109", "hours": "24시간"},
+     {"name": "정신건강위기상담전화", "number": "1577-0199", "tel": "15770199"}
+    ]}
+   ]
+  },
+  "ja": {"status": "draft", "regions": []},
+  "zh": {"status": "draft", "regions": []},
+  "es": {
+   "status": "draft",
+   "regions": [
+    {"country": "España", "items": [{"name": "Línea de atención a la conducta suicida", "number": "024", "tel": "024"}]},
+    {"country": "México", "items": [{"name": "Línea de la Vida", "number": "800 911 2000", "tel": "8009112000"}]}
+   ]
+  },
+  "pt": {
+   "status": "draft",
+   "regions": [
+    {"country": "Brasil", "items": [{"name": "CVV — Centro de Valorização da Vida", "number": "188", "tel": "188", "hours": "24h"}]}
+   ]
+  },
+  "id": {
+   "status": "draft",
+   "regions": [
+    {"country": "Indonesia", "items": [{"name": "Kemenkes — layanan kesehatan jiwa", "number": "119 ext. 8"}]}
+   ]
+  },
+  "ru": {"status": "draft", "regions": []},
+  "vi": {"status": "draft", "regions": []},
+  "fr": {"status": "draft", "regions": []},
+  "de": {"status": "draft", "regions": []}
+ }
+}
