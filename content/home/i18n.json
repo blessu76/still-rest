@@ -69,7 +69,16 @@
   "journal_eyebrow": "Journal",
   "journal_h2": "Quiet stories for the hard days.",
   "journal_lede": "For anyone carrying depression, panic, or a heavy season at work. A few minutes of company — not treatment.",
-  "journal_all": "All stories"
+  "journal_all": "All stories",
+  "aria_lang": "Language",
+  "aria_verse_card": "Example verse card",
+  "aria_save": "Save this verse",
+  "aria_listen": "Listen with calm music",
+  "aria_email": "Email address",
+  "aria_footer": "Footer",
+  "aria_close": "Close",
+  "og_image_alt": "still() — the Bible for hard days. Psalm 46:10.",
+  "ld_desc": "A private, on-device AI companion for Christians. Tell it what you're going through and it returns a comforting Bible verse, a gentle explanation of what it means, and calm ipe lofi music to rest with. Everything runs on-device — nothing you type leaves your phone. Rooted in Psalm 46:10, \"Be still, and know that I am God.\""
  },
  "ko": {
   "meta_title": "still() — 고요히. 힘든 날을 위한 성경.",
@@ -139,7 +148,15 @@
   "journal_eyebrow": "저널",
   "journal_h2": "힘든 날을 위한 조용한 이야기.",
   "journal_lede": "우울과 공황, 버거운 직장의 계절을 지나는 모든 분께. 치료가 아니라, 잠시 곁에 앉아 있는 시간입니다.",
-  "journal_all": "전체 보기"
+  "journal_all": "전체 보기",
+  "aria_lang": "언어",
+  "aria_verse_card": "예시 구절 카드",
+  "aria_save": "이 구절 저장",
+  "aria_listen": "잔잔한 음악과 함께 듣기",
+  "aria_email": "이메일 주소",
+  "aria_footer": "푸터 메뉴",
+  "aria_close": "닫기",
+  "og_image_alt": "still() — 힘든 날을 위한 성경. 시편 46:10."
  },
  "ja": {
   "meta_title": "still() — 静まれ。つらい日のための聖書。",
@@ -209,7 +226,15 @@
   "journal_eyebrow": "ジャーナル",
   "journal_h2": "つらい日のための、静かな物語。",
   "journal_lede": "うつやパニック、重たい仕事の季節を抱えるすべての人へ。治療ではなく、少しのあいだそばにいる時間です。",
-  "journal_all": "すべて見る"
+  "journal_all": "すべて見る",
+  "aria_lang": "言語",
+  "aria_verse_card": "聖句カードの例",
+  "aria_save": "この聖句を保存",
+  "aria_listen": "穏やかな音楽と一緒に聴く",
+  "aria_email": "メールアドレス",
+  "aria_footer": "フッターメニュー",
+  "aria_close": "閉じる",
+  "og_image_alt": "still() — つらい日のための聖書。詩篇46:10。"
  },
  "zh": {
   "meta_title": "still() — 安静。为艰难日子而生的圣经。",
@@ -279,7 +304,15 @@
   "journal_eyebrow": "日志",
   "journal_h2": "写给艰难日子的安静故事。",
   "journal_lede": "写给正经历抑郁、惊恐，或职场艰难时期的每一个人。不是治疗，只是陪你坐一会儿。",
-  "journal_all": "查看全部"
+  "journal_all": "查看全部",
+  "aria_lang": "语言",
+  "aria_verse_card": "经文卡片示例",
+  "aria_save": "保存这节经文",
+  "aria_listen": "伴着舒缓的音乐聆听",
+  "aria_email": "电子邮件地址",
+  "aria_footer": "页脚菜单",
+  "aria_close": "关闭",
+  "og_image_alt": "still() — 写给艰难日子的圣经。诗篇46:10。"
  },
  "es": {
   "meta_title": "still() — Aquiétate. Una Biblia para los días difíciles.",
@@ -349,7 +382,15 @@
   "journal_eyebrow": "Diario",
   "journal_h2": "Historias tranquilas para los días difíciles.",
   "journal_lede": "Para quien lleva consigo la depresión, el pánico o una temporada pesada en el trabajo. Unos minutos de compañía, no un tratamiento.",
-  "journal_all": "Ver todas"
+  "journal_all": "Ver todas",
+  "aria_lang": "Idioma",
+  "aria_verse_card": "Ejemplo de tarjeta de versículo",
+  "aria_save": "Guardar este versículo",
+  "aria_listen": "Escuchar con música tranquila",
+  "aria_email": "Correo electrónico",
+  "aria_footer": "Pie de página",
+  "aria_close": "Cerrar",
+  "og_image_alt": "still() — la Biblia para los días difíciles. Salmo 46:10."
  },
  "pt": {
   "meta_title": "still() — Aquieta-te. Uma Bíblia para os dias difíceis.",
@@ -419,7 +460,15 @@
   "journal_eyebrow": "Diário",
   "journal_h2": "Histórias tranquilas para os dias difíceis.",
   "journal_lede": "Para quem carrega depressão, pânico ou uma fase pesada no trabalho. Alguns minutos de companhia — não um tratamento.",
-  "journal_all": "Ver todas"
+  "journal_all": "Ver todas",
+  "aria_lang": "Idioma",
+  "aria_verse_card": "Exemplo de cartão de versículo",
+  "aria_save": "Salvar este versículo",
+  "aria_listen": "Ouvir com música calma",
+  "aria_email": "Endereço de e-mail",
+  "aria_footer": "Rodapé",
+  "aria_close": "Fechar",
+  "og_image_alt": "still() — a Bíblia para os dias difíceis. Salmo 46:10."
  },
  "id": {
   "meta_title": "still() — Berdiam dirilah. Alkitab untuk hari-hari yang berat.",
@@ -489,7 +538,15 @@
   "journal_eyebrow": "Jurnal",
   "journal_h2": "Cerita tenang untuk hari-hari yang berat.",
   "journal_lede": "Untuk siapa pun yang sedang memikul depresi, panik, atau masa berat di tempat kerja. Beberapa menit untuk ditemani — bukan pengobatan.",
-  "journal_all": "Lihat semua"
+  "journal_all": "Lihat semua",
+  "aria_lang": "Bahasa",
+  "aria_verse_card": "Contoh kartu ayat",
+  "aria_save": "Simpan ayat ini",
+  "aria_listen": "Dengarkan dengan musik yang tenang",
+  "aria_email": "Alamat email",
+  "aria_footer": "Menu kaki halaman",
+  "aria_close": "Tutup",
+  "og_image_alt": "still() — Alkitab untuk hari-hari yang berat. Mazmur 46:10."
  },
  "ru": {
   "meta_title": "still() — Остановись. Библия для трудных дней.",
@@ -559,7 +616,15 @@
   "journal_eyebrow": "Журнал",
   "journal_h2": "Тихие истории для трудных дней.",
   "journal_lede": "Для всех, кто несёт депрессию, панику или тяжёлый период на работе. Несколько минут рядом — не лечение.",
-  "journal_all": "Показать все"
+  "journal_all": "Показать все",
+  "aria_lang": "Язык",
+  "aria_verse_card": "Пример карточки со стихом",
+  "aria_save": "Сохранить этот стих",
+  "aria_listen": "Слушать под спокойную музыку",
+  "aria_email": "Адрес электронной почты",
+  "aria_footer": "Нижнее меню",
+  "aria_close": "Закрыть",
+  "og_image_alt": "still() — Библия для трудных дней. Псалом 45:11."
  },
  "vi": {
   "meta_title": "still() — Hãy lặng yên. Một cuốn Kinh Thánh cho những ngày nặng nề.",
@@ -629,7 +694,15 @@
   "journal_eyebrow": "Nhật ký",
   "journal_h2": "Những câu chuyện lặng lẽ cho những ngày khó khăn.",
   "journal_lede": "Dành cho bất kỳ ai đang mang theo trầm cảm, hoảng loạn hay một giai đoạn nặng nề ở nơi làm việc. Vài phút bên cạnh — không phải điều trị.",
-  "journal_all": "Xem tất cả"
+  "journal_all": "Xem tất cả",
+  "aria_lang": "Ngôn ngữ",
+  "aria_verse_card": "Thẻ câu Kinh Thánh minh họa",
+  "aria_save": "Lưu câu này",
+  "aria_listen": "Nghe cùng nhạc êm dịu",
+  "aria_email": "Địa chỉ email",
+  "aria_footer": "Menu chân trang",
+  "aria_close": "Đóng",
+  "og_image_alt": "still() — Kinh Thánh cho những ngày khó khăn. Thi Thiên 46:10."
  },
  "fr": {
   "meta_title": "still() — Sois tranquille. Une Bible pour les jours difficiles.",
@@ -699,7 +772,15 @@
   "journal_eyebrow": "Journal",
   "journal_h2": "Des histoires calmes pour les jours difficiles.",
   "journal_lede": "Pour toute personne qui traverse la dépression, la panique ou une saison pesante au travail. Quelques minutes de compagnie — pas un traitement.",
-  "journal_all": "Tout voir"
+  "journal_all": "Tout voir",
+  "aria_lang": "Langue",
+  "aria_verse_card": "Exemple de carte de verset",
+  "aria_save": "Enregistrer ce verset",
+  "aria_listen": "Écouter avec une musique apaisante",
+  "aria_email": "Adresse e-mail",
+  "aria_footer": "Pied de page",
+  "aria_close": "Fermer",
+  "og_image_alt": "still() — la Bible pour les jours difficiles. Psaume 46:10."
  },
  "de": {
   "meta_title": "still() — Sei still. Eine Bibel für schwere Tage.",
@@ -769,6 +850,14 @@
   "journal_eyebrow": "Journal",
   "journal_h2": "Leise Geschichten für schwere Tage.",
   "journal_lede": "Für alle, die Depression, Panik oder eine schwere Zeit im Job tragen. Ein paar Minuten Gesellschaft – keine Behandlung.",
-  "journal_all": "Alle ansehen"
+  "journal_all": "Alle ansehen",
+  "aria_lang": "Sprache",
+  "aria_verse_card": "Beispiel einer Versekarte",
+  "aria_save": "Diesen Vers speichern",
+  "aria_listen": "Mit ruhiger Musik anhören",
+  "aria_email": "E-Mail-Adresse",
+  "aria_footer": "Fußbereich",
+  "aria_close": "Schließen",
+  "og_image_alt": "still() — die Bibel für schwere Tage. Psalm 46,10."
  }
 }

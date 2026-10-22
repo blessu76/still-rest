@@ -11,7 +11,9 @@
   "rss": "RSS feed",
   "ai_note": "This article was translated by AI.",
   "ai_orig": "Read the original",
-  "other_langs": "Language"
+  "other_langs": "Language",
+  "aria_home": "still() home",
+  "aria_primary": "Primary"
  },
  "ko": {
   "journal": "저널",
@@ -24,7 +26,9 @@
   "rss": "RSS 피드",
   "ai_note": "이 글은 AI가 번역했습니다.",
   "ai_orig": "원문 보기",
-  "other_langs": "언어"
+  "other_langs": "언어",
+  "aria_home": "still() 홈",
+  "aria_primary": "주요 메뉴"
  },
  "ja": {
   "journal": "ジャーナル",
@@ -37,7 +41,9 @@
   "rss": "RSSフィード",
   "ai_note": "この記事はAIによる翻訳です。",
   "ai_orig": "原文を読む",
-  "other_langs": "言語"
+  "other_langs": "言語",
+  "aria_home": "still() ホーム",
+  "aria_primary": "メインメニュー"
  },
  "zh": {
   "journal": "日志",
@@ -50,7 +56,9 @@
   "rss": "RSS 订阅",
   "ai_note": "本文由 AI 翻译。",
   "ai_orig": "阅读原文",
-  "other_langs": "语言"
+  "other_langs": "语言",
+  "aria_home": "still() 首页",
+  "aria_primary": "主导航"
  },
  "es": {
   "journal": "Diario",
@@ -63,7 +71,9 @@
   "rss": "Feed RSS",
   "ai_note": "Este artículo es una traducción hecha con IA.",
   "ai_orig": "Leer el original",
-  "other_langs": "Idioma"
+  "other_langs": "Idioma",
+  "aria_home": "Inicio de still()",
+  "aria_primary": "Principal"
  },
  "pt": {
   "journal": "Diário",
@@ -76,7 +86,9 @@
   "rss": "Feed RSS",
   "ai_note": "Este artigo é uma tradução feita por IA.",
   "ai_orig": "Ler o original",
-  "other_langs": "Idioma"
+  "other_langs": "Idioma",
+  "aria_home": "Início do still()",
+  "aria_primary": "Principal"
  },
  "id": {
   "journal": "Jurnal",
@@ -89,7 +101,9 @@
   "rss": "Feed RSS",
   "ai_note": "Artikel ini diterjemahkan oleh AI.",
   "ai_orig": "Baca versi asli",
-  "other_langs": "Bahasa"
+  "other_langs": "Bahasa",
+  "aria_home": "Beranda still()",
+  "aria_primary": "Utama"
  },
  "ru": {
   "journal": "Журнал",
@@ -102,7 +116,9 @@
   "rss": "RSS-лента",
   "ai_note": "Эта статья переведена с помощью ИИ.",
   "ai_orig": "Читать оригинал",
-  "other_langs": "Язык"
+  "other_langs": "Язык",
+  "aria_home": "still() — главная",
+  "aria_primary": "Основное меню"
  },
  "vi": {
   "journal": "Nhật ký",
@@ -115,7 +131,9 @@
   "rss": "Nguồn cấp RSS",
   "ai_note": "Bài viết này do AI dịch.",
   "ai_orig": "Đọc bản gốc",
-  "other_langs": "Ngôn ngữ"
+  "other_langs": "Ngôn ngữ",
+  "aria_home": "Trang chủ still()",
+  "aria_primary": "Menu chính"
  },
  "fr": {
   "journal": "Journal",
@@ -128,7 +146,9 @@
   "rss": "Flux RSS",
   "ai_note": "Cet article est une traduction réalisée par IA.",
   "ai_orig": "Lire l'original",
-  "other_langs": "Langue"
+  "other_langs": "Langue",
+  "aria_home": "Accueil de still()",
+  "aria_primary": "Principal"
  },
  "de": {
   "journal": "Journal",
@@ -141,6 +161,8 @@
   "rss": "RSS-Feed",
   "ai_note": "Dieser Beitrag ist eine KI-Übersetzung.",
   "ai_orig": "Original lesen",
-  "other_langs": "Sprache"
+  "other_langs": "Sprache",
+  "aria_home": "still() Startseite",
+  "aria_primary": "Hauptmenü"
  }
 }

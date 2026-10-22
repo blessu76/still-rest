@@ -60,7 +60,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from site_common import GEN_MARK, LANGS, SITE, check_fresh, esc, lang_url, replace_between  # noqa: E402
 
-ASSET_V = "20261022"  # ?v= of assets/journal.css — bump when the file changes
+ASSET_V = "20261023"  # ?v= of assets/journal.css — bump when the file changes
 CF_TOKEN = "eab6249a56894cb084b7bcc8f1a860a6"  # Cloudflare Web Analytics (cookieless), same as the home page
 REQUIRED = ("title", "date", "slug", "lang", "description", "category")
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -73,7 +73,7 @@ ORIGINAL_LANGS = ("ko", "en")  # may be an original without translation_of; ever
 FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' "
            "fill='%230F1218'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='18' fill='%23C9A84C' text-anchor='middle'"
            "%3E()%3C/text%3E%3Ccircle cx='16' cy='15.5' r='1.6' fill='%23F5F0E8'/%3E%3C/svg%3E")
-UI_KEYS = ("journal", "sub", "empty", "back", "read_more", "view_all", "skip", "rss", "ai_note", "ai_orig", "other_langs")
+UI_KEYS = ("journal", "sub", "empty", "back", "read_more", "view_all", "skip", "rss", "ai_note", "ai_orig", "other_langs", "aria_home", "aria_primary")
 SAFETY_KEYS = ("fiction", "disclaimer", "jump", "help_title", "help_intro", "fallback", "bible_label")
 FALLBACK_HELPLINE = "https://findahelpline.com"  # decision D2 (CRISIS_PROTOCOL): the worldwide directory for places without a listed line
 
@@ -108,6 +108,10 @@ def load_data(root):
             for it in r.get("items", []):
                 if not it.get("name") or not it.get("number"):
                     errs.append("safety.json: lines.%s has an entry without name/number" % l)
+                elif it.get("status") not in ("draft", "verified"):
+                    errs.append("safety.json: lines.%s %r needs status draft|verified (only verified numbers are shown)" % (l, it["number"]))
+                elif it["status"] == "verified" and not it.get("checked_on"):
+                    errs.append("safety.json: lines.%s %r is verified but has no checked_on date" % (l, it["number"]))
     return errs
 
 
@@ -363,8 +367,28 @@ def markdown(src):
 
 
 # ---------------------------------------------------------------- page chrome
-def fmt_date(d):
-    return "%04d. %02d. %02d" % (d.year, d.month, d.day)
+# visible date, written the way the page's language writes it (the <time datetime> next to it stays ISO)
+MONTHS = {
+    "en": "January February March April May June July August September October November December",
+    "es": "enero febrero marzo abril mayo junio julio agosto septiembre octubre noviembre diciembre",
+    "pt": "janeiro fevereiro março abril maio junho julho agosto setembro outubro novembro dezembro",
+    "id": "Januari Februari Maret April Mei Juni Juli Agustus September Oktober November Desember",
+    "ru": "января февраля марта апреля мая июня июля августа сентября октября ноября декабря",  # genitive, as after a day number
+    "fr": "janvier février mars avril mai juin juillet août septembre octobre novembre décembre",
+    "de": "Januar Februar März April Mai Juni Juli August September Oktober November Dezember",
+}
+DATE_FORMATS = {
+    "en": "{month} {d}, {y}", "ko": "{y}년 {m}월 {d}일", "ja": "{y}年{m}月{d}日", "zh": "{y}年{m}月{d}日",
+    "es": "{d} de {month} de {y}", "pt": "{d} de {month} de {y}", "id": "{d} {month} {y}", "ru": "{d} {month} {y} г.",
+    "vi": "{d} tháng {m}, {y}", "fr": "{d} {month} {y}", "de": "{d}. {month} {y}",
+}
+
+
+def fmt_date(d, lang="en"):
+    months = MONTHS.get(lang, "").split()
+    day = "1er" if lang == "fr" and d.day == 1 else d.day
+    return DATE_FORMATS.get(lang, DATE_FORMATS["en"]).format(
+        y=d.year, m=d.month, d=day, month=months[d.month - 1] if months else "")
 
 
 def lang_path(lang):
@@ -385,7 +409,12 @@ def post_url(p):
     return SITE + post_path(p)
 
 
-def head(title, desc, canonical, lang, noindex, extra="", hint="edit content/journal/*.md and rebuild", image=None, alternates="", locales=()):
+def og_image_alt(lang):
+    return (HOME.get(lang) or {}).get("og_image_alt") or HOME["en"]["og_image_alt"]
+
+
+def head(title, desc, canonical, lang, noindex, extra="", hint="edit content/journal/*.md and rebuild", image=None, alternates="", locales=(), image_alt=None):
+    image_alt = image_alt if image else og_image_alt(lang)  # the default card has a description in the page's language
     image = image or SITE + "/og-image.png"
     robots = "noindex, follow" if noindex else "index, follow, max-image-preview:large"
     alts = "".join('<meta property="og:locale:alternate" content="%s">\n' % LANGS[l]["og"] for l in locales if l != lang)
@@ -409,7 +438,7 @@ def head(title, desc, canonical, lang, noindex, extra="", hint="edit content/jou
 <meta property="og:url" content="{esc(canonical)}">
 <meta property="og:locale" content="{LANGS[lang]["og"]}">
 {alts}<meta property="og:image" content="{esc(image)}">
-<meta name="twitter:card" content="summary_large_image">
+{'<meta property="og:image:alt" content="%s">' % esc(image_alt) + chr(10) if image_alt else ''}<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{esc(title)}">
 <meta name="twitter:description" content="{esc(desc)}">
 <meta name="twitter:image" content="{esc(image)}">
@@ -444,22 +473,31 @@ def header(lang, targets, neutral=None):
     return f"""<a class="skip-link" href="#main">{esc(t['skip'])}</a>
 <header class="topbar">
   <div class="wrap-wide bar">
-    <a class="brand" href="/{lang}/" aria-label="still() home">still<span class="paren">(</span><span class="paren">)</span></a>
-    <nav class="bar-nav" aria-label="primary"><a href="{jhome(lang)}" aria-current="page">{esc(t['journal'])}</a></nav>
+    <a class="brand" href="/{lang}/" aria-label="{esc(t['aria_home'])}">still<span class="paren">(</span><span class="paren">)</span></a>
+    <nav class="bar-nav" aria-label="{esc(t['aria_primary'])}"><a href="{jhome(lang)}" aria-current="page">{esc(t['journal'])}</a></nav>
     {lang_select(lang, targets, neutral)}
   </div>
 </header>
 """
 
 
-def footer(lang):
+def lang_links(lang, targets, label):
+    """the language switch as plain links (the <select> needs JS): one <a href> per language this page exists in."""
+    if not targets:
+        return ""
+    links = "\n".join('      <a href="%s" hreflang="%s" lang="%s"%s>%s</a>' % (esc(targets[l]), l, l, ' aria-current="true"' if l == lang else "", esc(LANGS[l]["name"]))
+                      for l in LANGS if l in targets)
+    return '    <nav class="foot-langs" aria-label="%s">\n%s\n    </nav>\n' % (esc(label), links)
+
+
+def footer(lang, targets=None, current=None):
     t, h = ui(lang), HOME.get(lang) or HOME["en"]
     g = lambda k: h.get(k) or HOME["en"][k]
     return f"""<footer class="site-footer">
   <div class="wrap">
     <div class="foot-mark">still<span class="paren">(</span><span class="paren">)</span></div>
     <div class="foot-verse">{esc(g('hero_tag'))}</div>
-    <nav class="foot-links" aria-label="Footer">
+    <nav class="foot-links" aria-label="{esc(g('aria_footer'))}">
       <a href="/{lang}/">still()</a>
       <a href="{jhome(lang)}">{esc(t['journal'])}</a>
       <a href="/journal/feed.xml">{esc(t['rss'])}</a>
@@ -467,7 +505,7 @@ def footer(lang):
       <a href="/terms/">{esc(g('foot_terms'))}</a>
       <a href="mailto:ipe.haven@gmail.com">{esc(g('foot_support'))}</a>
     </nav>
-    <div class="foot-studio">{esc(g('foot_studio'))}</div>
+{lang_links(lang if current is None else current, targets, g('aria_lang'))}    <div class="foot-studio">{esc(g('foot_studio'))}</div>
   </div>
 </footer>
 <script>
@@ -497,6 +535,8 @@ def render_help(lang):
     for r in ent["regions"]:
         rows = []
         for it in r.get("items", []):
+            if it.get("status") != "verified":  # a number nobody has confirmed is never shown to a person in crisis
+                continue
             num = esc(it["number"])
             num = '<a class="help-num" href="tel:%s">%s</a>' % (esc(it["tel"]), num) if it.get("tel") else '<span class="help-num">%s</span>' % num
             hours = ' <span class="help-hours">%s</span>' % esc(it["hours"]) if it.get("hours") else ""
@@ -677,7 +717,7 @@ def render_post(p, grp=None):
         "datePublished": p["_date"].isoformat(), "dateModified": p.get("updated") or p["_date"].isoformat(),
         "inLanguage": p["lang"], "articleSection": p["category"],
         "mainEntityOfPage": {"@type": "WebPage", "@id": url}, "url": url,
-        "image": image_obj(hero, p.get("image_alt")) if hero else SITE + "/og-image.png",
+        "image": image_obj(hero, p.get("image_alt")) if hero else image_obj("/og-image.png", og_image_alt(p["lang"])),
         "wordCount": word_count(plain_text(p["_html"]), p["lang"]),
         "author": dict(ORG), "publisher": dict(ORG),
         "isPartOf": {"@type": "Blog", "name": "still() Journal", "url": SITE + lang_path(p["lang"])},
@@ -710,13 +750,14 @@ def render_post(p, grp=None):
             esc(t["ai_note"]),
             (' <a href="%s" hreflang="%s" lang="%s">%s</a>' % (esc(post_path(source)), source["lang"], source["lang"], esc(t["ai_orig"] + " (" + LANGS[source["lang"]]["name"] + ")"))) if source else "")
     pair, _ = pair_urls(p, grp)
+    targets = {l: urllib.parse.urlsplit(u).path for l, u in pair.items()}
     return (head("%s — still() %s" % (p["title"], t["journal"]), p["description"], url, p["lang"], p["draft"], extra,
-                 image=abs_url(hero) if hero else None, alternates=alternates(p, grp),
+                 image=abs_url(hero) if hero else None, image_alt=p.get("image_alt"), alternates=alternates(p, grp),
                  locales=[m["lang"] for m in members])
-            + header(p["lang"], {l: urllib.parse.urlsplit(u).path for l, u in pair.items()}) + f"""<main id="main" class="wrap">
+            + header(p["lang"], targets) + f"""<main id="main" class="wrap">
   <article class="article">
     <header class="article-head">
-      <p class="eyebrow"><time datetime="{p['_date'].isoformat()}">{fmt_date(p['_date'])}</time> · {esc(p['category'])}{draft}</p>
+      <p class="eyebrow"><time datetime="{p['_date'].isoformat()}">{fmt_date(p['_date'], p['lang'])}</time> · {esc(p['category'])}{draft}</p>
       <h1>{esc(p['title'])}</h1>
       <p class="lede">{esc(p['description'])}</p>
     </header>
@@ -728,7 +769,7 @@ def render_post(p, grp=None):
     </nav>
   </article>
 </main>
-""" + footer(p["lang"]))
+""" + footer(p["lang"], targets))
 
 
 def list_pairs(list_langs):
@@ -752,7 +793,7 @@ def render_list(posts, lang=None, list_langs=("en",)):
                                     for i, p in enumerate(posts)]}
     if posts:
         items = "\n".join(f"""      <li lang="{esc(p['lang'])}">
-        <p class="eyebrow"><time datetime="{p['_date'].isoformat()}">{fmt_date(p['_date'])}</time> · {esc(p['category'])}{' <span class="draft-flag">DRAFT</span>' if p['draft'] else ''}</p>
+        <p class="eyebrow"><time datetime="{p['_date'].isoformat()}">{fmt_date(p['_date'], p['lang'])}</time> · {esc(p['category'])}{' <span class="draft-flag">DRAFT</span>' if p['draft'] else ''}</p>
         <h2><a href="{post_path(p)}">{esc(p['title'])}</a></h2>
         <p>{esc(p['description'])}</p>
         <a class="more-link" href="{post_path(p)}" aria-label="{esc(ui(p['lang'])['read_more'])}: {esc(p['title'])}"><span>{esc(ui(p['lang'])['read_more'])}</span> <span aria-hidden="true">→</span></a>
@@ -773,7 +814,7 @@ def render_list(posts, lang=None, list_langs=("en",)):
 {body}
   <p class="rss-line"><a class="more-link" href="/journal/feed.xml">RSS</a></p>
 </main>
-""" + footer(loc))
+""" + footer(loc, {l: lang_path(l) for l in pages}, loc if lang else ""))
 
 
 def card_posts(lang, posts):
@@ -786,7 +827,7 @@ def render_home_cards(posts):
     if not posts:
         return ""
     cards = "\n".join(f"""      <article class="j-card" lang="{esc(p['lang'])}">
-        <p class="j-date"><time datetime="{p['_date'].isoformat()}">{fmt_date(p['_date'])}</time></p>
+        <p class="j-date"><time datetime="{p['_date'].isoformat()}">{fmt_date(p['_date'], p['lang'])}</time></p>
         <h3><a href="{post_path(p)}">{esc(p['title'])}</a></h3>
         <p>{esc(p['description'])}</p>
         <a class="more-link" href="{post_path(p)}" aria-label="{esc(ui(p['lang'])['read_more'])}: {esc(p['title'])}"><span>{esc(ui(p['lang'])['read_more'])}</span> <span aria-hidden="true">→</span></a>

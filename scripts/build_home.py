@@ -17,6 +17,8 @@ latest journal posts). Running this file alone builds the home pages without jou
     python3 scripts/build_home.py --check    # fail if the committed pages are not what the build would write
 """
 import argparse
+import datetime
+import hashlib
 import html
 import json
 import re
@@ -26,9 +28,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from site_common import LANGS, SITE, check_fresh, esc, lang_url, replace_between  # noqa: E402
 
-HOME_UPDATED = "2026-10-23"  # bump when template/i18n copy changes (sitemap lastmod = max(this, newest post date))
 TEMPLATE = Path("content") / "home" / "template.html"
 STRINGS = Path("content") / "home" / "i18n.json"
+STAMP = Path("content") / "home" / "stamp.json"  # {hash, date}: when template/i18n last changed (sitemap lastmod); written by this script
 LANG_ATTR = re.compile(r'(<(?P<tag>[a-zA-Z0-9]+)(?P<attrs>[^>]*?\sdata-i18n="(?P<key>[^"]+)"[^>]*)>)(?P<inner>.*?)(</(?P=tag)>)', re.S)
 PH_ATTR = re.compile(r'<[a-zA-Z0-9]+[^>]*?\sdata-i18n-ph="([^"]+)"[^>]*>')
 NAV_SCRIPT = """<script>
@@ -42,7 +44,7 @@ NAV_SCRIPT = """<script>
 </script>"""
 HINT_JS = """  // root only: suggest (never force) the visitor's language — stored choice first, then the browser's list
   var hint = document.getElementById('langHint');
-  var NAMES = %s;
+  var NAMES = %s, CLOSE = %s;
   if (hint) {
     var off = false; try { off = sessionStorage.getItem('still_hint_off') === '1'; } catch (e) {}
     var pick = null, stored = null;
@@ -50,7 +52,7 @@ HINT_JS = """  // root only: suggest (never force) the visitor's language — st
     if (stored && NAMES[stored]) pick = stored;
     else { try { var list = navigator.languages || [navigator.language || '']; for (var i = 0; i < list.length && !pick; i++) { var c = String(list[i]).toLowerCase().split('-')[0]; if (NAMES[c]) pick = c; } } catch (e) {} }
     if (pick && pick !== 'en' && !off) {
-      hint.innerHTML = '<a href="/' + pick + '/" hreflang="' + pick + '" lang="' + pick + '">' + NAMES[pick] + ' <span aria-hidden="true">→</span></a><button type="button" aria-label="×">×</button>';
+      hint.innerHTML = '<a href="/' + pick + '/" hreflang="' + pick + '" lang="' + pick + '">' + NAMES[pick] + ' <span aria-hidden="true">→</span></a><button type="button" aria-label="' + CLOSE + '">×</button>';
       hint.hidden = false;
       hint.querySelector('button').addEventListener('click', function () { hint.hidden = true; try { sessionStorage.setItem('still_hint_off', '1'); } catch (e) {} });
     }
@@ -59,6 +61,7 @@ HINT_JS = """  // root only: suggest (never force) the visitor's language — st
 LEGACY_JS = ("<script>(function(){try{var l=new URLSearchParams(location.search).get('lang');"
              "if(l&&/^(%s)$/.test(l))location.replace('/'+l+'/'+location.hash);}catch(e){}})();</script>\n")
 HINT_CSS_ID = "langHint"
+ARIA_KEYS = ("aria_lang", "aria_verse_card", "aria_save", "aria_listen", "aria_email", "aria_footer", "og_image_alt")  # {{key}} in the template
 
 
 def render_page(tpl, strings, lang, root, cards_html=None, journal_href="/journal/"):
@@ -93,16 +96,20 @@ def render_page(tpl, strings, lang, root, cards_html=None, journal_href="/journa
     page_dict = {k: d[k] for k in ("letters_thanks",) if k in d}
     page_script = "<script>window.__PAGE=%s;</script>" % json.dumps({"lang": lang, "dict": page_dict}, ensure_ascii=False)
     names = json.dumps({l: LANGS[l]["name"] for l in LANGS}, ensure_ascii=False)
+    ld_desc = strings[lang].get("ld_desc") or d["meta_desc"]  # structured data: English has its own long text, the others reuse their meta description
+    lang_links = '<nav class="foot-langs" aria-label="%s">\n%s\n    </nav>' % (esc(d["aria_lang"]), "\n".join(
+        '      <a href="%s/" hreflang="%s" lang="%s"%s>%s</a>' % ("/" + l, l, l, ' aria-current="true"' if l == lang and not root else "", LANGS[l]["name"]) for l in LANGS))
     subs = {
         "LANG": lang, "DIR": LANGS[lang]["dir"], "CANONICAL": esc(canonical), "HREFLANG": hreflang, "OG_LOCALE": og,
         "LANG_OPTIONS": options, "LEGACY_SCRIPT": LEGACY_JS % "|".join(LANGS) if root else "", "PAGE_SCRIPT": page_script,
         "LANG_HINT": '<div class="lang-hint" id="%s" hidden></div>\n' % HINT_CSS_ID if root else "",
-        "NAV_SCRIPT": NAV_SCRIPT % (HINT_JS % names if root else ""),
+        "NAV_SCRIPT": NAV_SCRIPT % (HINT_JS % (names, json.dumps(d["aria_close"], ensure_ascii=False)) if root else ""),
         "meta_title": esc(d["meta_title"]), "meta_desc": esc(d["meta_desc"]),
         # social cards: English keeps its own two short texts; other languages reuse their meta description
         "og_desc": esc(strings[lang].get("og_desc") or d["meta_desc"]), "tw_desc": esc(strings[lang].get("tw_desc") or d["meta_desc"]),
-        "JOURNAL_HREF": journal_href,
+        "JOURNAL_HREF": journal_href, "LD_DESC": json.dumps(ld_desc, ensure_ascii=False), "LANG_LINKS": lang_links,
     }
+    subs.update({k: esc(d[k]) for k in ARIA_KEYS})
     out = re.sub(r"\{\{(\w+)\}\}", lambda m: subs[m.group(1)], out)
     if cards_html is not None:  # journal section (present in the template once the journal exists)
         out = journal_section(out, cards_html)
@@ -130,8 +137,27 @@ def journal_section(out, cards_html):
     return out
 
 
-def sitemap_block(newest_post_date=None):
-    last = max(HOME_UPDATED, newest_post_date or "")
+def home_updated(root):
+    """date the home copy (template + i18n) last changed: kept in content/home/stamp.json next to a hash of both files.
+    The hash differs -> the file is rewritten with today's date, so sitemap lastmod follows the copy without anyone bumping it."""
+    h = hashlib.sha256()
+    for f in (TEMPLATE, STRINGS):
+        h.update((root / f).read_bytes())
+    digest = h.hexdigest()[:16]
+    path = root / STAMP
+    try:
+        cur = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        cur = {}
+    if cur.get("hash") == digest and cur.get("date"):
+        return cur["date"]
+    date = datetime.date.today().isoformat()
+    path.write_text(json.dumps({"hash": digest, "date": date}, indent=1) + "\n", encoding="utf-8")
+    return date
+
+
+def sitemap_block(home_date, newest_post_date=None):
+    last = max(home_date, newest_post_date or "")
     links = "".join('    <xhtml:link rel="alternate" hreflang="%s" href="%s"/>\n' % (l, lang_url(l)) for l in LANGS)
     links += '    <xhtml:link rel="alternate" hreflang="x-default" href="%s/"/>\n' % SITE
     img = "    <image:image>\n      <image:loc>%s/og-image.png</image:loc>\n    </image:image>\n" % SITE
@@ -166,7 +192,7 @@ def build(root, cards_by_lang=None, href_by_lang=None, newest_post_date=None):
         written.append(path)
     sm = root / "sitemap.xml"
     sm.write_text(replace_between(sm.read_text(encoding="utf-8"), r"<!-- home:start[^>]*-->", "  <!-- home:end -->",
-                                  sitemap_block(newest_post_date), "sitemap.xml"), encoding="utf-8")
+                                  sitemap_block(home_updated(root), newest_post_date), "sitemap.xml"), encoding="utf-8")
     llms = root / "llms.txt"
     llms.write_text(replace_between(llms.read_text(encoding="utf-8"), r"<!-- home:llms:start[^>]*-->",
                                     "<!-- home:llms:end -->", llms_block(), "llms.txt"), encoding="utf-8")

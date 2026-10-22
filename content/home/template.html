@@ -25,7 +25,7 @@
 <meta property="og:image" content="https://still.ipe.rest/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="still() — the Bible for hard days. Psalm 46:10.">
+<meta property="og:image:alt" content="{{og_image_alt}}">
 {{OG_LOCALE}}
 
 <!-- Twitter -->
@@ -47,7 +47,7 @@
       "operatingSystem": "iOS",
       "applicationCategory": "LifestyleApplication",
       "applicationSubCategory": "Bible / Devotional",
-      "description": "A private, on-device AI companion for Christians. Tell it what you're going through and it returns a comforting Bible verse, a gentle explanation of what it means, and calm ipe lofi music to rest with. Everything runs on-device — nothing you type leaves your phone. Rooted in Psalm 46:10, \"Be still, and know that I am God.\"",
+      "description": {{LD_DESC}},
       "inLanguage": "{{LANG}}",
       "image": "https://still.ipe.rest/og-image.png",
       "offers": [
@@ -361,6 +361,9 @@
   .foot-links{margin-top:28px;display:flex;flex-wrap:wrap;gap:10px 28px;justify-content:center;font-size:13px;color:#8b93a1;}
   .foot-links a{text-decoration:none;transition:color .3s;}
   .foot-links a:hover{color:var(--cream);}
+  .foot-langs{margin-top:18px;display:flex;flex-wrap:wrap;gap:0 18px;justify-content:center;font-size:12px;color:#8b93a1;}
+  .foot-langs a{text-decoration:none;min-height:44px;display:inline-flex;align-items:center;transition:color .3s;}
+  .foot-langs a:hover,.foot-langs a[aria-current]{color:var(--cream);}
   .foot-studio{margin-top:26px;font-size:12px;letter-spacing:.06em;color:#565e6b;}
 
   /* ---------- language hint (root only; suggests, never redirects) ---------- */
@@ -413,9 +416,9 @@
 <body>
 
 {{LANG_HINT}}<!-- language selector -->
-<label class="langsel" aria-label="Language">
+<label class="langsel" aria-label="{{aria_lang}}">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.8 5.8 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.8-3.8-9S9.5 5.5 12 3z"/></svg>
-  <select id="lang" aria-label="Language">
+  <select id="lang" aria-label="{{aria_lang}}">
 {{LANG_OPTIONS}}
   </select>
 </label>
@@ -444,7 +447,7 @@
     <div class="eyebrow reveal" data-i18n="heart_eyebrow">The heart of it</div>
     <h2 class="reveal" data-i18n="heart_h2">Some days the words won't come.</h2>
     <p class="lede reveal" data-i18n="heart_lede">Tell it what you can — a sentence, a sigh, a single word. It will find one for you.</p>
-    <figure class="verse-card reveal" aria-label="Example verse card">
+    <figure class="verse-card reveal" aria-label="{{aria_verse_card}}">
       <div class="verse-card-top" aria-hidden="true"></div>
       <div class="verse-card-body">
         <blockquote class="verse-text" data-i18n="verse_text">"Be still, and know that I am God."</blockquote>
@@ -452,11 +455,11 @@
         <p class="verse-note" data-i18n="verse_note">You don't have to fix anything tonight. This verse is a hand on the shoulder — an invitation to stop striving for a moment, and remember you are held.</p>
       </div>
       <figcaption class="verse-actions">
-        <button type="button" aria-label="Save this verse">
+        <button type="button" aria-label="{{aria_save}}">
           <svg class="glyph" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
           <span data-i18n="btn_save">Save</span>
         </button>
-        <button type="button" aria-label="Listen with calm music">
+        <button type="button" aria-label="{{aria_listen}}">
           <svg class="glyph" viewBox="0 0 24 24"><path d="M9 18V6l11-2v12"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>
           <span data-i18n="btn_listen">Listen</span>
         </button>
@@ -587,7 +590,7 @@
     <!-- COMMUNITY: connect newsletter action -->
     <!-- No backend yet: submit shows a gentle confirmation only, nothing is stored. Connect Buttondown/ConvertKit action here. -->
     <form class="letters-form reveal" id="lettersForm" novalidate>
-      <input type="email" id="lettersEmail" data-i18n-ph="letters_placeholder" placeholder="your email" aria-label="Email address" autocomplete="email">
+      <input type="email" id="lettersEmail" data-i18n-ph="letters_placeholder" placeholder="your email" aria-label="{{aria_email}}" autocomplete="email">
       <button class="btn btn-sage" type="submit"><span data-i18n="letters_cta">Join the still letters</span></button>
     </form>
     <p class="letters-note reveal" data-i18n="letters_note">Unsubscribe anytime. Your email stays yours.</p>
@@ -626,12 +629,13 @@
   <div class="wrap">
     <div class="foot-mark">still<span class="paren">(</span><span class="paren">)</span></div>
     <div class="foot-verse" data-i18n="hero_tag">be still — Psalm 46:10</div>
-    <nav class="foot-links" aria-label="Footer">
+    <nav class="foot-links" aria-label="{{aria_footer}}">
       <a href="{{JOURNAL_HREF}}" data-i18n="foot_journal" data-journal-link>Journal</a>
       <a href="/privacy/" data-i18n="foot_privacy">Privacy</a>
       <a href="/terms/" data-i18n="foot_terms">Terms</a>
       <a href="mailto:ipe.haven@gmail.com" data-i18n="foot_support">Support</a>
     </nav>
+    {{LANG_LINKS}}
     <div class="foot-studio" data-i18n="foot_studio">an ipe studio app</div>
   </div>
 </footer>

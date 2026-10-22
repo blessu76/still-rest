@@ -383,6 +383,9 @@
   .foot-links{margin-top:28px;display:flex;flex-wrap:wrap;gap:10px 28px;justify-content:center;font-size:13px;color:#8b93a1;}
   .foot-links a{text-decoration:none;transition:color .3s;}
   .foot-links a:hover{color:var(--cream);}
+  .foot-langs{margin-top:18px;display:flex;flex-wrap:wrap;gap:0 18px;justify-content:center;font-size:12px;color:#8b93a1;}
+  .foot-langs a{text-decoration:none;min-height:44px;display:inline-flex;align-items:center;transition:color .3s;}
+  .foot-langs a:hover,.foot-langs a[aria-current]{color:var(--cream);}
   .foot-studio{margin-top:26px;font-size:12px;letter-spacing:.06em;color:#565e6b;}
 
   /* ---------- language hint (root only; suggests, never redirects) ---------- */
@@ -664,6 +667,19 @@
       <a href="/terms/" data-i18n="foot_terms">Terms</a>
       <a href="mailto:ipe.haven@gmail.com" data-i18n="foot_support">Support</a>
     </nav>
+    <nav class="foot-langs" aria-label="Language">
+      <a href="/en/" hreflang="en" lang="en">English</a>
+      <a href="/ko/" hreflang="ko" lang="ko">한국어</a>
+      <a href="/ja/" hreflang="ja" lang="ja">日本語</a>
+      <a href="/zh/" hreflang="zh" lang="zh">中文</a>
+      <a href="/es/" hreflang="es" lang="es">Español</a>
+      <a href="/pt/" hreflang="pt" lang="pt">Português</a>
+      <a href="/id/" hreflang="id" lang="id">Bahasa Indonesia</a>
+      <a href="/ru/" hreflang="ru" lang="ru">Русский</a>
+      <a href="/vi/" hreflang="vi" lang="vi">Tiếng Việt</a>
+      <a href="/fr/" hreflang="fr" lang="fr">Français</a>
+      <a href="/de/" hreflang="de" lang="de">Deutsch</a>
+    </nav>
     <div class="foot-studio" data-i18n="foot_studio">an ipe studio app</div>
   </div>
 </footer>
@@ -679,7 +695,7 @@
   });
   // root only: suggest (never force) the visitor's language — stored choice first, then the browser's list
   var hint = document.getElementById('langHint');
-  var NAMES = {"en": "English", "ko": "한국어", "ja": "日本語", "zh": "中文", "es": "Español", "pt": "Português", "id": "Bahasa Indonesia", "ru": "Русский", "vi": "Tiếng Việt", "fr": "Français", "de": "Deutsch"};
+  var NAMES = {"en": "English", "ko": "한국어", "ja": "日本語", "zh": "中文", "es": "Español", "pt": "Português", "id": "Bahasa Indonesia", "ru": "Русский", "vi": "Tiếng Việt", "fr": "Français", "de": "Deutsch"}, CLOSE = "Close";
   if (hint) {
     var off = false; try { off = sessionStorage.getItem('still_hint_off') === '1'; } catch (e) {}
     var pick = null, stored = null;
@@ -687,7 +703,7 @@
     if (stored && NAMES[stored]) pick = stored;
     else { try { var list = navigator.languages || [navigator.language || '']; for (var i = 0; i < list.length && !pick; i++) { var c = String(list[i]).toLowerCase().split('-')[0]; if (NAMES[c]) pick = c; } } catch (e) {} }
     if (pick && pick !== 'en' && !off) {
-      hint.innerHTML = '<a href="/' + pick + '/" hreflang="' + pick + '" lang="' + pick + '">' + NAMES[pick] + ' <span aria-hidden="true">→</span></a><button type="button" aria-label="×">×</button>';
+      hint.innerHTML = '<a href="/' + pick + '/" hreflang="' + pick + '" lang="' + pick + '">' + NAMES[pick] + ' <span aria-hidden="true">→</span></a><button type="button" aria-label="' + CLOSE + '">×</button>';
       hint.hidden = false;
       hint.querySelector('button').addEventListener('click', function () { hint.hidden = true; try { sessionStorage.setItem('still_hint_off', '1'); } catch (e) {} });
     }

@@ -2,9 +2,11 @@
  "_readme": [
   "The fixed safety block printed on EVERY journal article, in the article's own language (scripts/build_journal.py reads only this file for it).",
   "text.<lang>: disclaimer / creative-work notice / crisis-box wording. Native review required for every language (CRISIS_PROTOCOL D4). No Scripture, no prayer language in the crisis box.",
-  "lines.<lang>: crisis lines shown in that language's articles. status = draft | verified. A line list may be EMPTY: the box then shows only the worldwide directory link (CRISIS_PROTOCOL D2).",
-  "Numbers below are placeholders from CRISIS_PROTOCOL §2.3 (draft table) and the F-001 web brief — NOT verified. `build_journal.py --check --strict-safety` fails while any language with a published post is still `draft`.",
-  "To verify: confirm each number/hours with the operator, set status to verified, fill reviewed_by / reviewed_on. Item fields: name, number (as displayed), tel (digits for the tap-to-call link; omit when the number is not dialable as written), hours (optional)."
+  "lines.<lang>.status = draft | verified: the language as a whole (wording + list) has been read by a native reviewer (fill reviewed_by / reviewed_on). `build_journal.py --check --strict-safety` fails while any language with a published post is still `draft`.",
+  "lines.<lang>.regions[].items[]: one crisis line each. name, number (as displayed), tel (digits for the tap-to-call link; omit when not dialable as written), hours (optional), status, checked_on, source (official page, optional), note (why it is still draft, never shown).",
+  "item.status = verified | draft: ONLY `verified` items are printed on a page. `draft` = in the 2026-10-22 research table but not confirmed from a primary source — kept here so the next check can promote it, never shown. A verified item needs checked_on (YYYY-MM-DD).",
+  "A language whose list has no verified item shows only the worldwide directory link (CRISIS_PROTOCOL D2). Re-check every number monthly (set checked_on again) and before adding a language's first post.",
+  "Basis: room note 20261022-221259 (research 2026-10-22, web search; 'confirmed' = its status column, not a phone call)."
  ],
  "text": {
   "en": {
@@ -111,43 +113,451 @@
   "en": {
    "status": "draft",
    "regions": [
-    {"country": "United States", "items": [{"name": "988 Suicide & Crisis Lifeline (call or text)", "number": "988", "tel": "988"}]},
-    {"country": "United Kingdom", "items": [{"name": "Samaritans", "number": "116 123", "tel": "116123"}]}
+    {
+     "country": "United States",
+     "items": [
+      {
+       "name": "988 Suicide & Crisis Lifeline (call or text)",
+       "number": "988",
+       "tel": "988",
+       "hours": "24/7",
+       "status": "verified",
+       "checked_on": "2026-10-22",
+       "source": "https://988lifeline.org/"
+      }
+     ]
+    },
+    {
+     "country": "Canada",
+     "items": [
+      {
+       "name": "9-8-8 Suicide Crisis Helpline (call or text)",
+       "number": "9-8-8",
+       "tel": "988",
+       "hours": "24/7",
+       "status": "verified",
+       "checked_on": "2026-10-22",
+       "source": "https://www.canada.ca/en/public-health/news/2023/11/9-8-8-suicide-crisis-helpline.html"
+      }
+     ]
+    },
+    {
+     "country": "United Kingdom & Ireland",
+     "items": [
+      {
+       "name": "Samaritans",
+       "number": "116 123",
+       "tel": "116123",
+       "hours": "24/7",
+       "status": "verified",
+       "checked_on": "2026-10-22",
+       "source": "https://www.samaritans.org/how-we-can-help/contact-samaritan/"
+      }
+     ]
+    },
+    {
+     "country": "Australia",
+     "items": [
+      {
+       "name": "Lifeline",
+       "number": "13 11 14",
+       "tel": "131114",
+       "status": "draft",
+       "note": "not checked in the 2026-10-22 research"
+      }
+     ]
+    }
    ]
   },
   "ko": {
    "status": "draft",
    "regions": [
-    {"country": "대한민국", "items": [
-     {"name": "자살예방상담전화", "number": "109", "tel": "109", "hours": "24시간"},
-     {"name": "정신건강위기상담전화", "number": "1577-0199", "tel": "15770199"}
-    ]}
+    {
+     "country": "대한민국",
+     "items": [
+      {
+       "name": "자살예방상담전화",
+       "number": "109",
+       "tel": "109",
+       "hours": "24시간",
+       "status": "verified",
+       "checked_on": "2026-10-22",
+       "source": "https://www.kfsp.or.kr/"
+      },
+      {
+       "name": "정신건강위기상담전화",
+       "number": "1577-0199",
+       "tel": "15770199",
+       "status": "draft",
+       "note": "2026-10-22 조사표에서 109 통합만 확인됨 — 별도 확인 필요"
+      }
+     ]
+    }
    ]
   },
-  "ja": {"status": "draft", "regions": []},
-  "zh": {"status": "draft", "regions": []},
+  "ja": {
+   "status": "draft",
+   "regions": [
+    {
+     "country": "日本",
+     "items": [
+      {
+       "name": "こころの健康相談統一ダイヤル",
+       "number": "0570-064-556",
+       "tel": "0570064556",
+       "status": "draft",
+       "note": "2차 집계(findahelpline)만; 후생노동성 페이지 미확인"
+      },
+      {
+       "name": "よりそいホットライン",
+       "number": "0120-279-338",
+       "tel": "0120279338",
+       "status": "draft",
+       "note": "운영시간 자료마다 상충"
+      },
+      {
+       "name": "いのちの電話",
+       "number": "0570-783-556",
+       "tel": "0570783556",
+       "hours": "10:00–22:00",
+       "status": "draft",
+       "note": "2차 자료"
+      },
+      {
+       "name": "#いのちSOS",
+       "number": "0120-061-338",
+       "tel": "0120061338",
+       "status": "draft",
+       "note": "2차 자료"
+      }
+     ]
+    }
+   ]
+  },
+  "zh": {
+   "status": "draft",
+   "regions": [
+    {
+     "country": "中国大陆",
+     "items": [
+      {
+       "name": "全国统一心理援助热线",
+       "number": "12356",
+       "tel": "12356",
+       "status": "verified",
+       "checked_on": "2026-10-22",
+       "source": "https://www.news.cn/politics/20250508/b45e439c15bb4732858ad5c7640e9ba9/c.html"
+      },
+      {
+       "name": "希望24热线",
+       "number": "400-161-9995",
+       "tel": "4001619995",
+       "status": "draft",
+       "note": "민간 NGO, 보조"
+      }
+     ]
+    }
+   ]
+  },
   "es": {
    "status": "draft",
    "regions": [
-    {"country": "España", "items": [{"name": "Línea de atención a la conducta suicida", "number": "024", "tel": "024"}]},
-    {"country": "México", "items": [{"name": "Línea de la Vida", "number": "800 911 2000", "tel": "8009112000"}]}
+    {
+     "country": "España",
+     "items": [
+      {
+       "name": "Línea de atención a la conducta suicida (024)",
+       "number": "024",
+       "tel": "024",
+       "hours": "24 h",
+       "status": "verified",
+       "checked_on": "2026-10-22",
+       "source": "https://www.sanidad.gob.es/linea024/home.htm"
+      }
+     ]
+    },
+    {
+     "country": "Estados Unidos",
+     "items": [
+      {
+       "name": "988 Suicide & Crisis Lifeline (opción en español)",
+       "number": "988",
+       "tel": "988",
+       "hours": "24 h",
+       "status": "verified",
+       "checked_on": "2026-10-22",
+       "source": "https://988lifeline.org/"
+      }
+     ]
+    },
+    {
+     "country": "México",
+     "items": [
+      {
+       "name": "Línea de la Vida",
+       "number": "800 911 2000",
+       "tel": "8009112000",
+       "hours": "24 h",
+       "status": "draft",
+       "note": "공식 CONASAMA 페이지 미확인"
+      }
+     ]
+    }
    ]
   },
   "pt": {
    "status": "draft",
    "regions": [
-    {"country": "Brasil", "items": [{"name": "CVV — Centro de Valorização da Vida", "number": "188", "tel": "188", "hours": "24h"}]}
+    {
+     "country": "Brasil",
+     "items": [
+      {
+       "name": "CVV — Centro de Valorização da Vida",
+       "number": "188",
+       "tel": "188",
+       "hours": "24h",
+       "status": "verified",
+       "checked_on": "2026-10-22",
+       "source": "https://www.cvv.org.br/"
+      }
+     ]
+    },
+    {
+     "country": "Portugal",
+     "items": [
+      {
+       "name": "SNS 24",
+       "number": "808 24 24 24",
+       "tel": "808242424",
+       "hours": "24h",
+       "status": "draft",
+       "note": "정신건강 메뉴 번호 미확인"
+      },
+      {
+       "name": "SOS Voz Amiga",
+       "number": "213 544 545",
+       "tel": "213544545",
+       "status": "draft",
+       "note": "운영시간·번호 자료마다 상이"
+      }
+     ]
+    }
    ]
   },
   "id": {
    "status": "draft",
    "regions": [
-    {"country": "Indonesia", "items": [{"name": "Kemenkes — layanan kesehatan jiwa", "number": "119 ext. 8"}]}
+    {
+     "country": "Indonesia",
+     "items": [
+      {
+       "name": "Healing119.id (Kemenkes RI)",
+       "number": "119 ext. 8",
+       "status": "verified",
+       "checked_on": "2026-10-22",
+       "source": "https://kesprimkom.kemkes.go.id/assets/uploads/contents/others/FAQ_Cegah_Bunuh_Diri%2C_Dukung_Kesehatan_Jiwa__Kenali_Layanan_Healing119.id.pdf"
+      },
+      {
+       "name": "Healing119.id — WhatsApp",
+       "number": "0811-3855-472",
+       "status": "draft",
+       "note": "조사표의 확인 행에 병기됐으나 단독 확인은 아님"
+      }
+     ]
+    }
    ]
   },
-  "ru": {"status": "draft", "regions": []},
-  "vi": {"status": "draft", "regions": []},
-  "fr": {"status": "draft", "regions": []},
-  "de": {"status": "draft", "regions": []}
+  "ru": {
+   "status": "draft",
+   "regions": [
+    {
+     "country": "Россия",
+     "items": [
+      {
+       "name": "Детский телефон доверия (для детей, подростков и родителей)",
+       "number": "8-800-2000-122",
+       "tel": "88002000122",
+       "hours": "24 ч",
+       "status": "verified",
+       "checked_on": "2026-10-22"
+      },
+      {
+       "name": "МЧС — экстренная психологическая помощь",
+       "number": "+7 (495) 989-50-50",
+       "tel": "+74959895050",
+       "hours": "24 ч",
+       "status": "draft",
+       "note": "2차 집계; 모스크바 번호"
+      },
+      {
+       "name": "Общероссийская служба психологической помощи",
+       "number": "8-800-220-8000",
+       "tel": "88002208000",
+       "status": "draft",
+       "note": "2차 집계"
+      }
+     ]
+    }
+   ]
+  },
+  "vi": {
+   "status": "draft",
+   "regions": [
+    {
+     "country": "Việt Nam",
+     "items": [
+      {
+       "name": "Ngày Mai",
+       "number": "096 306 1414",
+       "tel": "0963061414",
+       "hours": "Thứ Tư–Chủ nhật 13:00–20:30",
+       "status": "draft",
+       "note": "민간·시간 제한"
+      },
+      {
+       "name": "HOPE (Hy Vọng Sống)",
+       "number": "0865 044 400",
+       "tel": "0865044400",
+       "hours": "16:30–20:30",
+       "status": "draft",
+       "note": "민간·시간 제한"
+      },
+      {
+       "name": "Tổng đài quốc gia bảo vệ trẻ em",
+       "number": "111",
+       "tel": "111",
+       "hours": "24/7",
+       "status": "draft",
+       "note": "만 16세 미만 전용"
+      }
+     ]
+    }
+   ]
+  },
+  "fr": {
+   "status": "draft",
+   "regions": [
+    {
+     "country": "France",
+     "items": [
+      {
+       "name": "3114 — numéro national de prévention du suicide",
+       "number": "3114",
+       "tel": "3114",
+       "hours": "24 h/24, 7 j/7",
+       "status": "verified",
+       "checked_on": "2026-10-22",
+       "source": "https://3114.fr/"
+      }
+     ]
+    },
+    {
+     "country": "Canada",
+     "items": [
+      {
+       "name": "9-8-8 — ligne d'aide en cas de crise suicidaire",
+       "number": "9-8-8",
+       "tel": "988",
+       "hours": "24 h/24, 7 j/7",
+       "status": "verified",
+       "checked_on": "2026-10-22",
+       "source": "https://www.canada.ca/en/public-health/news/2023/11/9-8-8-suicide-crisis-helpline.html"
+      }
+     ]
+    },
+    {
+     "country": "Suisse",
+     "items": [
+      {
+       "name": "La Main Tendue",
+       "number": "143",
+       "tel": "143",
+       "hours": "24 h/24",
+       "status": "verified",
+       "checked_on": "2026-10-22",
+       "source": "https://www.143.ch/"
+      }
+     ]
+    },
+    {
+     "country": "Belgique",
+     "items": [
+      {
+       "name": "Centre de Prévention du Suicide",
+       "number": "0800 32 123",
+       "tel": "080032123",
+       "hours": "24 h/24",
+       "status": "draft",
+       "note": "2차 자료"
+      }
+     ]
+    }
+   ]
+  },
+  "de": {
+   "status": "draft",
+   "regions": [
+    {
+     "country": "Deutschland",
+     "items": [
+      {
+       "name": "TelefonSeelsorge",
+       "number": "0800 111 0 111",
+       "tel": "08001110111",
+       "hours": "rund um die Uhr",
+       "status": "verified",
+       "checked_on": "2026-10-22",
+       "source": "https://www.telefonseelsorge.de/"
+      },
+      {
+       "name": "TelefonSeelsorge",
+       "number": "0800 111 0 222",
+       "tel": "08001110222",
+       "hours": "rund um die Uhr",
+       "status": "verified",
+       "checked_on": "2026-10-22",
+       "source": "https://www.telefonseelsorge.de/"
+      },
+      {
+       "name": "TelefonSeelsorge",
+       "number": "116 123",
+       "tel": "116123",
+       "hours": "rund um die Uhr",
+       "status": "verified",
+       "checked_on": "2026-10-22",
+       "source": "https://www.telefonseelsorge.de/"
+      }
+     ]
+    },
+    {
+     "country": "Österreich",
+     "items": [
+      {
+       "name": "Telefonseelsorge",
+       "number": "142",
+       "tel": "142",
+       "hours": "rund um die Uhr",
+       "status": "verified",
+       "checked_on": "2026-10-22",
+       "source": "https://www.telefonseelsorge.at/"
+      }
+     ]
+    },
+    {
+     "country": "Schweiz",
+     "items": [
+      {
+       "name": "Die Dargebotene Hand",
+       "number": "143",
+       "tel": "143",
+       "hours": "rund um die Uhr",
+       "status": "verified",
+       "checked_on": "2026-10-22",
+       "source": "https://www.143.ch/"
+      }
+     ]
+    }
+   ]
+  }
  }
 }

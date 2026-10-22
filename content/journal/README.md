@@ -42,8 +42,10 @@ draft: true                     # 선택: 어디에도 나가지 않음
 2. 본문 뒤: 성경 번역본 이름(`bible_version`) → 위기 상담 상자(`id="help"`: 안내문 + 나라별 번호 + findahelpline.com 폴백, 결정 D2) → 면책 한 줄 더.
 3. 위기 문구에는 성경 구절·기도 권유를 넣지 않는다(CRISIS_PROTOCOL §2.2).
 
-`safety.json`: `text.<lang>` = 문구 7개, `lines.<lang>` = `{status: draft|verified, regions: [{country, items: [{name, number, tel, hours}]}]}` (번호가 없으면 `regions: []` → 폴백 링크만).
-**지금 번호는 전부 `draft`(미확정)** — CRISIS_PROTOCOL §2.3 초안표와 웹 브리프 값. 검수 뒤 `status` 를 `verified` 로, `--strict-safety` 가 이를 강제한다.
+`safety.json`: `text.<lang>` = 문구 7개, `lines.<lang>` = `{status: draft|verified, regions: [{country, items: [{name, number, tel, hours, status, checked_on, source, note}]}]}`.
+- **항목마다 `status`**: `verified`(공식 출처로 확인, `checked_on` 날짜 필수)인 번호만 글에 찍힌다. `draft` 는 후보로 파일에만 남고 화면에는 절대 나오지 않는다(`note` = 왜 아직 draft 인지). 확인된 번호가 하나도 없는 언어는 폴백 링크(findahelpline)만 보인다.
+- `lines.<lang>.status` 는 언어 전체(문구+목록)를 원어민이 읽었는지 — `--strict-safety` 게이트가 이것을 본다.
+**언어 단위 `status` 는 지금 전부 `draft`(원어민 미검수)**. 번호 항목은 2026-10-22 조사표(방 노트 20261022-221259)에서 「확인됨」인 것만 `verified`, 나머지는 `draft`(숨김). 월 1회 재확인 + 첫 글 전에 다시 본다. 원어민 검수 뒤 언어 `status` 를 `verified` 로, `--strict-safety` 가 이를 강제한다.
 
 ## 게시 절차
 

@@ -96,14 +96,58 @@ class AllLanguages(Base):
             self.assertEqual(h.count(bj.esc(txt["disclaimer"])), 2, l)  # under the title and again after the text
             for r in data["lines"][l]["regions"]:
                 for it in r["items"]:
+                    if it["status"] != "verified":  # an unconfirmed number is never printed (neither number nor tap-to-call link)
+                        self.assertNotIn(bj.esc(it["number"]), h, "%s: draft number %s is shown" % (l, it["number"]))
+                        continue
                     self.assertIn(bj.esc(it["number"]), h, l)
                     if it.get("tel"):
                         self.assertIn('href="tel:%s"' % it["tel"], h, l)
 
-    def test_korean_lines_placeholder(self):
+    def test_only_verified_lines_are_shown(self):
         h = self.page("journal/ko/hello/index.html")
         self.assertIn("자살예방상담전화", h)
-        self.assertIn("1577-0199", h)
+        self.assertIn(">109<", h)
+        self.assertNotIn("1577-0199", h)  # draft until confirmed
+        for l in ("ja", "vi"):  # nothing confirmed yet: only the worldwide directory link remains
+            h = self.page("journal/%s/hello/index.html" % l)
+            self.assertNotIn("help-region", h, l)
+            self.assertIn("https://findahelpline.com", h, l)
+
+    def test_a_number_becomes_visible_once_verified(self):
+        p = self.tmp / "content/journal/safety.json"
+        d = json.loads(p.read_text(encoding="utf-8"))
+        it = d["lines"]["ko"]["regions"][0]["items"][1]
+        self.assertEqual((it["number"], it["status"]), ("1577-0199", "draft"))
+        it["status"], it["checked_on"] = "verified", "2026-11-01"
+        p.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
+        self.assertEqual(run(self.tmp).returncode, 0)
+        self.assertIn("1577-0199", self.page("journal/ko/hello/index.html"))
+
+    def test_dates_are_written_in_the_pages_language(self):
+        want = {"en": "October 22, 2026", "ko": "2026년 10월 22일", "ja": "2026年10月22日", "zh": "2026年10月22日",
+                "es": "22 de octubre de 2026", "pt": "22 de outubro de 2026", "id": "22 Oktober 2026", "ru": "22 октября 2026 г.",
+                "vi": "22 tháng 10, 2026", "fr": "22 octobre 2026", "de": "22. Oktober 2026"}
+        self.assertEqual(sorted(want), sorted(LANGS))
+        for l in LANGS:
+            h = self.page("journal/%s/hello/index.html" % l)
+            self.assertIn('<time datetime="2026-10-22">%s</time>' % want[l], h, l)
+        self.assertEqual(bj.fmt_date(__import__("datetime").date(2026, 11, 1), "fr"), "1er novembre 2026")
+
+    def test_aria_labels_and_language_links_follow_the_language(self):
+        home = json.loads((REPO / "content/home/i18n.json").read_text(encoding="utf-8"))
+        ui = json.loads((REPO / "content/journal/ui.json").read_text(encoding="utf-8"))
+        for l in LANGS:
+            h = self.page("journal/%s/hello/index.html" % l)
+            self.assertIn('class="foot-links" aria-label="%s"' % bj.esc(home[l]["aria_footer"]), h, l)
+            self.assertIn('aria-label="%s"' % bj.esc(ui[l]["aria_home"]), h, l)
+            self.assertIn('<meta property="og:image:alt" content="%s">' % bj.esc(home[l]["og_image_alt"]), h, l)
+            # the language switch exists without JS: a link to this post in every language
+            nav = re.search(r'<nav class="foot-langs".*?</nav>', h, re.S).group(0)
+            self.assertEqual(sorted(re.findall(r'hreflang="(\w+)"', nav)), sorted(LANGS), l)
+            self.assertIn('href="/journal/%s/hello/" hreflang="%s" lang="%s" aria-current="true"' % (l, l, l), nav)
+            if l != "en":
+                self.assertNotIn('aria-label="Footer"', h, l)
+                self.assertNotIn('aria-label="primary"', h, l)
 
     def test_safety_block_comes_from_data_not_from_the_post(self):
         # a post cannot override or remove it: same wording in two different posts
@@ -245,6 +289,17 @@ class Validation(Base):
         del d["text"]["vi"]["disclaimer"]
         p.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
         self.fails("text.vi lacks 'disclaimer'")
+
+    def test_every_crisis_line_needs_a_status(self):
+        p = self.tmp / "content/journal/safety.json"
+        d = json.loads(p.read_text(encoding="utf-8"))
+        del d["lines"]["ko"]["regions"][0]["items"][0]["status"]
+        p.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
+        self.fails("needs status draft|verified")
+        d["lines"]["ko"]["regions"][0]["items"][0]["status"] = "verified"
+        del d["lines"]["ko"]["regions"][0]["items"][0]["checked_on"]
+        p.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
+        self.fails("has no checked_on date")
 
     def test_strict_safety_gate(self):
         write_post(self.tmp, "ko", extra="bible_version: x\n")

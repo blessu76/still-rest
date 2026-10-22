@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://still.ipe.rest/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="still() — the Bible for hard days. Psalm 46:10.">
+<meta property="og:image:alt" content="still() — 힘든 날을 위한 성경. 시편 46:10.">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:locale:alternate" content="en_US">
 <meta property="og:locale:alternate" content="ja_JP">
@@ -68,7 +68,7 @@
       "operatingSystem": "iOS",
       "applicationCategory": "LifestyleApplication",
       "applicationSubCategory": "Bible / Devotional",
-      "description": "A private, on-device AI companion for Christians. Tell it what you're going through and it returns a comforting Bible verse, a gentle explanation of what it means, and calm ipe lofi music to rest with. Everything runs on-device — nothing you type leaves your phone. Rooted in Psalm 46:10, \"Be still, and know that I am God.\"",
+      "description": "힘든 날을 위한, 오롯이 내 것인 온디바이스 동반자. 지금 짊어진 것을 말하면 — 한 구절과 다정한 말, 그리고 쉬어갈 잔잔한 음악을 찾아줍니다. 시편 46:10에 뿌리를 둔 앱.",
       "inLanguage": "ko",
       "image": "https://still.ipe.rest/og-image.png",
       "offers": [
@@ -382,6 +382,9 @@
   .foot-links{margin-top:28px;display:flex;flex-wrap:wrap;gap:10px 28px;justify-content:center;font-size:13px;color:#8b93a1;}
   .foot-links a{text-decoration:none;transition:color .3s;}
   .foot-links a:hover{color:var(--cream);}
+  .foot-langs{margin-top:18px;display:flex;flex-wrap:wrap;gap:0 18px;justify-content:center;font-size:12px;color:#8b93a1;}
+  .foot-langs a{text-decoration:none;min-height:44px;display:inline-flex;align-items:center;transition:color .3s;}
+  .foot-langs a:hover,.foot-langs a[aria-current]{color:var(--cream);}
   .foot-studio{margin-top:26px;font-size:12px;letter-spacing:.06em;color:#565e6b;}
 
   /* ---------- language hint (root only; suggests, never redirects) ---------- */
@@ -434,9 +437,9 @@
 <body>
 
 <!-- language selector -->
-<label class="langsel" aria-label="Language">
+<label class="langsel" aria-label="언어">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.8 5.8 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.8-3.8-9S9.5 5.5 12 3z"/></svg>
-  <select id="lang" aria-label="Language">
+  <select id="lang" aria-label="언어">
     <option value="en">English</option>
     <option value="ko" selected>한국어</option>
     <option value="ja">日本語</option>
@@ -475,7 +478,7 @@
     <div class="eyebrow reveal" data-i18n="heart_eyebrow">이 앱의 마음</div>
     <h2 class="reveal" data-i18n="heart_h2">어떤 날은, 말이 떠오르지 않습니다.</h2>
     <p class="lede reveal" data-i18n="heart_lede">말할 수 있는 만큼만 — 한 문장, 한숨, 단어 하나라도. 대신 한 구절을 찾아드립니다.</p>
-    <figure class="verse-card reveal" aria-label="Example verse card">
+    <figure class="verse-card reveal" aria-label="예시 구절 카드">
       <div class="verse-card-top" aria-hidden="true"></div>
       <div class="verse-card-body">
         <blockquote class="verse-text" data-i18n="verse_text">“너희는 가만히 있어 내가 하나님 됨을 알찌어다.”</blockquote>
@@ -483,11 +486,11 @@
         <p class="verse-note" data-i18n="verse_note">오늘 밤 무언가를 바로잡지 않아도 됩니다. 이 구절은 어깨에 얹힌 손 — 잠시 애쓰기를 멈추고, 당신이 붙들려 있음을 기억하라는 초대입니다.</p>
       </div>
       <figcaption class="verse-actions">
-        <button type="button" aria-label="Save this verse">
+        <button type="button" aria-label="이 구절 저장">
           <svg class="glyph" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
           <span data-i18n="btn_save">저장</span>
         </button>
-        <button type="button" aria-label="Listen with calm music">
+        <button type="button" aria-label="잔잔한 음악과 함께 듣기">
           <svg class="glyph" viewBox="0 0 24 24"><path d="M9 18V6l11-2v12"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>
           <span data-i18n="btn_listen">듣기</span>
         </button>
@@ -618,7 +621,7 @@
     <!-- COMMUNITY: connect newsletter action -->
     <!-- No backend yet: submit shows a gentle confirmation only, nothing is stored. Connect Buttondown/ConvertKit action here. -->
     <form class="letters-form reveal" id="lettersForm" novalidate>
-      <input type="email" id="lettersEmail" data-i18n-ph="letters_placeholder" placeholder="이메일 주소" aria-label="Email address" autocomplete="email">
+      <input type="email" id="lettersEmail" data-i18n-ph="letters_placeholder" placeholder="이메일 주소" aria-label="이메일 주소" autocomplete="email">
       <button class="btn btn-sage" type="submit"><span data-i18n="letters_cta">still letters 구독하기</span></button>
     </form>
     <p class="letters-note reveal" data-i18n="letters_note">언제든 구독 해지. 이메일은 당신 것으로 남습니다.</p>
@@ -657,10 +660,23 @@
   <div class="wrap">
     <div class="foot-mark">still<span class="paren">(</span><span class="paren">)</span></div>
     <div class="foot-verse" data-i18n="hero_tag">be still — 시편 46:10</div>
-    <nav class="foot-links" aria-label="Footer">
+    <nav class="foot-links" aria-label="푸터 메뉴">
       <a href="/privacy/" data-i18n="foot_privacy">개인정보</a>
       <a href="/terms/" data-i18n="foot_terms">이용약관</a>
       <a href="mailto:ipe.haven@gmail.com" data-i18n="foot_support">지원</a>
+    </nav>
+    <nav class="foot-langs" aria-label="언어">
+      <a href="/en/" hreflang="en" lang="en">English</a>
+      <a href="/ko/" hreflang="ko" lang="ko" aria-current="true">한국어</a>
+      <a href="/ja/" hreflang="ja" lang="ja">日本語</a>
+      <a href="/zh/" hreflang="zh" lang="zh">中文</a>
+      <a href="/es/" hreflang="es" lang="es">Español</a>
+      <a href="/pt/" hreflang="pt" lang="pt">Português</a>
+      <a href="/id/" hreflang="id" lang="id">Bahasa Indonesia</a>
+      <a href="/ru/" hreflang="ru" lang="ru">Русский</a>
+      <a href="/vi/" hreflang="vi" lang="vi">Tiếng Việt</a>
+      <a href="/fr/" hreflang="fr" lang="fr">Français</a>
+      <a href="/de/" hreflang="de" lang="de">Deutsch</a>
     </nav>
     <div class="foot-studio" data-i18n="foot_studio">an ipe studio app</div>
   </div>
