@@ -27,10 +27,16 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload site (repo root)
+      - name: Assemble site (repo root minus sources)
+        # content/ (home template + strings, journal .md drafts), scripts/ and tests/ are build-time only — never public raw URLs.
+        run: |
+          mkdir -p "$RUNNER_TEMP/site"
+          rsync -a --exclude='.git' --exclude='.github' --exclude='content' --exclude='scripts' --exclude='tests' ./ "$RUNNER_TEMP/site/"
+
+      - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: ${{ runner.temp }}/site
 
       - name: Deploy
         id: deployment
