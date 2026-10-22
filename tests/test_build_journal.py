@@ -46,6 +46,7 @@ def site_copy():
     for f in ("sitemap.xml", "llms.txt", "og-image.png"):
         shutil.copy(REPO / f, tmp / f)
     shutil.copytree(REPO / "content/home", tmp / "content/home")
+    shutil.copytree(REPO / "content/info", tmp / "content/info")
     (tmp / "content/journal").mkdir(parents=True)
     for page in ("privacy", "terms"):  # legal pages listed in the sitemap
         (tmp / page).mkdir()
@@ -190,7 +191,7 @@ class AllLanguages(Base):
         for l in LANGS:
             self.assertIn("https://still.ipe.rest/journal/%s/" % l, locs)
             self.assertIn("https://still.ipe.rest/journal/%s/hello/" % l, locs)
-        self.assertEqual(len(locs), 12 + 2 + 1 + 11 + 11)  # home + privacy/terms + hub + lists + posts
+        self.assertEqual(len(locs), 12 + 22 + 2 + 1 + 11 + 11)  # home + faq/about + privacy/terms + hub + lists + posts
 
     def test_llms_and_feed(self):
         self.assertIn("https://still.ipe.rest/journal/ko/hello/", self.page("llms.txt"))

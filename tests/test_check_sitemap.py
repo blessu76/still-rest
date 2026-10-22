@@ -17,6 +17,9 @@ class CheckSitemap(unittest.TestCase):
         for l in ["en", "ko", "ja", "zh", "es", "pt", "id", "ru", "vi", "fr", "de"]:
             (self.tmp / l).mkdir()
             (self.tmp / l / "index.html").write_text("x")
+            for page in ("faq", "about"):
+                (self.tmp / l / page).mkdir()
+                (self.tmp / l / page / "index.html").write_text("x")
         (self.tmp / "index.html").write_text("x")
         for page in ("privacy", "terms"):
             (self.tmp / page).mkdir()

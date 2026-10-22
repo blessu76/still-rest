@@ -60,7 +60,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from site_common import GEN_MARK, LANGS, SITE, check_fresh, esc, lang_url, replace_between  # noqa: E402
 
-ASSET_V = "20261023"  # ?v= of assets/journal.css — bump when the file changes
+ASSET_V = "20261023b"  # ?v= of assets/journal.css — bump when the file changes
 CF_TOKEN = "eab6249a56894cb084b7bcc8f1a860a6"  # Cloudflare Web Analytics (cookieless), same as the home page
 REQUIRED = ("title", "date", "slug", "lang", "description", "category")
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -479,13 +479,16 @@ def lang_select(lang, targets, neutral=None):
   </label>"""
 
 
-def header(lang, targets, neutral=None):
+def header(lang, targets, neutral=None, nav="current"):
+    """nav: "current" = the Journal link marked as the current page (journal pages) · "link" = a plain Journal link · "none" = no nav."""
     t = ui(lang)
+    bar = "" if nav == "none" else '<nav class="bar-nav" aria-label="%s"><a href="%s"%s>%s</a></nav>' % (
+        esc(t['aria_primary']), jhome(lang), ' aria-current="page"' if nav == "current" else "", esc(t['journal']))
     return f"""<a class="skip-link" href="#main">{esc(t['skip'])}</a>
 <header class="topbar">
   <div class="wrap-wide bar">
     <a class="brand" href="/{lang}/" aria-label="{esc(t['aria_home'])}">still<span class="paren">(</span><span class="paren">)</span></a>
-    <nav class="bar-nav" aria-label="{esc(t['aria_primary'])}"><a href="{jhome(lang)}" aria-current="page">{esc(t['journal'])}</a></nav>
+    {bar}
     {lang_select(lang, targets, neutral)}
   </div>
 </header>
@@ -501,17 +504,19 @@ def lang_links(lang, targets, label):
     return '    <nav class="foot-langs" aria-label="%s">\n%s\n    </nav>\n' % (esc(label), links)
 
 
-def footer(lang, targets=None, current=None):
+def footer(lang, targets=None, current=None, journal=True):
+    """journal=False: no Journal/RSS links (info pages while there is no post — like the home page)."""
     t, h = ui(lang), HOME.get(lang) or HOME["en"]
     g = lambda k: h.get(k) or HOME["en"][k]
+    journal_links = ('      <a href="%s">%s</a>\n      <a href="/journal/feed.xml">%s</a>\n' % (jhome(lang), esc(t['journal']), esc(t['rss']))) if journal else ""
     return f"""<footer class="site-footer">
   <div class="wrap">
     <div class="foot-mark">still<span class="paren">(</span><span class="paren">)</span></div>
     <div class="foot-verse">{esc(g('hero_tag'))}</div>
     <nav class="foot-links" aria-label="{esc(g('aria_footer'))}">
       <a href="/{lang}/">still()</a>
-      <a href="{jhome(lang)}">{esc(t['journal'])}</a>
-      <a href="/journal/feed.xml">{esc(t['rss'])}</a>
+{journal_links}      <a href="/{lang}/faq/">{esc(g('foot_faq'))}</a>
+      <a href="/{lang}/about/">{esc(g('foot_about'))}</a>
       <a href="/privacy/">{esc(g('foot_privacy'))}</a>
       <a href="/terms/">{esc(g('foot_terms'))}</a>
       <a href="mailto:ipe.haven@gmail.com">{esc(g('foot_support'))}</a>
@@ -1050,6 +1055,8 @@ def build(root, drafts=False, strict_safety=False, check_only=False):
     import build_home  # home page: 11 static language pages + their sitemap/llms blocks
     build_home.build(root, {l: render_home_cards(card_posts(l, posts)) for l in LANGS}, {l: jhome(l) for l in LANGS},
                      max([p.get("updated") or p["_date"].isoformat() for p in posts], default=None))
+    import build_info  # FAQ + "how still() is different" pages, 11 languages (uses this module's header/footer/head)
+    build_info.build(root, sys.modules[__name__], bool(posts))
     return 0, "journal: built %d post(s)%s → %s" % (len(posts), " (incl. drafts)" if drafts else "", out)
 
 

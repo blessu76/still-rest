@@ -78,7 +78,9 @@
   "aria_footer": "Footer",
   "aria_close": "Close",
   "og_image_alt": "still() — the Bible for hard days. Psalm 46:10.",
-  "ld_desc": "A private, on-device AI companion for Christians. Tell it what you're going through and it returns a comforting Bible verse, a gentle explanation of what it means, and calm ipe lofi music to rest with. Everything runs on-device — nothing you type leaves your phone. Rooted in Psalm 46:10, \"Be still, and know that I am God.\""
+  "ld_desc": "A private, on-device AI companion for Christians. Tell it what you're going through and it returns a comforting Bible verse, a gentle explanation of what it means, and calm ipe lofi music to rest with. Everything runs on-device — nothing you type leaves your phone. Rooted in Psalm 46:10, \"Be still, and know that I am God.\"",
+  "foot_faq": "FAQ",
+  "foot_about": "About"
  },
  "ko": {
   "meta_title": "still() — 고요히. 힘든 날을 위한 성경.",
@@ -156,7 +158,9 @@
   "aria_email": "이메일 주소",
   "aria_footer": "푸터 메뉴",
   "aria_close": "닫기",
-  "og_image_alt": "still() — 힘든 날을 위한 성경. 시편 46:10."
+  "og_image_alt": "still() — 힘든 날을 위한 성경. 시편 46:10.",
+  "foot_faq": "자주 묻는 질문",
+  "foot_about": "소개"
  },
  "ja": {
   "meta_title": "still() — 静まれ。つらい日のための聖書。",
@@ -234,7 +238,9 @@
   "aria_email": "メールアドレス",
   "aria_footer": "フッターメニュー",
   "aria_close": "閉じる",
-  "og_image_alt": "still() — つらい日のための聖書。詩篇46:10。"
+  "og_image_alt": "still() — つらい日のための聖書。詩篇46:10。",
+  "foot_faq": "よくある質問",
+  "foot_about": "について"
  },
  "zh": {
   "meta_title": "still() — 安静。为艰难日子而生的圣经。",
@@ -312,7 +318,9 @@
   "aria_email": "电子邮件地址",
   "aria_footer": "页脚菜单",
   "aria_close": "关闭",
-  "og_image_alt": "still() — 写给艰难日子的圣经。诗篇46:10。"
+  "og_image_alt": "still() — 写给艰难日子的圣经。诗篇46:10。",
+  "foot_faq": "常见问题",
+  "foot_about": "关于"
  },
  "es": {
   "meta_title": "still() — Aquiétate. Una Biblia para los días difíciles.",
@@ -390,7 +398,9 @@
   "aria_email": "Correo electrónico",
   "aria_footer": "Pie de página",
   "aria_close": "Cerrar",
-  "og_image_alt": "still() — la Biblia para los días difíciles. Salmo 46:10."
+  "og_image_alt": "still() — la Biblia para los días difíciles. Salmo 46:10.",
+  "foot_faq": "Preguntas frecuentes",
+  "foot_about": "Acerca de"
  },
  "pt": {
   "meta_title": "still() — Aquieta-te. Uma Bíblia para os dias difíceis.",
@@ -468,7 +478,9 @@
   "aria_email": "Endereço de e-mail",
   "aria_footer": "Rodapé",
   "aria_close": "Fechar",
-  "og_image_alt": "still() — a Bíblia para os dias difíceis. Salmo 46:10."
+  "og_image_alt": "still() — a Bíblia para os dias difíceis. Salmo 46:10.",
+  "foot_faq": "Perguntas frequentes",
+  "foot_about": "Sobre"
  },
  "id": {
   "meta_title": "still() — Berdiam dirilah. Alkitab untuk hari-hari yang berat.",
@@ -546,7 +558,9 @@
   "aria_email": "Alamat email",
   "aria_footer": "Menu kaki halaman",
   "aria_close": "Tutup",
-  "og_image_alt": "still() — Alkitab untuk hari-hari yang berat. Mazmur 46:10."
+  "og_image_alt": "still() — Alkitab untuk hari-hari yang berat. Mazmur 46:10.",
+  "foot_faq": "Pertanyaan umum",
+  "foot_about": "Tentang"
  },
  "ru": {
   "meta_title": "still() — Остановись. Библия для трудных дней.",
@@ -624,7 +638,9 @@
   "aria_email": "Адрес электронной почты",
   "aria_footer": "Нижнее меню",
   "aria_close": "Закрыть",
-  "og_image_alt": "still() — Библия для трудных дней. Псалом 45:11."
+  "og_image_alt": "still() — Библия для трудных дней. Псалом 45:11.",
+  "foot_faq": "Вопросы и ответы",
+  "foot_about": "О приложении"
  },
  "vi": {
   "meta_title": "still() — Hãy lặng yên. Một cuốn Kinh Thánh cho những ngày nặng nề.",
@@ -702,7 +718,9 @@
   "aria_email": "Địa chỉ email",
   "aria_footer": "Menu chân trang",
   "aria_close": "Đóng",
-  "og_image_alt": "still() — Kinh Thánh cho những ngày khó khăn. Thi Thiên 46:10."
+  "og_image_alt": "still() — Kinh Thánh cho những ngày khó khăn. Thi Thiên 46:10.",
+  "foot_faq": "Câu hỏi thường gặp",
+  "foot_about": "Giới thiệu"
  },
  "fr": {
   "meta_title": "still() — Sois tranquille. Une Bible pour les jours difficiles.",
@@ -780,7 +798,9 @@
   "aria_email": "Adresse e-mail",
   "aria_footer": "Pied de page",
   "aria_close": "Fermer",
-  "og_image_alt": "still() — la Bible pour les jours difficiles. Psaume 46:10."
+  "og_image_alt": "still() — la Bible pour les jours difficiles. Psaume 46:10.",
+  "foot_faq": "FAQ",
+  "foot_about": "À propos"
  },
  "de": {
   "meta_title": "still() — Sei still. Eine Bibel für schwere Tage.",
@@ -858,6 +878,8 @@
   "aria_email": "E-Mail-Adresse",
   "aria_footer": "Fußbereich",
   "aria_close": "Schließen",
-  "og_image_alt": "still() — die Bibel für schwere Tage. Psalm 46,10."
+  "og_image_alt": "still() — die Bibel für schwere Tage. Psalm 46,10.",
+  "foot_faq": "FAQ",
+  "foot_about": "Über still()"
  }
 }

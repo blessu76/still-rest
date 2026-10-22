@@ -122,7 +122,7 @@ class BuildHome(unittest.TestCase):
 
     def test_sitemap_has_home_in_every_language(self):
         root = ET.parse(self.tmp / "sitemap.xml").getroot()
-        rows = {u.find("s:loc", NS).text: u for u in root.findall("s:url", NS) if u.find("x:link", NS) is not None}  # home rows (legal pages have no alternates)
+        rows = {u.find("s:loc", NS).text: u for u in root.findall("s:url", NS) if u.find("x:link", NS) is not None and u.find("{http://www.google.com/schemas/sitemap-image/1.1}image") is not None}  # home rows (info pages have alternates but no image, legal pages neither)
         self.assertEqual(len(rows), 12)  # "/" + 11 languages
         for loc, u in rows.items():
             self.assertEqual(len(u.findall("x:link", NS)), 12, loc)  # 11 languages + x-default
@@ -159,7 +159,7 @@ class BuildHome(unittest.TestCase):
     def test_sitemap_lists_legal_pages(self):
         root = ET.parse(self.tmp / "sitemap.xml").getroot()
         locs = {u.find("s:loc", NS).text for u in root.findall("s:url", NS)}
-        self.assertEqual(len(locs), 14)  # 12 home + privacy + terms
+        self.assertEqual(len(locs), 36)  # 12 home + 22 faq/about + privacy + terms
         self.assertLessEqual({"https://still.ipe.rest/privacy/", "https://still.ipe.rest/terms/"}, locs)
         self.assertFalse({"https://still.ipe.rest/privacy", "https://still.ipe.rest/terms"} & locs)
 
@@ -200,7 +200,7 @@ class HomeStamp(unittest.TestCase):
 
     def lastmods(self):
         root = ET.parse(self.tmp / "sitemap.xml").getroot()
-        return {u.find("s:loc", NS).text: u.find("s:lastmod", NS).text for u in root.findall("s:url", NS) if u.find("x:link", NS) is not None}
+        return {u.find("s:loc", NS).text: u.find("s:lastmod", NS).text for u in root.findall("s:url", NS) if u.find("{http://www.google.com/schemas/sitemap-image/1.1}image") is not None}  # home rows only
 
     def test_unchanged_copy_keeps_its_date(self):
         stamp = self.stamp()

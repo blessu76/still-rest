@@ -91,6 +91,8 @@ h1,h2,h3{font-weight:500;letter-spacing:-.01em;}
 .prose{font-size:17.5px;line-height:1.95;overflow-wrap:anywhere;}
 .prose p{margin:0 0 1.35em;}
 .prose h2{font-family:var(--serif);font-weight:400;font-size:clamp(23px,4.4vw,28px);line-height:1.4;margin:2em 0 .7em;}
+.prose.info h2{font-size:clamp(19px,3.8vw,22px);margin:1.8em 0 .5em;}
+.prose.info h2:first-child{margin-top:0;}
 .prose h3{font-size:19px;margin:1.8em 0 .5em;}
 .prose ul,.prose ol{margin:0 0 1.35em 1.3em;}
 .prose li{margin:.3em 0;}

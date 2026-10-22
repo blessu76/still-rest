@@ -6,7 +6,8 @@
 
 Offline checks:
   1. sitemap.xml is valid XML.
-  2. Home: / (x-default) and /<lang>/ for all 11 languages are listed (static pages, no ?lang=), plus /privacy/ and /terms/.
+  2. Home: / (x-default) and /<lang>/ for all 11 languages are listed (static pages, no ?lang=), plus /<lang>/faq/ and
+     /<lang>/about/ for all 11 languages, plus /privacy/ and /terms/.
   3. Every listed URL has a built page in this repo (<path>/index.html), and no listed URL carries a query string.
   4. hreflang (every <url> that has alternates): lists itself (the root only is the x-default) + x-default; every hreflang
      target is itself a <loc> in the sitemap; references are reciprocal (if A lists B under lang L, B lists A under A's lang).
@@ -20,6 +21,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from site_common import LANGS, SITE  # noqa: E402
 
+INFO_PAGES = ("faq", "about")  # /<lang>/faq/ and /<lang>/about/ (scripts/build_info.py)
 LEGAL_PAGES = ("privacy", "terms")  # canonical form has the trailing slash (the directory index)
 NS = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9", "x": "http://www.w3.org/1999/xhtml"}
 
@@ -28,6 +30,7 @@ def expected_urls(root):
     """URLs that must be in the sitemap. Extended by the journal checks (see check())."""
     want = {SITE + "/"}
     want.update("%s/%s/" % (SITE, l) for l in LANGS)
+    want.update("%s/%s/%s/" % (SITE, l, page) for l in LANGS for page in INFO_PAGES)
     want.update("%s/%s/" % (SITE, page) for page in LEGAL_PAGES)
     return want
 

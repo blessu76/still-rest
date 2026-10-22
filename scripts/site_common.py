@@ -40,6 +40,30 @@ def replace_between(text, start_re, end_marker, new, where):
     return text[:m.end()] + "\n" + new + ("\n" if new and not new.endswith("\n") else "") + text[e:]
 
 
+def stamped_date(root, sources, stamp):
+    """date the files `sources` (paths under root) last changed. Kept in the json file `stamp` ({hash, date}) next to a hash of the
+    sources: when the hash differs the stamp is rewritten with today's date, so a sitemap lastmod follows the copy by itself."""
+    import datetime
+    import hashlib
+    import json
+    from pathlib import Path
+    root = Path(root)
+    h = hashlib.sha256()
+    for f in sources:
+        h.update((root / f).read_bytes())
+    digest = h.hexdigest()[:16]
+    path = root / stamp
+    try:
+        cur = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        cur = {}
+    if cur.get("hash") == digest and cur.get("date"):
+        return cur["date"]
+    date = datetime.date.today().isoformat()
+    path.write_text(json.dumps({"hash": digest, "date": date}, indent=1) + "\n", encoding="utf-8")
+    return date
+
+
 def check_fresh(root, build_fn):
     """Build into a temp copy of the site and compare with what is committed. Returns a list of differing paths."""
     import filecmp

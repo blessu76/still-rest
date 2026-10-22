@@ -17,8 +17,6 @@ latest journal posts). Running this file alone builds the home pages without jou
     python3 scripts/build_home.py --check    # fail if the committed pages are not what the build would write
 """
 import argparse
-import datetime
-import hashlib
 import html
 import json
 import re
@@ -26,7 +24,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from site_common import LANGS, SITE, check_fresh, esc, lang_url, replace_between  # noqa: E402
+from site_common import LANGS, SITE, check_fresh, esc, lang_url, replace_between, stamped_date  # noqa: E402
 
 TEMPLATE = Path("content") / "home" / "template.html"
 STRINGS = Path("content") / "home" / "i18n.json"
@@ -138,22 +136,8 @@ def journal_section(out, cards_html):
 
 
 def home_updated(root):
-    """date the home copy (template + i18n) last changed: kept in content/home/stamp.json next to a hash of both files.
-    The hash differs -> the file is rewritten with today's date, so sitemap lastmod follows the copy without anyone bumping it."""
-    h = hashlib.sha256()
-    for f in (TEMPLATE, STRINGS):
-        h.update((root / f).read_bytes())
-    digest = h.hexdigest()[:16]
-    path = root / STAMP
-    try:
-        cur = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, ValueError):
-        cur = {}
-    if cur.get("hash") == digest and cur.get("date"):
-        return cur["date"]
-    date = datetime.date.today().isoformat()
-    path.write_text(json.dumps({"hash": digest, "date": date}, indent=1) + "\n", encoding="utf-8")
-    return date
+    """date the home copy (template + i18n) last changed (content/home/stamp.json, see site_common.stamped_date)."""
+    return stamped_date(root, (TEMPLATE, STRINGS), STAMP)
 
 
 def sitemap_block(home_date, newest_post_date=None):
