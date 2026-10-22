@@ -26,7 +26,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from site_common import LANGS, SITE, check_fresh, esc, lang_url, replace_between  # noqa: E402
 
-HOME_UPDATED = "2026-10-22"  # bump when template/i18n copy changes (sitemap lastmod = max(this, newest post date))
+HOME_UPDATED = "2026-10-23"  # bump when template/i18n copy changes (sitemap lastmod = max(this, newest post date))
 TEMPLATE = Path("content") / "home" / "template.html"
 STRINGS = Path("content") / "home" / "i18n.json"
 LANG_ATTR = re.compile(r'(<(?P<tag>[a-zA-Z0-9]+)(?P<attrs>[^>]*?\sdata-i18n="(?P<key>[^"]+)"[^>]*)>)(?P<inner>.*?)(</(?P=tag)>)', re.S)
@@ -106,7 +106,16 @@ def render_page(tpl, strings, lang, root, cards_html=None, journal_href="/journa
     out = re.sub(r"\{\{(\w+)\}\}", lambda m: subs[m.group(1)], out)
     if cards_html is not None:  # journal section (present in the template once the journal exists)
         out = journal_section(out, cards_html)
-    return out
+    return footer_journal_link(out, bool(cards_html))
+
+
+def footer_journal_link(out, has_posts):
+    """footer 'Journal' link (marked data-journal-link in the template): shown only while there is a post to read — like the
+    journal section, it appears on its own once the first post is published. Without cards (also when build_home runs alone) it goes."""
+    link = re.compile(r'[ \t]*<a [^>]*\bdata-journal-link\b[^>]*>.*?</a>\n?', re.S)
+    if has_posts:
+        return out.replace(" data-journal-link", "")
+    return link.sub("", out)
 
 
 def journal_section(out, cards_html):

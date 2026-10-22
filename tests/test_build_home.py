@@ -50,7 +50,10 @@ class BuildHome(unittest.TestCase):
             self.assertIn('<meta property="og:locale" content="', h)
             self.assertIn("og:locale:alternate", h)
             self.assertIn("cloudflareinsights", h)  # cookieless analytics kept
-            self.assertIn('href="/privacy"', h)  # footer link to the privacy page keeps working
+            self.assertIn('<a href="/privacy/" data-i18n="foot_privacy">', h)  # footer links use the canonical (slash) form
+            self.assertIn('<a href="/terms/" data-i18n="foot_terms">', h)
+            self.assertNotIn('href="/privacy"', h)
+            self.assertNotIn('href="/terms"', h)
             self.assertIn('<option value="%s" selected>' % l, h)
 
     def test_text_follows_the_language(self):
@@ -90,7 +93,7 @@ class BuildHome(unittest.TestCase):
 
     def test_sitemap_has_home_in_every_language(self):
         root = ET.parse(self.tmp / "sitemap.xml").getroot()
-        rows = {u.find("s:loc", NS).text: u for u in root.findall("s:url", NS)}
+        rows = {u.find("s:loc", NS).text: u for u in root.findall("s:url", NS) if u.find("x:link", NS) is not None}  # home rows (legal pages have no alternates)
         self.assertEqual(len(rows), 12)  # "/" + 11 languages
         for loc, u in rows.items():
             self.assertEqual(len(u.findall("x:link", NS)), 12, loc)  # 11 languages + x-default
@@ -102,6 +105,41 @@ class BuildHome(unittest.TestCase):
         self.assertFalse([l for l in rows if "?lang=" in l])
         self.assertIn("https://still.ipe.rest/ja/", (self.tmp / "llms.txt").read_text(encoding="utf-8"))
 
+    def test_journal_link_is_hidden_until_there_is_a_post(self):
+        for l in [None] + LANGS:  # no post in the repo -> no Journal link anywhere on the home pages, section stays hidden
+            h = self.page(l)
+            self.assertNotIn("data-journal-link", h, l)
+            self.assertNotIn("foot_journal", h, l)
+            foot = h[h.index('<nav class="foot-links"'):h.index("</nav>", h.index('<nav class="foot-links"'))]
+            self.assertNotIn("/journal/", foot, l)
+            self.assertIn('<section class="journal" id="journal" hidden>', h, l)
+
+    def test_journal_link_appears_with_cards(self):
+        sys.path.insert(0, str(REPO / "scripts"))
+        import build_home
+        tpl = (REPO / "content/home/template.html").read_text(encoding="utf-8")
+        strings = json.loads((REPO / "content/home/i18n.json").read_text(encoding="utf-8"))
+        shown = build_home.render_page(tpl, strings, "ko", False, '<article class="j-card">x</article>', "/journal/ko/")
+        self.assertIn('<a href="/journal/ko/" data-i18n="foot_journal">저널</a>', shown)
+        self.assertNotIn("data-journal-link", shown)
+        self.assertNotIn(" hidden>", re.search(r'<section class="journal"[^>]*>', shown).group(0))
+        gone = build_home.render_page(tpl, strings, "ko", False, "", "/journal/ko/")
+        self.assertNotIn("저널</a>", gone)
+        self.assertIn("개인정보</a>", gone)  # the other footer links stay
+
+    def test_sitemap_lists_legal_pages(self):
+        root = ET.parse(self.tmp / "sitemap.xml").getroot()
+        locs = {u.find("s:loc", NS).text for u in root.findall("s:url", NS)}
+        self.assertEqual(len(locs), 14)  # 12 home + privacy + terms
+        self.assertLessEqual({"https://still.ipe.rest/privacy/", "https://still.ipe.rest/terms/"}, locs)
+        self.assertFalse({"https://still.ipe.rest/privacy", "https://still.ipe.rest/terms"} & locs)
+
+    def test_legal_pages_canonical_has_trailing_slash(self):
+        for page in ("privacy", "terms"):
+            h = (REPO / page / "index.html").read_text(encoding="utf-8")
+            self.assertIn('<link rel="canonical" href="https://still.ipe.rest/%s/">' % page, h)
+            self.assertNotRegex(h, r'href="/(privacy|terms)"')  # internal links use the slash form too
+
     def test_idempotent(self):
         before = {p: p.read_bytes() for p in self.tmp.rglob("*") if p.is_file()}
         self.build()
@@ -110,6 +148,37 @@ class BuildHome(unittest.TestCase):
     def test_committed_pages_are_up_to_date(self):
         r = subprocess.run([sys.executable, str(REPO / "scripts/build_home.py"), "--check"], capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stderr)
+
+
+class DeployWorkflow(unittest.TestCase):
+    """rsync excludes are anchored to the repo root — an unanchored 'content' would also drop any nested content/ dir."""
+
+    def rsync_cmd(self):
+        y = (REPO / ".github/workflows/deploy.yml").read_text(encoding="utf-8")
+        m = re.search(r"^\s*rsync .*$", y, re.M)
+        self.assertIsNotNone(m)
+        return m.group(0).strip()
+
+    def test_excludes_are_anchored_to_the_root(self):
+        ex = re.findall(r"--exclude='([^']+)'", self.rsync_cmd())
+        self.assertEqual(set(ex), {"/.git", "/.github", "/content", "/scripts", "/tests"})
+
+    @unittest.skipUnless(shutil.which("rsync"), "rsync not installed")
+    def test_nested_dirs_with_the_same_name_survive(self):
+        src, dst = Path(tempfile.mkdtemp()), Path(tempfile.mkdtemp())
+        try:
+            for rel in ("content/x", "scripts/x", "tests/x", ".git/x", ".github/x", "journal/en/content/keep", "a/scripts/keep", "index.html"):
+                f = src / rel
+                f.parent.mkdir(parents=True, exist_ok=True)
+                f.write_text("x")
+            cmd = self.rsync_cmd().replace('"$RUNNER_TEMP/site/"', str(dst) + "/")
+            r = subprocess.run(cmd, shell=True, cwd=src, capture_output=True, text=True)
+            self.assertEqual(r.returncode, 0, r.stderr)
+            got = {str(p.relative_to(dst)) for p in dst.rglob("*") if p.is_file()}
+            self.assertEqual(got, {"index.html", "journal/en/content/keep", "a/scripts/keep"})
+        finally:
+            shutil.rmtree(src)
+            shutil.rmtree(dst)
 
 
 class Robots(unittest.TestCase):

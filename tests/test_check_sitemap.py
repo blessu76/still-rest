@@ -18,6 +18,9 @@ class CheckSitemap(unittest.TestCase):
             (self.tmp / l).mkdir()
             (self.tmp / l / "index.html").write_text("x")
         (self.tmp / "index.html").write_text("x")
+        for page in ("privacy", "terms"):
+            (self.tmp / page).mkdir()
+            (self.tmp / page / "index.html").write_text("x")
         j = REPO / "journal"
         if j.is_dir():  # journal pages exist in the repo once the journal is built; mirror them
             shutil.copytree(j, self.tmp / "journal")
@@ -48,6 +51,17 @@ class CheckSitemap(unittest.TestCase):
     def test_query_string_urls_are_rejected(self):
         self.edit("<loc>https://still.ipe.rest/ko/</loc>", "<loc>https://still.ipe.rest/?lang=ko</loc>")
         self.assertTrue(any("query" in e for e in self.errs()), self.errs())
+
+    def test_legal_pages_are_required_in_the_sitemap(self):
+        s = (self.tmp / "sitemap.xml").read_text(encoding="utf-8")
+        for page in ("privacy", "terms"):
+            self.assertIn("<loc>https://still.ipe.rest/%s/</loc>" % page, s)
+            a = s.index("<loc>https://still.ipe.rest/%s/</loc>" % page)
+            a = s.rindex("<url>", 0, a)
+            b = s.index("</url>", a) + len("</url>")
+            (self.tmp / "sitemap.xml").write_text(s[:a] + s[b:], encoding="utf-8")
+            self.assertIn("missing from sitemap: https://still.ipe.rest/%s/" % page, self.errs())
+            (self.tmp / "sitemap.xml").write_text(s, encoding="utf-8")
 
     def test_unbuilt_page_is_reported(self):
         (self.tmp / "ja" / "index.html").unlink()

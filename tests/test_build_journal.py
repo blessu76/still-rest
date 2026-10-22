@@ -47,6 +47,9 @@ def site_copy():
         shutil.copy(REPO / f, tmp / f)
     shutil.copytree(REPO / "content/home", tmp / "content/home")
     (tmp / "content/journal").mkdir(parents=True)
+    for page in ("privacy", "terms"):  # legal pages listed in the sitemap
+        (tmp / page).mkdir()
+        (tmp / page / "index.html").write_text("x")
     for f in ("safety.json", "ui.json"):
         shutil.copy(REPO / "content/journal" / f, tmp / "content/journal" / f)
     return tmp
@@ -142,7 +145,7 @@ class AllLanguages(Base):
         for l in LANGS:
             self.assertIn("https://still.ipe.rest/journal/%s/" % l, locs)
             self.assertIn("https://still.ipe.rest/journal/%s/hello/" % l, locs)
-        self.assertEqual(len(locs), 12 + 1 + 11 + 11)  # home + hub + lists + posts
+        self.assertEqual(len(locs), 12 + 2 + 1 + 11 + 11)  # home + privacy/terms + hub + lists + posts
 
     def test_llms_and_feed(self):
         self.assertIn("https://still.ipe.rest/journal/ko/hello/", self.page("llms.txt"))
@@ -165,6 +168,14 @@ class AllLanguages(Base):
     def test_stale_output_fails_check(self):
         (self.tmp / "journal/ko/hello/index.html").write_text("stale " + bj.GEN_MARK, encoding="utf-8")
         self.assertEqual(run(self.tmp, "--check").returncode, 1)
+
+
+    def test_journal_pages_footer_links_privacy_and_terms_with_slash(self):
+        for rel in ("journal/en/hello/index.html", "journal/ko/index.html"):
+            h = self.page(rel)
+            self.assertIn('<a href="/privacy/">', h, rel)
+            self.assertIn('<a href="/terms/">', h, rel)
+            self.assertNotIn('href="/privacy"', h, rel)
 
 
 class Drafts(Base):

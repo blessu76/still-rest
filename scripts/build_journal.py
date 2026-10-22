@@ -463,7 +463,8 @@ def footer(lang):
       <a href="/{lang}/">still()</a>
       <a href="{jhome(lang)}">{esc(t['journal'])}</a>
       <a href="/journal/feed.xml">{esc(t['rss'])}</a>
-      <a href="/privacy">{esc(g('foot_privacy'))}</a>
+      <a href="/privacy/">{esc(g('foot_privacy'))}</a>
+      <a href="/terms/">{esc(g('foot_terms'))}</a>
       <a href="mailto:ipe.haven@gmail.com">{esc(g('foot_support'))}</a>
     </nav>
     <div class="foot-studio">{esc(g('foot_studio'))}</div>
