@@ -80,13 +80,24 @@ FALLBACK_HELPLINE = "https://findahelpline.com"  # decision D2 (CRISIS_PROTOCOL)
 UI = {}      # {lang: {...}}  loaded from content/journal/ui.json
 HOME = {}    # {lang: {...}}  content/home/i18n.json (footer wording is shared with the home page)
 SAFETY = {}  # content/journal/safety.json
+HELD = {}    # content/journal/hold.json  {lang: reason} — languages whose journal is on hold: a post there may only be `draft: true`
+             # (the build fails otherwise), so the language gets no list page and no sitemap/hreflang/feed entry. Delete the entry to lift.
 LIST_LANGS = None  # set by main(): languages that have a list page; None = assume all (other scripts importing this module)
 
 
 def load_data(root):
     """read the three data files into the module globals; returns a list of problems (empty = fine)."""
-    global UI, HOME, SAFETY
+    global UI, HOME, SAFETY, HELD
     errs = []
+    try:
+        HELD = {k: v for k, v in json.loads((root / "content" / "journal" / "hold.json").read_text(encoding="utf-8")).items() if not k.startswith("_")}
+    except FileNotFoundError:
+        HELD = {}
+    except (OSError, ValueError) as ex:
+        return ["content/journal/hold.json: %s" % ex]
+    bad = [l for l in HELD if l not in LANGS]
+    if bad:
+        errs.append("hold.json: unknown language %s" % ", ".join(bad))
     try:
         UI = json.loads((root / "content" / "journal" / "ui.json").read_text(encoding="utf-8"))
         SAFETY = json.loads((root / "content" / "journal" / "safety.json").read_text(encoding="utf-8"))
@@ -568,7 +579,7 @@ def render_safety(p):
     txt = SAFETY["text"][p["lang"]]
     bible = ('    <p class="bible-version" data-safety="bible"><strong>%s</strong> %s</p>\n' % (esc(txt["bible_label"]), esc(p["_bible"]))) if p["_bible"] else ""
     return f"""{bible}  <section class="safety" data-safety="block" aria-label="{esc(txt['help_title'])}">
-{render_help(p['lang'])}    <p class="small-print">{esc(txt['disclaimer'])}</p>
+{render_help(p['lang'])}    <p class="small-print">{esc(txt['fiction'])} {esc(txt['disclaimer'])}</p>
   </section>
 """
 
@@ -959,6 +970,9 @@ def read_posts(root, drafts):
             errors.append("%s: %s" % (name, ex))
             continue
         all_posts[(p["slug"], p["lang"])] = p
+        if p["lang"] in HELD and not p["draft"]:
+            errors.append("%s: the %s journal is on hold (%s) — keep the post `draft: true`" % (name, p["lang"], HELD[p["lang"]]))
+            continue
         if p["draft"] and not drafts:
             continue
         p["_html"] = markdown(p["_body"])

@@ -39,7 +39,7 @@ draft: true                     # 선택: 어디에도 나가지 않음
 글쓴이가 고치거나 뺄 수 없다 — 문구·번호는 전부 **`content/journal/safety.json`** 한 파일에서만 온다(원어민 검수 대상).
 
 1. 제목 아래 띠: 「여러 사람의 경험을 엮어 쓴 이야기입니다」(창작 명시) + 「의료 조언이 아니며 진료·치료를 대신하지 않습니다」 + 위기 상자로 가는 링크.
-2. 본문 뒤: 성경 번역본 이름(`bible_version`) → 위기 상담 상자(`id="help"`: 안내문 + 나라별 번호 + findahelpline.com 폴백, 결정 D2) → 면책 한 줄 더.
+2. 본문 뒤(글의 맨 끝): 성경 번역본 이름(`bible_version`) → 위기 상담 상자(`id="help"`: 안내문 + 나라별 번호 + findahelpline.com 폴백, 결정 D2) → 창작 명시 + 면책 한 줄 더. (모든 글에 붙는지는 테스트가 확인한다.)
 3. 위기 문구에는 성경 구절·기도 권유를 넣지 않는다(CRISIS_PROTOCOL §2.2).
 
 `safety.json`: `text.<lang>` = 문구 7개, `lines.<lang>` = `{status: draft|verified, regions: [{country, items: [{name, number, tel, hours, status, checked_on, source, note}]}]}`.
@@ -53,7 +53,10 @@ draft: true                     # 선택: 어디에도 나가지 않음
 2. 게이트 — 하나라도 실패하면 커밋·배포 금지:
    `python3 -m unittest discover -s tests` · `python3 scripts/build_journal.py --check` · `python3 scripts/check_sitemap.py`
    **게시(공개 글이 1편이라도 있는 상태로 배포)할 때는 `--check --strict-safety` 도 통과해야 한다** — 그 글의 언어에 `draft` 위기 번호가 남아 있으면 실패. (배포 워크플로가 같은 검사를 돌린다.)
-3. 커밋·push → 배포 후 `python3 scripts/check_sitemap.py --live` (모든 URL HTTP 200) → `python3 scripts/indexnow.py <새 URL…>`.
+3. 발행 = 글의 `draft: true` 줄을 지운다(`date` 가 그날이어야 함) → 빌드(`build_journal.py`) → 위 게이트 → 커밋·push. 하루 2편(11:00·17:00 KST)이라 글마다 따로 한 번씩 한다. 발행 일정은 글 front matter 의 `# 발행 예정` 주석.
+   ko 첫 발행 전: `safety.json` 의 `lines.ko.status` 를 원어민(Davy) 검수 뒤 `verified` 로 — 아니면 `--strict-safety` 가 막는다. 구절 인용(`>` 블록)은 앱 `daily_verses.json` 의 글자 그대로(테스트가 대조).
+   보류 언어: `content/journal/hold.json`(지금 `id`) 에 적힌 언어는 `draft: true` 글만 둘 수 있다 — 공개 글이 있으면 빌드가 실패한다.
+4. 커밋·push → 배포 후 `python3 scripts/check_sitemap.py --live` (모든 URL HTTP 200) → `python3 scripts/indexnow.py <새 URL…>`.
 
 빌드가 대신 잡아 주는 것: 필수 칸 누락 · 폴더/`lang`/파일명 불일치 · 번역에 `translation_of` 없음/원문 없음/원문이 draft · 인용 블록인데 `bible_version` 없음 · 예약 slug · alias 중복 · 이미지 파일 없음 · 안전 데이터 누락(11개 언어 전부). `draft: true` 는 sitemap·llms·목록·hreflang 어디에도 나오지 않는다(테스트로 보장).
 `content/`·`scripts/`·`tests/` 는 배포 산출물에서 제외된다(원고 .md 가 공개 URL 이 되지 않음).

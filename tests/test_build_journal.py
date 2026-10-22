@@ -94,6 +94,7 @@ class AllLanguages(Base):
             self.assertIn('class="bible-version"', h, l)
             self.assertIn("WEB", h, l)
             self.assertEqual(h.count(bj.esc(txt["disclaimer"])), 2, l)  # under the title and again after the text
+            self.assertEqual(h.count(bj.esc(txt["fiction"])), 2, l)  # the creative-work notice too: under the title and at the very end
             for r in data["lines"][l]["regions"]:
                 for it in r["items"]:
                     if it["status"] != "verified":  # an unconfirmed number is never printed (neither number nor tap-to-call link)
@@ -301,6 +302,22 @@ class Validation(Base):
         p.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
         self.fails("has no checked_on date")
 
+    def test_held_language_may_only_have_drafts(self):
+        shutil.copy(REPO / "content/journal/hold.json", self.tmp / "content/journal/hold.json")
+        write_post(self.tmp, "ko", extra="bible_version: x\n")
+        write_post(self.tmp, "id", extra="bible_version: x\ntranslation_of: ko\n")
+        self.fails("the id journal is on hold")
+        write_post(self.tmp, "id", extra="bible_version: x\ntranslation_of: ko\ndraft: true\n")
+        self.assertEqual(run(self.tmp).returncode, 0)
+        self.assertEqual(run(self.tmp, "--check").returncode, 0)
+        self.assertFalse((self.tmp / "journal/id").exists())  # no list page, no post page
+        self.assertNotIn("/journal/id/", self.page("sitemap.xml"))
+        self.assertNotIn("/journal/id/", self.page("llms.txt"))
+        self.assertNotIn('hreflang="id"', self.page("journal/ko/hello/index.html"))
+        self.assertNotIn("/journal/id/", self.page("journal/feed.xml"))
+        self.assertNotIn("/journal/id/", self.page("journal/index.html"))
+        self.assertIn("/journal/ko/", self.page("journal/index.html"))
+
     def test_strict_safety_gate(self):
         write_post(self.tmp, "ko", extra="bible_version: x\n")
         self.assertEqual(run(self.tmp).returncode, 0)
@@ -320,7 +337,88 @@ class Validation(Base):
         self.assertEqual(run(self.tmp, "--check", "--strict-safety").returncode, 0)
 
 
+POSTS = {  # slug -> (verse reference, planned publication day)
+    "commute-get-off-early": ("이사야 41:10", "2026-10-23"),
+    "evening-after-the-meeting": ("마태복음 11:28", "2026-10-23"),
+    "first-day-at-the-clinic": ("예레미야애가 3:23", "2026-10-24"),
+    "three-am-counting-hours": ("시편 4:8", "2026-10-24"),
+}
+VERSES = Path("/Users/davy.kim/Desktop/foundry-f001/assets/verses/daily_verses.json")  # canonical text of the app (not in this repo)
+
+
+class FirstPosts(unittest.TestCase):
+    """the four Korean first posts (content/journal/ko) after the Dane review (2026-10-23)"""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.src = {s: bj.parse_post(REPO / "content/journal/ko" / (s + ".md")) for s in POSTS}
+
+    def test_front_matter_after_the_review(self):
+        for slug, (ref, day) in POSTS.items():
+            p = self.src[slug]
+            self.assertEqual(p["date"], day, slug)  # 2 posts a day, 11:00 and 17:00 KST
+            self.assertEqual(p["lang"], "ko")
+            self.assertTrue(p["draft"], "%s is hidden until it is published" % slug)
+            self.assertIn(ref, p["description"], slug)
+            self.assertIn("1인칭 이야기", p["description"], slug)
+            self.assertNotIn("기록", p["description"], slug)  # reads as a real diary
+            self.assertEqual(p["_bible"], "개역한글(1961)")
+            self.assertNotIn("공황", p["title"] + p["description"] + slug, slug)  # no self-diagnosis in the meta
+        self.assertEqual(self.src["commute-get-off-early"]["title"], "지하철에서 한 정거장 먼저 내려도 괜찮았다")
+
+    def test_109_comes_after_the_verse_and_the_breath(self):
+        body = self.src["evening-after-the-meeting"]["_body"]
+        self.assertGreater(body.index("109(자살예방 상담전화, 24시간)"), body.index("**오늘의 숨**"))
+        self.assertGreater(body.index("**오늘의 숨**"), body.index("마태복음 11:28 (개역한글)"))
+        for slug in ("commute-get-off-early", "first-day-at-the-clinic", "three-am-counting-hours"):
+            self.assertNotIn("109", self.src[slug]["_body"], slug)
+
+    def test_the_verse_is_the_app_text_to_the_letter(self):
+        quotes = {}
+        for slug, (ref, _) in POSTS.items():
+            m = re.search(r"(?m)^> (.+)\n>\n> %s \(개역한글\)$" % re.escape(ref), self.src[slug]["_body"])
+            self.assertTrue(m, "%s: verse block with its reference" % slug)
+            quotes[ref] = m.group(1)
+            self.assertEqual(len(re.findall(r"(?m)^>", self.src[slug]["_body"])), 3, slug)  # nothing else is quoted
+        if not VERSES.is_file():
+            self.skipTest("daily_verses.json is not on this machine")
+        canon = {v["ref_ko"]: v["ko"] for v in json.loads(VERSES.read_text(encoding="utf-8"))["verses"]}
+        for ref, text in quotes.items():
+            self.assertEqual(text, canon[ref], ref)
+
+    def test_every_post_page_ends_with_the_fixed_blocks(self):
+        tmp = Path(tempfile.mkdtemp())
+        try:
+            shutil.copytree(REPO, tmp / "s", ignore=shutil.ignore_patterns(".git", "__pycache__"))
+            r = run(tmp / "s", "--drafts")  # preview build: drafts included
+            self.assertEqual(r.returncode, 0, r.stderr)
+            data = json.loads((REPO / "content/journal/safety.json").read_text(encoding="utf-8"))["text"]["ko"]
+            for slug in POSTS:
+                h = (tmp / "s/journal/ko" / slug / "index.html").read_text(encoding="utf-8")
+                end = h[h.index('data-safety="block"'):]
+                self.assertEqual(h.count(data["fiction"]), 2, slug)  # under the title + at the end
+                self.assertIn(data["fiction"], end, slug)
+                self.assertIn('id="help"', end, slug)
+                self.assertIn(">109<", end, slug)  # the verified crisis line
+                self.assertIn("https://findahelpline.com", end, slug)
+                self.assertIn(data["disclaimer"], end, slug)
+                self.assertIn("개역한글(1961)", h, slug)
+        finally:
+            shutil.rmtree(tmp)
+
+    def test_nothing_is_published_yet(self):
+        # all four are drafts: the committed site has no journal page, the sitemap lists no post
+        self.assertFalse((REPO / "journal/ko").exists())
+        self.assertNotIn("/journal/ko/", (REPO / "sitemap.xml").read_text(encoding="utf-8"))
+
+
 class RepoState(unittest.TestCase):
+    def test_id_journal_is_on_hold(self):
+        hold = json.loads((REPO / "content/journal/hold.json").read_text(encoding="utf-8"))
+        self.assertIn("id", hold)
+        self.assertEqual([f.name for f in (REPO / "content/journal/id").glob("*.md")] if (REPO / "content/journal/id").is_dir() else [], [])
+        self.assertFalse((REPO / "journal/id").exists())
+
     def test_committed_site_builds_clean(self):
         r = run(REPO, "--check")
         self.assertEqual(r.returncode, 0, r.stderr)
