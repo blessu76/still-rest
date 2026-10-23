@@ -138,11 +138,12 @@ class Links(unittest.TestCase):
         tmp = Path(tempfile.mkdtemp())
         try:
             shutil.copytree(REPO, tmp / "s", ignore=shutil.ignore_patterns(".git", "__pycache__"))
-            for f in (tmp / "s/content/journal/ko").glob("*.md"):  # publish: drop the `draft: true` line
-                f.write_text(re.sub(r"(?m)^draft: true\n", "", f.read_text(encoding="utf-8")), encoding="utf-8")
-            r = subprocess.run([sys.executable, str(REPO / "scripts/build_journal.py"), "--root", str(tmp / "s")], capture_output=True, text=True)
+            # publish everything: the scheduled posts too (a clock after their publish_at), and the draft sample stays hidden
+            r = subprocess.run([sys.executable, str(REPO / "scripts/build_journal.py"), "--root", str(tmp / "s"), "--now", "2099-01-01 00:00"],
+                               capture_output=True, text=True)
             self.assertEqual(r.returncode, 0, r.stderr)
             self.assertTrue((tmp / "s/journal/ko/commute-get-off-early/index.html").is_file())
+            self.assertTrue((tmp / "s/journal/ko/three-am-counting-hours/index.html").is_file())
             self.assertEqual(broken(tmp / "s"), [])
             home = (tmp / "s/ko/index.html").read_text(encoding="utf-8")
             self.assertIn('href="/journal/ko/"', home)  # the journal link is there once there is a post

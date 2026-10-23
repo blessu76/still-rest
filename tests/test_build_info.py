@@ -97,12 +97,13 @@ class InfoPages(unittest.TestCase):
         root = (REPO / "index.html").read_text(encoding="utf-8")
         self.assertIn('href="/en/faq/"', root)
 
-    def test_no_journal_links_while_there_is_no_post(self):
+    def test_journal_links_follow_the_posts(self):
+        has_posts = (REPO / "journal/index.html").is_file()  # like the home page: the journal appears with its first post
         for l in LANGS:
             for p in PAGES:
                 h = page(l, p)
                 h = h[h.index("<body>"):]  # (the <head> may still advertise the feed)
-                self.assertNotIn("/journal/", h, (l, p))  # like the home page: the journal appears with its first post
+                self.assertEqual("/journal/" in h, has_posts, (l, p))
 
     def test_sitemap_and_llms_list_all_22(self):
         root = ET.parse(REPO / "sitemap.xml").getroot()

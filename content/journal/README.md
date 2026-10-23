@@ -28,6 +28,7 @@ category: 번아웃                # 그 언어의 자유 문구
 bible_version: 개역한글(1961)   # 성경을 인용(> 인용 블록)하면 필수. 성경 인용이 아니면 `bible_version: none`
 translation_of: ko              # 번역본만(ko·en 외 언어는 필수). 있으면 「AI 번역」 표시 + 원문 링크
 draft: true                     # 선택: 어디에도 나가지 않음
+publish_at: 2026-10-24 11:00    # 선택: 예약 발행(KST) — 이 시각이 지난 배포 빌드부터 공개 (date 와 같은 날이어야 함)
 ---
 ```
 
@@ -45,7 +46,7 @@ draft: true                     # 선택: 어디에도 나가지 않음
 `safety.json`: `text.<lang>` = 문구 7개, `lines.<lang>` = `{status: draft|verified, regions: [{country, items: [{name, number, tel, hours, status, checked_on, source, note}]}]}`.
 - **항목마다 `status`**: `verified`(공식 출처로 확인, `checked_on` 날짜 필수)인 번호만 글에 찍힌다. `draft` 는 후보로 파일에만 남고 화면에는 절대 나오지 않는다(`note` = 왜 아직 draft 인지). 확인된 번호가 하나도 없는 언어는 폴백 링크(findahelpline)만 보인다.
 - `lines.<lang>.status` 는 언어 전체(문구+목록)를 원어민이 읽었는지 — `--strict-safety` 게이트가 이것을 본다.
-**언어 단위 `status` 는 지금 전부 `draft`(원어민 미검수)**. 번호 항목은 2026-10-22 조사표(방 노트 20261022-221259)에서 「확인됨」인 것만 `verified`, 나머지는 `draft`(숨김). 월 1회 재확인 + 첫 글 전에 다시 본다. 원어민 검수 뒤 언어 `status` 를 `verified` 로, `--strict-safety` 가 이를 강제한다.
+**언어 단위 `status`: `ko` 는 2026-10-23 verified(Matt·still, Davy 위임), 나머지는 `draft`(원어민 미검수)**. 번호 항목은 2026-10-22 조사표(방 노트 20261022-221259)에서 「확인됨」인 것만 `verified`, 나머지는 `draft`(숨김). 월 1회 재확인 + 첫 글 전에 다시 본다. 원어민 검수 뒤 언어 `status` 를 `verified` 로, `--strict-safety` 가 이를 강제한다.
 
 ## 게시 절차
 
@@ -53,7 +54,10 @@ draft: true                     # 선택: 어디에도 나가지 않음
 2. 게이트 — 하나라도 실패하면 커밋·배포 금지:
    `python3 -m unittest discover -s tests` · `python3 scripts/build_journal.py --check` · `python3 scripts/check_sitemap.py`
    **게시(공개 글이 1편이라도 있는 상태로 배포)할 때는 `--check --strict-safety` 도 통과해야 한다** — 그 글의 언어에 `draft` 위기 번호가 남아 있으면 실패. (배포 워크플로가 같은 검사를 돌린다.)
-3. 발행 = 글의 `draft: true` 줄을 지운다(`date` 가 그날이어야 함) → 빌드(`build_journal.py`) → 위 게이트 → 커밋·push. 하루 2편(11:00·17:00 KST)이라 글마다 따로 한 번씩 한다. 발행 일정은 글 front matter 의 `# 발행 예정` 주석.
+3. 발행 두 가지.
+   ① 즉시: 글의 `draft: true` 줄을 지운다(`date` 가 그날이어야 함) → 빌드(`build_journal.py`) → 위 게이트 → 커밋·push.
+   ② **예약(하루 2편, 11:00·17:00 KST)**: `draft: true` 대신 `publish_at: YYYY-MM-DD HH:MM`(KST)을 적어 한 번에 커밋·push 해 둔다. 배포 워크플로가 매일 11:00·17:00 KST(cron 02:00·08:00 UTC, +20분 재시도)와 push 때마다 러너에서 `build_journal.py --now <지금 KST> --strict-safety` 로 한 번 더 빌드해 시각이 지난 글만 Pages 에 올린다.
+   그 빌드는 **커밋하지 않는다**: 커밋된 산출물(평소 `build_journal.py`·`--check`)은 시계와 무관하게 예약 글을 뺀 상태라 시간이 지나도 낡지 않는다. 예약 글을 레포 산출물에도 넣고 싶으면 `publish_at` 줄을 지우고(date 유지) 다시 빌드·커밋. `draft: true` 가 있으면 `publish_at` 이 있어도 나가지 않는다. 로컬 확인: `python3 scripts/build_journal.py --now "2026-10-24 11:00"`(커밋하지 말 것 — `git checkout -- .` 로 되돌린다).
    ko 첫 발행 전: `safety.json` 의 `lines.ko.status` 를 원어민(Davy) 검수 뒤 `verified` 로 — 아니면 `--strict-safety` 가 막는다. 구절 인용(`>` 블록)은 앱 `daily_verses.json` 의 글자 그대로(테스트가 대조).
    보류 언어: `content/journal/hold.json`(지금 `id`) 에 적힌 언어는 `draft: true` 글만 둘 수 있다 — 공개 글이 있으면 빌드가 실패한다.
 4. 커밋·push → 배포 후 `python3 scripts/check_sitemap.py --live` (모든 URL HTTP 200) → `python3 scripts/indexnow.py <새 URL…>`.

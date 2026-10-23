@@ -19,7 +19,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from site_common import LANGS, SITE  # noqa: E402
+from site_common import LANGS, SITE, parse_when  # noqa: E402
 
 INFO_PAGES = ("faq", "about")  # /<lang>/faq/ and /<lang>/about/ (scripts/build_info.py)
 LEGAL_PAGES = ("privacy", "terms")  # canonical form has the trailing slash (the directory index)
@@ -35,7 +35,7 @@ def expected_urls(root):
     return want
 
 
-def check(root):
+def check(root, now=None):
     errs = []
     try:
         tree = ET.parse(root / "sitemap.xml")
@@ -48,7 +48,7 @@ def check(root):
     want = expected_urls(root)
     try:
         import build_journal as bj
-        want |= bj.expected_sitemap_urls(root)
+        want |= bj.expected_sitemap_urls(root, now)
     except ImportError:  # journal not built into this checkout
         pass
     except ValueError as ex:
@@ -98,9 +98,11 @@ def live(urls):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--root", default=str(Path(__file__).resolve().parent.parent))
+    ap.add_argument("--now", metavar="WHEN", help="the clock the site was built with (`now` or `YYYY-MM-DD HH:MM` KST) — scheduled journal posts "
+                    "due by then must be in the sitemap; same value as build_journal.py --now")
     ap.add_argument("--live", action="store_true", help="also GET every sitemap URL and require HTTP 200")
     a = ap.parse_args()
-    errs, urls = check(Path(a.root).resolve())
+    errs, urls = check(Path(a.root).resolve(), parse_when(a.now) if a.now else None)
     if a.live and not errs:
         errs += live(urls)
     if errs:

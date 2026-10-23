@@ -23,6 +23,9 @@ Front matter (between two `---` lines):
     description: required, one sentence (meta description, cards, RSS)
     category:    required, free text in the post's language (e.g. 우울 · panic · work)
     draft:       optional, true → skipped everywhere (output, list, home, sitemap, feed)
+    publish_at:  optional, `YYYY-MM-DD HH:MM` (KST; an offset like +09:00 is also accepted) → scheduled: the post is published only by a
+                 build whose clock (`--now`) is at or after this time. Its date must be the same day as `date`. A build without
+                 `--now` (the committed output) treats every scheduled post as not yet published — see "Scheduled posts" below.
     translation_of: ko | en — the original language this version was translated from. Required for every language except
                     ko and en; optional on those two (en: `translation_of: ko`). A post with it shows the "AI translation" notice.
     bible_version:  name of the Bible translation quoted in the post (e.g. "WEB", "개역한글(1961)"). Shown under the text.
@@ -39,8 +42,14 @@ Every article page carries the same fixed safety block in its own language, take
 (never from the post): ① "not medical advice" disclaimer ② crisis-line box ③ "woven from many people's experiences"
 notice ④ Bible translation name (bible_version).
 
+Scheduled posts (publish_at): the committed output (plain build / --check) never contains a scheduled post, so it does not go stale
+as the clock moves. The deploy workflow builds again with `--now now` (the real clock) in the runner before uploading to Pages — on every
+push and on a cron schedule — and never commits that build. Delete `publish_at` (keep `date`) to make a post part of the committed output.
+
 Usage:
-    python3 scripts/build_journal.py            # build into this repo
+    python3 scripts/build_journal.py            # build into this repo (scheduled posts held back)
+    python3 scripts/build_journal.py --now now  # ...publishing scheduled posts that are due (what the deploy runner does; do not commit)
+    python3 scripts/build_journal.py --now "2026-10-24 11:00"   # same, as of a given KST time
     python3 scripts/build_journal.py --check    # validate posts + safety data and fail if the committed output is stale
     python3 scripts/build_journal.py --check --strict-safety
         # also fail while any language that has a published post still has unreviewed (draft) crisis-line data
@@ -58,13 +67,12 @@ import urllib.parse
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from site_common import GEN_MARK, LANGS, SITE, check_fresh, esc, lang_url, replace_between  # noqa: E402
+from site_common import GEN_MARK, KST, LANGS, SITE, check_fresh, esc, lang_url, parse_when, replace_between  # noqa: E402
 
 ASSET_V = "20261023b"  # ?v= of assets/journal.css — bump when the file changes
 CF_TOKEN = "eab6249a56894cb084b7bcc8f1a860a6"  # Cloudflare Web Analytics (cookieless), same as the home page
 REQUIRED = ("title", "date", "slug", "lang", "description", "category")
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
-KST = dt.timezone(dt.timedelta(hours=9))
 ROOT = Path(__file__).resolve().parent.parent  # overwritten in main() from --root (image sizes are read from here)
 IMG_NS = "http://www.google.com/schemas/sitemap-image/1.1"
 SOCIAL_HOSTS = ("youtube.com", "youtu.be", "instagram.com", "x.com", "twitter.com", "facebook.com", "ipe.rest")  # never auto-cited
@@ -175,6 +183,14 @@ def parse_post(path):
     except ValueError:
         raise ValueError("date must be YYYY-MM-DD: %r" % meta["date"])
     meta["draft"] = str(meta.get("draft", "false")).lower() in ("true", "yes", "1")
+    meta["_publish_at"] = None
+    if meta.get("publish_at"):
+        try:
+            meta["_publish_at"] = parse_when(meta["publish_at"])
+        except ValueError:
+            raise ValueError("publish_at must be `YYYY-MM-DD HH:MM` (KST): %r" % meta["publish_at"])
+        if meta["_publish_at"].astimezone(KST).date() != meta["_date"]:
+            raise ValueError("publish_at %s (KST) is not on the post's date %s" % (meta["publish_at"], meta["date"]))
     if meta.get("updated"):
         try:
             dt.date.fromisoformat(meta["updated"])
@@ -644,8 +660,8 @@ def check_translations(posts, all_posts, drafts_ok):
         other = all_posts.get((p["slug"], of))
         if other is None:
             errs.append("%s: translation_of %s but there is no %s post with slug %r (content/journal/%s/%s.md)" % (p["_src"], of, of, p["slug"], of, p["slug"]))
-        elif other["draft"] and not drafts_ok:
-            errs.append("%s: translation_of %s refers to a draft (%s) — draft pages are not published" % (p["_src"], of, other["_src"]))
+        elif (other["draft"] or other.get("_held")) and not drafts_ok:
+            errs.append("%s: translation_of %s refers to a draft or not-yet-published post (%s) — it is not published" % (p["_src"], of, other["_src"]))
     pages = {post_path(p) for p in posts} | {lang_path(l) for l in LANGS} | {"/journal/"}
     seen = {}
     for p in posts:
@@ -952,8 +968,9 @@ def render_llms_block(posts):
 
 
 # ---------------------------------------------------------------- sources
-def read_posts(root, drafts):
-    """-> (published posts [with _html], all posts {(slug, lang): post}, errors). Drafts are skipped unless `drafts`."""
+def read_posts(root, drafts, now=None):
+    """-> (published posts [with _html], all posts {(slug, lang): post}, errors). Drafts are skipped unless `drafts`.
+    A scheduled post (`publish_at`) counts as published only when `now` (aware datetime) is given and has reached it."""
     src = root / "content" / "journal"
     posts, errors, all_posts = [], [], {}
     files = sorted(src.glob("*/*.md")) if src.is_dir() else []
@@ -978,19 +995,22 @@ def read_posts(root, drafts):
         if p["lang"] in HELD and not p["draft"]:
             errors.append("%s: the %s journal is on hold (%s) — keep the post `draft: true`" % (name, p["lang"], HELD[p["lang"]]))
             continue
-        if p["draft"] and not drafts:
+        p["_held"] = bool(p["_publish_at"]) and (now is None or p["_publish_at"] > now)
+        if (p["draft"] or p["_held"]) and not drafts:
             continue
+        if p["_held"]:
+            p["draft"] = True  # preview (--drafts) shows it as a draft: DRAFT flag + noindex
         p["_html"] = markdown(p["_body"])
         posts.append(p)
     return posts, all_posts, errors
 
 
-def expected_sitemap_urls(root):
-    """URLs check_sitemap.py requires in sitemap.xml for the journal (published = non-draft posts). May raise ValueError."""
+def expected_sitemap_urls(root, now=None):
+    """URLs check_sitemap.py requires in sitemap.xml for the journal (published = non-draft, due posts). May raise ValueError."""
     root = Path(root)
     global ROOT
     ROOT = root
-    posts, _, errors = read_posts(root, drafts=False)
+    posts, _, errors = read_posts(root, drafts=False, now=now)
     if errors:
         raise ValueError("; ".join(errors))
     want = {SITE + "/journal/"} if posts else set()
@@ -1000,14 +1020,14 @@ def expected_sitemap_urls(root):
     return want
 
 
-def build(root, drafts=False, strict_safety=False, check_only=False):
+def build(root, drafts=False, strict_safety=False, check_only=False, now=None):
     """validate everything and (unless check_only) write the site. Returns (exit code, message)."""
     global ROOT, LIST_LANGS
     ROOT = root
     errors = load_data(root)
     if errors:
         return 1, "journal: errors\n  " + "\n  ".join(errors)
-    posts, all_posts, errors = read_posts(root, drafts)
+    posts, all_posts, errors = read_posts(root, drafts, now)
     if not errors:
         errors += check_translations(posts, all_posts, drafts)
         for p in posts:
@@ -1066,18 +1086,25 @@ def main():
     ap.add_argument("--root", default=str(Path(__file__).resolve().parent.parent), help="site root (default: this repo)")
     ap.add_argument("--drafts", action="store_true", help="include draft posts (preview only — never commit the result)")
     ap.add_argument("--check", action="store_true", help="validate posts + safety data and require the committed output to be up to date; write nothing")
+    ap.add_argument("--now", metavar="WHEN", help="publish scheduled posts (publish_at) that are due at WHEN: `now` or `YYYY-MM-DD HH:MM` (KST). "
+                    "Default: none are (the committed output). The deploy runner uses this; never commit the result.")
     ap.add_argument("--strict-safety", action="store_true",
                     help="fail while a language with published posts still has draft (unreviewed) crisis-line data — the deploy gate")
     a = ap.parse_args()
     root = Path(a.root).resolve()
+    try:
+        now = parse_when(a.now) if a.now else None
+    except ValueError as ex:
+        print("journal: --now: %s" % ex, file=sys.stderr)
+        return 1
     if a.check:
-        code, msg = build(root, a.drafts, a.strict_safety, check_only=True)
-        if code == 0 and not a.drafts:
+        code, msg = build(root, a.drafts, a.strict_safety, check_only=True, now=now)
+        if code == 0 and not a.drafts and now is None:  # freshness only for the committed (clock-free) output
             diffs = check_fresh(root, lambda r: build(r, False, False))
             if diffs:
                 code, msg = 1, "journal: out of date — run python3 scripts/build_journal.py\n  " + "\n  ".join(diffs)
     else:
-        code, msg = build(root, a.drafts, a.strict_safety)
+        code, msg = build(root, a.drafts, a.strict_safety, now=now)
     print(msg, file=sys.stderr if code else sys.stdout)
     return code
 

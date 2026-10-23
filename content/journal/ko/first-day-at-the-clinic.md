@@ -7,8 +7,7 @@ description: 오래 망설이다 처음 정신건강의학과 진료를 받으�
 category: 첫 진료
 keywords: 정신건강의학과, 첫 진료, 용기, 상담
 bible_version: 개역한글(1961)
-draft: true
-# 발행 예정 2026-10-24 11:00 KST — 발행하려면 `draft: true` 줄을 지우고 빌드·배포한다 (content/journal/README.md 「발행」)
+publish_at: 2026-10-24 11:00
 ---
 
 반차를 냈어요. 사유란에는 "개인 사정"이라고 적었어요. 처음 가는 정신건강의학과였고, 예약 시간은 오후 두 시였어요.

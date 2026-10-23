@@ -189,6 +189,20 @@ def main():
     ap.add_argument("--check", action="store_true", help="write nothing; fail if the committed pages differ from a fresh build")
     a = ap.parse_args()
     root = Path(a.root).resolve()
+    if (root / "content" / "journal" / "ui.json").is_file():
+        # the journal owns the home pages once it exists (cards of the newest posts): build and check through it
+        import build_journal
+        if a.check:
+            code, msg = build_journal.build(root, check_only=True)
+            diffs = check_fresh(root, lambda r: build_journal.build(r)) if code == 0 else [msg]
+            if diffs:
+                print("home: out of date — run python3 scripts/build_journal.py\n  " + "\n  ".join(diffs), file=sys.stderr)
+                return 1
+            print("home: OK — pages are up to date")
+            return 0
+        code, msg = build_journal.build(root)
+        print(msg, file=sys.stderr if code else sys.stdout)
+        return code
     if a.check:
         diffs = check_fresh(root, build)
         if diffs:

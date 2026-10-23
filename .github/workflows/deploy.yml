@@ -4,6 +4,12 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    # Scheduled journal posts (front matter `publish_at`, KST). GitHub cron is UTC and can start late, so every slot has a retry 20 minutes later.
+    - cron: '0 2 * * *'    # 11:00 KST
+    - cron: '20 2 * * *'   # 11:20 KST (retry)
+    - cron: '0 8 * * *'    # 17:00 KST
+    - cron: '20 8 * * *'   # 17:20 KST (retry)
 
 permissions:
   contents: read
@@ -27,15 +33,23 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Verify (tests, generated pages up to date, sitemap, safety data)
-        # --strict-safety: once any journal post is published, its language's crisis-line data must be `verified`.
+      - name: Verify (tests, committed pages up to date, safety data)
+        # The committed pages are clock-free: scheduled posts (`publish_at`) are NOT in them, so this check never goes stale as time passes
+        # (push and cron runs alike). --strict-safety: once any journal post is published, its language's crisis-line data must be `verified`.
         run: |
           python3 -m unittest discover -s tests
           python3 scripts/build_journal.py --check --strict-safety
-          python3 scripts/check_sitemap.py
+
+      - name: Publish scheduled posts that are due (built in the runner only, never committed)
+        # One clock for the build and the sitemap check (KST, minute precision). Posts whose `publish_at` is at or before it go live.
+        run: |
+          NOW="$(TZ=Asia/Seoul date '+%Y-%m-%d %H:%M')"
+          echo "publish clock: $NOW KST"
+          python3 scripts/build_journal.py --now "$NOW" --strict-safety
+          python3 scripts/check_sitemap.py --now "$NOW"
 
       - name: Assemble site (repo root minus sources)
-        # content/ (home template + strings, journal .md drafts), scripts/ and tests/ are build-time only — never public raw URLs.
+        # content/ (home template + strings, journal .md sources), scripts/ and tests/ are build-time only — never public raw URLs.
         run: |
           mkdir -p "$RUNNER_TEMP/site"
           rsync -a --exclude='/.git' --exclude='/.github' --exclude='/content' --exclude='/scripts' --exclude='/tests' ./ "$RUNNER_TEMP/site/"
@@ -57,6 +71,7 @@ jobs:
           RUN_ID: ${{ github.run_id }}
         run: |
           COMMIT_MSG=$(printf '%s' "$HEAD_COMMIT_MSG" | head -1)
+          [ -n "$COMMIT_MSG" ] || COMMIT_MSG="${{ github.event_name }} ${GITHUB_SHA::7}"  # cron / manual runs have no head commit
           TEXT=$(printf '🕊️ *still.ipe.rest 배포 완료*\n_보고: Paul (Head of Reach) → #release-note_\n\n• 커밋: `%s`\n• URL: https://still.ipe.rest' "$COMMIT_MSG")
           PAYLOAD=$(jq -nc \
             --arg channel "C0BJ1EF5PC0" \
@@ -75,6 +90,7 @@ jobs:
           RUN_ID: ${{ github.run_id }}
         run: |
           COMMIT_MSG=$(printf '%s' "$HEAD_COMMIT_MSG" | head -1)
+          [ -n "$COMMIT_MSG" ] || COMMIT_MSG="${{ github.event_name }} ${GITHUB_SHA::7}"  # cron / manual runs have no head commit
           TEXT=$(printf '❌ *still.ipe.rest 배포 실패 — 즉시 확인 필요*\n_보고: Paul (Head of Reach) → #release-note_\n\n• 커밋: `%s`\n• Actions: https://github.com/blessu76/still-rest/actions/runs/%s' "$COMMIT_MSG" "$RUN_ID")
           PAYLOAD=$(jq -nc \
             --arg channel "C0BJ1EF5PC0" \

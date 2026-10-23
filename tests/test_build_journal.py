@@ -90,7 +90,7 @@ class AllLanguages(Base):
                 self.assertIn(bj.esc(txt[k]), h, "%s: %s missing" % (l, k))
             self.assertIn('id="help"', h, l)
             self.assertIn('href="#help"', h, l)  # the notice jumps to the crisis box
-            self.assertIn('data-crisis-lines="draft"', h, l)
+            self.assertIn('data-crisis-lines="%s"' % data["lines"][l]["status"], h, l)
             self.assertIn("https://findahelpline.com", h, l)
             self.assertIn('class="bible-version"', h, l)
             self.assertIn("WEB", h, l)
@@ -320,14 +320,16 @@ class Validation(Base):
         self.assertIn("/journal/ko/", self.page("journal/index.html"))
 
     def test_strict_safety_gate(self):
+        p = self.tmp / "content/journal/safety.json"
+        d = json.loads(p.read_text(encoding="utf-8"))
+        d["lines"]["ko"]["status"] = "draft"  # (the repo's ko data is verified now)
+        p.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
         write_post(self.tmp, "ko", extra="bible_version: x\n")
         self.assertEqual(run(self.tmp).returncode, 0)
         self.assertEqual(run(self.tmp, "--check").returncode, 0)  # the normal check allows draft crisis lines
         r = run(self.tmp, "--check", "--strict-safety")
         self.assertEqual(r.returncode, 1)
         self.assertIn("crisis lines for ko are still `draft`", r.stderr)
-        p = self.tmp / "content/journal/safety.json"
-        d = json.loads(p.read_text(encoding="utf-8"))
         d["lines"]["ko"]["status"] = "verified"
         p.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
         self.assertEqual(run(self.tmp).returncode, 0)
@@ -347,6 +349,9 @@ POSTS = {  # slug -> (verse reference, planned publication day)
 VERSES = Path("/Users/davy.kim/Desktop/foundry-f001/assets/verses/daily_verses.json")  # canonical text of the app (not in this repo)
 
 
+SCHEDULE = {"first-day-at-the-clinic": "2026-10-24 11:00", "three-am-counting-hours": "2026-10-24 17:00"}  # KST; the others have no publish_at
+
+
 class FirstPosts(unittest.TestCase):
     """the four Korean first posts (content/journal/ko) after the Dane review (2026-10-23)"""
 
@@ -359,7 +364,8 @@ class FirstPosts(unittest.TestCase):
             p = self.src[slug]
             self.assertEqual(p["date"], day, slug)  # 2 posts a day, 11:00 and 17:00 KST
             self.assertEqual(p["lang"], "ko")
-            self.assertTrue(p["draft"], "%s is hidden until it is published" % slug)
+            self.assertFalse(p["draft"], slug)  # published: the 10-23 posts at once, the 10-24 posts on schedule
+            self.assertEqual(p["_publish_at"].strftime("%Y-%m-%d %H:%M") if p["_publish_at"] else None, SCHEDULE.get(slug), slug)
             self.assertIn(ref, p["description"], slug)
             self.assertIn("1인칭 이야기", p["description"], slug)
             self.assertNotIn("기록", p["description"], slug)  # reads as a real diary
@@ -407,10 +413,28 @@ class FirstPosts(unittest.TestCase):
         finally:
             shutil.rmtree(tmp)
 
-    def test_nothing_is_published_yet(self):
-        # all four are drafts: the committed site has no journal page, the sitemap lists no post
-        self.assertFalse((REPO / "journal/ko").exists())
-        self.assertNotIn("/journal/ko/", (REPO / "sitemap.xml").read_text(encoding="utf-8"))
+    def test_committed_site_has_only_the_unscheduled_posts(self):
+        # the committed output is clock-free: the two 10-23 posts are in, the two scheduled ones are built only by the deploy runner (--now)
+        sm = (REPO / "sitemap.xml").read_text(encoding="utf-8")
+        for slug in POSTS:
+            scheduled = slug in SCHEDULE
+            self.assertEqual((REPO / "journal/ko" / slug).exists(), not scheduled, slug)
+            self.assertEqual("/journal/ko/%s/" % slug in sm, not scheduled, slug)
+        self.assertFalse((REPO / "journal/ko/sample-template").exists())
+
+    def test_the_scheduled_posts_go_live_at_their_time(self):
+        tmp = Path(tempfile.mkdtemp())
+        try:
+            shutil.copytree(REPO, tmp / "s", ignore=shutil.ignore_patterns(".git", "__pycache__"))
+            for when, live in (("2026-10-24 10:59", set()), ("2026-10-24 11:00", {"first-day-at-the-clinic"}),
+                               ("2026-10-24 17:00", set(SCHEDULE))):
+                r = run(tmp / "s", "--now", when)
+                self.assertEqual(r.returncode, 0, r.stderr)
+                for slug in SCHEDULE:
+                    self.assertEqual((tmp / "s/journal/ko" / slug / "index.html").is_file(), slug in live, (when, slug))
+                self.assertEqual(check_sitemap.check(tmp / "s", bj.parse_when(when))[0], [], when)
+        finally:
+            shutil.rmtree(tmp)
 
 
 class RepoState(unittest.TestCase):
@@ -436,3 +460,113 @@ class RepoState(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class Scheduled(Base):
+    """publish_at: a post goes live only in a build whose clock (--now) has reached it; the committed output ignores the clock"""
+
+    def write(self, slug, publish_at, extra=""):
+        write_post(self.tmp, "ko", slug, text=POST.replace("slug: hello", "slug: " + slug).replace("2026-10-22", publish_at[:10]) % dict(
+            l="ko", extra="bible_version: WEB\npublish_at: %s\n%s" % (publish_at, extra)))
+
+    def setUp(self):
+        super().setUp()
+        write_post(self.tmp, "ko", "now-post", text=POST.replace("slug: hello", "slug: now-post") % dict(l="ko", extra="bible_version: WEB\n"))
+        self.write("future-post", "2026-10-24 11:00")
+        self.write("past-post", "2026-10-23 09:00")
+
+    def sitemap(self):
+        return self.page("sitemap.xml")
+
+    def test_plain_build_holds_every_scheduled_post(self):
+        self.assertEqual(run(self.tmp).returncode, 0)
+        self.assertTrue((self.tmp / "journal/ko/now-post/index.html").is_file())
+        for slug in ("future-post", "past-post"):  # no clock -> deterministic, even for a time that has passed
+            self.assertFalse((self.tmp / "journal/ko" / slug).exists(), slug)
+            for f in ("sitemap.xml", "llms.txt", "journal/index.html", "journal/feed.xml", "ko/index.html"):
+                self.assertNotIn(slug, self.page(f), (slug, f))
+        self.assertEqual(check_sitemap.check(self.tmp)[0], [])
+
+    def test_future_post_is_not_published_and_past_post_is(self):
+        r = run(self.tmp, "--now", "2026-10-23 18:00")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertTrue((self.tmp / "journal/ko/past-post/index.html").is_file())
+        self.assertFalse((self.tmp / "journal/ko/future-post").exists())
+        for f in ("sitemap.xml", "llms.txt", "journal/index.html", "journal/feed.xml", "ko/index.html", "journal/ko/index.html"):
+            self.assertNotIn("future-post", self.page(f), f)
+        self.assertIn("/journal/ko/past-post/", self.page("sitemap.xml"))
+        self.assertIn("/journal/ko/past-post/", self.page("llms.txt"))
+
+    def test_the_sitemap_follows_the_same_rule(self):
+        for now, want in (("2026-10-23 18:00", {"past-post"}), ("2026-10-24 11:00", {"past-post", "future-post"})):
+            self.assertEqual(run(self.tmp, "--now", now).returncode, 0)
+            self.assertEqual(check_sitemap.check(self.tmp, bj.parse_when(now))[0], [], now)
+            sm = self.sitemap()
+            for slug in ("past-post", "future-post"):
+                self.assertEqual("/journal/ko/%s/" % slug in sm, slug in want, (now, slug))
+        # a sitemap built at 11:00 does not pass a check made as of an earlier clock (the page is not due yet)
+        errs, _ = check_sitemap.check(self.tmp, bj.parse_when("2026-10-23 18:00"))
+        self.assertTrue([e for e in errs if "future-post" in e], errs)
+        # ... and one built earlier lacks the post a later clock requires
+        self.assertEqual(run(self.tmp, "--now", "2026-10-23 18:00").returncode, 0)
+        errs, _ = check_sitemap.check(self.tmp, bj.parse_when("2026-10-24 11:00"))
+        self.assertIn("missing from sitemap: https://still.ipe.rest/journal/ko/future-post/", errs)
+
+    def test_the_boundary_is_inclusive_and_the_clock_is_kst(self):
+        self.assertEqual(run(self.tmp, "--now", "2026-10-24 10:59").returncode, 0)
+        self.assertFalse((self.tmp / "journal/ko/future-post").exists())
+        self.assertEqual(run(self.tmp, "--now", "2026-10-24T11:00:00+09:00").returncode, 0)
+        self.assertTrue((self.tmp / "journal/ko/future-post/index.html").is_file())
+        self.assertEqual(run(self.tmp, "--now", "2026-10-24T01:59:00Z").returncode, 0)  # 10:59 KST: the page is swept again
+        self.assertFalse((self.tmp / "journal/ko/future-post").exists())
+        self.assertEqual(run(self.tmp, "--now", "2026-10-24T02:00:00Z").returncode, 0)  # = 11:00 KST
+        self.assertTrue((self.tmp / "journal/ko/future-post/index.html").is_file())
+
+    def test_draft_wins_over_publish_at(self):
+        self.write("future-post", "2026-10-24 11:00", "draft: true\n")
+        self.assertEqual(run(self.tmp, "--now", "2099-01-01 00:00").returncode, 0)
+        self.assertFalse((self.tmp / "journal/ko/future-post").exists())
+
+    def test_check_ignores_the_clock_but_a_due_build_is_not_fresh(self):
+        self.assertEqual(run(self.tmp).returncode, 0)
+        self.assertEqual(run(self.tmp, "--check").returncode, 0)  # committed output does not go stale as time passes
+        self.assertEqual(run(self.tmp, "--check", "--strict-safety").returncode, 0)
+        self.assertEqual(run(self.tmp, "--now", "2099-01-01 00:00").returncode, 0)  # what the runner builds (never committed)
+        r = run(self.tmp, "--check")
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("out of date", r.stderr)
+
+    def test_strict_safety_applies_to_scheduled_posts_once_due(self):
+        write_post(self.tmp, "ja", "future-ja", text=POST.replace("slug: hello", "slug: future-ja").replace("2026-10-22", "2026-10-24") % dict(
+            l="ja", extra="bible_version: WEB\ntranslation_of: ko\npublish_at: 2026-10-24 11:00\n"))
+        self.write("future-ja", "2026-10-24 11:00")  # the ko original of that slug
+        self.assertEqual(run(self.tmp).returncode, 0)
+        r = run(self.tmp, "--check", "--strict-safety")
+        self.assertEqual(r.returncode, 0, r.stderr)  # held -> ja is not a published language yet
+        r = run(self.tmp, "--check", "--strict-safety", "--now", "2026-10-24 11:00")
+        self.assertEqual(r.returncode, 1, r.stderr)
+        self.assertIn("crisis lines for ja are still `draft`", r.stderr)
+
+    def test_a_translation_may_not_outrun_its_original(self):
+        write_post(self.tmp, "en", "future-post", text=POST.replace("slug: hello", "slug: future-post").replace("2026-10-22", "2026-10-23") % dict(
+            l="en", extra="bible_version: WEB\ntranslation_of: ko\n"))
+        r = run(self.tmp)
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("translation_of ko refers to a draft or not-yet-published post", r.stderr)
+
+    def test_bad_values(self):
+        self.write("bad-time", "2026-10-24 11:00")
+        for bad, msg in (("tomorrow", "publish_at must be"), ("2026-10-25 11:00", "is not on the post's date")):
+            self.write("bad-time", "2026-10-24 11:00")
+            f = self.tmp / "content/journal/ko/bad-time.md"
+            f.write_text(f.read_text(encoding="utf-8").replace("publish_at: 2026-10-24 11:00", "publish_at: " + bad), encoding="utf-8")
+            r = run(self.tmp)
+            self.assertEqual(r.returncode, 1, bad)
+            self.assertIn(msg, r.stderr, bad)
+        self.assertEqual(run(self.tmp, "--now", "later").returncode, 1)
+
+    def test_scheduled_post_in_a_held_language_is_an_error(self):
+        (self.tmp / "content/journal/hold.json").write_text(json.dumps({"ko": "x"}), encoding="utf-8")
+        r = run(self.tmp, "--now", "2099-01-01 00:00")
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("on hold", r.stderr)
