@@ -62,9 +62,11 @@ HINT_CSS_ID = "langHint"
 ARIA_KEYS = ("aria_lang", "aria_verse_card", "aria_save", "aria_listen", "aria_email", "aria_footer", "og_image_alt")  # {{key}} in the template
 
 
-def render_page(tpl, strings, lang, root, cards_html=None, journal_href="/journal/"):
+def render_page(tpl, strings, lang, root, cards_html=None, journal_href="/journal/", has_journal=None):
     """one home page. root=True -> /index.html (x-default); lang is then 'en'. cards_html: journal cards or None.
-    journal_href: where this page's Journal links go (/journal/<lang>/ when that language has posts, else the hub)."""
+    journal_href: where this page's Journal links go (/journal/<lang>/ when that language has posts, else the hub).
+    has_journal: show the Journal links (top bar + footer) — True once ANY post exists, in any language (a language without
+    posts links to the hub); None -> only when this page has cards."""
     d = dict(strings["en"], **strings[lang])
     canonical = SITE + "/" if root else lang_url(lang)
     out = tpl
@@ -111,15 +113,16 @@ def render_page(tpl, strings, lang, root, cards_html=None, journal_href="/journa
     out = re.sub(r"\{\{(\w+)\}\}", lambda m: subs[m.group(1)], out)
     if cards_html is not None:  # journal section (present in the template once the journal exists)
         out = journal_section(out, cards_html)
-    return footer_journal_link(out, bool(cards_html))
+    return journal_links(out, bool(cards_html) if has_journal is None else has_journal)
 
 
-def footer_journal_link(out, has_posts):
-    """footer 'Journal' link (marked data-journal-link in the template): shown only while there is a post to read — like the
-    journal section, it appears on its own once the first post is published. Without cards (also when build_home runs alone) it goes."""
-    link = re.compile(r'[ \t]*<a [^>]*\bdata-journal-link\b[^>]*>.*?</a>\n?', re.S)
+def journal_links(out, has_posts):
+    """the Journal links (marked data-journal-top = top bar, data-journal-link = footer in the template): shown only while there is a
+    post to read — like the journal section, they appear on their own once the first post is published. Without posts (also when
+    build_home runs alone) they go."""
+    link = re.compile(r'[ \t]*<a [^>]*\bdata-journal-(?:link|top)\b[^>]*>.*?</a>\n?', re.S)
     if has_posts:
-        return out.replace(" data-journal-link", "")
+        return out.replace(" data-journal-link", "").replace(" data-journal-top", "")
     return link.sub("", out)
 
 
@@ -166,10 +169,11 @@ def build(root, cards_by_lang=None, href_by_lang=None, newest_post_date=None):
     missing = [l for l in LANGS if l not in strings]
     if missing:
         raise SystemExit("home i18n.json lacks: " + " ".join(missing))
+    any_posts = bool(cards_by_lang) and any(cards_by_lang.values())  # a post in any language -> every home page links the Journal (hub if its own language has none)
     written = []
     for lang, is_root in [("en", True)] + [(l, False) for l in LANGS]:
         cards = None if cards_by_lang is None else cards_by_lang.get(lang, "")
-        page = render_page(tpl, strings, lang, is_root, cards, (href_by_lang or {}).get(lang, "/journal/"))
+        page = render_page(tpl, strings, lang, is_root, cards, (href_by_lang or {}).get(lang, "/journal/"), any_posts)
         path = root / "index.html" if is_root else root / lang / "index.html"
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(page, encoding="utf-8")

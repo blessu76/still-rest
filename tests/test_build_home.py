@@ -138,6 +138,8 @@ class BuildHome(unittest.TestCase):
         for l in [None] + LANGS:  # no post in the repo -> no Journal link anywhere on the home pages, section stays hidden
             h = self.page(l)
             self.assertNotIn("data-journal-link", h, l)
+            self.assertNotIn("data-journal-top", h, l)
+            self.assertNotIn('class="topnav"', h, l)  # the top-bar Journal link goes too (the .topnav CSS may stay)
             self.assertNotIn("foot_journal", h, l)
             foot = h[h.index('<nav class="foot-links"'):h.index("</nav>", h.index('<nav class="foot-links"'))]
             self.assertNotIn("/journal/", foot, l)
@@ -150,10 +152,15 @@ class BuildHome(unittest.TestCase):
         strings = json.loads((REPO / "content/home/i18n.json").read_text(encoding="utf-8"))
         shown = build_home.render_page(tpl, strings, "ko", False, '<article class="j-card">x</article>', "/journal/ko/")
         self.assertIn('<a href="/journal/ko/" data-i18n="foot_journal">저널</a>', shown)
+        self.assertIn('<a class="topnav" href="/journal/ko/" data-i18n="foot_journal">저널</a>', shown)
         self.assertNotIn("data-journal-link", shown)
+        self.assertNotIn("data-journal-top", shown)
+        hub = build_home.render_page(tpl, strings, "en", False, "", "/journal/", True)  # a language without posts still links the hub once any post exists
+        self.assertIn('<a class="topnav" href="/journal/" data-i18n="foot_journal">Journal</a>', hub)
         self.assertNotIn(" hidden>", re.search(r'<section class="journal"[^>]*>', shown).group(0))
         gone = build_home.render_page(tpl, strings, "ko", False, "", "/journal/ko/")
         self.assertNotIn("저널</a>", gone)
+        self.assertNotIn('class="topnav"', gone)
         self.assertIn("개인정보</a>", gone)  # the other footer links stay
 
     def test_sitemap_lists_legal_pages(self):

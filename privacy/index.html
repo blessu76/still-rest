@@ -54,6 +54,7 @@
     font-size:14px;color:var(--muted);text-decoration:none;font-weight:500;
   }
   .back:hover{color:var(--ink);}
+  .jlink{color:var(--ink);font-weight:600;}
   .langtoggle{display:inline-flex;gap:2px;font-size:13px;font-weight:600;}
   .langtoggle button{
     background:none;border:0;cursor:pointer;padding:4px 8px;border-radius:6px;
@@ -103,6 +104,7 @@
   <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:44rem;">
     <a class="brand" href="/">still<span class="paren">(</span><span class="paren">)</span></a>
     <div class="topbar-right">
+      <a class="back jlink" href="/journal/" data-t="journal">Journal</a>
       <a class="back" href="/" data-t="back">&larr; back</a>
       <div class="langtoggle" role="group" aria-label="Language">
         <button type="button" data-setlang="en" aria-pressed="true">EN</button>
@@ -253,8 +255,8 @@
 <script>
   (function(){
     var STR = {
-      en:{ back:"← back", htmlLang:"en", title:"Privacy Policy — still()" },
-      ko:{ back:"← 뒤로", htmlLang:"ko", title:"개인정보 처리방침 — still()" }
+      en:{ back:"← back", journal:"Journal", jhref:"/journal/", htmlLang:"en", title:"Privacy Policy — still()" },
+      ko:{ back:"← 뒤로", journal:"저널", jhref:"/journal/ko/", htmlLang:"ko", title:"개인정보 처리방침 — still()" }
     };
     function setLang(lang){
       if(lang!=="ko") lang="en";
@@ -266,6 +268,8 @@
       });
       var back=document.querySelector('[data-t="back"]');
       if(back) back.textContent=STR[lang].back;
+      var jl=document.querySelector('[data-t="journal"]');
+      if(jl){ jl.textContent=STR[lang].journal; jl.setAttribute('href', STR[lang].jhref); }
       document.documentElement.lang=STR[lang].htmlLang;
       document.title=STR[lang].title;
       try{ localStorage.setItem('still_privacy_lang', lang); }catch(e){}

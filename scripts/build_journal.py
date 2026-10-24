@@ -69,7 +69,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from site_common import GEN_MARK, KST, LANGS, SITE, check_fresh, esc, lang_url, parse_when, replace_between  # noqa: E402
 
-ASSET_V = "20261023b"  # ?v= of assets/journal.css — bump when the file changes
+ASSET_V = "20261024b"  # ?v= of assets/journal.css — bump when the file changes
 CF_TOKEN = "eab6249a56894cb084b7bcc8f1a860a6"  # Cloudflare Web Analytics (cookieless), same as the home page
 REQUIRED = ("title", "date", "slug", "lang", "description", "category")
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")

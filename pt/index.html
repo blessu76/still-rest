@@ -400,6 +400,18 @@
   .lang-hint a:hover{color:var(--gold);}
   .lang-hint button{min-width:44px;min-height:44px;border:0;background:transparent;color:#a9b0bc;font-size:20px;cursor:pointer;}
 
+  /* ---------- journal link (calm, top-left — mirrors the language selector; removed while there is no post) ---------- */
+  .topnav{
+    position:fixed;top:18px;left:18px;z-index:50;
+    display:inline-flex;align-items:center;min-height:40px;
+    background:rgba(15,18,24,.55);backdrop-filter:blur(8px);
+    border:1px solid rgba(245,240,232,.16);border-radius:999px;
+    padding:0 16px;color:var(--cream);font-size:13.5px;font-weight:500;letter-spacing:.02em;text-decoration:none;
+    transition:border-color .3s ease,background .3s ease;
+  }
+  .topnav:hover{border-color:rgba(201,168,76,.5);}
+  .topnav:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
+
   /* ---------- language selector (calm, top-right) ---------- */
   .langsel{
     position:fixed;top:18px;right:18px;z-index:50;
@@ -423,6 +435,7 @@
     .verse-actions{padding:0 28px 22px;}
     .step{grid-template-columns:48px 1fr;gap:18px;}
     .langsel{top:12px;right:12px;padding:6px 10px;}
+    .topnav{top:12px;left:12px;min-height:36px;padding:0 13px;font-size:13px;}
   }
   @media (prefers-reduced-motion:reduce){
     .reveal,.reveal-line{opacity:1;transform:none;transition:none;}
@@ -435,6 +448,9 @@
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "eab6249a56894cb084b7bcc8f1a860a6"}'></script>
 </head>
 <body>
+
+<!-- journal link (top; generated: dropped while there is no post) -->
+<a class="topnav" href="/journal/" data-i18n="foot_journal">Diário</a>
 
 <!-- language selector -->
 <label class="langsel" aria-label="Idioma">
