@@ -57,7 +57,9 @@ published_at: 2026-10-23 18:18  # 선택: 이미 공개된 글이 실제로 올�
    **게시(공개 글이 1편이라도 있는 상태로 배포)할 때는 `--check --strict-safety` 도 통과해야 한다** — 그 글의 언어에 `draft` 위기 번호가 남아 있으면 실패. (배포 워크플로가 같은 검사를 돌린다.)
 3. 발행 두 가지.
    ① 즉시: 글의 `draft: true` 줄을 지운다(`date` 가 그날이어야 함) → 빌드(`build_journal.py`) → 위 게이트 → 커밋·push.
-   ② **예약(하루 2편, 11:00·17:00 KST)**: `draft: true` 대신 `publish_at: YYYY-MM-DD HH:MM`(KST)을 적어 한 번에 커밋·push 해 둔다. 배포 워크플로가 매일 11:00·17:00 KST(cron 02:00·08:00 UTC, +20분 재시도)와 push 때마다 러너에서 `build_journal.py --now <지금 KST> --strict-safety` 로 한 번 더 빌드해 시각이 지난 글만 Pages 에 올린다.
+   ② **예약(하루 2편, 무작위 시각)**: `draft: true` 대신 `publish_at: YYYY-MM-DD HH:MM`(KST)을 적어 한 번에 커밋·push 해 둔다. 시각은 **정각이 아니라 무작위** — 오전 한 편은 09:00~11:59, 오후 한 편은 16:00~17:59 안에서, 정각·:30 은 피하고 전날 같은 슬롯 시각과 15분 이상 벌어지게:
+   `python3 scripts/pick_publish_time.py 2026-10-26 am` (오후는 `pm`; 오늘 글을 늦게 준비하면 `--not-before 16:40`). 출력 `YYYY-MM-DD HH:MM` 을 그대로 `publish_at` 에 붙인다. 한 글의 모든 언어판은 같은 시각.
+   **제시간 발행은 맥미니 디스패처가 맡는다**: `scripts/dispatch_due.py` 가 5분마다(launchd, 창 안에서만) 시각이 지난 예약 글의 라이브 URL 을 확인해 404 가 있으면 `gh workflow run deploy.yml` 을 한 번 건다(이미 진행 중이거나 10분 안에 돈 run 이 있으면 걸지 않음). 설치·운영은 `scripts/launchd/README.md`. GitHub 의 schedule cron(09:45~12:45·16:45~18:45 KST 매시 :45)은 **늦을 수 있는 백업**일 뿐이다. 배포 워크플로는 push·수동 실행·cron 어느 쪽이든 러너에서 `build_journal.py --now <지금 KST> --strict-safety` 로 한 번 더 빌드해 시각이 지난 글만 Pages 에 올린다.
    그 빌드는 **커밋하지 않는다**: 커밋된 산출물(평소 `build_journal.py`·`--check`)은 시계와 무관하게 예약 글을 뺀 상태라 시간이 지나도 낡지 않는다. 예약 글을 레포 산출물에도 넣고 싶으면 `publish_at` 줄을 `published_at`(같은 값, date 유지)으로 바꿔 다시 빌드·커밋 — 날짜 옆 시각(HH:MM)이 유지된다. `draft: true` 가 있으면 `publish_at` 이 있어도 나가지 않는다. 로컬 확인: `python3 scripts/build_journal.py --now "2026-10-24 11:00"`(커밋하지 말 것 — `git checkout -- .` 로 되돌린다).
    ko 첫 발행 전: `safety.json` 의 `lines.ko.status` 를 원어민(Davy) 검수 뒤 `verified` 로 — 아니면 `--strict-safety` 가 막는다. 구절 인용(`>` 블록)은 앱 `daily_verses.json` 의 글자 그대로(테스트가 대조).
    보류 언어: `content/journal/hold.json`(지금 `id`) 에 적힌 언어는 `draft: true` 글만 둘 수 있다 — 공개 글이 있으면 빌드가 실패한다.
