@@ -28,7 +28,8 @@ category: 번아웃                # 그 언어의 자유 문구
 bible_version: 개역한글(1961)   # 성경을 인용(> 인용 블록)하면 필수. 성경 인용이 아니면 `bible_version: none`
 translation_of: ko              # 번역본만(ko·en 외 언어는 필수). 있으면 「AI 번역」 표시 + 원문 링크
 draft: true                     # 선택: 어디에도 나가지 않음
-publish_at: 2026-10-24 11:00    # 선택: 예약 발행(KST) — 이 시각이 지난 배포 빌드부터 공개 (date 와 같은 날이어야 함)
+publish_at: 2026-10-24 11:00    # 선택: 예약 발행(KST) — 이 시각이 지난 배포 빌드부터 공개 (date 와 같은 날이어야 함). 날짜 옆에 HH:MM 으로 보인다
+published_at: 2026-10-23 18:18  # 선택: 이미 공개된 글이 실제로 올라간 시각(KST, publish_at 과 동시 사용 불가). 시각을 모르면 쓰지 않는다 → 날짜만 보인다
 ---
 ```
 
@@ -57,7 +58,7 @@ publish_at: 2026-10-24 11:00    # 선택: 예약 발행(KST) — 이 시각이 �
 3. 발행 두 가지.
    ① 즉시: 글의 `draft: true` 줄을 지운다(`date` 가 그날이어야 함) → 빌드(`build_journal.py`) → 위 게이트 → 커밋·push.
    ② **예약(하루 2편, 11:00·17:00 KST)**: `draft: true` 대신 `publish_at: YYYY-MM-DD HH:MM`(KST)을 적어 한 번에 커밋·push 해 둔다. 배포 워크플로가 매일 11:00·17:00 KST(cron 02:00·08:00 UTC, +20분 재시도)와 push 때마다 러너에서 `build_journal.py --now <지금 KST> --strict-safety` 로 한 번 더 빌드해 시각이 지난 글만 Pages 에 올린다.
-   그 빌드는 **커밋하지 않는다**: 커밋된 산출물(평소 `build_journal.py`·`--check`)은 시계와 무관하게 예약 글을 뺀 상태라 시간이 지나도 낡지 않는다. 예약 글을 레포 산출물에도 넣고 싶으면 `publish_at` 줄을 지우고(date 유지) 다시 빌드·커밋. `draft: true` 가 있으면 `publish_at` 이 있어도 나가지 않는다. 로컬 확인: `python3 scripts/build_journal.py --now "2026-10-24 11:00"`(커밋하지 말 것 — `git checkout -- .` 로 되돌린다).
+   그 빌드는 **커밋하지 않는다**: 커밋된 산출물(평소 `build_journal.py`·`--check`)은 시계와 무관하게 예약 글을 뺀 상태라 시간이 지나도 낡지 않는다. 예약 글을 레포 산출물에도 넣고 싶으면 `publish_at` 줄을 `published_at`(같은 값, date 유지)으로 바꿔 다시 빌드·커밋 — 날짜 옆 시각(HH:MM)이 유지된다. `draft: true` 가 있으면 `publish_at` 이 있어도 나가지 않는다. 로컬 확인: `python3 scripts/build_journal.py --now "2026-10-24 11:00"`(커밋하지 말 것 — `git checkout -- .` 로 되돌린다).
    ko 첫 발행 전: `safety.json` 의 `lines.ko.status` 를 원어민(Davy) 검수 뒤 `verified` 로 — 아니면 `--strict-safety` 가 막는다. 구절 인용(`>` 블록)은 앱 `daily_verses.json` 의 글자 그대로(테스트가 대조).
    보류 언어: `content/journal/hold.json`(지금 `id`) 에 적힌 언어는 `draft: true` 글만 둘 수 있다 — 공개 글이 있으면 빌드가 실패한다.
 4. 커밋·push → 배포 후 `python3 scripts/check_sitemap.py --live` (모든 URL HTTP 200) → `python3 scripts/indexnow.py <새 URL…>`.

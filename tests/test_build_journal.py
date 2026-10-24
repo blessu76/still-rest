@@ -570,3 +570,102 @@ class Scheduled(Base):
         r = run(self.tmp, "--now", "2099-01-01 00:00")
         self.assertEqual(r.returncode, 1)
         self.assertIn("on hold", r.stderr)
+
+
+class PostTime(Base):
+    """the time of day (KST, 24 h, HH:MM, no seconds) next to the date; `publish_at` / `published_at` are its sources; unknown -> date only"""
+
+    def write(self, slug, extra, lang="ko", date="2026-10-24"):
+        write_post(self.tmp, lang, slug, text=POST.replace("slug: hello", "slug: " + slug).replace("2026-10-22", date) % dict(l=lang, extra="bible_version: WEB\n" + extra))
+
+    def eyebrow(self, rel):
+        return re.search(r'<p class="eyebrow">(.*?)</p>', self.page(rel), re.S).group(1)
+
+    def ld(self, rel):
+        return json.loads(re.search(r'<script type="application/ld\+json">(.*?)</script>', self.page(rel), re.S).group(1))
+
+    def test_zero_padded_hh_mm_without_seconds_in_every_language(self):
+        for l in LANGS:  # seconds in the source are cut
+            self.write("t", "published_at: 2026-10-24 09:09:45\n" + ("" if l in ("ko", "en") else "translation_of: en\n"), lang=l)
+        r = run(self.tmp)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        for l in LANGS:
+            want = '<time datetime="2026-10-24T09:09:00+09:00">%s&nbsp;09:09</time>' % bj.fmt_date(__import__("datetime").date(2026, 10, 24), l)
+            self.assertIn(want, self.page("journal/%s/t/index.html" % l), l)  # article page
+            self.assertIn(want, self.page("journal/%s/index.html" % l), l)  # list card
+            visible = re.sub(r"<[^>]+>", "", self.eyebrow("journal/%s/t/index.html" % l))
+            self.assertNotRegex(visible, r"\d\d:\d\d:\d\d", l)  # visible text: HH:MM only, no seconds
+
+    def test_two_digit_hour_and_minute(self):
+        self.write("a", "published_at: 2026-10-24 07:05\n")
+        self.write("b", "published_at: 2026-10-24 17:00\n")
+        self.assertEqual(run(self.tmp).returncode, 0)
+        self.assertIn("2026년 10월 24일&nbsp;07:05</time>", self.page("journal/ko/a/index.html"))
+        self.assertIn("2026년 10월 24일&nbsp;17:00</time>", self.page("journal/ko/b/index.html"))
+
+    def test_machine_dates_carry_the_kst_offset(self):
+        self.write("a", "published_at: 2026-10-24 11:00\n")
+        self.assertEqual(run(self.tmp).returncode, 0)
+        iso = "2026-10-24T11:00:00+09:00"
+        d = self.ld("journal/ko/a/index.html")
+        self.assertEqual((d["datePublished"], d["dateModified"]), (iso, iso))
+        h = self.page("journal/ko/a/index.html")
+        self.assertIn('<meta property="article:published_time" content="%s">' % iso, h)
+        self.assertIn('<meta property="article:modified_time" content="%s">' % iso, h)
+        lst = self.ld("journal/ko/index.html")
+        self.assertEqual(lst["blogPost"][0]["datePublished"], iso)
+        self.assertIn("<pubDate>Sat, 24 Oct 2026 11:00:00 +0900</pubDate>", self.page("journal/feed.xml"))
+        self.assertIn('<time datetime="%s">' % iso, self.page("ko/index.html"))  # home card
+
+    def test_an_explicit_updated_date_stays_as_written(self):
+        self.write("a", "published_at: 2026-10-24 11:00\nupdated: 2026-10-25\n")
+        self.assertEqual(run(self.tmp).returncode, 0)
+        d = self.ld("journal/ko/a/index.html")
+        self.assertEqual((d["datePublished"], d["dateModified"]), ("2026-10-24T11:00:00+09:00", "2026-10-25"))
+
+    def test_publish_at_is_shown_once_the_scheduled_post_is_live(self):
+        self.write("s", "publish_at: 2026-10-24 17:00\n")
+        self.assertEqual(run(self.tmp, "--now", "2026-10-24 17:00").returncode, 0)
+        h = self.page("journal/ko/s/index.html")
+        self.assertIn('<time datetime="2026-10-24T17:00:00+09:00">2026년 10월 24일&nbsp;17:00</time>', h)
+        self.assertEqual(self.ld("journal/ko/s/index.html")["datePublished"], "2026-10-24T17:00:00+09:00")
+
+    def test_unknown_time_shows_the_date_only(self):
+        self.write("n", "")
+        self.assertEqual(run(self.tmp).returncode, 0)
+        h = self.page("journal/ko/n/index.html")
+        self.assertIn('<time datetime="2026-10-24">2026년 10월 24일</time>', h)
+        self.assertNotRegex(self.eyebrow("journal/ko/n/index.html"), r"\d\d:\d\d")
+        self.assertEqual(self.ld("journal/ko/n/index.html")["datePublished"], "2026-10-24")
+        self.assertIn("<pubDate>Sat, 24 Oct 2026 09:00:00 +0900</pubDate>", self.page("journal/feed.xml"))  # as before: never an invented time
+
+    def test_same_day_posts_are_listed_latest_time_first(self):
+        self.write("early", "published_at: 2026-10-24 09:00\n")
+        self.write("late", "published_at: 2026-10-24 17:00\n")
+        self.assertEqual(run(self.tmp).returncode, 0)
+        h = self.page("journal/ko/index.html")
+        self.assertLess(h.index("/journal/ko/late/"), h.index("/journal/ko/early/"))
+
+    def test_bad_published_at(self):
+        for extra, msg in (("published_at: noon\n", "published_at must be"),
+                           ("published_at: 2026-10-25 11:00\n", "is not on the post's date"),
+                           ("published_at: 2026-10-24 11:00\npublish_at: 2026-10-24 11:00\n", "both set")):
+            self.write("bad", extra)
+            r = run(self.tmp)
+            self.assertEqual(r.returncode, 1, extra)
+            self.assertIn(msg, r.stderr, extra)
+
+    def test_check_passes_and_the_sitemap_stays_valid(self):
+        self.write("a", "published_at: 2026-10-24 11:00\n")
+        self.assertEqual(run(self.tmp).returncode, 0)
+        self.assertEqual(run(self.tmp, "--check").returncode, 0)
+        self.assertEqual(check_sitemap.check(self.tmp)[0], [])
+
+    def test_the_first_posts_have_their_real_times(self):
+        for slug, when in (("commute-get-off-early", "2026-10-23 18:18"), ("evening-after-the-meeting", "2026-10-23 18:18"),
+                           ("first-day-at-the-clinic", "2026-10-24 11:00"), ("three-am-counting-hours", "2026-10-24 17:00")):
+            p = bj.parse_post(REPO / "content/journal/ko" / (slug + ".md"))
+            self.assertEqual(bj.post_when(p).strftime("%Y-%m-%d %H:%M"), when, slug)
+        for slug in ("commute-get-off-early", "evening-after-the-meeting"):
+            h = (REPO / "journal/ko" / slug / "index.html").read_text(encoding="utf-8")
+            self.assertIn('<time datetime="2026-10-23T18:18:00+09:00">2026년 10월 23일&nbsp;18:18</time>', h, slug)

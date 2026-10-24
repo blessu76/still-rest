@@ -26,6 +26,11 @@ Front matter (between two `---` lines):
     publish_at:  optional, `YYYY-MM-DD HH:MM` (KST; an offset like +09:00 is also accepted) → scheduled: the post is published only by a
                  build whose clock (`--now`) is at or after this time. Its date must be the same day as `date`. A build without
                  `--now` (the committed output) treats every scheduled post as not yet published — see "Scheduled posts" below.
+    published_at: optional, `YYYY-MM-DD HH:MM` (KST) — the time an ALREADY PUBLIC post went live (no `publish_at`; same day as `date`). Together
+                 with `publish_at` it is the post's time of day: shown as HH:MM next to the date (24 h, KST, no seconds, every language),
+                 and written as +09:00 ISO in <time datetime>, JSON-LD datePublished/dateModified, article:published_time and the RSS
+                 pubDate. A post with neither shows the date only — never invent a time. When you delete `publish_at` to commit a
+                 scheduled post, write its time here instead. Giving both is an error.
     translation_of: ko | en — the original language this version was translated from. Required for every language except
                     ko and en; optional on those two (en: `translation_of: ko`). A post with it shows the "AI translation" notice.
     bible_version:  name of the Bible translation quoted in the post (e.g. "WEB", "개역한글(1961)"). Shown under the text.
@@ -44,7 +49,7 @@ notice ④ Bible translation name (bible_version).
 
 Scheduled posts (publish_at): the committed output (plain build / --check) never contains a scheduled post, so it does not go stale
 as the clock moves. The deploy workflow builds again with `--now now` (the real clock) in the runner before uploading to Pages — on every
-push and on a cron schedule — and never commits that build. Delete `publish_at` (keep `date`) to make a post part of the committed output.
+push and on a cron schedule — and never commits that build. Replace `publish_at` with `published_at` (same value, keep `date`) to make a post part of the committed output.
 
 Usage:
     python3 scripts/build_journal.py            # build into this repo (scheduled posts held back)
@@ -191,6 +196,16 @@ def parse_post(path):
             raise ValueError("publish_at must be `YYYY-MM-DD HH:MM` (KST): %r" % meta["publish_at"])
         if meta["_publish_at"].astimezone(KST).date() != meta["_date"]:
             raise ValueError("publish_at %s (KST) is not on the post's date %s" % (meta["publish_at"], meta["date"]))
+    meta["_published_at"] = None
+    if meta.get("published_at"):
+        if meta["_publish_at"]:
+            raise ValueError("`publish_at` and `published_at` are both set — keep only one (publish_at while it is scheduled, published_at once it is public)")
+        try:
+            meta["_published_at"] = parse_when(meta["published_at"])
+        except ValueError:
+            raise ValueError("published_at must be `YYYY-MM-DD HH:MM` (KST): %r" % meta["published_at"])
+        if meta["_published_at"].astimezone(KST).date() != meta["_date"]:
+            raise ValueError("published_at %s (KST) is not on the post's date %s" % (meta["published_at"], meta["date"]))
     if meta.get("updated"):
         try:
             dt.date.fromisoformat(meta["updated"])
@@ -416,6 +431,29 @@ def fmt_date(d, lang="en"):
     day = "1er" if lang == "fr" and d.day == 1 else d.day
     return DATE_FORMATS.get(lang, DATE_FORMATS["en"]).format(
         y=d.year, m=d.month, d=day, month=months[d.month - 1] if months else "")
+
+
+def post_when(p):
+    """the post's time of day: `publish_at` (scheduled) or `published_at` (already public), as an aware KST datetime cut to the minute; None = unknown."""
+    w = p.get("_publish_at") or p.get("_published_at")
+    return w.astimezone(KST).replace(second=0, microsecond=0) if w else None
+
+
+def fmt_when(p):
+    """visible date + ` HH:MM` (24 h, KST, no seconds, same in every language); the date alone when the time is unknown.
+    The no-break space keeps the time on the date's line when the eyebrow wraps."""
+    w = post_when(p)
+    return fmt_date(p["_date"], p["lang"]) + ("&nbsp;" + w.strftime("%H:%M") if w else "")
+
+
+def iso_when(p):
+    """machine form: `2026-10-24T11:00:00+09:00`, or `2026-10-24` when the time is unknown."""
+    w = post_when(p)
+    return w.isoformat() if w else p["_date"].isoformat()
+
+
+def time_tag(p):
+    return '<time datetime="%s">%s</time>' % (iso_when(p), fmt_when(p))
 
 
 def lang_path(lang):
@@ -746,7 +784,7 @@ def render_post(p, grp=None):
     data = {
         "@context": "https://schema.org", "@type": "BlogPosting",
         "headline": p["title"], "description": p["description"],
-        "datePublished": p["_date"].isoformat(), "dateModified": p.get("updated") or p["_date"].isoformat(),
+        "datePublished": iso_when(p), "dateModified": p.get("updated") or iso_when(p),
         "inLanguage": p["lang"], "articleSection": p["category"],
         "mainEntityOfPage": {"@type": "WebPage", "@id": url}, "url": url,
         "image": image_obj(hero, p.get("image_alt")) if hero else image_obj("/og-image.png", og_image_alt(p["lang"])),
@@ -772,7 +810,7 @@ def render_post(p, grp=None):
     extra = ('<meta property="og:type" content="article">\n'
              '<meta property="article:published_time" content="%s">\n'
              '<meta property="article:modified_time" content="%s">\n'
-             '<meta property="article:section" content="%s">\n' % (p["_date"].isoformat(), p.get("updated") or p["_date"].isoformat(), esc(p["category"]))
+             '<meta property="article:section" content="%s">\n' % (iso_when(p), p.get("updated") or iso_when(p), esc(p["category"]))
              + "".join('<meta property="article:tag" content="%s">\n' % esc(k) for k in p["_keywords"])
              ) + ld(data) + ld(breadcrumb(p["lang"], p["title"], url))
     draft = '<span class="draft-flag">DRAFT</span>' if p["draft"] else ""
@@ -789,7 +827,7 @@ def render_post(p, grp=None):
             + header(p["lang"], targets) + f"""<main id="main" class="wrap">
   <article class="article">
     <header class="article-head">
-      <p class="eyebrow"><time datetime="{p['_date'].isoformat()}">{fmt_date(p['_date'], p['lang'])}</time> · {esc(p['category'])}{draft}</p>
+      <p class="eyebrow">{time_tag(p)} · {esc(p['category'])}{draft}</p>
       <h1>{esc(p['title'])}</h1>
       <p class="lede">{esc(p['description'])}</p>
     </header>
@@ -818,14 +856,14 @@ def render_list(posts, lang=None, list_langs=("en",)):
     data = {"@context": "https://schema.org", "@type": "Blog", "name": "still() %s" % t["journal"], "url": url,
             "publisher": dict(ORG), "inLanguage": sorted({p["lang"] for p in posts}) if not lang else lang,
             "blogPost": [{"@type": "BlogPosting", "headline": p["title"], "url": post_url(p),
-                          "datePublished": p["_date"].isoformat(), "inLanguage": p["lang"]} for p in posts]}
+                          "datePublished": iso_when(p), "inLanguage": p["lang"]} for p in posts]}
     itemlist = {"@context": "https://schema.org", "@type": "ItemList", "name": "still() %s" % t["journal"], "url": url,
                 "numberOfItems": len(posts), "itemListOrder": "https://schema.org/ItemListOrderDescending",
                 "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": post_url(p), "name": p["title"]}
                                     for i, p in enumerate(posts)]}
     if posts:
         items = "\n".join(f"""      <li lang="{esc(p['lang'])}">
-        <p class="eyebrow"><time datetime="{p['_date'].isoformat()}">{fmt_date(p['_date'], p['lang'])}</time> · {esc(p['category'])}{' <span class="draft-flag">DRAFT</span>' if p['draft'] else ''}</p>
+        <p class="eyebrow">{time_tag(p)} · {esc(p['category'])}{' <span class="draft-flag">DRAFT</span>' if p['draft'] else ''}</p>
         <h2><a href="{post_path(p)}">{esc(p['title'])}</a></h2>
         <p>{esc(p['description'])}</p>
         <a class="more-link" href="{post_path(p)}" aria-label="{esc(ui(p['lang'])['read_more'])}: {esc(p['title'])}"><span>{esc(ui(p['lang'])['read_more'])}</span> <span aria-hidden="true">→</span></a>
@@ -859,7 +897,7 @@ def render_home_cards(posts):
     if not posts:
         return ""
     cards = "\n".join(f"""      <article class="j-card" lang="{esc(p['lang'])}">
-        <p class="j-date"><time datetime="{p['_date'].isoformat()}">{fmt_date(p['_date'], p['lang'])}</time></p>
+        <p class="j-date">{time_tag(p)}</p>
         <h3><a href="{post_path(p)}">{esc(p['title'])}</a></h3>
         <p>{esc(p['description'])}</p>
         <a class="more-link" href="{post_path(p)}" aria-label="{esc(ui(p['lang'])['read_more'])}: {esc(p['title'])}"><span>{esc(ui(p['lang'])['read_more'])}</span> <span aria-hidden="true">→</span></a>
@@ -901,8 +939,10 @@ def sweep_generated(root, written):
             d.rmdir()
 
 
-def rfc822(d):
-    return dt.datetime(d.year, d.month, d.day, 9, 0, tzinfo=KST).strftime("%a, %d %b %Y %H:%M:%S +0900")
+def rfc822(p):
+    """RSS date of a post: its real time when known, else 09:00 KST of its date."""
+    w = post_when(p) or dt.datetime(p["_date"].year, p["_date"].month, p["_date"].day, 9, 0, tzinfo=KST)
+    return w.strftime("%a, %d %b %Y %H:%M:%S +0900")
 
 
 def render_feed(posts):
@@ -910,11 +950,11 @@ def render_feed(posts):
       <title>{esc(p['title'])}</title>
       <link>{post_url(p)}</link>
       <guid isPermaLink="true">{post_url(p)}</guid>
-      <pubDate>{rfc822(p['_date'])}</pubDate>
+      <pubDate>{rfc822(p)}</pubDate>
       <category>{esc(p['category'])}</category>
       <description>{esc(p['description'])}</description>
     </item>""" for p in posts)
-    last = rfc822(posts[0]["_date"]) if posts else rfc822(dt.date(2026, 10, 22))
+    last = rfc822(posts[0]) if posts else rfc822({"_date": dt.date(2026, 10, 22)})
     return f"""<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
@@ -1036,7 +1076,7 @@ def build(root, drafts=False, strict_safety=False, check_only=False, now=None):
         errors += strict_safety_errors({p["lang"] for p in posts})
     if errors:
         return 1, "journal: errors\n  " + "\n  ".join(errors)
-    posts.sort(key=lambda p: (p["_date"], p["slug"], p["lang"]), reverse=True)
+    posts.sort(key=lambda p: (p["_date"], post_when(p).strftime("%H:%M") if post_when(p) else "", p["slug"], p["lang"]), reverse=True)  # newest first; same day: later time first
     grp = groups(posts)
     originals = [p for p in posts if not p.get("translation_of")]
     list_langs = [l for l in LANGS if any(p["lang"] == l for p in posts)]
