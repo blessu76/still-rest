@@ -437,6 +437,73 @@ class FirstPosts(unittest.TestCase):
             shutil.rmtree(tmp)
 
 
+POSTS_1026 = {  # slug -> (verse reference, scheduled publish_at KST)
+    "monday-morning-list-of-the-week": ("베드로전서 5:7", "2026-10-26 09:08"),
+    "monday-afternoon-ten-minutes-outside": ("시편 23:2", "2026-10-26 16:49"),
+}
+
+
+class Posts1026(unittest.TestCase):
+    """the two scheduled Korean posts of 2026-10-26: front matter, verse text to the letter, go-live times"""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.src = {s: bj.parse_post(REPO / "content/journal/ko" / (s + ".md")) for s in POSTS_1026}
+
+    def test_front_matter(self):
+        for slug, (ref, at) in POSTS_1026.items():
+            p = self.src[slug]
+            self.assertEqual(p["date"], "2026-10-26", slug)
+            self.assertEqual(p["lang"], "ko")
+            self.assertFalse(p["draft"], slug)
+            self.assertEqual(p["_publish_at"].strftime("%Y-%m-%d %H:%M"), at, slug)
+            self.assertIn(ref, p["description"], slug)
+            self.assertIn("1인칭 이야기", p["description"], slug)
+            self.assertNotIn("기록", p["description"], slug)
+            self.assertEqual(p["_bible"], "개역한글(1961)")
+
+    def test_the_verse_is_the_app_text_to_the_letter(self):
+        quotes = {}
+        for slug, (ref, _) in POSTS_1026.items():
+            m = re.search(r"(?m)^> (.+)\n>\n> %s \(개역한글\)$" % re.escape(ref), self.src[slug]["_body"])
+            self.assertTrue(m, "%s: verse block with its reference" % slug)
+            quotes[ref] = m.group(1)
+            self.assertEqual(len(re.findall(r"(?m)^>", self.src[slug]["_body"])), 3, slug)  # nothing else is quoted
+            self.assertNotIn("109", self.src[slug]["_body"], slug)  # the crisis line comes only from the fixed block
+        if not VERSES.is_file():
+            self.skipTest("daily_verses.json is not on this machine")
+        canon = {v["ref_ko"]: v["ko"] for v in json.loads(VERSES.read_text(encoding="utf-8"))["verses"]}
+        for ref, text in quotes.items():
+            self.assertEqual(text, canon[ref], ref)
+
+    def test_the_posts_go_live_at_their_time(self):
+        tmp = Path(tempfile.mkdtemp())
+        try:
+            shutil.copytree(REPO, tmp / "s", ignore=shutil.ignore_patterns(".git", "__pycache__"))
+            for when, live in (("2026-10-26 09:07", set()), ("2026-10-26 09:08", {"monday-morning-list-of-the-week"}),
+                               ("2026-10-26 16:49", set(POSTS_1026))):
+                r = run(tmp / "s", "--now", when)
+                self.assertEqual(r.returncode, 0, r.stderr)
+                for slug in POSTS_1026:
+                    self.assertEqual((tmp / "s/journal/ko" / slug / "index.html").is_file(), slug in live, (when, slug))
+                self.assertEqual(check_sitemap.check(tmp / "s", bj.parse_when(when))[0], [], when)
+            h = (tmp / "s/journal/ko/monday-afternoon-ten-minutes-outside/index.html").read_text(encoding="utf-8")
+            data = json.loads((REPO / "content/journal/safety.json").read_text(encoding="utf-8"))["text"]["ko"]
+            end = h[h.index('data-safety="block"'):]
+            self.assertEqual(h.count(data["fiction"]), 2)
+            self.assertIn('id="help"', end)
+            self.assertIn(">109<", end)
+            self.assertIn(data["disclaimer"], end)
+        finally:
+            shutil.rmtree(tmp)
+
+    def test_committed_site_holds_them_back(self):
+        sm = (REPO / "sitemap.xml").read_text(encoding="utf-8")
+        for slug in POSTS_1026:
+            self.assertFalse((REPO / "journal/ko" / slug).exists(), slug)
+            self.assertNotIn("/journal/ko/%s/" % slug, sm, slug)
+
+
 class RepoState(unittest.TestCase):
     def test_id_journal_is_on_hold(self):
         hold = json.loads((REPO / "content/journal/hold.json").read_text(encoding="utf-8"))
