@@ -899,15 +899,18 @@ def card_posts(lang, posts):
 
 
 def render_home_cards(posts):
+    """journal cards of the home page (<= 3): each card is ONE <a> (date · title · summary · "read"), so the whole card is the click target.
+    The grid class carries the card count (j-n1/j-n2/j-n3): 3 cards -> 3 columns on desktop, fewer -> never an empty slot."""
+    posts = posts[:3]
     if not posts:
         return ""
-    cards = "\n".join(f"""      <article class="j-card" lang="{esc(p['lang'])}">
+    cards = "\n".join(f"""      <a class="j-card" href="{post_path(p)}" lang="{esc(p['lang'])}">
         <p class="j-date">{time_tag(p)}</p>
-        <h3><a href="{post_path(p)}">{esc(p['title'])}</a></h3>
-        <p>{esc(p['description'])}</p>
-        <a class="more-link" href="{post_path(p)}" aria-label="{esc(ui(p['lang'])['read_more'])}: {esc(p['title'])}"><span>{esc(ui(p['lang'])['read_more'])}</span> <span aria-hidden="true">→</span></a>
-      </article>""" for p in posts)
-    return '    <div class="journal-grid">\n%s\n    </div>' % cards
+        <h3 class="j-title">{esc(p['title'])}</h3>
+        <p class="j-desc">{esc(p['description'])}</p>
+        <span class="j-more"><span>{esc(ui(p['lang'])['read_more'])}</span> <span aria-hidden="true">→</span></span>
+      </a>""" for p in posts)
+    return '    <div class="journal-grid j-n%d">\n%s\n    </div>' % (len(posts), cards)
 
 
 def render_redirect(new_url):
