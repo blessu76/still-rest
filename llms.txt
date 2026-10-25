@@ -37,10 +37,55 @@ still() is "comfort, not counseling." On a hard day it sits beside you with a ve
 ## Journal
 Quiet stories for hard days — about depression, panic, burnout and the long road of getting help. Written to keep you company, not to treat you. Feed: https://still.ipe.rest/journal/feed.xml · Index: https://still.ipe.rest/journal/ · Every post exists at /journal/<lang>/<slug>/ in each language listed below. These are stories, not medical advice, and they do not replace professional care; each page lists crisis lines.
 
+### Journal — English (en) · Index: https://still.ipe.rest/journal/en/
+
+- [After the Meeting, the Evening Fell Apart First](https://still.ipe.rest/journal/en/evening-after-the-meeting/) — A first-person story of an office worker who gets through the day fine but can't move from the front door after work, and who doesn't want to carry the exhaustion alone, along with Matthew 11:28 (WEB). (en, 2026-10-23, AI translation)
+- [It Was Okay to Get Off One Stop Early](https://still.ipe.rest/journal/en/commute-get-off-early/) — A first-person story of a morning on the subway when my chest suddenly tightened and my fingertips went cold, how I decided to see a doctor afterward, and the evening I read Isaiah 41:10 (WEB). (en, 2026-10-23, AI translation)
+
 ### Journal — 한국어 (ko) · Index: https://still.ipe.rest/journal/ko/
 
 - [회의가 끝나면, 저녁이 먼저 무너졌다](https://still.ipe.rest/journal/ko/evening-after-the-meeting/) — 낮에는 무난하게 일하고 퇴근 후 현관에서 한참 움직이지 못하는 직장인의 1인칭 이야기. 지친 마음을 혼자 견디지 않으려는 마음과 마태복음 11:28(개역한글)을 담았습니다. (ko, 2026-10-23)
 - [지하철에서 한 정거장 먼저 내려도 괜찮았다](https://still.ipe.rest/journal/ko/commute-get-off-early/) — 출근길 지하철에서 갑자기 가슴이 조이고 손끝이 차가워졌던 날의 1인칭 이야기. 그 뒤 병원에 가 보기로 한 과정과, 이사야 41:10(개역한글)을 읽은 저녁을 담았습니다. (ko, 2026-10-23)
+
+### Journal — 日本語 (ja) · Index: https://still.ipe.rest/journal/ja/
+
+- [会議が終わると、夕方が先に崩れた](https://still.ipe.rest/journal/ja/evening-after-the-meeting/) — 昼間は無難に働き、退勤後は玄関でしばらく動けなくなる会社員の一人称の物語で、疲れた心を一人で抱え込まないようにしたい気持ちと、マタイによる福音書 11:28をつづっています。 (ja, 2026-10-23, AI translation)
+- [地下鉄で一駅手前で降りてもよかった](https://still.ipe.rest/journal/ja/commute-get-off-early/) — 出勤途中の地下鉄で突然胸が締めつけられ、指先が冷たくなった日の一人称の物語で、その後に病院へ行ってみようと決めた経緯と、イザヤ書 41:10を読んだ夜をつづっています。 (ja, 2026-10-23, AI translation)
+
+### Journal — 中文 (zh) · Index: https://still.ipe.rest/journal/zh/
+
+- [会议一结束，傍晚先垮了](https://still.ipe.rest/journal/zh/evening-after-the-meeting/) — 一个白天勉强平稳地工作、下班后在玄关处久久动弹不得的上班族的第一人称故事，讲到不想独自硬撑疲惫的心，以及马太福音 11:28 (和合本)。 (zh, 2026-10-23, AI translation)
+- [在地铁里提前一站下车，也没关系](https://still.ipe.rest/journal/zh/commute-get-off-early/) — 一个上班路上在地铁里突然胸口发紧、指尖冰凉的日子的第一人称故事，讲到后来决定去医院看看，以及读到以赛亚书 41:10 (和合本)的那个傍晚。 (zh, 2026-10-23, AI translation)
+
+### Journal — Español (es) · Index: https://still.ipe.rest/journal/es/
+
+- [Cuando acaba la reunión, la tarde se me viene abajo primero](https://still.ipe.rest/journal/es/evening-after-the-meeting/) — Un relato en primera persona sobre alguien que de día trabaja con normalidad y, al volver a casa, se queda inmóvil largo rato en el recibidor, con el deseo de no cargar con su cansancio en solitario y con Mateo 11:28 (Reina-Valera 1909). (es, 2026-10-23, AI translation)
+- [Estuvo bien bajarme una parada antes en el metro](https://still.ipe.rest/journal/es/commute-get-off-early/) — Un relato en primera persona sobre una mañana en el metro en la que el pecho se me cerró y las yemas de los dedos se enfriaron, la decisión de ir al médico después y la tarde en que leí Isaías 41:10 (Reina-Valera 1909). (es, 2026-10-23, AI translation)
+
+### Journal — Português (pt) · Index: https://still.ipe.rest/journal/pt/
+
+- [Quando a reunião acaba, é a noite que desaba primeiro](https://still.ipe.rest/journal/pt/evening-after-the-meeting/) — A história em primeira pessoa de alguém que trabalha o dia todo sem problemas e, ao chegar em casa, fica muito tempo parado na porta de entrada, com a vontade de não aguentar o peso do cansaço a sós e Mateus 11:28. (pt, 2026-10-23, AI translation)
+- [Tudo bem descer uma estação antes no metrô](https://still.ipe.rest/journal/pt/commute-get-off-early/) — A história em primeira pessoa de uma manhã no metrô a caminho do trabalho em que o peito apertou e as pontas dos dedos esfriaram, de como decidi procurar um médico e da noite em que li Isaías 41:10. (pt, 2026-10-23, AI translation)
+
+### Journal — Русский (ru) · Index: https://still.ipe.rest/journal/ru/
+
+- [Когда заканчивается совещание, вечер рушится первым](https://still.ipe.rest/journal/ru/evening-after-the-meeting/) — Рассказ от первого лица о человеке, который днём работает без сбоев, а после работы подолгу не может сдвинуться с места в прихожей, о желании не нести усталость в одиночку и о стихе От Матфея 11:28 (Синодальный перевод). (ru, 2026-10-23, AI translation)
+- [Можно было выйти на одну станцию раньше](https://still.ipe.rest/journal/ru/commute-get-off-early/) — Рассказ от первого лица о дне, когда по дороге на работу в метро вдруг сдавило грудь и похолодели пальцы, о решении сходить к врачу и о вечере с отрывком Исаия 41:10 (Синодальный перевод). (ru, 2026-10-23, AI translation)
+
+### Journal — Tiếng Việt (vi) · Index: https://still.ipe.rest/journal/vi/
+
+- [Cuộc họp vừa xong, buổi tối đã sụp đổ trước](https://still.ipe.rest/journal/vi/evening-after-the-meeting/) — Câu chuyện kể ở ngôi thứ nhất của một người đi làm, ban ngày làm việc êm xuôi nhưng tan ca về thì ngồi lì ở lối vào rất lâu, về mong muốn không một mình chịu đựng sự mệt mỏi và việc đọc Ma-thi-ơ 11:28 (Kinh Thánh 1925). (vi, 2026-10-23, AI translation)
+- [Xuống sớm một ga trên tàu điện ngầm cũng không sao](https://still.ipe.rest/journal/vi/commute-get-off-early/) — Câu chuyện kể ở ngôi thứ nhất về một buổi sáng đi làm, khi ngực bỗng thắt lại và đầu ngón tay lạnh đi trên tàu điện ngầm, về việc tôi quyết định đi khám sau đó và buổi tối đọc Ê-sai 41:10 (Kinh Thánh 1925). (vi, 2026-10-23, AI translation)
+
+### Journal — Français (fr) · Index: https://still.ipe.rest/journal/fr/
+
+- [Après la réunion, c’est le soir qui s’est effondré en premier](https://still.ipe.rest/journal/fr/evening-after-the-meeting/) — Récit à la première personne d’une personne qui travaille sans accroc la journée puis reste longtemps immobile dans l’entrée en rentrant, avec le souhait de ne pas porter cette fatigue en solitaire et Matthieu 11:28 (Louis Segond 1910). (fr, 2026-10-23, AI translation)
+- [Descendre une station plus tôt dans le métro, ce n’était pas grave](https://still.ipe.rest/journal/fr/commute-get-off-early/) — Récit à la première personne d’un matin où, dans le métro, ma poitrine s’est serrée et mes doigts sont devenus froids, puis de ma décision d’aller consulter et du soir où j’ai lu Ésaïe 41:10 (Louis Segond 1910). (fr, 2026-10-23, AI translation)
+
+### Journal — Deutsch (de) · Index: https://still.ipe.rest/journal/de/
+
+- [Nach dem Meeting brach zuerst der Abend weg](https://still.ipe.rest/journal/de/evening-after-the-meeting/) — Eine Ich-Erzählung von einem Menschen, der tagsüber unauffällig arbeitet und nach Feierabend lange im Flur nicht von der Stelle kommt, mit dem Wunsch, die Erschöpfung nicht allein zu tragen, und mit Matthäus 11:28 (Lutherbibel 1912). (de, 2026-10-23, AI translation)
+- [Es war in Ordnung, eine Station früher auszusteigen](https://still.ipe.rest/journal/de/commute-get-off-early/) — Eine Ich-Erzählung von einem Morgen in der U-Bahn, an dem sich plötzlich die Brust zuschnürte und die Fingerspitzen kalt wurden, vom Entschluss, danach zum Arzt zu gehen, und von einem Abend mit Jesaja 41:10 (Lutherbibel 1912). (de, 2026-10-23, AI translation)
 <!-- journal:llms:end -->
 
 <!-- info:llms:start — generated by scripts/build_info.py -->

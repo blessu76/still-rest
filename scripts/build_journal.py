@@ -97,13 +97,21 @@ HOME = {}    # {lang: {...}}  content/home/i18n.json (footer wording is shared w
 SAFETY = {}  # content/journal/safety.json
 HELD = {}    # content/journal/hold.json  {lang: reason} — languages whose journal is on hold: a post there may only be `draft: true`
              # (the build fails otherwise), so the language gets no list page and no sitemap/hreflang/feed entry. Delete the entry to lift.
+SCRIPTURE = None  # content/journal/scripture.json (scripts/fetch_scripture.py): verse text of each language, copied from its public-domain
+                  # source. None = the file is absent (test copies of the site) -> translated quotes are not checked against it.
 LIST_LANGS = None  # set by main(): languages that have a list page; None = assume all (other scripts importing this module)
 
 
 def load_data(root):
     """read the three data files into the module globals; returns a list of problems (empty = fine)."""
-    global UI, HOME, SAFETY, HELD
+    global UI, HOME, SAFETY, HELD, SCRIPTURE
     errs = []
+    try:
+        SCRIPTURE = json.loads((root / "content" / "journal" / "scripture.json").read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        SCRIPTURE = None
+    except (OSError, ValueError) as ex:
+        return ["content/journal/scripture.json: %s" % ex]
     try:
         HELD = {k: v for k, v in json.loads((root / "content" / "journal" / "hold.json").read_text(encoding="utf-8")).items() if not k.startswith("_")}
     except FileNotFoundError:
@@ -913,7 +921,11 @@ BOOKS_EN = ("Genesis|Exodus|Leviticus|Numbers|Deuteronomy|Joshua|Judges|Ruth|1 S
             "Obadiah|Jonah|Micah|Nahum|Habakkuk|Zephaniah|Haggai|Zechariah|Malachi|Matthew|Mark|Luke|John|Acts|Romans|1 Corinthians|2 Corinthians|"
             "Galatians|Ephesians|Philippians|Colossians|1 Thessalonians|2 Thessalonians|1 Timothy|2 Timothy|Titus|Philemon|Hebrews|James|1 Peter|"
             "2 Peter|1 John|2 John|3 John|Jude|Revelation").split("|")
-BOOKS = {"ko": set(BOOKS_KO), "en": set(BOOKS_EN)}  # other languages: only an explicit `verse:` in the front matter (same shape check)
+BOOKS = {"ko": set(BOOKS_KO), "en": set(BOOKS_EN)}
+USFM = ("GEN EXO LEV NUM DEU JOS JDG RUT 1SA 2SA 1KI 2KI 1CH 2CH EZR NEH EST JOB PSA PRO ECC SNG ISA JER LAM EZK DAN HOS JOL AMO OBA JON "
+        "MIC NAM HAB ZEP HAG ZEC MAL MAT MRK LUK JHN ACT ROM 1CO 2CO GAL EPH PHP COL 1TH 2TH 1TI 2TI TIT PHM HEB JAS 1PE 2PE 1JN 2JN 3JN "
+        "JUD REV").split()  # book codes in the order of BOOKS_KO (scripture.json keys: "PSA 46:10", Korean = English numbering)
+BOOK_CODE = {"ko": dict(zip(BOOKS_KO, USFM)), "en": dict(zip([b for b in BOOKS_EN if b != "Psalms"], USFM), Psalms="PSA")}  # other languages: only an explicit `verse:` in the front matter (same shape check)
 VERSE_RE = re.compile(r"^(?P<book>\d? ?[^\d:()]+?) (?P<ch>[1-9]\d{0,2}):(?P<v>[1-9]\d{0,2})(?:[-\u2013](?P<v2>[1-9]\d{0,2}))?$")
 REF_LINE_RE = re.compile(r"^> (?P<ref>[^()]+?) \((?P<ver>[^()]+)\)$")
 
@@ -945,6 +957,59 @@ def verse_ref(p):
     if explicit and found and explicit != found:
         return None
     return explicit or found or None
+
+
+def verse_key(p):
+    """"PSA 46:10" for a ko/en original's quoted verse (from verse_ref), or None."""
+    ref = verse_ref(p)
+    m = VERSE_RE.match(ref) if ref else None
+    code = BOOK_CODE.get(p["lang"], {}).get(m.group("book")) if m else None
+    return "%s %s:%s%s" % (code, m.group("ch"), m.group("v"), "-" + m.group("v2") if m.group("v2") else "") if code else None
+
+
+def scripture_block(key, lang):
+    """the quotation block a translation in `lang` must carry for the verse `key`, as its `>` lines + the front matter it implies:
+    -> (lines, bible_version, verse) or None when scripture.json has no such verse/language.
+    text mode: `> verse` / `>` / `> ref (version)` with bible_version = version. reference mode (no confirmed public-domain text):
+    the reference alone, `bible_version: none` (no Scripture text is quoted) and `verse: ref` (the card chip)."""
+    ver = (SCRIPTURE or {}).get("versions", {}).get(lang)
+    ent = (SCRIPTURE or {}).get("verses", {}).get(key, {}).get(lang)
+    if not ver or not ent:
+        return None
+    if ver["mode"] == "text":
+        return ["> " + ent["text"], ">", "> %s (%s)" % (ent["ref"], ver["version"])], ver["version"], None
+    return ["> " + ent["ref"]], "none", ent["ref"]
+
+
+def scripture_errors(posts, all_posts):
+    """a translation may quote Scripture only as copied from scripture.json for its original's verse — nothing else, to the letter."""
+    if SCRIPTURE is None:
+        return []
+    errs = []
+    for p in posts:
+        of = p.get("translation_of")
+        if not of or p["draft"]:
+            continue
+        quote = [l for l in p["_body"].split("\n") if l.startswith(">")]
+        orig = all_posts.get((p["slug"], of))
+        key = verse_key(orig) if orig else None
+        if not key:
+            if quote:
+                errs.append("%s: quotes something, but the %s original has no readable verse reference to take the verse from" % (p["_src"], of))
+            continue
+        want = scripture_block(key, p["lang"])
+        if want is None:
+            errs.append("%s: no %s text for %s in content/journal/scripture.json — run python3 scripts/fetch_scripture.py" % (p["_src"], p["lang"], key))
+            continue
+        lines, bible, verse = want
+        if quote != lines:
+            errs.append("%s: the quotation block must be exactly the %s verse of scripture.json (%s) — run python3 scripts/journal_i18n.py apply\n"
+                        "      want: %s\n      have: %s" % (p["_src"], p["lang"], key, " / ".join(lines), " / ".join(quote) or "(none)"))
+        if (p.get("bible_version") or "").strip() != bible:
+            errs.append("%s: bible_version must be %r (scripture.json versions.%s)" % (p["_src"], bible, p["lang"]))
+        if verse and (p.get("verse") or "").strip() != verse:
+            errs.append("%s: `verse: %s` is required (reference-only language: the chip comes from the front matter)" % (p["_src"], verse))
+    return errs
 
 
 def render_home_cards(posts, lang=None):
@@ -1135,6 +1200,7 @@ def build(root, drafts=False, strict_safety=False, check_only=False, now=None):
     posts, all_posts, errors = read_posts(root, drafts, now)
     if not errors:
         errors += check_translations(posts, all_posts, drafts)
+        errors += scripture_errors(posts, all_posts)
         for p in posts:
             errors += check_post_images(p)
     if strict_safety:

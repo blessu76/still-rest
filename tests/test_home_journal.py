@@ -27,6 +27,37 @@ PINNED = {
     "monday-morning-list-of-the-week": "베드로전서 5:7",
     "monday-afternoon-ten-minutes-outside": "시편 23:2",
 }
+# slug -> the reference the verse chip of each translation must show. Written by hand (book name of that language, chapter:verse OF THAT
+# LANGUAGE'S BIBLE: Synodal and Louis Segond number some psalms differently) — not generated from scripture.json, so the two check each other.
+PINNED_I18N = {
+    "en": {"commute-get-off-early": "Isaiah 41:10", "evening-after-the-meeting": "Matthew 11:28", "first-day-at-the-clinic": "Lamentations 3:23",
+           "three-am-counting-hours": "Psalm 4:8", "unanswered-message-three-days": "Psalm 46:10", "sunday-afternoon-caring-for-mother": "Psalm 121:2",
+           "monday-morning-list-of-the-week": "1 Peter 5:7", "monday-afternoon-ten-minutes-outside": "Psalm 23:2"},
+    "ja": {"commute-get-off-early": "イザヤ書 41:10", "evening-after-the-meeting": "マタイによる福音書 11:28", "first-day-at-the-clinic": "哀歌 3:23",
+           "three-am-counting-hours": "詩篇 4:8", "unanswered-message-three-days": "詩篇 46:10", "sunday-afternoon-caring-for-mother": "詩篇 121:2",
+           "monday-morning-list-of-the-week": "ペテロの第一の手紙 5:7", "monday-afternoon-ten-minutes-outside": "詩篇 23:2"},
+    "zh": {"commute-get-off-early": "以赛亚书 41:10", "evening-after-the-meeting": "马太福音 11:28", "first-day-at-the-clinic": "耶利米哀歌 3:23",
+           "three-am-counting-hours": "诗篇 4:8", "unanswered-message-three-days": "诗篇 46:10", "sunday-afternoon-caring-for-mother": "诗篇 121:2",
+           "monday-morning-list-of-the-week": "彼得前书 5:7", "monday-afternoon-ten-minutes-outside": "诗篇 23:2"},
+    "es": {"commute-get-off-early": "Isaías 41:10", "evening-after-the-meeting": "Mateo 11:28", "first-day-at-the-clinic": "Lamentaciones 3:23",
+           "three-am-counting-hours": "Salmos 4:8", "unanswered-message-three-days": "Salmos 46:10", "sunday-afternoon-caring-for-mother": "Salmos 121:2",
+           "monday-morning-list-of-the-week": "1 Pedro 5:7", "monday-afternoon-ten-minutes-outside": "Salmos 23:2"},
+    "pt": {"commute-get-off-early": "Isaías 41:10", "evening-after-the-meeting": "Mateus 11:28", "first-day-at-the-clinic": "Lamentações 3:23",
+           "three-am-counting-hours": "Salmos 4:8", "unanswered-message-three-days": "Salmos 46:10", "sunday-afternoon-caring-for-mother": "Salmos 121:2",
+           "monday-morning-list-of-the-week": "1 Pedro 5:7", "monday-afternoon-ten-minutes-outside": "Salmos 23:2"},
+    "ru": {"commute-get-off-early": "Исаия 41:10", "evening-after-the-meeting": "От Матфея 11:28", "first-day-at-the-clinic": "Плач Иеремии 3:23",
+           "three-am-counting-hours": "Псалом 4:9", "unanswered-message-three-days": "Псалом 45:11", "sunday-afternoon-caring-for-mother": "Псалом 120:2",
+           "monday-morning-list-of-the-week": "1 Петра 5:7", "monday-afternoon-ten-minutes-outside": "Псалом 22:2"},
+    "vi": {"commute-get-off-early": "Ê-sai 41:10", "evening-after-the-meeting": "Ma-thi-ơ 11:28", "first-day-at-the-clinic": "Ca Thương 3:23",
+           "three-am-counting-hours": "Thi Thiên 4:8", "unanswered-message-three-days": "Thi Thiên 46:10", "sunday-afternoon-caring-for-mother": "Thi Thiên 121:2",
+           "monday-morning-list-of-the-week": "1 Phi-e-rơ 5:7", "monday-afternoon-ten-minutes-outside": "Thi Thiên 23:2"},
+    "fr": {"commute-get-off-early": "Ésaïe 41:10", "evening-after-the-meeting": "Matthieu 11:28", "first-day-at-the-clinic": "Lamentations 3:23",
+           "three-am-counting-hours": "Psaume 4:9", "unanswered-message-three-days": "Psaume 46:11", "sunday-afternoon-caring-for-mother": "Psaume 121:2",
+           "monday-morning-list-of-the-week": "1 Pierre 5:7", "monday-afternoon-ten-minutes-outside": "Psaume 23:2"},
+    "de": {"commute-get-off-early": "Jesaja 41:10", "evening-after-the-meeting": "Matthäus 11:28", "first-day-at-the-clinic": "Klagelieder 3:23",
+           "three-am-counting-hours": "Psalm 4:8", "unanswered-message-three-days": "Psalm 46:10", "sunday-afternoon-caring-for-mother": "Psalm 121:2",
+           "monday-morning-list-of-the-week": "1. Petrus 5:7", "monday-afternoon-ten-minutes-outside": "Psalm 23:2"},
+}
 TEMPLATE = (REPO / "content/home/template.html").read_text(encoding="utf-8")
 
 
@@ -100,8 +131,8 @@ class CommittedPages(unittest.TestCase):
     def test_category_chip_is_the_posts_category_and_a_span(self):
         for lang, f, h in self.pages():
             for c in CARD.findall(section(h)):
-                slug = re.search(r'href="/journal/ko/([^/"]+)/"', c).group(1)
-                cat = bj.parse_post(REPO / "content/journal/ko" / (slug + ".md"))["category"]
+                pl, slug = re.search(r'href="/journal/([a-z]{2})/([^/"]+)/"', c).groups()
+                cat = bj.esc(bj.parse_post(REPO / "content/journal" / pl / (slug + ".md"))["category"])
                 self.assertRegex(c, r'<div class="j-top"><span class="j-cat">%s</span>' % re.escape(cat))
                 self.assertLess(c.index('class="j-top"'), c.index('class="j-date"'), f)  # chips sit above the date
                 self.assertNotRegex(c, r'<(a|button)\b[^>]*>[^<]*<span class="j-(cat|verse|lang)"')  # chips are never links
@@ -110,8 +141,9 @@ class CommittedPages(unittest.TestCase):
         seen = 0
         for lang, f, h in self.pages():
             for c in CARD.findall(section(h)):
-                slug = re.search(r'href="/journal/ko/([^/"]+)/"', c).group(1)
-                self.assertEqual(re.findall(r'<span class="j-verse">([^<]+)</span>', c), [PINNED[slug]], (f, slug))
+                pl, slug = re.search(r'href="/journal/([a-z]{2})/([^/"]+)/"', c).groups()
+                want = PINNED[slug] if pl == "ko" else PINNED_I18N[pl][slug]  # translations: that language's book name and numbering
+                self.assertEqual(re.findall(r'<span class="j-verse">([^<]+)</span>', c), [bj.esc(want)], (f, slug))
                 seen += 1
         self.assertGreaterEqual(seen, 12)
 
@@ -125,11 +157,14 @@ class CommittedPages(unittest.TestCase):
                 else:
                     self.assertEqual(badges, [LANGS[card_lang]["name"]], f)  # the language's own name, e.g. 한국어
         self.assertNotIn("j-lang", CARD.findall(section((REPO / "ko/index.html").read_text(encoding="utf-8")))[0])
-        self.assertIn('<span class="j-lang">한국어</span>', CARD.findall(section((REPO / "en/index.html").read_text(encoding="utf-8")))[0])
+        for lang in ("en", "ja", "es"):  # translated: that language's own posts, no badge
+            self.assertNotIn("j-lang", section((REPO / lang / "index.html").read_text(encoding="utf-8")), lang)
+        # a held language (id) shows the English versions, badged
+        self.assertIn('<span class="j-lang">English</span>', CARD.findall(section((REPO / "id/index.html").read_text(encoding="utf-8")))[0])
 
     def test_all_button(self):
         for lang, f, h in self.pages():
-            self.assertRegex(section(h), r'<p class="journal-all"><a class="btn-ghost" href="/journal/(ko/)?">[^<]*<span data-i18n="journal_all">[^<]+</span> <span aria-hidden="true">→</span></a></p>')
+            self.assertRegex(section(h), r'<p class="journal-all"><a class="btn-ghost" href="/journal/([a-z]{2}/)?">[^<]*<span data-i18n="journal_all">[^<]+</span> <span aria-hidden="true">→</span></a></p>')
 
     def test_no_script_in_the_section(self):
         for lang, f, h in self.pages():

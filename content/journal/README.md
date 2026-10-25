@@ -36,6 +36,22 @@ published_at: 2026-10-23 18:18  # 선택: 이미 공개된 글이 실제로 올�
 선택 칸: `updated`·`image`·`image_alt`·`keywords`·`citations`·`aliases`(옛 주소 → 정적 리다이렉트). 자세한 건 `scripts/build_journal.py` 맨 위 docstring. 샘플: `ko/sample-template.md` + `en/sample-template.md` (draft).
 성경 번역본은 언어별 퍼블릭 도메인 본(결정 0088): en=WEB · ko=개역한글(1961) · ja=口語訳(1955) · zh=和合本(1919) · es=Reina-Valera 1909 · pt=Almeida · id=Terjemahan Lama · ru=Synodal · vi=Kinh Thánh 1926/1934 · fr=Louis Segond 1910 · de=Lutherbibel 1912.
 
+## 번역 (ko 원고 → 나머지 언어) — 다음 글부터 이 순서
+
+ko 원문이 공개·예약되면 **보류 언어(`hold.json`, 지금 `id`)를 뺀 모든 언어**로 번역판을 같이 낸다(`journal_i18n.py status --strict` 가 빠진 것을 잡는다, 테스트도 같다).
+번역은 새 유료 API 없이 **우리가 쓰는 Claude Code 세션**(Paul/Quill)이 한다 — 스크립트는 번역 지시서(브리프)를 만들고, 구절을 원문에서 넣고, 검사만 한다.
+
+1. Quill: `content/journal/ko/<slug>.md` 작성(구절 인용은 `> 구절` / `>` / `> 시편 46:10 (개역한글)` 3줄 형식).
+2. `python3 scripts/fetch_scripture.py` — 그 글의 구절을 언어마다 **퍼블릭 도메인 원문(ebible.org USFM)에서 글자 그대로** 가져와 `scripture.json` 에 쓴다(손·AI 로 쓰지 않는다). 새 책이면 `BOOK_NAMES` 에, 러시아어·프랑스어 시편이면 원문을 읽고 `VERSIFICATION` 에 장절을 손으로 적어야 통과한다(번호 차이: Synodal 46:10→45:11, Segond 46:10→46:11).
+3. `python3 scripts/journal_i18n.py brief <slug> > /tmp/brief.md` → 그 브리프를 Claude Code 세션(에이전트)에 맡겨 `content/journal/<lang>/<slug>.md` 를 쓰게 한다. 브리프에 front matter(날짜·시각·`translation_of: ko`·`bible_version`)와 **그대로 붙일 인용 블록**이 들어 있다. 번역자는 구절을 쓰지 않는다.
+4. `python3 scripts/journal_i18n.py apply` — 모든 번역판의 인용 블록·`bible_version`·`verse` 를 `scripture.json` 에서 다시 써 넣는다(번역자가 고쳐 썼어도 원문으로 돌아간다).
+5. `python3 scripts/journal_i18n.py status --strict` → 빌드 → 아래 게이트. `build_journal.py` 가 번역판의 인용 블록이 `scripture.json` 과 한 글자라도 다르면 실패한다. 구절 칩 기대값은 `tests/test_home_journal.py` 의 `PINNED`(ko)·`PINNED_I18N`(언어별, 손으로 적음)에 새 글을 더한다.
+
+- **구절 본문이 없는 언어(참조만)**: `ja`(口語訳 PD 미확인 — 일본 위키문헌 사본이 저작권 삭제 심의 중)·`pt`(Almeida 1898 PD 원문 출처 못 찾음). 이 언어의 번역판은 인용 블록이 `> 詩篇 46:10` 처럼 **참조 한 줄**, `bible_version: none`, `verse: <참조>`. 본문에서도 구절 문구를 옮기지 않는다. 원문 출처가 확인되면 `fetch_scripture.py` 의 `SOURCES` 를 `text` 로 바꾸고 2·4 를 다시 돌린다.
+- **위기 번호는 본문에 쓰지 않는다**: 원문이 번호(예: 109)를 말하면 번역판은 번호 대신 글 끝 위기 상자로 가는 링크(`[…](#help)`)로 옮긴다 — 번호는 `safety.json` 에서 나라별로 확인된 것만 찍힌다(테스트가 본문의 번호를 막는다).
+- 번역판의 날짜·시각(`date`·`publish_at`·`published_at`)은 원문과 같다. 원문이 예약이면 번역판도 같은 `publish_at`.
+- ⚠️ **배포 게이트**: 번역판이 공개되는 언어는 `safety.json` 의 `lines.<lang>.status` 가 `verified` 여야 `--strict-safety` 를 통과한다(원어민 검수, ko 처럼 `reviewed_by`·`reviewed_on`).
+
 ## 🔴 안전 블록 (모든 글·모든 언어에 템플릿이 자동으로 붙인다)
 
 글쓴이가 고치거나 뺄 수 없다 — 문구·번호는 전부 **`content/journal/safety.json`** 한 파일에서만 온다(원어민 검수 대상).
