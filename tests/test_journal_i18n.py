@@ -21,6 +21,9 @@ J = REPO / "content/journal"
 SCRIPTURE = json.loads((J / "scripture.json").read_text(encoding="utf-8"))
 HELD = {k for k in json.loads((J / "hold.json").read_text(encoding="utf-8")) if not k.startswith("_")}
 TARGETS = [l for l in LANGS if l != "ko" and l not in HELD]
+SAFETY = json.loads((J / "safety.json").read_text(encoding="utf-8"))["lines"]
+# a language whose crisis-line list is not verified may not publish: its translations stay `draft: true` (vi: no official adult line yet)
+SAFETY_DRAFT = {l for l in TARGETS if SAFETY[l]["status"] != "verified"}
 
 # the beginning of Psalm 46:10 (Korean numbering) in each text-mode Bible, written by hand from the printed source — an anchor that the
 # fetched file is the right Bible and the right verse (Synodal 45:11, Segond 46:11)
@@ -56,6 +59,18 @@ class Coverage(unittest.TestCase):
                 self.assertTrue(bj.parse_post(f)["draft"], f)
             self.assertFalse((REPO / "journal" / l).exists(), l)
 
+    def test_vi_stays_private_until_its_crisis_lines_are_verified(self):
+        self.assertEqual(SAFETY_DRAFT, {"vi"})  # every other translated language was verified 2026-10-25
+        for l in SAFETY_DRAFT:
+            self.assertFalse((REPO / "journal" / l).exists(), l)  # no generated pages
+            for f in (REPO / "sitemap.xml", REPO / "llms.txt", REPO / "journal/feed.xml"):
+                if f.is_file():
+                    self.assertNotIn("/journal/%s/" % l, f.read_text(encoding="utf-8"), (f.name, l))
+            for page in (REPO / "journal").rglob("index.html"):  # no hreflang / language-picker entry points at it
+                self.assertNotIn("/journal/%s/" % l, page.read_text(encoding="utf-8"), (str(page), l))
+            for lang, f in PAGES:  # no home card (or all-link) points at it: the card falls back to English, badged
+                self.assertNotIn("/journal/%s/" % l, f.read_text(encoding="utf-8"), f)
+
     def test_translation_front_matter_follows_the_original(self):
         for slug, o in originals().items():
             for l in TARGETS:
@@ -65,7 +80,7 @@ class Coverage(unittest.TestCase):
                 self.assertEqual(t["date"], o["date"], (l, slug))
                 for k in ("publish_at", "published_at"):
                     self.assertEqual(t.get(k), o.get(k), (l, slug, k))  # the same time in every language
-                self.assertFalse(t["draft"], (l, slug))
+                self.assertEqual(t["draft"], l in SAFETY_DRAFT, (l, slug))
                 for k in ("title", "description", "category"):
                     self.assertNotEqual(t[k], o[k], (l, slug, k))  # translated, not copied
                     self.assertFalse(re.search(r"[가-힣]", t[k]), (l, slug, k))  # no Hangul left

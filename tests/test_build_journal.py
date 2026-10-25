@@ -110,10 +110,13 @@ class AllLanguages(Base):
         self.assertIn("자살예방상담전화", h)
         self.assertIn(">109<", h)
         self.assertNotIn("1577-0199", h)  # draft until confirmed
-        for l in ("ja", "vi"):  # nothing confirmed yet: only the worldwide directory link remains
+        for l in ("vi",):  # nothing confirmed yet: only the worldwide directory link remains
             h = self.page("journal/%s/hello/index.html" % l)
             self.assertNotIn("help-region", h, l)
             self.assertIn("https://findahelpline.com", h, l)
+        h = self.page("journal/ja/hello/index.html")  # verified (MHLW, 2026-10-25): its numbers are on the page
+        self.assertIn("0120-783-556", h)
+        self.assertNotIn("0570-783-556", h)  # the toll 0570 Inochi-no-Denwa line was dropped for the MHLW free number
 
     def test_a_number_becomes_visible_once_verified(self):
         p = self.tmp / "content/journal/safety.json"
@@ -517,6 +520,40 @@ class RepoState(unittest.TestCase):
         errs, _ = check_sitemap.check(REPO)
         self.assertEqual(errs, [])
 
+    # the crisis numbers each language prints (verified items only), exactly as confirmed from official pages by Dane on 2026-10-25
+    # (room note 20261025-225603). vi has no official adult line, so it stays draft and prints none. id is on hold (hold.json).
+    CONFIRMED = {
+        "ko": ["109"],
+        "en": ["988", "9-8-8", "116 123", "13 11 14"],
+        "zh": ["12356"],
+        "es": ["024", "988", "800 911 2000"],
+        "pt": ["188", "808 24 24 24"],
+        "fr": ["3114", "9-8-8", "143", "0800 32 123"],
+        "de": ["0800 111 0 111", "0800 111 0 222", "116 123", "142", "143"],
+        "ja": ["0570-064-556", "0120-279-338", "0120-783-556", "0120-061-338"],
+        "ru": ["8-800-2000-122", "+7 (495) 989-50-50"],
+        "vi": [],
+        "id": ["119 ext. 8"],
+    }
+
+    def test_each_language_prints_exactly_the_confirmed_numbers(self):
+        d = json.loads((REPO / "content/journal/safety.json").read_text(encoding="utf-8"))["lines"]
+        self.assertEqual(set(self.CONFIRMED), set(d))
+        for l, want in self.CONFIRMED.items():
+            got = [it["number"] for r in d[l]["regions"] for it in r["items"] if it["status"] == "verified"]
+            self.assertEqual(got, want, l)
+            for r in d[l]["regions"]:
+                for it in r["items"]:
+                    if it["status"] == "verified":
+                        self.assertRegex(it["checked_on"], r"^2026-10-2[2-9]$", (l, it["number"]))
+                        self.assertTrue(it.get("source", "").startswith("https://"), (l, it["number"]))
+        for l in ("en", "zh", "es", "pt", "fr", "de", "ja", "ru"):
+            self.assertEqual(d[l]["status"], "verified", l)
+            self.assertEqual(d[l]["reviewed_on"], "2026-10-25", l)
+        # vi stays draft: no official adult crisis line was found (Dane, 2026-10-25) -> its posts stay `draft: true`
+        self.assertEqual(d["vi"]["status"], "draft")
+        self.assertEqual(d["id"]["status"], "draft")
+
     def test_safety_data_covers_all_languages(self):
         d = json.loads((REPO / "content/journal/safety.json").read_text(encoding="utf-8"))
         self.assertEqual(list(d["text"]), LANGS)
@@ -604,15 +641,15 @@ class Scheduled(Base):
         self.assertIn("out of date", r.stderr)
 
     def test_strict_safety_applies_to_scheduled_posts_once_due(self):
-        write_post(self.tmp, "ja", "future-ja", text=POST.replace("slug: hello", "slug: future-ja").replace("2026-10-22", "2026-10-24") % dict(
-            l="ja", extra="bible_version: WEB\ntranslation_of: ko\npublish_at: 2026-10-24 11:00\n"))
-        self.write("future-ja", "2026-10-24 11:00")  # the ko original of that slug
+        write_post(self.tmp, "vi", "future-vi", text=POST.replace("slug: hello", "slug: future-vi").replace("2026-10-22", "2026-10-24") % dict(
+            l="vi", extra="bible_version: WEB\ntranslation_of: ko\npublish_at: 2026-10-24 11:00\n"))
+        self.write("future-vi", "2026-10-24 11:00")  # the ko original of that slug
         self.assertEqual(run(self.tmp).returncode, 0)
         r = run(self.tmp, "--check", "--strict-safety")
-        self.assertEqual(r.returncode, 0, r.stderr)  # held -> ja is not a published language yet
+        self.assertEqual(r.returncode, 0, r.stderr)  # held -> vi is not a published language yet
         r = run(self.tmp, "--check", "--strict-safety", "--now", "2026-10-24 11:00")
         self.assertEqual(r.returncode, 1, r.stderr)
-        self.assertIn("crisis lines for ja are still `draft`", r.stderr)
+        self.assertIn("crisis lines for vi are still `draft`", r.stderr)
 
     def test_a_translation_may_not_outrun_its_original(self):
         write_post(self.tmp, "en", "future-post", text=POST.replace("slug: hello", "slug: future-post").replace("2026-10-22", "2026-10-23") % dict(

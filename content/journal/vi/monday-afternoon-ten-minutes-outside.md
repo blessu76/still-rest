@@ -9,6 +9,7 @@ keywords: thứ Hai, buổi chiều, nghỉ ngơi, đi dạo
 bible_version: Kinh Thánh 1925
 translation_of: ko
 publish_at: 2026-10-26 16:49
+draft: true
 ---
 
 Qua hai giờ rưỡi chiều, chữ trên màn hình bắt đầu nhòe đi. Tôi ăn trưa xong quay lại ngồi đã một tiếng, vậy mà đang đọc cùng một câu trong email lần thứ ba. Mắt chạy theo từng chữ nhưng nội dung chẳng vào chút nào.

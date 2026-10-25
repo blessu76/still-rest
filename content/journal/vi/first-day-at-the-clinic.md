@@ -9,6 +9,7 @@ keywords: khoa tâm thần, lần khám đầu tiên, can đảm, tư vấn
 bible_version: Kinh Thánh 1925
 translation_of: ko
 publish_at: 2026-10-24 11:00
+draft: true
 ---
 
 Tôi xin nghỉ nửa ngày. Ở mục lý do, tôi ghi "việc riêng". Đó là lần đầu tôi đến phòng khám tâm thần, lịch hẹn lúc hai giờ chiều.

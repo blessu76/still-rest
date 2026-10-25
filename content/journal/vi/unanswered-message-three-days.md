@@ -9,6 +9,7 @@ keywords: liên lạc, trả lời tin nhắn, áy náy, Chủ nhật
 bible_version: Kinh Thánh 1925
 translation_of: ko
 publish_at: 2026-10-25 11:17
+draft: true
 ---
 
 Tên người bạn hiện ở phía trên màn hình điện thoại. "Dạo này khỏe không? Lâu rồi chẳng thấy liên lạc nhỉ." Tin đến vào chiều tối thứ Năm, vậy mà đến sáng Chủ nhật tôi vẫn chỉ để lại dấu đã xem.

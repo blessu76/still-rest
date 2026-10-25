@@ -9,6 +9,7 @@ keywords: thứ Hai, việc cần làm, lo lắng, buổi sáng
 bible_version: Kinh Thánh 1925
 translation_of: ko
 publish_at: 2026-10-26 09:08
+draft: true
 ---
 
 Tám giờ bốn mươi sáng thứ Hai, trong văn phòng vẫn chỉ có mình tôi. Trong lúc máy tính khởi động, tôi mở sổ tay và bắt đầu ghi những việc phải làm tuần này. Hạn nộp báo cáo, tài liệu cho cuộc họp thứ Tư, thư cần trả lời, khoản quyết toán để dành lại. Từng dòng nối thêm, chẳng mấy chốc đã kín một trang rồi tràn sang trang sau.

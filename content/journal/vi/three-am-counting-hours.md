@@ -9,6 +9,7 @@ keywords: mất ngủ, lo âu, nhân viên văn phòng, rạng sáng
 bible_version: Kinh Thánh 1925
 translation_of: ko
 publish_at: 2026-10-24 17:00
+draft: true
 ---
 
 Ba giờ mười phút sáng. Mỗi lần màn hình điện thoại sáng lên, tôi lại tính. Ngủ ngay bây giờ thì được bốn tiếng, ngủ trong vòng ba mươi phút nữa thì được bốn tiếng rưỡi. Càng tính, giấc ngủ càng xa. Mười giờ sáng mai tôi có buổi thuyết trình trước cả nhóm, và trong đầu tôi đã sửa câu mở đầu không biết bao nhiêu lần.

@@ -9,6 +9,7 @@ keywords: kiệt sức, nhân viên văn phòng, burnout, sau giờ làm
 bible_version: Kinh Thánh 1925
 translation_of: ko
 published_at: 2026-10-23 18:18
+draft: true
 ---
 
 Sáu giờ chiều, cuộc họp vừa xong là nụ cười của tôi tắt trước. Ban ngày tôi làm tốt. Tôi trả lời tin nhắn, nộp báo cáo, ăn trưa cùng mọi người. Chắc không ai nghĩ rằng tôi đang đổ sụp.

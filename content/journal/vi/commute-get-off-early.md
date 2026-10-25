@@ -9,6 +9,7 @@ keywords: hoảng loạn, đường đi làm, nhân viên văn phòng, lo âu
 bible_version: Kinh Thánh 1925
 translation_of: ko
 published_at: 2026-10-23 18:18
+draft: true
 ---
 
 Tám giờ mười hai phút sáng, đoạn chuyển tuyến. Tôi đang đứng kẹt giữa dòng người thì bỗng ngực thắt lại, đầu ngón tay lạnh dần, tiếng động xung quanh như xa đi. Tôi nghĩ mình sắp ngã quỵ. Đông người đến thế mà tôi vẫn có cảm giác bị nhốt một mình trong đó.

@@ -9,6 +9,7 @@ keywords: chăm sóc, gia đình, kiệt sức, Chủ nhật
 bible_version: Kinh Thánh 1925
 translation_of: ko
 publish_at: 2026-10-25 16:28
+draft: true
 ---
 
 Khoảng bốn giờ chiều Chủ nhật là lúc nhà tôi yên nhất. Mẹ đã ngủ trưa, còn tôi ngồi ở bàn ăn trước tách trà nguội. Đáng lẽ đây là giờ nghỉ, vậy mà tôi không thấy mình đang nghỉ.

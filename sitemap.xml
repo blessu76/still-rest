@@ -270,7 +270,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/"/>
   </url>
@@ -286,7 +285,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/"/>
   </url>
@@ -302,7 +300,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/"/>
   </url>
@@ -318,7 +315,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/"/>
   </url>
@@ -334,7 +330,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/"/>
   </url>
@@ -350,7 +345,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/"/>
   </url>
@@ -366,7 +360,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/"/>
   </url>
@@ -382,23 +375,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/"/>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/"/>
-  </url>
-  <url>
-    <loc>https://still.ipe.rest/journal/vi/</loc>
-    <lastmod>2026-10-23</lastmod>
-    <priority>0.4</priority>
-    <xhtml:link rel="alternate" hreflang="de" href="https://still.ipe.rest/journal/de/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://still.ipe.rest/journal/en/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://still.ipe.rest/journal/es/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://still.ipe.rest/journal/fr/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://still.ipe.rest/journal/ja/"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/"/>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/"/>
   </url>
@@ -414,7 +390,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/"/>
   </url>
@@ -430,7 +405,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/"/>
   </url>
@@ -446,26 +420,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/evening-after-the-meeting/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/evening-after-the-meeting/"/>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/evening-after-the-meeting/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/en/evening-after-the-meeting/"/>
-    <image:image>
-      <image:loc>https://still.ipe.rest/og-image.png</image:loc>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://still.ipe.rest/journal/vi/evening-after-the-meeting/</loc>
-    <lastmod>2026-10-23</lastmod>
-    <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="de" href="https://still.ipe.rest/journal/de/evening-after-the-meeting/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://still.ipe.rest/journal/en/evening-after-the-meeting/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://still.ipe.rest/journal/es/evening-after-the-meeting/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://still.ipe.rest/journal/fr/evening-after-the-meeting/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://still.ipe.rest/journal/ja/evening-after-the-meeting/"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/evening-after-the-meeting/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/evening-after-the-meeting/"/>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/evening-after-the-meeting/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/en/evening-after-the-meeting/"/>
     <image:image>
@@ -484,7 +438,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/evening-after-the-meeting/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/en/evening-after-the-meeting/"/>
     <image:image>
@@ -503,7 +456,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/evening-after-the-meeting/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/en/evening-after-the-meeting/"/>
     <image:image>
@@ -522,7 +474,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/evening-after-the-meeting/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/en/evening-after-the-meeting/"/>
     <image:image>
@@ -541,7 +492,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/evening-after-the-meeting/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/en/evening-after-the-meeting/"/>
     <image:image>
@@ -560,7 +510,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/evening-after-the-meeting/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/en/evening-after-the-meeting/"/>
     <image:image>
@@ -579,7 +528,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/evening-after-the-meeting/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/en/evening-after-the-meeting/"/>
     <image:image>
@@ -598,7 +546,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/evening-after-the-meeting/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/en/evening-after-the-meeting/"/>
     <image:image>
@@ -617,7 +564,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/evening-after-the-meeting/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/evening-after-the-meeting/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/en/evening-after-the-meeting/"/>
     <image:image>
@@ -636,26 +582,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/commute-get-off-early/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/commute-get-off-early/"/>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/commute-get-off-early/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/en/commute-get-off-early/"/>
-    <image:image>
-      <image:loc>https://still.ipe.rest/og-image.png</image:loc>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://still.ipe.rest/journal/vi/commute-get-off-early/</loc>
-    <lastmod>2026-10-23</lastmod>
-    <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="de" href="https://still.ipe.rest/journal/de/commute-get-off-early/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://still.ipe.rest/journal/en/commute-get-off-early/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://still.ipe.rest/journal/es/commute-get-off-early/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://still.ipe.rest/journal/fr/commute-get-off-early/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://still.ipe.rest/journal/ja/commute-get-off-early/"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/commute-get-off-early/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/commute-get-off-early/"/>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/commute-get-off-early/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/en/commute-get-off-early/"/>
     <image:image>
@@ -674,7 +600,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/commute-get-off-early/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/en/commute-get-off-early/"/>
     <image:image>
@@ -693,7 +618,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/commute-get-off-early/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/en/commute-get-off-early/"/>
     <image:image>
@@ -712,7 +636,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/commute-get-off-early/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/en/commute-get-off-early/"/>
     <image:image>
@@ -731,7 +654,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/commute-get-off-early/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/en/commute-get-off-early/"/>
     <image:image>
@@ -750,7 +672,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/commute-get-off-early/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/en/commute-get-off-early/"/>
     <image:image>
@@ -769,7 +690,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/commute-get-off-early/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/en/commute-get-off-early/"/>
     <image:image>
@@ -788,7 +708,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/commute-get-off-early/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/en/commute-get-off-early/"/>
     <image:image>
@@ -807,7 +726,6 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/commute-get-off-early/"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://still.ipe.rest/journal/vi/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/commute-get-off-early/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/en/commute-get-off-early/"/>
     <image:image>

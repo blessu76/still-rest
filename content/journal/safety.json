@@ -111,7 +111,9 @@
  },
  "lines": {
   "en": {
-   "status": "draft",
+   "status": "verified",
+   "reviewed_by": "Matt·still (Davy 위임 · Dane 공식 출처 확인 2026-10-25)",
+   "reviewed_on": "2026-10-25",
    "regions": [
     {
      "country": "United States",
@@ -162,8 +164,10 @@
        "name": "Lifeline",
        "number": "13 11 14",
        "tel": "131114",
-       "status": "draft",
-       "note": "not checked in the 2026-10-22 research"
+       "hours": "24/7",
+       "status": "verified",
+       "checked_on": "2026-10-25",
+       "source": "https://www.lifeline.org.au/"
       }
      ]
     }
@@ -198,46 +202,56 @@
    ]
   },
   "ja": {
-   "status": "draft",
+   "status": "verified",
+   "reviewed_by": "Matt·still (Davy 위임 · Dane 공식 출처 확인 2026-10-25)",
+   "reviewed_on": "2026-10-25",
    "regions": [
     {
      "country": "日本",
      "items": [
       {
-       "name": "こころの健康相談統一ダイヤル",
+       "name": "こころの健康相談統一ダイヤル（通話料有料）",
        "number": "0570-064-556",
        "tel": "0570064556",
-       "status": "draft",
-       "note": "2차 집계(findahelpline)만; 후생노동성 페이지 미확인"
+       "status": "verified",
+       "checked_on": "2026-10-25",
+       "source": "https://www.mhlw.go.jp/mamorouyokokoro/soudan/tel"
       },
       {
        "name": "よりそいホットライン",
        "number": "0120-279-338",
        "tel": "0120279338",
-       "status": "draft",
-       "note": "운영시간 자료마다 상충"
+       "hours": "24時間・無料",
+       "status": "verified",
+       "checked_on": "2026-10-25",
+       "source": "https://www.mhlw.go.jp/mamorouyokokoro/soudan/tel"
       },
       {
        "name": "いのちの電話",
-       "number": "0570-783-556",
-       "tel": "0570783556",
-       "hours": "10:00–22:00",
-       "status": "draft",
-       "note": "2차 자료"
+       "number": "0120-783-556",
+       "tel": "0120783556",
+       "hours": "毎日16:00–21:00・無料",
+       "status": "verified",
+       "checked_on": "2026-10-25",
+       "source": "https://www.mhlw.go.jp/mamorouyokokoro/soudan/tel"
       },
       {
        "name": "#いのちSOS",
        "number": "0120-061-338",
        "tel": "0120061338",
-       "status": "draft",
-       "note": "2차 자료"
+       "hours": "24時間365日・無料",
+       "status": "verified",
+       "checked_on": "2026-10-25",
+       "source": "https://www.mhlw.go.jp/mamorouyokokoro/soudan/tel"
       }
      ]
     }
    ]
   },
   "zh": {
-   "status": "draft",
+   "status": "verified",
+   "reviewed_by": "Matt·still (Davy 위임 · Dane 공식 출처 확인 2026-10-25)",
+   "reviewed_on": "2026-10-25",
    "regions": [
     {
      "country": "中国大陆",
@@ -262,7 +276,9 @@
    ]
   },
   "es": {
-   "status": "draft",
+   "status": "verified",
+   "reviewed_by": "Matt·still (Davy 위임 · Dane 공식 출처 확인 2026-10-25)",
+   "reviewed_on": "2026-10-25",
    "regions": [
     {
      "country": "España",
@@ -300,15 +316,18 @@
        "number": "800 911 2000",
        "tel": "8009112000",
        "hours": "24 h",
-       "status": "draft",
-       "note": "공식 CONASAMA 페이지 미확인"
+       "status": "verified",
+       "checked_on": "2026-10-25",
+       "source": "https://www.gob.mx/conasama"
       }
      ]
     }
    ]
   },
   "pt": {
-   "status": "draft",
+   "status": "verified",
+   "reviewed_by": "Matt·still (Davy 위임 · Dane 공식 출처 확인 2026-10-25)",
+   "reviewed_on": "2026-10-25",
    "regions": [
     {
      "country": "Brasil",
@@ -328,12 +347,13 @@
      "country": "Portugal",
      "items": [
       {
-       "name": "SNS 24",
+       "name": "SNS 24 — Aconselhamento psicológico (opção 4)",
        "number": "808 24 24 24",
        "tel": "808242424",
        "hours": "24h",
-       "status": "draft",
-       "note": "정신건강 메뉴 번호 미확인"
+       "status": "verified",
+       "checked_on": "2026-10-25",
+       "source": "https://www.sns24.gov.pt/servico/aconselhamento-psicologico-no-sns-24/"
       },
       {
        "name": "SOS Voz Amiga",
@@ -370,7 +390,9 @@
    ]
   },
   "ru": {
-   "status": "draft",
+   "status": "verified",
+   "reviewed_by": "Matt·still (Davy 위임 · Dane 공식 출처 확인 2026-10-25)",
+   "reviewed_on": "2026-10-25",
    "regions": [
     {
      "country": "Россия",
@@ -379,17 +401,19 @@
        "name": "Детский телефон доверия (для детей, подростков и родителей)",
        "number": "8-800-2000-122",
        "tel": "88002000122",
-       "hours": "24 ч",
+       "hours": "в большинстве регионов круглосуточно",
        "status": "verified",
-       "checked_on": "2026-10-22"
+       "checked_on": "2026-10-25",
+       "source": "https://fond-detyam.ru/detskiy-telefon-doveriya/"
       },
       {
        "name": "МЧС — экстренная психологическая помощь",
        "number": "+7 (495) 989-50-50",
        "tel": "+74959895050",
        "hours": "24 ч",
-       "status": "draft",
-       "note": "2차 집계; 모스크바 번호"
+       "status": "verified",
+       "checked_on": "2026-10-25",
+       "source": "https://psi.mchs.gov.ru/"
       },
       {
        "name": "Общероссийская служба психологической помощи",
@@ -437,7 +461,9 @@
    ]
   },
   "fr": {
-   "status": "draft",
+   "status": "verified",
+   "reviewed_by": "Matt·still (Davy 위임 · Dane 공식 출처 확인 2026-10-25)",
+   "reviewed_on": "2026-10-25",
    "regions": [
     {
      "country": "France",
@@ -489,15 +515,18 @@
        "number": "0800 32 123",
        "tel": "080032123",
        "hours": "24 h/24",
-       "status": "draft",
-       "note": "2차 자료"
+       "status": "verified",
+       "checked_on": "2026-10-25",
+       "source": "https://www.preventionsuicide.be/"
       }
      ]
     }
    ]
   },
   "de": {
-   "status": "draft",
+   "status": "verified",
+   "reviewed_by": "Matt·still (Davy 위임 · Dane 공식 출처 확인 2026-10-25)",
+   "reviewed_on": "2026-10-25",
    "regions": [
     {
      "country": "Deutschland",

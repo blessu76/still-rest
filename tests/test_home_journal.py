@@ -161,6 +161,8 @@ class CommittedPages(unittest.TestCase):
             self.assertNotIn("j-lang", section((REPO / lang / "index.html").read_text(encoding="utf-8")), lang)
         # a held language (id) shows the English versions, badged
         self.assertIn('<span class="j-lang">English</span>', CARD.findall(section((REPO / "id/index.html").read_text(encoding="utf-8")))[0])
+        # vi: its translations are drafts (crisis lines not verified) -> the same English fallback, badged
+        self.assertIn('<span class="j-lang">English</span>', CARD.findall(section((REPO / "vi/index.html").read_text(encoding="utf-8")))[0])
 
     def test_all_button(self):
         for lang, f, h in self.pages():
