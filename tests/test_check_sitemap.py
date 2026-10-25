@@ -1,4 +1,5 @@
 """Tests for scripts/check_sitemap.py — run: python3 -m unittest discover -s tests"""
+import re
 import shutil
 import sys
 import tempfile
@@ -90,6 +91,34 @@ class CheckSitemap(unittest.TestCase):
     def test_broken_xml_is_reported(self):
         (self.tmp / "sitemap.xml").write_text("<urlset>", encoding="utf-8")
         self.assertTrue(self.errs())
+
+
+
+
+class CommittedSitemapMatchesPages(unittest.TestCase):
+    """every sitemap <loc> is a real page of this repo whose own <link rel="canonical"> is exactly that URL (slash included)"""
+
+    def test_every_loc_is_the_canonical_of_its_page(self):
+        root = check_sitemap.ET.parse(REPO / "sitemap.xml").getroot()
+        locs = [(u.findtext("s:loc", namespaces=check_sitemap.NS) or "").strip() for u in root.findall("s:url", check_sitemap.NS)]
+        self.assertGreater(len(locs), 30)
+        self.assertIn(check_sitemap.SITE + "/privacy/", locs)
+        self.assertIn(check_sitemap.SITE + "/terms/", locs)
+        for loc in locs:
+            rel = loc[len(check_sitemap.SITE) + 1:]
+            page = REPO / rel / "index.html"
+            self.assertTrue(page.is_file(), loc)
+            found = re.findall(r'<link rel="canonical" href="([^"]*)"', page.read_text(encoding="utf-8"))
+            self.assertEqual(found, [loc], loc)
+
+    def test_legal_pages_have_changefreq_and_priority(self):
+        root = check_sitemap.ET.parse(REPO / "sitemap.xml").getroot()
+        rows = {u.findtext("s:loc", namespaces=check_sitemap.NS): u for u in root.findall("s:url", check_sitemap.NS)}
+        for page in ("privacy", "terms"):
+            u = rows["%s/%s/" % (check_sitemap.SITE, page)]
+            self.assertEqual(u.findtext("s:changefreq", namespaces=check_sitemap.NS), "yearly")
+            self.assertEqual(u.findtext("s:priority", namespaces=check_sitemap.NS), "0.3")
+            self.assertRegex(u.findtext("s:lastmod", namespaces=check_sitemap.NS), r"^\d{4}-\d{2}-\d{2}$")
 
 
 if __name__ == "__main__":
