@@ -24,7 +24,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from site_common import LANGS, SITE, check_fresh, esc, lang_url, replace_between, stamped_date  # noqa: E402
+from site_common import LANGS, SITE, check_fresh, esc, lang_url, replace_between, stamped_date, with_localtime  # noqa: E402
 
 TEMPLATE = Path("content") / "home" / "template.html"
 STRINGS = Path("content") / "home" / "i18n.json"
@@ -113,7 +113,7 @@ def render_page(tpl, strings, lang, root, cards_html=None, journal_href="/journa
     out = re.sub(r"\{\{(\w+)\}\}", lambda m: subs[m.group(1)], out)
     if cards_html is not None:  # journal section (present in the template once the journal exists)
         out = journal_section(out, cards_html)
-    return journal_links(out, bool(cards_html) if has_journal is None else has_journal)
+    return with_localtime(journal_links(out, bool(cards_html) if has_journal is None else has_journal))
 
 
 def journal_links(out, has_posts):

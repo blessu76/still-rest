@@ -72,7 +72,7 @@ import urllib.parse
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from site_common import GEN_MARK, KST, LANGS, SITE, check_fresh, esc, lang_url, parse_when, replace_between  # noqa: E402
+from site_common import GEN_MARK, KST, LANGS, SITE, check_fresh, esc, lang_url, parse_when, replace_between, with_localtime  # noqa: E402
 
 ASSET_V = "20261024b"  # ?v= of assets/journal.css — bump when the file changes
 CF_TOKEN = "eab6249a56894cb084b7bcc8f1a860a6"  # Cloudflare Web Analytics (cookieless), same as the home page
@@ -453,7 +453,12 @@ def iso_when(p):
 
 
 def time_tag(p):
-    return '<time datetime="%s">%s</time>' % (iso_when(p), fmt_when(p))
+    """<time> of a post. With a known time of day it is marked data-ipe-time and reads `<date>&nbsp;HH:MM KST`: scripts/ipe-localtime.js
+    (inlined by site_common.with_localtime) then shows it in the reader's own time zone; without JS the static KST text stays.
+    Date only (time unknown) -> plain <time>, nothing to convert."""
+    if not post_when(p):
+        return '<time datetime="%s">%s</time>' % (iso_when(p), fmt_when(p))
+    return '<time datetime="%s" data-ipe-time>%s KST</time>' % (iso_when(p), fmt_when(p))
 
 
 def lang_path(lang):
@@ -821,7 +826,7 @@ def render_post(p, grp=None):
             (' <a href="%s" hreflang="%s" lang="%s">%s</a>' % (esc(post_path(source)), source["lang"], source["lang"], esc(t["ai_orig"] + " (" + LANGS[source["lang"]]["name"] + ")"))) if source else "")
     pair, _ = pair_urls(p, grp)
     targets = {l: urllib.parse.urlsplit(u).path for l, u in pair.items()}
-    return (head("%s — still() %s" % (p["title"], t["journal"]), p["description"], url, p["lang"], p["draft"], extra,
+    return with_localtime(head("%s — still() %s" % (p["title"], t["journal"]), p["description"], url, p["lang"], p["draft"], extra,
                  image=abs_url(hero) if hero else None, image_alt=p.get("image_alt"), alternates=alternates(p, grp),
                  locales=[m["lang"] for m in members])
             + header(p["lang"], targets) + f"""<main id="main" class="wrap">
@@ -873,7 +878,7 @@ def render_list(posts, lang=None, list_langs=("en",)):
         body = f'    <div class="empty-note"><strong>{esc(t["empty"])}</strong></div>'
     alts = "".join('<link rel="alternate" hreflang="%s" href="%s">\n' % (l, u) for l, u in sorted(pages.items()))
     alts += '<link rel="alternate" hreflang="x-default" href="%s">\n' % (SITE + "/journal/")
-    return (head("%s — still()" % t["journal"], t["sub"], url, loc, not posts,
+    return with_localtime(head("%s — still()" % t["journal"], t["sub"], url, loc, not posts,
                  ld(data) + ld(itemlist) + ld(breadcrumb(loc, None, url, SITE + "/journal/" if not lang else None)), alternates=alts, locales=list(pages))
             + header(loc, {l: lang_path(l) for l in pages}, None if lang else (t['other_langs'], '/journal/')) + f"""<main id="main" class="wrap">
   <div class="page-head">

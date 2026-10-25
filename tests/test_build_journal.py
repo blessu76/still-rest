@@ -657,7 +657,7 @@ class PostTime(Base):
         r = run(self.tmp)
         self.assertEqual(r.returncode, 0, r.stderr)
         for l in LANGS:
-            want = '<time datetime="2026-10-24T09:09:00+09:00">%s&nbsp;09:09</time>' % bj.fmt_date(__import__("datetime").date(2026, 10, 24), l)
+            want = '<time datetime="2026-10-24T09:09:00+09:00" data-ipe-time>%s&nbsp;09:09 KST</time>' % bj.fmt_date(__import__("datetime").date(2026, 10, 24), l)
             self.assertIn(want, self.page("journal/%s/t/index.html" % l), l)  # article page
             self.assertIn(want, self.page("journal/%s/index.html" % l), l)  # list card
             visible = re.sub(r"<[^>]+>", "", self.eyebrow("journal/%s/t/index.html" % l))
@@ -667,8 +667,8 @@ class PostTime(Base):
         self.write("a", "published_at: 2026-10-24 07:05\n")
         self.write("b", "published_at: 2026-10-24 17:00\n")
         self.assertEqual(run(self.tmp).returncode, 0)
-        self.assertIn("2026년 10월 24일&nbsp;07:05</time>", self.page("journal/ko/a/index.html"))
-        self.assertIn("2026년 10월 24일&nbsp;17:00</time>", self.page("journal/ko/b/index.html"))
+        self.assertIn("2026년 10월 24일&nbsp;07:05 KST</time>", self.page("journal/ko/a/index.html"))
+        self.assertIn("2026년 10월 24일&nbsp;17:00 KST</time>", self.page("journal/ko/b/index.html"))
 
     def test_machine_dates_carry_the_kst_offset(self):
         self.write("a", "published_at: 2026-10-24 11:00\n")
@@ -682,7 +682,7 @@ class PostTime(Base):
         lst = self.ld("journal/ko/index.html")
         self.assertEqual(lst["blogPost"][0]["datePublished"], iso)
         self.assertIn("<pubDate>Sat, 24 Oct 2026 11:00:00 +0900</pubDate>", self.page("journal/feed.xml"))
-        self.assertIn('<time datetime="%s">' % iso, self.page("ko/index.html"))  # home card
+        self.assertIn('<time datetime="%s" data-ipe-time>' % iso, self.page("ko/index.html"))  # home card
 
     def test_an_explicit_updated_date_stays_as_written(self):
         self.write("a", "published_at: 2026-10-24 11:00\nupdated: 2026-10-25\n")
@@ -694,7 +694,7 @@ class PostTime(Base):
         self.write("s", "publish_at: 2026-10-24 17:00\n")
         self.assertEqual(run(self.tmp, "--now", "2026-10-24 17:00").returncode, 0)
         h = self.page("journal/ko/s/index.html")
-        self.assertIn('<time datetime="2026-10-24T17:00:00+09:00">2026년 10월 24일&nbsp;17:00</time>', h)
+        self.assertIn('<time datetime="2026-10-24T17:00:00+09:00" data-ipe-time>2026년 10월 24일&nbsp;17:00 KST</time>', h)
         self.assertEqual(self.ld("journal/ko/s/index.html")["datePublished"], "2026-10-24T17:00:00+09:00")
 
     def test_unknown_time_shows_the_date_only(self):
@@ -735,4 +735,4 @@ class PostTime(Base):
             self.assertEqual(bj.post_when(p).strftime("%Y-%m-%d %H:%M"), when, slug)
         for slug in ("commute-get-off-early", "evening-after-the-meeting"):
             h = (REPO / "journal/ko" / slug / "index.html").read_text(encoding="utf-8")
-            self.assertIn('<time datetime="2026-10-23T18:18:00+09:00">2026년 10월 23일&nbsp;18:18</time>', h, slug)
+            self.assertIn('<time datetime="2026-10-23T18:18:00+09:00" data-ipe-time>2026년 10월 23일&nbsp;18:18 KST</time>', h, slug)
