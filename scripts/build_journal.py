@@ -22,6 +22,8 @@ Front matter (between two `---` lines):
     lang:        required, one of en ko ja zh es pt id ru vi fr de (= folder name)
     description: required, one sentence (meta description, cards, RSS)
     category:    required, free text in the post's language (e.g. 우울 · panic · work)
+    verse:       optional, `책 장:절` as written in the post's language (e.g. `시편 121:2`) — the verse chip on the home card. Without it the chip is read
+                 from the article's single quotation block (`> 구절` / `>` / `> 시편 121:2 (개역한글)`); if that is not unambiguous, no chip.
     draft:       optional, true → skipped everywhere (output, list, home, sitemap, feed)
     publish_at:  optional, `YYYY-MM-DD HH:MM` (KST; an offset like +09:00 is also accepted) → scheduled: the post is published only by a
                  build whose clock (`--now`) is at or after this time. Its date must be the same day as `date`. A build without
@@ -898,19 +900,74 @@ def card_posts(lang, posts):
     return (own or [p for p in posts if p["lang"] == "en"] or [p for p in posts if p["lang"] == "ko"])[:3]
 
 
-def render_home_cards(posts):
-    """journal cards of the home page (<= 3): each card is ONE <a> (date · title · summary · "read"), so the whole card is the click target.
-    The grid class carries the card count (j-n1/j-n2/j-n3): 3 cards -> 3 columns on desktop, fewer -> never an empty slot."""
+# ---- verse chip on the home cards -------------------------------------------------------------------------------------------
+# A wrong verse shown for an article is the worst failure of a faith app, so the chip is conservative: it is shown only when the
+# reference is unambiguous — and otherwise left out. The expected value of every shipped post is pinned in tests/test_home_journal.py
+# against the app's verse file (assets/verses/daily_verses.json).
+BOOKS_KO = ("창세기 출애굽기 레위기 민수기 신명기 여호수아 사사기 룻기 사무엘상 사무엘하 열왕기상 열왕기하 역대상 역대하 에스라 느헤미야 에스더 욥기 시편 "
+            "잠언 전도서 아가 이사야 예레미야 예레미야애가 에스겔 다니엘 호세아 요엘 아모스 오바댜 요나 미가 나훔 하박국 스바냐 학개 스가랴 말라기 "
+            "마태복음 마가복음 누가복음 요한복음 사도행전 로마서 고린도전서 고린도후서 갈라디아서 에베소서 빌립보서 골로새서 데살로니가전서 "
+            "데살로니가후서 디모데전서 디모데후서 디도서 빌레몬서 히브리서 야고보서 베드로전서 베드로후서 요한일서 요한이서 요한삼서 유다서 요한계시록").split()
+BOOKS_EN = ("Genesis|Exodus|Leviticus|Numbers|Deuteronomy|Joshua|Judges|Ruth|1 Samuel|2 Samuel|1 Kings|2 Kings|1 Chronicles|2 Chronicles|Ezra|"
+            "Nehemiah|Esther|Job|Psalm|Psalms|Proverbs|Ecclesiastes|Song of Solomon|Isaiah|Jeremiah|Lamentations|Ezekiel|Daniel|Hosea|Joel|Amos|"
+            "Obadiah|Jonah|Micah|Nahum|Habakkuk|Zephaniah|Haggai|Zechariah|Malachi|Matthew|Mark|Luke|John|Acts|Romans|1 Corinthians|2 Corinthians|"
+            "Galatians|Ephesians|Philippians|Colossians|1 Thessalonians|2 Thessalonians|1 Timothy|2 Timothy|Titus|Philemon|Hebrews|James|1 Peter|"
+            "2 Peter|1 John|2 John|3 John|Jude|Revelation").split("|")
+BOOKS = {"ko": set(BOOKS_KO), "en": set(BOOKS_EN)}  # other languages: only an explicit `verse:` in the front matter (same shape check)
+VERSE_RE = re.compile(r"^(?P<book>\d? ?[^\d:()]+?) (?P<ch>[1-9]\d{0,2}):(?P<v>[1-9]\d{0,2})(?:[-\u2013](?P<v2>[1-9]\d{0,2}))?$")
+REF_LINE_RE = re.compile(r"^> (?P<ref>[^()]+?) \((?P<ver>[^()]+)\)$")
+
+
+def verse_shape_ok(ref, lang):
+    """`책 장:절` (or `장:절-절`) — and, for ko/en, the book must be a real book name of that language."""
+    m = VERSE_RE.match(ref)
+    if not m or (m.group("v2") and int(m.group("v2")) <= int(m.group("v"))):
+        return False
+    return lang not in BOOKS or m.group("book") in BOOKS[lang]
+
+
+def verse_ref(p):
+    """the reference (`시편 121:2`) for the card's verse chip, or None when it is not certain.
+    From the article's quotation block: the text must hold exactly ONE block `> quote / > / > <ref> (<Bible version>)` (nothing else quoted;
+    the version in the parentheses must be the post's `bible_version`). An optional front matter `verse:` is the preferred value for the chip;
+    when the block gives a different reference too, the two disagree -> no chip."""
+    lang = p["lang"]
+    explicit = (p.get("verse") or "").strip()
+    if explicit and not verse_shape_ok(explicit, lang):
+        explicit = ""  # malformed -> as if absent (and never shown)
+    found = None
+    quote = [l for l in p["_body"].split("\n") if l.startswith(">")]
+    if len(quote) == 3 and quote[0] != ">" and quote[1] == ">":
+        m = REF_LINE_RE.match(quote[2])
+        bv = p.get("_bible") or ""
+        if m and verse_shape_ok(m.group("ref"), lang) and bv and m.group("ver").strip() and bv.startswith(m.group("ver").strip()):
+            found = m.group("ref")
+    if explicit and found and explicit != found:
+        return None
+    return explicit or found or None
+
+
+def render_home_cards(posts, lang=None):
+    """journal cards of the home page (<= 3): each card is ONE <a> (chips · date · title · summary · "read"), so the whole card is the click
+    target — the chips are plain <span>s, never links. lang = the page's language: a card whose post is in another language (the
+    card_posts fallback) gets a language badge. The grid class carries the card count (j-n1/j-n2/j-n3): 3 cards -> 3 columns on desktop,
+    fewer -> never an empty slot."""
     posts = posts[:3]
     if not posts:
         return ""
-    cards = "\n".join(f"""      <a class="j-card" href="{post_path(p)}" lang="{esc(p['lang'])}">
+
+    def card(p):
+        verse = verse_ref(p)
+        top = '<span class="j-cat">%s</span>' % esc(p["category"]) + ('<span class="j-verse">%s</span>' % esc(verse) if verse else "")
+        badge = '<span class="j-lang">%s</span>' % esc(LANGS[p["lang"]]["name"]) if lang and p["lang"] != lang else ""
+        return f"""      <a class="j-card" href="{post_path(p)}" lang="{esc(p['lang'])}">
+        <div class="j-top">{top}</div>
         <p class="j-date">{time_tag(p)}</p>
         <h3 class="j-title">{esc(p['title'])}</h3>
         <p class="j-desc">{esc(p['description'])}</p>
-        <span class="j-more"><span>{esc(ui(p['lang'])['read_more'])}</span> <span aria-hidden="true">→</span></span>
-      </a>""" for p in posts)
-    return '    <div class="journal-grid j-n%d">\n%s\n    </div>' % (len(posts), cards)
+        <div class="j-foot"><span class="j-more"><span>{esc(ui(p['lang'])['read_more'])}</span> <span aria-hidden="true">→</span></span>{badge}</div>
+      </a>"""
+    return '    <div class="journal-grid j-n%d">\n%s\n    </div>' % (len(posts), "\n".join(card(p) for p in posts))
 
 
 def render_redirect(new_url):
@@ -1121,7 +1178,7 @@ def build(root, drafts=False, strict_safety=False, check_only=False, now=None):
     llms.write_text(replace_between(llms.read_text(encoding="utf-8"), r"<!-- journal:llms:start[^>]*-->",
                                     "<!-- journal:llms:end -->", render_llms_block(posts), "llms.txt"), encoding="utf-8")
     import build_home  # home page: 11 static language pages + their sitemap/llms blocks
-    build_home.build(root, {l: render_home_cards(card_posts(l, posts)) for l in LANGS}, {l: jhome(l) for l in LANGS},
+    build_home.build(root, {l: render_home_cards(card_posts(l, posts), l) for l in LANGS}, {l: jhome(l) for l in LANGS},
                      max([p.get("updated") or p["_date"].isoformat() for p in posts], default=None))
     import build_info  # FAQ + "how still() is different" pages, 11 languages (uses this module's header/footer/head)
     build_info.build(root, sys.modules[__name__], bool(posts))

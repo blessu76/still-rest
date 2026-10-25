@@ -1,4 +1,5 @@
 """home journal cards: right under the hero, <= 3 cards, one <a> per card (whole card clickable), per-language posts, grid 1/2/3 columns, auto-refresh on publish"""
+import json
 import re
 import sys
 import unittest
@@ -8,11 +9,24 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "scripts"))
 sys.path.insert(0, str(REPO / "tests"))
 from site_common import LANGS  # noqa: E402
+import build_journal as bj  # noqa: E402
 from test_build_journal import POST, Base, run, write_post  # noqa: E402
 
 PAGES = [("en", REPO / "index.html")] + [(l, REPO / l / "index.html") for l in LANGS]  # root (x-default, English) + 11 languages
 SECTION = re.compile(r'<section class="journal"[^>]*>.*?</section>', re.S)
 CARD = re.compile(r'<a class="j-card"[^>]*>.*?</a>', re.S)
+VERSES = Path("/Users/davy.kim/Desktop/foundry-f001/assets/verses/daily_verses.json")  # canonical verse file of the app (not in this repo)
+# slug -> the reference its verse chip must show. Written by hand from the articles' quotation blocks and checked against the app's verse file.
+PINNED = {
+    "commute-get-off-early": "이사야 41:10",
+    "evening-after-the-meeting": "마태복음 11:28",
+    "first-day-at-the-clinic": "예레미야애가 3:23",
+    "three-am-counting-hours": "시편 4:8",
+    "unanswered-message-three-days": "시편 46:10",
+    "sunday-afternoon-caring-for-mother": "시편 121:2",
+    "monday-morning-list-of-the-week": "베드로전서 5:7",
+    "monday-afternoon-ten-minutes-outside": "시편 23:2",
+}
 TEMPLATE = (REPO / "content/home/template.html").read_text(encoding="utf-8")
 
 
@@ -78,10 +92,44 @@ class CommittedPages(unittest.TestCase):
     def test_all_link_goes_to_that_languages_list(self):
         for lang, f, h in self.pages():
             s = section(h)
-            alls = re.findall(r'<p class="journal-all"><a class="more-link" href="([^"]+)">', s)
+            alls = re.findall(r'<p class="journal-all"><a class="btn-ghost" href="([^"]+)">', s)
             self.assertEqual(len(alls), 1, f)
             self.assertEqual(alls[0], "/journal/%s/" % lang if list_exists(lang) else "/journal/", f)  # no list in that language yet -> the hub
             self.assertTrue((REPO / alls[0].strip("/") / "index.html").is_file(), f)
+
+    def test_category_chip_is_the_posts_category_and_a_span(self):
+        for lang, f, h in self.pages():
+            for c in CARD.findall(section(h)):
+                slug = re.search(r'href="/journal/ko/([^/"]+)/"', c).group(1)
+                cat = bj.parse_post(REPO / "content/journal/ko" / (slug + ".md"))["category"]
+                self.assertRegex(c, r'<div class="j-top"><span class="j-cat">%s</span>' % re.escape(cat))
+                self.assertLess(c.index('class="j-top"'), c.index('class="j-date"'), f)  # chips sit above the date
+                self.assertNotRegex(c, r'<(a|button)\b[^>]*>[^<]*<span class="j-(cat|verse|lang)"')  # chips are never links
+
+    def test_verse_chip_is_the_pinned_reference_of_the_article(self):
+        seen = 0
+        for lang, f, h in self.pages():
+            for c in CARD.findall(section(h)):
+                slug = re.search(r'href="/journal/ko/([^/"]+)/"', c).group(1)
+                self.assertEqual(re.findall(r'<span class="j-verse">([^<]+)</span>', c), [PINNED[slug]], (f, slug))
+                seen += 1
+        self.assertGreaterEqual(seen, 12)
+
+    def test_language_badge_only_on_fallback_cards(self):
+        for lang, f, h in self.pages():
+            for c in CARD.findall(section(h)):
+                card_lang = re.search(r'<a class="j-card"[^>]* lang="([^"]+)"', c).group(1)
+                badges = re.findall(r'<span class="j-lang">([^<]+)</span>', c)
+                if card_lang == lang:
+                    self.assertEqual(badges, [], (f, "same language: no badge"))
+                else:
+                    self.assertEqual(badges, [LANGS[card_lang]["name"]], f)  # the language's own name, e.g. 한국어
+        self.assertNotIn("j-lang", CARD.findall(section((REPO / "ko/index.html").read_text(encoding="utf-8")))[0])
+        self.assertIn('<span class="j-lang">한국어</span>', CARD.findall(section((REPO / "en/index.html").read_text(encoding="utf-8")))[0])
+
+    def test_all_button(self):
+        for lang, f, h in self.pages():
+            self.assertRegex(section(h), r'<p class="journal-all"><a class="btn-ghost" href="/journal/(ko/)?">[^<]*<span data-i18n="journal_all">[^<]+</span> <span aria-hidden="true">→</span></a></p>')
 
     def test_no_script_in_the_section(self):
         for lang, f, h in self.pages():
@@ -96,6 +144,14 @@ class Template(unittest.TestCase):
         self.assertRegex(css, r"@media \(min-width:640px\)\{\s*\.journal-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)")  # 768: 2 columns
         self.assertRegex(css, r"@media \(min-width:1024px\)\{\s*\.journal-grid\.j-n3\{grid-template-columns:repeat\(3,minmax\(0,1fr\)\)")  # 1280: 3 columns
         self.assertIn("-webkit-line-clamp:2", css)  # summary: 1-2 lines
+
+    def test_chips_and_button_css(self):
+        css = TEMPLATE[TEMPLATE.index("1.5 JOURNAL"):TEMPLATE.index("/* ---------- 7. CTA")]
+        self.assertRegex(css, r"\.j-cat\{[^}]*color:var\(--sage\)")
+        self.assertRegex(css, r"\.btn-ghost\{[^}]*min-height:48px[^}]*border:1px solid var\(--gold\)")
+        self.assertRegex(css, r"\.btn-ghost:hover,\.btn-ghost:focus-visible\{")
+        self.assertIn("-webkit-line-clamp:3", css)  # title: 3 lines
+        self.assertNotRegex(css, r"#[0-9a-fA-F]{3,6}\b")  # no new colour literal: tokens and the existing rgba(35,42,54,..) only
 
     def test_hero_comes_first_and_is_untouched_by_the_journal(self):
         self.assertLess(TEMPLATE.index('<header class="hero dark">'), TEMPLATE.index('<section class="journal"'))
@@ -153,7 +209,111 @@ class Generated(Base):
         self.assertIn('href="/journal/ja/orig/"', ja[0])
         self.assertIn('lang="ja"', ja[0])
         self.assertIn('href="/journal/ko/orig/"', CARD.findall(section(self.home("fr")))[0])  # fr has no post yet -> the original
-        self.assertIn('<a class="more-link" href="/journal/ja/">', section(self.home("ja")))
+        self.assertIn('<a class="btn-ghost" href="/journal/ja/">', section(self.home("ja")))
+
+
+class VerseRef(unittest.TestCase):
+    """the verse chip: right or absent — a wrong verse on a faith app's home page is the one thing that must not happen"""
+
+    def post(self, body, lang="ko", bible="개역한글(1961)", **kw):
+        return dict(lang=lang, _body=body, _bible=bible, **kw)
+
+    def block(self, ref_line, quote="나의 도움이 천지를 지으신 여호와에게서로다"):
+        return "본문입니다.\n\n> %s\n>\n> %s\n\n끝." % (quote, ref_line)
+
+    def test_every_real_article_matches_the_pinned_reference(self):
+        posts = {f.stem: bj.parse_post(f) for f in (REPO / "content/journal/ko").glob("*.md") if f.stem != "sample-template"}
+        self.assertEqual(set(posts), set(PINNED))
+        for slug, p in posts.items():
+            self.assertEqual(bj.verse_ref(p), PINNED[slug], slug)
+            self.assertNotIn("verse", p)  # the pinned value comes from the quotation block
+
+    def test_pinned_references_are_in_the_apps_verse_file_and_the_quote_matches(self):
+        if not VERSES.is_file():
+            self.skipTest("daily_verses.json is not on this machine")
+        canon = {v["ref_ko"]: v["ko"] for v in json.loads(VERSES.read_text(encoding="utf-8"))["verses"]}
+        for slug, ref in PINNED.items():
+            self.assertIn(ref, canon, slug)
+            body = bj.parse_post(REPO / "content/journal/ko" / (slug + ".md"))["_body"]
+            self.assertIn("> %s\n>\n> %s (개역한글)" % (canon[ref], ref), body, slug)  # same verse, to the letter
+
+    def test_extraction(self):
+        self.assertEqual(bj.verse_ref(self.post(self.block("시편 121:2 (개역한글)"))), "시편 121:2")
+        self.assertEqual(bj.verse_ref(self.post(self.block("로마서 8:38-39 (개역한글)"))), "로마서 8:38-39")
+        self.assertEqual(bj.verse_ref(self.post(self.block("베드로전서 5:7 (개역한글)"))), "베드로전서 5:7")
+        self.assertEqual(bj.verse_ref(self.post(self.block("1 Peter 5:7 (WEB)", "Casting all your worries on him"), lang="en", bible="WEB")), "1 Peter 5:7")
+
+    def test_unsure_means_no_chip(self):
+        bad = {
+            "no version": self.block("시편 121:2"),
+            "version differs from bible_version": self.block("시편 121:2 (개정개역)"),
+            "unknown book": self.block("시편책 121:2 (개역한글)"),
+            "english book in a ko post": self.block("Psalm 121:2 (개역한글)"),
+            "no verse number": self.block("시편 121 (개역한글)"),
+            "reversed range": self.block("로마서 8:39-38 (개역한글)"),
+            "zero chapter": self.block("시편 0:2 (개역한글)"),
+            "extra text on the line": self.block("시편 121:2 참고 (개역한글)"),
+            "two blocks": self.block("시편 121:2 (개역한글)") + "\n> 또\n>\n> 시편 23:1 (개역한글)\n",
+            "no quotation": "인용 없는 글입니다.",
+            "quote without blank '>' line": "> 인용\n> 시편 121:2 (개역한글)\n",
+        }
+        for why, body in bad.items():
+            self.assertIsNone(bj.verse_ref(self.post(body)), why)
+        self.assertIsNone(bj.verse_ref(self.post(self.block("시편 121:2 (개역한글)"), bible=None)), "no bible_version")
+
+    def test_front_matter_verse(self):
+        # preferred value when the block cannot be read ...
+        self.assertEqual(bj.verse_ref(self.post("인용 없음", verse="시편 121:2")), "시편 121:2")
+        self.assertEqual(bj.verse_ref(self.post("인용 없음", lang="ja", verse="詩篇 121:2")), "詩篇 121:2")  # other languages: shape only
+        # ... same value in both: fine; different values: the two disagree -> no chip
+        self.assertEqual(bj.verse_ref(self.post(self.block("시편 121:2 (개역한글)"), verse="시편 121:2")), "시편 121:2")
+        self.assertIsNone(bj.verse_ref(self.post(self.block("시편 121:2 (개역한글)"), verse="시편 23:1")))
+        # malformed or unknown book in `verse:` is dropped
+        self.assertIsNone(bj.verse_ref(self.post("인용 없음", verse="시편 하나")))
+        self.assertIsNone(bj.verse_ref(self.post("인용 없음", verse="아무책 1:1")))
+        self.assertEqual(bj.verse_ref(self.post(self.block("시편 121:2 (개역한글)"), verse="시편 하나")), "시편 121:2")
+
+
+class Cards(Base):
+    """chips and badge on generated pages (temp site)"""
+
+    def post(self, slug, date, lang, body_ref="Psalm 46:10 (WEB)", category="rest", extra="", verse_text="Be still."):
+        text = ("---\ntitle: T %s\ndate: %s\nslug: %s\nlang: %s\ndescription: D.\ncategory: %s\nbible_version: WEB\n%s%s---\n\n"
+                "Body.\n\n> %s\n>\n> %s\n") % (slug, date, slug, lang, category, "" if lang in ("ko", "en") else "translation_of: en\n", extra, verse_text, body_ref)
+        write_post(self.tmp, lang, slug, text=text)
+
+    def cards(self, lang):
+        return CARD.findall(section(self.page("index.html" if lang == "root" else "%s/index.html" % lang)))
+
+    def test_badge_and_chips_with_originals_and_translations(self):
+        self.post("a", "2026-10-20", "en")
+        self.post("a", "2026-10-20", "ja", body_ref="詩篇 46:10 (WEB)", category="休息")
+        self.assertEqual(run(self.tmp).returncode, 0)
+        (en,), (ja,) = self.cards("en"), self.cards("ja")
+        (fr,) = self.cards("fr")  # fr has no post -> the English original
+        self.assertIn('<span class="j-cat">rest</span><span class="j-verse">Psalm 46:10</span>', en)
+        self.assertNotIn("j-lang", en)  # same language: no badge
+        self.assertIn('<span class="j-cat">休息</span>', ja)
+        self.assertIn('<span class="j-verse">', ja)  # translation: shape of `verse` is not checked against a book list ...
+        self.assertNotIn("j-lang", ja)
+        self.assertIn('<span class="j-lang">English</span>', fr)  # fallback card: the post's language, in its own name
+        self.assertIn('<span class="j-verse">Psalm 46:10</span>', fr)
+        self.assertEqual(fr.count("<a "), 1)
+
+    def test_unreadable_reference_leaves_the_chip_out_only(self):
+        self.post("b", "2026-10-20", "en", body_ref="Psalm 46:10")  # no version in the reference line
+        self.assertEqual(run(self.tmp).returncode, 0)
+        (c,) = self.cards("en")
+        self.assertIn('<span class="j-cat">rest</span>', c)
+        self.assertNotIn("j-verse", c)
+
+    def test_verse_front_matter_wins_when_the_block_is_unreadable(self):
+        self.post("c", "2026-10-20", "ko", body_ref="시편 46:10", verse_text="가만히 있어", extra="verse: 시편 46:10\n")
+        self.assertEqual(run(self.tmp).returncode, 0)
+        (c,) = self.cards("ko")
+        self.assertIn('<span class="j-verse">시편 46:10</span>', c)
+        self.assertNotIn("j-lang", c)
+        self.assertIn('<span class="j-lang">한국어</span>', self.cards("ja")[0])
 
 
 if __name__ == "__main__":
