@@ -20,6 +20,9 @@ import build_journal as bj  # noqa: E402
 import check_sitemap  # noqa: E402
 from test_build_journal import Base, run  # noqa: E402
 
+# Languages whose pager aria-label (ui.json page_word) is deliberately NOT the word inside their "· <Page> N" title template (`page`).
+# Why: web-room common decision (2026-10-27 08:31) — zh's nav aria-label is 「分页」 while its title stays 「第 {n} 页」. Every other language: page_word ⊂ page.
+PAGER_LABEL_NOT_IN_TITLE = {"zh": "分页"}
 FIRST_DAY = dt.date(2026, 9, 1)
 NO = re.compile(r'<span class="j-no">No\.&nbsp;(\d+)</span>')
 LD = re.compile(r'<script type="application/ld\+json">\n(.*?)\n</script>', re.S)
@@ -229,7 +232,8 @@ class Paging(Base):
         ui = json.loads((REPO / "content/journal/ui.json").read_text(encoding="utf-8"))
         word = ui[lang or "en"]["page_word"]  # the hub (no lang) speaks English
         self.assertEqual(html.unescape(label), word, (lang, n))
-        self.assertIn(word, ui[lang or "en"]["page"], (lang, n))  # the same word the "· <Page> N" title uses
+        if (lang or "en") not in PAGER_LABEL_NOT_IN_TITLE:
+            self.assertIn(word, ui[lang or "en"]["page"], (lang, n))  # the same word the "· <Page> N" title uses
         if lang and lang != "en":
             self.assertNotEqual(label, "Page", (lang, n))  # no English "Page" label on a non-English list
         self.assertEqual(nav.count('aria-current="page"'), 1, (lang, n))
@@ -342,7 +346,10 @@ class Paging(Base):
             for k in ("page", "prev_page", "next_page", "page_word"):
                 self.assertTrue(ui[l].get(k), (l, k))
             self.assertIn("{n}", ui[l]["page"], l)
-            self.assertIn(ui[l]["page_word"], ui[l]["page"], l)  # one word: the pager's aria-label is the word inside the "· <Page> N" title
+            if l in PAGER_LABEL_NOT_IN_TITLE:
+                self.assertEqual(ui[l]["page_word"], PAGER_LABEL_NOT_IN_TITLE[l], l)
+            else:
+                self.assertIn(ui[l]["page_word"], ui[l]["page"], l)  # one word: the pager's aria-label is the word inside the "· <Page> N" title
             self.assertNotIn("aria_pager", ui[l], l)
         series(self.tmp, 11, langs=("ko", "ja", "de", "fr", "ru"))
         self.assertEqual(run(self.tmp).returncode, 0)
@@ -361,10 +368,15 @@ class Paging(Base):
             self.assertEqual(label, ui[l]["page_word"], l)
             title2 = re.search(r"<title>(.*?)</title>", self.list_html(l, 2)).group(1)
             self.assertTrue(title2.endswith(" · " + ui[l]["page"].replace("{n}", "2")), l)
-            self.assertIn(label, title2, l)  # the title's "<Page> N" holds the very same word
+            if l not in PAGER_LABEL_NOT_IN_TITLE:
+                self.assertIn(label, title2, l)  # the title's "<Page> N" holds the very same word
             if l not in ("en", "fr"):  # French's own word happens to be "Page" too
                 self.assertNotIn('aria-label="Page"', h, l)
         self.assertIn('<nav class="pager" aria-label="Page">', self.list_html(None, 1))
+        # zh exception: aria-label 「分页」, while its title template stays 「第 {n} 页」
+        zh1 = self.list_html("zh", 1)
+        self.assertIn('<nav class="pager" aria-label="分页">', zh1)
+        self.assertTrue(re.search(r"<title>(.*?)</title>", self.list_html("zh", 2)).group(1).endswith(" · 第 2 页"))
 
     def test_every_page_has_one_pager_one_list_and_is_indexable(self):
         self.build(21, langs=("ko", "en"))
