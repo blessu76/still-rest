@@ -17,7 +17,7 @@
   "page": "Page {n}",
   "prev_page": "Previous page",
   "next_page": "Next page",
-  "aria_pager": "Pages"
+  "page_word": "Page"
  },
  "ko": {
   "journal": "저널",
@@ -36,7 +36,7 @@
   "page": "{n}페이지",
   "prev_page": "이전 페이지",
   "next_page": "다음 페이지",
-  "aria_pager": "페이지 이동"
+  "page_word": "페이지"
  },
  "ja": {
   "journal": "ジャーナル",
@@ -55,7 +55,7 @@
   "page": "{n}ページ",
   "prev_page": "前のページ",
   "next_page": "次のページ",
-  "aria_pager": "ページ送り"
+  "page_word": "ページ"
  },
  "zh": {
   "journal": "日志",
@@ -74,7 +74,7 @@
   "page": "第 {n} 页",
   "prev_page": "上一页",
   "next_page": "下一页",
-  "aria_pager": "分页"
+  "page_word": "页"
  },
  "es": {
   "journal": "Diario",
@@ -93,7 +93,7 @@
   "page": "Página {n}",
   "prev_page": "Página anterior",
   "next_page": "Página siguiente",
-  "aria_pager": "Páginas"
+  "page_word": "Página"
  },
  "pt": {
   "journal": "Diário",
@@ -112,7 +112,7 @@
   "page": "Página {n}",
   "prev_page": "Página anterior",
   "next_page": "Próxima página",
-  "aria_pager": "Páginas"
+  "page_word": "Página"
  },
  "id": {
   "journal": "Jurnal",
@@ -131,7 +131,7 @@
   "page": "Halaman {n}",
   "prev_page": "Halaman sebelumnya",
   "next_page": "Halaman berikutnya",
-  "aria_pager": "Halaman"
+  "page_word": "Halaman"
  },
  "ru": {
   "journal": "Журнал",
@@ -150,7 +150,7 @@
   "page": "Страница {n}",
   "prev_page": "Предыдущая страница",
   "next_page": "Следующая страница",
-  "aria_pager": "Страницы"
+  "page_word": "Страница"
  },
  "vi": {
   "journal": "Nhật ký",
@@ -169,7 +169,7 @@
   "page": "Trang {n}",
   "prev_page": "Trang trước",
   "next_page": "Trang sau",
-  "aria_pager": "Phân trang"
+  "page_word": "Trang"
  },
  "fr": {
   "journal": "Journal",
@@ -188,7 +188,7 @@
   "page": "Page {n}",
   "prev_page": "Page précédente",
   "next_page": "Page suivante",
-  "aria_pager": "Pages"
+  "page_word": "Page"
  },
  "de": {
   "journal": "Journal",
@@ -207,6 +207,6 @@
   "page": "Seite {n}",
   "prev_page": "Vorherige Seite",
   "next_page": "Nächste Seite",
-  "aria_pager": "Seiten"
+  "page_word": "Seite"
  }
 }

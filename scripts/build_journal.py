@@ -95,7 +95,7 @@ FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox
            "fill='%230F1218'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='18' fill='%23C9A84C' text-anchor='middle'"
            "%3E()%3C/text%3E%3Ccircle cx='16' cy='15.5' r='1.6' fill='%23F5F0E8'/%3E%3C/svg%3E")
 UI_KEYS = ("journal", "sub", "empty", "back", "read_more", "view_all", "skip", "rss", "ai_note", "ai_orig", "other_langs", "aria_home", "aria_primary",
-           "page", "prev_page", "next_page", "aria_pager")
+           "page", "prev_page", "next_page", "page_word")  # page = title/crumb template with {n}; page_word = the same word alone (pager nav label)
 PER_PAGE = 10  # posts on one list page (hub and every language list)
 RESERVED_SLUGS = ("feed", "page")  # "page" = the URL segment of list pages 2+ (/journal/<lang>/page/<n>/), so no post may use it as its slug
 SAFETY_KEYS = ("fiction", "disclaimer", "jump", "help_title", "help_intro", "fallback", "bible_label")
@@ -930,7 +930,7 @@ def list_pairs(list_langs, n=1, counts=None):
 def render_pager(lang, n, total):
     """ipe-common pager of a list page (markup shared with idle.ipe.rest): prev step · one number per page (the current one a span with
     aria-current=page) · next step. Newest first: page n-1 = newer posts, n+1 = older ones. Page 1 links to the plain list, never /page/1/.
-    aria-label is the shared "Page" (ui.json's aria_pager is no longer used). "" when there is one page."""
+    The nav's aria-label is the language's own page word (ui page_word — the word inside its "· <Page> N" title; the hub uses English). "" when there is one page."""
     if total <= 1:
         return ""
     t = ui(lang)
@@ -941,7 +941,7 @@ def render_pager(lang, n, total):
         rows.append('<span class="pg-num" aria-current="page">%d</span>' % k if k == n else '<a class="pg-num" href="%s">%d</a>' % (list_path(lang, k), k))
     if n < total:
         rows.append('<a class="pg-step" rel="next" href="%s">%s <span aria-hidden="true">→</span></a>' % (list_path(lang, n + 1), esc(t["next_page"])))
-    return '  <nav class="pager" aria-label="Page">\n%s\n  </nav>' % "\n".join("    " + r for r in rows)
+    return '  <nav class="pager" aria-label="%s">\n%s\n  </nav>' % (esc(t["page_word"]), "\n".join("    " + r for r in rows))
 
 
 HUB_TAG = "All languages"  # title tag of the /journal/ hub (English originals; the x-default of the language lists)

@@ -5,6 +5,7 @@ Davy's rule for every ipe website (2026-10-27): ① number = publication order, 
 hreflang between the same page numbers, every page in the sitemap, a page number in the title of page 2+, JSON-LD of that page's posts only.
 The real site has 8 articles per language, so paging is tested on generated fixtures with 10 / 11 / 20 / 21 articles."""
 import datetime as dt
+import html
 import json
 import re
 import shutil
@@ -220,11 +221,17 @@ class Paging(Base):
         self.assertIn('<p class="eyebrow">still()</p>', self.list_html("en", 1))
 
     def check_pager(self, h, lang, n, total):
-        """ipe-common pager: nav.pager[aria-label=Page] · one pg-num per page (links match each page's address, the current one is
+        """ipe-common pager: nav.pager[aria-label=<that language's page word>] · one pg-num per page (links match each page's address, the current one is
         the single aria-current span) · pg-step prev/next only where such a page exists · never /page/1/."""
-        navs = re.findall(r'<nav class="pager" aria-label="Page">(.*?)</nav>', h, re.S)
+        navs = re.findall(r'<nav class="pager" aria-label="([^"]*)">(.*?)</nav>', h, re.S)
         self.assertEqual(len(navs), 1, (lang, n))
-        nav = navs[0]
+        label, nav = navs[0]
+        ui = json.loads((REPO / "content/journal/ui.json").read_text(encoding="utf-8"))
+        word = ui[lang or "en"]["page_word"]  # the hub (no lang) speaks English
+        self.assertEqual(html.unescape(label), word, (lang, n))
+        self.assertIn(word, ui[lang or "en"]["page"], (lang, n))  # the same word the "· <Page> N" title uses
+        if lang and lang != "en":
+            self.assertNotEqual(label, "Page", (lang, n))  # no English "Page" label on a non-English list
         self.assertEqual(nav.count('aria-current="page"'), 1, (lang, n))
         self.assertIn('<span class="pg-num" aria-current="page">%d</span>' % n, nav, (lang, n))
         nums = dict(re.findall(r'<a class="pg-num" href="([^"]*)">(\d+)</a>', nav))
@@ -332,14 +339,32 @@ class Paging(Base):
     def test_every_language_has_its_own_natural_page_label(self):
         ui = json.loads((REPO / "content/journal/ui.json").read_text(encoding="utf-8"))
         for l in bj.LANGS:
-            for k in ("page", "prev_page", "next_page", "aria_pager"):
+            for k in ("page", "prev_page", "next_page", "page_word"):
                 self.assertTrue(ui[l].get(k), (l, k))
             self.assertIn("{n}", ui[l]["page"], l)
+            self.assertIn(ui[l]["page_word"], ui[l]["page"], l)  # one word: the pager's aria-label is the word inside the "· <Page> N" title
+            self.assertNotIn("aria_pager", ui[l], l)
         series(self.tmp, 11, langs=("ko", "ja", "de", "fr", "ru"))
         self.assertEqual(run(self.tmp).returncode, 0)
         for l, label in (("ja", "2ページ"), ("de", "Seite 2"), ("fr", "Page 2"), ("ru", "Страница 2")):
             h = self.list_html(l, 2)
             self.assertIn(label, re.search(r"<title>(.*?)</title>", h).group(1), l)
+
+    def test_pager_label_is_each_languages_page_word(self):
+        """nav.pager[aria-label] = the word the language's own "· <Page> N" title uses (same table: ui.json page_word ⊂ page); the hub speaks English."""
+        series(self.tmp, 11, langs=tuple(bj.LANGS))
+        self.assertEqual(run(self.tmp).returncode, 0)
+        ui = json.loads((REPO / "content/journal/ui.json").read_text(encoding="utf-8"))
+        for l in bj.LANGS:
+            h = self.list_html(l, 1)
+            label = html.unescape(re.search(r'<nav class="pager" aria-label="([^"]*)">', h).group(1))
+            self.assertEqual(label, ui[l]["page_word"], l)
+            title2 = re.search(r"<title>(.*?)</title>", self.list_html(l, 2)).group(1)
+            self.assertTrue(title2.endswith(" · " + ui[l]["page"].replace("{n}", "2")), l)
+            self.assertIn(label, title2, l)  # the title's "<Page> N" holds the very same word
+            if l not in ("en", "fr"):  # French's own word happens to be "Page" too
+                self.assertNotIn('aria-label="Page"', h, l)
+        self.assertIn('<nav class="pager" aria-label="Page">', self.list_html(None, 1))
 
     def test_every_page_has_one_pager_one_list_and_is_indexable(self):
         self.build(21, langs=("ko", "en"))
