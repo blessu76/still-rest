@@ -73,7 +73,8 @@ def check(root, now=None):
         if "x-default" not in langs:
             errs.append("%s: no x-default" % loc)
         mine = [l for l, h in links if h == loc and l != "x-default"]
-        if not mine and loc not in (SITE + "/journal/", SITE + "/"):  # hub and root are only the x-default of their language pages
+        hub_page = loc == SITE + "/journal/" or loc.startswith(SITE + "/journal/page/")
+        if not mine and not hub_page and loc != SITE + "/":  # hub (all its pages) and root are only the x-default of their language pages
             errs.append("%s: does not list itself in hreflang" % loc)
         for lang, href in links:
             if href not in urls:

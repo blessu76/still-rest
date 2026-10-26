@@ -99,7 +99,7 @@ class CommittedPages(unittest.TestCase):
             for c in cards:
                 self.assertEqual(c.count("<a "), 1, (f, "the card is ONE <a>: no nested links"))
                 self.assertEqual(len(re.findall(r'href="', c)), 1, f)
-                self.assertRegex(c, r'<p class="j-date"><time datetime="[^"]+"[^>]*>[^<]+</time></p>')  # date (KST) in a <time>
+                self.assertRegex(c, r'<p class="j-date"><span class="j-no">No\.&nbsp;\d+</span> · <time datetime="[^"]+"[^>]*>[^<]+</time></p>')  # number, then the date (KST) in a <time>
                 self.assertRegex(c, r'<h3 class="j-title">[^<]+</h3>')
                 self.assertRegex(c, r'<p class="j-desc">[^<]+</p>')  # the summary, clamped to 2 lines by CSS
                 self.assertIn('class="j-more"', c)

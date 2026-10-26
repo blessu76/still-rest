@@ -13,7 +13,12 @@
 
 - 언어별 목록 `/journal/<lang>/` (그 언어 글이 1편 이상일 때만). `/journal/` = x-default 허브(원문 목록) · `/journal/feed.xml` = 원문 RSS.
 - canonical = 자기 자신. hreflang = 그 글이 있는 언어 전부 + x-default(en, 없으면 ko), 서로 상호참조. 번역이 없는 언어는 페이지·sitemap·hreflang·llms.txt 어디에도 나오지 않는다.
-- slug 는 `[a-z0-9-]+`, 언어 코드와 `feed` 는 쓸 수 없다. `?lang=` 은 쓰지 않는다.
+- slug 는 `[a-z0-9-]+`, 언어 코드와 `feed`·`page` 는 쓸 수 없다. `?lang=` 은 쓰지 않는다.
+
+### 번호(No. N)와 쪽 나누기 (Davy 지시 2026-10-27, 모든 ipe 웹사이트 공통)
+
+- **번호** = 게시 순(날짜 → 시각 → slug 순서, 가장 먼저 게시된 글이 No. 1). **slug 단위**라 같은 글은 모든 언어판에서 같은 번호. 목록 카드·글 머리·홈 카드에 「No. N」으로 보인다. 번호는 **공개된 글만** 센다 — draft·아직 때가 안 된 예약 글은 번호가 없고, 공개될 때 (더 새 글이라) 맨 뒤 번호를 받으므로 기존 번호는 안 바뀐다. ⚠️ 이미 공개된 글들 사이에 끼는 **옛 날짜**의 글을 새로 공개하면 뒤 글 번호가 밀린다 — 새 글의 `date` 는 항상 마지막 글 이후로.
+- **쪽** = 한 쪽 최대 10편, 최신순. 11편째부터 2쪽: 언어 목록 `/journal/<lang>/page/2/`, 허브 `/journal/page/2/`. 1쪽은 기존 주소 그대로(`/page/1/` 은 없다). 이전/다음 `rel=prev|next` + 화면 링크, 쪽마다 self canonical, hreflang 은 같은 쪽 번호끼리(그 쪽이 있는 언어만), sitemap 에 모든 쪽, 2쪽부터 title 에 「· 2페이지」(언어별 표기는 `ui.json` 의 `page`). JSON-LD(Blog + ItemList)는 그 쪽 글만.
 
 ## front matter
 

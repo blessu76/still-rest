@@ -13,7 +13,11 @@
   "ai_orig": "Read the original",
   "other_langs": "Language",
   "aria_home": "still() home",
-  "aria_primary": "Primary"
+  "aria_primary": "Primary",
+  "page": "Page {n}",
+  "prev_page": "Previous page",
+  "next_page": "Next page",
+  "aria_pager": "Pages"
  },
  "ko": {
   "journal": "저널",
@@ -28,7 +32,11 @@
   "ai_orig": "원문 보기",
   "other_langs": "언어",
   "aria_home": "still() 홈",
-  "aria_primary": "주요 메뉴"
+  "aria_primary": "주요 메뉴",
+  "page": "{n}페이지",
+  "prev_page": "이전 페이지",
+  "next_page": "다음 페이지",
+  "aria_pager": "페이지 이동"
  },
  "ja": {
   "journal": "ジャーナル",
@@ -43,7 +51,11 @@
   "ai_orig": "原文を読む",
   "other_langs": "言語",
   "aria_home": "still() ホーム",
-  "aria_primary": "メインメニュー"
+  "aria_primary": "メインメニュー",
+  "page": "{n}ページ",
+  "prev_page": "前のページ",
+  "next_page": "次のページ",
+  "aria_pager": "ページ送り"
  },
  "zh": {
   "journal": "日志",
@@ -58,7 +70,11 @@
   "ai_orig": "阅读原文",
   "other_langs": "语言",
   "aria_home": "still() 首页",
-  "aria_primary": "主导航"
+  "aria_primary": "主导航",
+  "page": "第 {n} 页",
+  "prev_page": "上一页",
+  "next_page": "下一页",
+  "aria_pager": "分页"
  },
  "es": {
   "journal": "Diario",
@@ -73,7 +89,11 @@
   "ai_orig": "Leer el original",
   "other_langs": "Idioma",
   "aria_home": "Inicio de still()",
-  "aria_primary": "Principal"
+  "aria_primary": "Principal",
+  "page": "Página {n}",
+  "prev_page": "Página anterior",
+  "next_page": "Página siguiente",
+  "aria_pager": "Páginas"
  },
  "pt": {
   "journal": "Diário",
@@ -88,7 +108,11 @@
   "ai_orig": "Ler o original",
   "other_langs": "Idioma",
   "aria_home": "Início do still()",
-  "aria_primary": "Principal"
+  "aria_primary": "Principal",
+  "page": "Página {n}",
+  "prev_page": "Página anterior",
+  "next_page": "Próxima página",
+  "aria_pager": "Páginas"
  },
  "id": {
   "journal": "Jurnal",
@@ -103,7 +127,11 @@
   "ai_orig": "Baca versi asli",
   "other_langs": "Bahasa",
   "aria_home": "Beranda still()",
-  "aria_primary": "Utama"
+  "aria_primary": "Utama",
+  "page": "Halaman {n}",
+  "prev_page": "Halaman sebelumnya",
+  "next_page": "Halaman berikutnya",
+  "aria_pager": "Halaman"
  },
  "ru": {
   "journal": "Журнал",
@@ -118,7 +146,11 @@
   "ai_orig": "Читать оригинал",
   "other_langs": "Язык",
   "aria_home": "still() — главная",
-  "aria_primary": "Основное меню"
+  "aria_primary": "Основное меню",
+  "page": "Страница {n}",
+  "prev_page": "Предыдущая страница",
+  "next_page": "Следующая страница",
+  "aria_pager": "Страницы"
  },
  "vi": {
   "journal": "Nhật ký",
@@ -133,7 +165,11 @@
   "ai_orig": "Đọc bản gốc",
   "other_langs": "Ngôn ngữ",
   "aria_home": "Trang chủ still()",
-  "aria_primary": "Menu chính"
+  "aria_primary": "Menu chính",
+  "page": "Trang {n}",
+  "prev_page": "Trang trước",
+  "next_page": "Trang sau",
+  "aria_pager": "Phân trang"
  },
  "fr": {
   "journal": "Journal",
@@ -148,7 +184,11 @@
   "ai_orig": "Lire l'original",
   "other_langs": "Langue",
   "aria_home": "Accueil de still()",
-  "aria_primary": "Principal"
+  "aria_primary": "Principal",
+  "page": "Page {n}",
+  "prev_page": "Page précédente",
+  "next_page": "Page suivante",
+  "aria_pager": "Pages"
  },
  "de": {
   "journal": "Journal",
@@ -163,6 +203,10 @@
   "ai_orig": "Original lesen",
   "other_langs": "Sprache",
   "aria_home": "still() Startseite",
-  "aria_primary": "Hauptmenü"
+  "aria_primary": "Hauptmenü",
+  "page": "Seite {n}",
+  "prev_page": "Vorherige Seite",
+  "next_page": "Nächste Seite",
+  "aria_pager": "Seiten"
  }
 }

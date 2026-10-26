@@ -6,6 +6,8 @@ Reads   content/journal/<lang>/<slug>.md   (front matter + Markdown; one folder 
         content/journal/ui.json            list/hub/UI strings — 11 languages
 Writes  journal/index.html                 x-default hub (language links + the originals)
         journal/<lang>/index.html          one list page per language that has posts
+        journal/page/<n>/index.html        page 2, 3, ... of the hub and of every language list (journal/<lang>/page/<n>/): 10 posts a page,
+                                           newest first; page 1 keeps the plain address (there is no .../page/1/)
         journal/<lang>/<slug>/index.html   one page per post and language  (11 languages: en ko ja zh es pt id ru vi fr de)
         <old alias path>/index.html        static redirect stubs (front matter `aliases`) — not in the sitemap
         journal/feed.xml                   RSS 2.0 (originals = posts without translation_of)
@@ -14,6 +16,11 @@ Writes  journal/index.html                 x-default hub (language links + the o
         index.html + <lang>/index.html     home page, 11 static language pages (scripts/build_home.py)
 
 All language versions of a post share ONE slug (that is what groups them for hreflang / translationOfWork).
+
+Numbers: every post has a number "No. N" = its place in publication order (oldest = No. 1; order = date, then time of day, then slug), counted
+per slug (translation group), so the same article has the same number in every language. Only published posts are counted (no drafts, no
+scheduled post before it is due), so a post that goes live later (always newer) never changes an existing number. Shown on the list cards,
+the article head and the home cards. Do not give an already public post an older `date` than the posts that follow it — that would renumber them.
 
 Front matter (between two `---` lines):
     title:       required
@@ -76,7 +83,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from site_common import GEN_MARK, KST, LANGS, ORG, SITE, check_fresh, esc, lang_url, parse_when, replace_between, with_localtime  # noqa: E402
 
-ASSET_V = "20261024b"  # ?v= of assets/journal.css — bump when the file changes
+ASSET_V = "20261027b"  # ?v= of assets/journal.css — bump when the file changes
 CF_TOKEN = "eab6249a56894cb084b7bcc8f1a860a6"  # Cloudflare Web Analytics (cookieless), same as the home page
 REQUIRED = ("title", "date", "slug", "lang", "description", "category")
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -87,7 +94,10 @@ ORIGINAL_LANGS = ("ko", "en")  # may be an original without translation_of; ever
 FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' "
            "fill='%230F1218'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='18' fill='%23C9A84C' text-anchor='middle'"
            "%3E()%3C/text%3E%3Ccircle cx='16' cy='15.5' r='1.6' fill='%23F5F0E8'/%3E%3C/svg%3E")
-UI_KEYS = ("journal", "sub", "empty", "back", "read_more", "view_all", "skip", "rss", "ai_note", "ai_orig", "other_langs", "aria_home", "aria_primary")
+UI_KEYS = ("journal", "sub", "empty", "back", "read_more", "view_all", "skip", "rss", "ai_note", "ai_orig", "other_langs", "aria_home", "aria_primary",
+           "page", "prev_page", "next_page", "aria_pager")
+PER_PAGE = 10  # posts on one list page (hub and every language list)
+RESERVED_SLUGS = ("feed", "page")  # "page" = the URL segment of list pages 2+ (/journal/<lang>/page/<n>/), so no post may use it as its slug
 SAFETY_KEYS = ("fiction", "disclaimer", "jump", "help_title", "help_intro", "fallback", "bible_label")
 FALLBACK_HELPLINE = "https://findahelpline.com"  # decision D2 (CRISIS_PROTOCOL): the worldwide directory for places without a listed line
 
@@ -99,6 +109,7 @@ HELD = {}    # content/journal/hold.json  {lang: reason} — languages whose jou
 SCRIPTURE = None  # content/journal/scripture.json (scripts/fetch_scripture.py): verse text of each language, copied from its public-domain
                   # source. None = the file is absent (test copies of the site) -> translated quotes are not checked against it.
 LIST_LANGS = None  # set by main(): languages that have a list page; None = assume all (other scripts importing this module)
+NUMBERS = {}  # set by build(): {slug: N} publication-order number of every published post (see assign_numbers); {} = no numbers shown
 
 
 def load_data(root):
@@ -183,8 +194,8 @@ def parse_post(path):
         raise ValueError("missing front matter: " + ", ".join(missing))
     if not SLUG_RE.match(meta["slug"]):
         raise ValueError("slug must match [a-z0-9-]+: %r" % meta["slug"])
-    if meta["slug"] in LANGS or meta["slug"] == "feed":
-        raise ValueError("slug %r is reserved (language codes and 'feed' are URL segments)" % meta["slug"])
+    if meta["slug"] in LANGS or meta["slug"] in RESERVED_SLUGS:
+        raise ValueError("slug %r is reserved (language codes, 'feed' and 'page' are URL segments)" % meta["slug"])
     if meta["lang"] not in LANGS:
         raise ValueError("lang must be one of %s: %r" % (" ".join(LANGS), meta["lang"]))
     of = meta.get("translation_of")
@@ -488,6 +499,61 @@ def post_url(p):
     return SITE + post_path(p)
 
 
+def order_key(p):
+    """publication order of one post: date, time of day (unknown time sorts first within its day), slug."""
+    return (p["_date"], post_when(p).strftime("%H:%M") if post_when(p) else "", p["slug"])
+
+
+def assign_numbers(posts):
+    """{slug: N} — the publication-order number, oldest published article = 1. One number per slug (= per translation group, so every
+    language of an article carries the same number), taken from the group's original (else from its earliest member). `posts` = the
+    published posts only: a draft or a not-yet-due scheduled post takes no number, so when it goes live (it is newer) nothing before it moves."""
+    by = {}
+    for p in posts:
+        by.setdefault(p["slug"], []).append(p)
+    key = lambda g: min(order_key(m) for m in ([m for m in g if not m.get("translation_of")] or g))
+    return {g[0]["slug"]: i + 1 for i, g in enumerate(sorted(by.values(), key=key))}
+
+
+def no_tag(p):
+    """`<span class="j-no">No. 7</span>` — the post's number, or "" when numbers are not computed (a module used on its own)."""
+    n = NUMBERS.get(p["slug"])
+    return '<span class="j-no">No.&nbsp;%d</span>' % n if n else ""
+
+
+def with_no(p, rest):
+    """number + ` · ` + the rest of an eyebrow line (just the rest when the post has no number)."""
+    n = no_tag(p)
+    return "%s · %s" % (n, rest) if n else rest
+
+
+def paginate(items):
+    """items (newest first) -> pages of PER_PAGE; an empty list is still one (empty) page."""
+    return [items[i:i + PER_PAGE] for i in range(0, len(items), PER_PAGE)] or [[]]
+
+
+def list_path(lang, n=1):
+    """site path of page n of a list: lang=None -> the hub /journal/, else /journal/<lang>/. Page 1 is the plain address, page n>=2 is <list>page/<n>/."""
+    base = lang_path(lang) if lang else "/journal/"
+    return base if n == 1 else "%spage/%d/" % (base, n)
+
+
+def list_scopes(posts, list_langs):
+    """{None: the originals (hub), lang: that language's posts} — each in the order given (newest first for the real pages)."""
+    scopes = {None: [p for p in posts if not p.get("translation_of")]}
+    for l in list_langs:
+        scopes[l] = [p for p in posts if p["lang"] == l]
+    return scopes
+
+
+def page_counts(scopes):
+    return {k: len(paginate(v)) for k, v in scopes.items()}
+
+
+def page_label(lang, n):
+    return ui(lang)["page"].replace("{n}", str(n))
+
+
 def og_image_alt(lang):
     return (HOME.get(lang) or {}).get("og_image_alt") or HOME["en"]["og_image_alt"]
 
@@ -718,7 +784,7 @@ def check_translations(posts, all_posts, drafts_ok):
     seen = {}
     for p in posts:
         for al in p["_aliases"]:
-            if al in pages:
+            if al in pages or re.match(r"^/journal/(?:[a-z]{2}/)?page/", al):
                 errs.append("%s: alias %s is a real page" % (p["_src"], al))
             elif al in seen:
                 errs.append("%s: alias %s already used by %s" % (p["_src"], al, seen[al]))
@@ -841,7 +907,7 @@ def render_post(p, grp=None):
             + header(p["lang"], targets) + f"""<main id="main" class="wrap">
   <article class="article">
     <header class="article-head">
-      <p class="eyebrow">{time_tag(p)} · {esc(p['category'])}{draft}</p>
+      <p class="eyebrow">{with_no(p, time_tag(p) + " · " + esc(p['category']))}{draft}</p>
       <h1>{esc(p['title'])}</h1>
       <p class="lede">{esc(p['description'])}</p>
     </header>
@@ -856,49 +922,80 @@ def render_post(p, grp=None):
 """ + footer(p["lang"], targets))
 
 
-def list_pairs(list_langs):
-    """{hreflang: url} of the journal list pages that exist: /journal/<lang>/ for every language with a post."""
-    return {l: SITE + lang_path(l) for l in list_langs}
+def list_pairs(list_langs, n=1, counts=None):
+    """{hreflang: url} of the journal list pages that exist: /journal/<lang>/ (page n of it) for every language with a post — and, for
+    n >= 2, only for the languages that have that page (counts = {lang: number of pages})."""
+    return {l: SITE + list_path(l, n) for l in list_langs if n == 1 or (counts or {}).get(l, 1) >= n}
 
 
-def render_list(posts, lang=None, list_langs=("en",)):
-    """lang=None -> /journal/ (x-default hub: language select + the originals). lang=xx -> /journal/xx/ (that language only)."""
-    pages = list_pairs(list_langs)
+def render_pager(lang, n, total):
+    """prev/next links of a list page (newest first: page n-1 = newer posts, page n+1 = older ones) + `n / total`. "" when there is one page."""
+    if total <= 1:
+        return ""
+    t = ui(lang)
+    prev = '    <a class="pager-prev" rel="prev" href="%s"><span aria-hidden="true">←</span> %s</a>\n' % (list_path(lang, n - 1), esc(t["prev_page"])) if n > 1 else ""
+    nxt = '    <a class="pager-next" rel="next" href="%s">%s <span aria-hidden="true">→</span></a>\n' % (list_path(lang, n + 1), esc(t["next_page"])) if n < total else ""
+    return ('  <nav class="pager" aria-label="%s">\n%s    <span class="pager-now" aria-current="page">%d / %d</span>\n%s  </nav>'
+            % (esc(t["aria_pager"]), prev, n, total, nxt))
+
+
+def render_list(posts, lang=None, list_langs=("en",), page=1, counts=None):
+    """lang=None -> /journal/ (x-default hub: language select + the originals). lang=xx -> /journal/xx/ (that language only).
+    posts = ALL posts of that list (newest first); page n shows posts[(n-1)*PER_PAGE : n*PER_PAGE]. counts = {lang|None: number of pages}
+    of every list (hreflang of page n names only the languages that have page n); default = every list has the pages of its own posts only."""
     loc = lang or "en"
     t = ui(loc)
-    url = SITE + (lang_path(lang) if lang else "/journal/")
+    chunks = paginate(posts)
+    total = len(chunks)
+    page = max(1, min(page, total))
+    chunk = chunks[page - 1]
+    counts = dict(counts or {})
+    counts[lang] = total
+    pages = list_pairs(list_langs, page, counts)
+    url = SITE + list_path(lang, page)
+    first_url = SITE + list_path(lang, 1)
+    suffix = " · %s" % page_label(loc, page) if page > 1 else ""
     data = {"@context": "https://schema.org", "@type": "Blog", "name": "still() %s" % t["journal"], "url": url,
             "publisher": dict(ORG), "inLanguage": sorted({p["lang"] for p in posts}) if not lang else lang,
             "blogPost": [{"@type": "BlogPosting", "headline": p["title"], "url": post_url(p),
-                          "datePublished": iso_when(p), "inLanguage": p["lang"]} for p in posts]}
-    itemlist = {"@context": "https://schema.org", "@type": "ItemList", "name": "still() %s" % t["journal"], "url": url,
-                "numberOfItems": len(posts), "itemListOrder": "https://schema.org/ItemListOrderDescending",
-                "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": post_url(p), "name": p["title"]}
-                                    for i, p in enumerate(posts)]}
+                          "datePublished": iso_when(p), "inLanguage": p["lang"]} for p in chunk]}
+    itemlist = {"@context": "https://schema.org", "@type": "ItemList", "name": "still() %s%s" % (t["journal"], suffix), "url": url,
+                "numberOfItems": len(chunk), "itemListOrder": "https://schema.org/ItemListOrderDescending",
+                "itemListElement": [{"@type": "ListItem", "position": (page - 1) * PER_PAGE + i + 1, "url": post_url(p), "name": p["title"]}
+                                    for i, p in enumerate(chunk)]}
     if posts:
         items = "\n".join(f"""      <li lang="{esc(p['lang'])}">
-        <p class="eyebrow">{time_tag(p)} · {esc(p['category'])}{' <span class="draft-flag">DRAFT</span>' if p['draft'] else ''}</p>
+        <p class="eyebrow">{with_no(p, time_tag(p) + " · " + esc(p['category']) + (' <span class="draft-flag">DRAFT</span>' if p['draft'] else ''))}</p>
         <h2><a href="{post_path(p)}">{esc(p['title'])}</a></h2>
         <p>{esc(p['description'])}</p>
         <a class="more-link" href="{post_path(p)}" aria-label="{esc(ui(p['lang'])['read_more'])}: {esc(p['title'])}"><span>{esc(ui(p['lang'])['read_more'])}</span> <span aria-hidden="true">→</span></a>
-      </li>""" for p in posts)
-        body = '    <ol class="j-list">\n%s\n    </ol>' % items
+      </li>""" for p in chunk)
+        body = '    <ol class="j-list">\n%s\n    </ol>' % items + ("\n" + render_pager(lang, page, total) if total > 1 else "")
     else:
         body = f'    <div class="empty-note"><strong>{esc(t["empty"])}</strong></div>'
     alts = "".join('<link rel="alternate" hreflang="%s" href="%s">\n' % (l, u) for l, u in sorted(pages.items()))
-    alts += '<link rel="alternate" hreflang="x-default" href="%s">\n' % (SITE + "/journal/")
-    return with_localtime(head("%s — still()" % t["journal"], t["sub"], url, loc, not posts,
-                 ld(data) + ld(itemlist) + ld(breadcrumb(loc, None, url, SITE + "/journal/" if not lang else None)), alternates=alts, locales=list(pages))
-            + header(loc, {l: lang_path(l) for l in pages}, None if lang else (t['other_langs'], '/journal/')) + f"""<main id="main" class="wrap">
+    xdef = SITE + list_path(None, page if page <= counts.get(None, 1) else 1)  # x-default = the hub's same page (its first page when it has no such page)
+    alts += '<link rel="alternate" hreflang="x-default" href="%s">\n' % xdef
+    if page > 1:
+        alts += '<link rel="prev" href="%s">\n' % (SITE + list_path(lang, page - 1))
+    if page < total:
+        alts += '<link rel="next" href="%s">\n' % (SITE + list_path(lang, page + 1))
+    # the language switch goes to the same page number when that language has it, else to its first page
+    targets = {l: list_path(l, page if counts.get(l, 1) >= page else 1) for l in list_langs} if lang else {l: lang_path(l) for l in list_langs}
+    jurl = first_url if page > 1 else (SITE + "/journal/" if not lang else None)
+    crumb = breadcrumb(loc, page_label(loc, page), url, first_url) if page > 1 else breadcrumb(loc, None, url, jurl)
+    return with_localtime(head("%s — still()%s" % (t["journal"], suffix), t["sub"] + suffix, url, loc, not posts,
+                 ld(data) + ld(itemlist) + ld(crumb), alternates=alts, locales=list(pages))
+            + header(loc, targets, None if lang else (t['other_langs'], list_path(None, page))) + f"""<main id="main" class="wrap">
   <div class="page-head">
-    <p class="eyebrow">still()</p>
+    <p class="eyebrow">still(){esc(suffix)}</p>
     <h1>{esc(t['journal'])}</h1>
     <p class="lede">{esc(t['sub'])}</p>
   </div>
 {body}
   <p class="rss-line"><a class="more-link" href="/journal/feed.xml">RSS</a></p>
 </main>
-""" + footer(loc, {l: lang_path(l) for l in pages}, loc if lang else ""))
+""" + footer(loc, targets, loc if lang else ""))
 
 
 def card_posts(lang, posts):
@@ -1026,7 +1123,7 @@ def render_home_cards(posts, lang=None):
         badge = '<span class="j-lang">%s</span>' % esc(LANGS[p["lang"]]["name"]) if lang and p["lang"] != lang else ""
         return f"""      <a class="j-card" href="{post_path(p)}" lang="{esc(p['lang'])}">
         <div class="j-top">{top}</div>
-        <p class="j-date">{time_tag(p)}</p>
+        <p class="j-date">{with_no(p, time_tag(p))}</p>
         <h3 class="j-title">{esc(p['title'])}</h3>
         <p class="j-desc">{esc(p['description'])}</p>
         <div class="j-foot"><span class="j-more"><span>{esc(ui(p['lang'])['read_more'])}</span> <span aria-hidden="true">→</span></span>{badge}</div>
@@ -1104,15 +1201,17 @@ def render_sitemap_block(posts, grp, list_langs):
         return ""
     xl = lambda pairs, default: "".join('    <xhtml:link rel="alternate" hreflang="%s" href="%s"/>\n' % (l, u) for l, u in sorted(pairs.items())) \
         + '    <xhtml:link rel="alternate" hreflang="x-default" href="%s"/>\n' % default
-    pages = list_pairs(list_langs)
-    hub = SITE + "/journal/"
-    last = lambda ps: max(p.get("updated") or p["_date"].isoformat() for p in ps)
-    rows = ["  <url>\n    <loc>%s</loc>\n    <lastmod>%s</lastmod>\n    <changefreq>daily</changefreq>\n    <priority>0.6</priority>\n%s  </url>"
-            % (hub, last(posts), xl(pages, hub))]
-    for l in list_langs:  # only languages that have at least one post
-        ps = [p for p in posts if p["lang"] == l]
-        rows.append("  <url>\n    <loc>%s%s</loc>\n    <lastmod>%s</lastmod>\n    <priority>0.4</priority>\n%s  </url>"
-                    % (SITE, lang_path(l), last(ps), xl(pages, hub)))
+    scopes = list_scopes(posts, list_langs)
+    counts = page_counts(scopes)
+    last = lambda ps: max(p.get("updated") or p["_date"].isoformat() for p in ps)  # every page of a list: a new post reshuffles all of them
+    rows = []
+    for key in [None] + list(list_langs):  # the hub, then each language that has at least one post
+        for n in range(1, counts[key] + 1):
+            hub_n = SITE + list_path(None, n if n <= counts[None] else 1)
+            hub = key is None
+            rows.append("  <url>\n    <loc>%s%s</loc>\n    <lastmod>%s</lastmod>\n%s    <priority>%s</priority>\n%s  </url>" % (
+                SITE, list_path(key, n), last(posts if hub else scopes[key]), "    <changefreq>daily</changefreq>\n" if hub and n == 1 else "",
+                ("0.6" if n == 1 else "0.4") if hub else ("0.4" if n == 1 else "0.3"), xl(list_pairs(list_langs, n, counts), hub_n)))
     for p in posts:
         pair, default = pair_urls(p, grp)
         links = xl(pair, default)
@@ -1185,7 +1284,10 @@ def expected_sitemap_urls(root, now=None):
     want = {SITE + "/journal/"} if posts else set()
     for p in posts:
         want.add(post_url(p))
-        want.add(SITE + lang_path(p["lang"]))
+    if posts:
+        scopes = list_scopes(posts, [l for l in LANGS if any(p["lang"] == l for p in posts)])
+        for key, n in page_counts(scopes).items():
+            want.update(SITE + list_path(key, i) for i in range(1, n + 1))
     return want
 
 
@@ -1206,11 +1308,15 @@ def build(root, drafts=False, strict_safety=False, check_only=False, now=None):
         errors += strict_safety_errors({p["lang"] for p in posts})
     if errors:
         return 1, "journal: errors\n  " + "\n  ".join(errors)
-    posts.sort(key=lambda p: (p["_date"], post_when(p).strftime("%H:%M") if post_when(p) else "", p["slug"], p["lang"]), reverse=True)  # newest first; same day: later time first
+    posts.sort(key=lambda p: order_key(p) + (p["lang"],), reverse=True)  # newest first; same day: later time first
+    NUMBERS.clear()
+    NUMBERS.update(assign_numbers(posts))
     grp = groups(posts)
-    originals = [p for p in posts if not p.get("translation_of")]
     list_langs = [l for l in LANGS if any(p["lang"] == l for p in posts)]
     LIST_LANGS = set(list_langs)
+    scopes = list_scopes(posts, list_langs)
+    originals = scopes[None]
+    counts = page_counts(scopes)
     if check_only:
         return 0, "journal: OK — %d post(s) ready%s" % (len(posts), " (incl. drafts)" if drafts else "")
 
@@ -1227,9 +1333,9 @@ def build(root, drafts=False, strict_safety=False, check_only=False, now=None):
         write(root / post_path(p).strip("/") / "index.html", render_post(p, grp))
         for al in p["_aliases"]:  # old URL -> static redirect stub to the new address
             write(root / al.strip("/") / "index.html", render_redirect(post_url(p)))
-    write(out / "index.html", render_list(originals, None, list_langs))
-    for l in list_langs:
-        write(root / lang_path(l).strip("/") / "index.html", render_list([p for p in posts if p["lang"] == l], l, list_langs))
+    for key, scope in scopes.items():  # hub + every language list: page 1 at the plain address, pages 2+ at <list>page/<n>/
+        for n in range(1, counts[key] + 1):
+            write(root / list_path(key, n).strip("/") / "index.html", render_list(scope, key, list_langs, n, counts))
     write(out / "feed.xml", render_feed(originals))
     sweep_generated(root, written)
 
