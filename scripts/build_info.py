@@ -21,12 +21,11 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from site_common import LANGS, SITE, esc, lang_url, replace_between, stamped_date  # noqa: E402
+from site_common import LANGS, ORG, SITE, esc, lang_url, replace_between, stamped_date  # noqa: E402
 
 PAGES = ("faq", "about")
 SOURCE = Path("content") / "info" / "pages.json"
 STAMP = Path("content") / "info" / "stamp.json"
-ORG = {"@type": "Organization", "name": "ipe Studio", "url": "https://ipe.rest"}
 LINK = re.compile(r"\[([^\]]+)\]\(([^)\s]+)\)")
 
 

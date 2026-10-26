@@ -74,7 +74,7 @@ import urllib.parse
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from site_common import GEN_MARK, KST, LANGS, SITE, check_fresh, esc, lang_url, parse_when, replace_between, with_localtime  # noqa: E402
+from site_common import GEN_MARK, KST, LANGS, ORG, SITE, check_fresh, esc, lang_url, parse_when, replace_between, with_localtime  # noqa: E402
 
 ASSET_V = "20261024b"  # ?v= of assets/journal.css — bump when the file changes
 CF_TOKEN = "eab6249a56894cb084b7bcc8f1a860a6"  # Cloudflare Web Analytics (cookieless), same as the home page
@@ -83,7 +83,6 @@ SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 ROOT = Path(__file__).resolve().parent.parent  # overwritten in main() from --root (image sizes are read from here)
 IMG_NS = "http://www.google.com/schemas/sitemap-image/1.1"
 SOCIAL_HOSTS = ("youtube.com", "youtu.be", "instagram.com", "x.com", "twitter.com", "facebook.com", "ipe.rest")  # never auto-cited
-ORG = {"@type": "Organization", "name": "ipe Studio", "url": "https://ipe.rest"}
 ORIGINAL_LANGS = ("ko", "en")  # may be an original without translation_of; every other language is a translation
 FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' "
            "fill='%230F1218'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='18' fill='%23C9A84C' text-anchor='middle'"

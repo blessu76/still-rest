@@ -103,6 +103,11 @@ class BuildHome(unittest.TestCase):
             self.assertIn('<meta property="og:image:alt" content="%s">' % html.escape(strings[l]["og_image_alt"]), h, l)
             ld = json.loads(re.search(r'<script type="application/ld\+json">\n(.*?)\n</script>', h, re.S).group(1))
             app = ld["@graph"][0]
+            orgs = [n for n in ld["@graph"] if n.get("@type") == "Organization"]
+            self.assertEqual([o.get("@id") for o in orgs], ["https://ipe.rest/#organization"], l)  # the ipe.rest hub, not an anonymous copy
+            for n in ld["@graph"]:  # ...and every publisher in the graph refers to it
+                if "publisher" in n:
+                    self.assertEqual(n["publisher"], {"@id": "https://ipe.rest/#organization"}, (l, n["@type"]))
             self.assertEqual(app["inLanguage"], l)
             self.assertEqual(app["description"], strings[l].get("ld_desc") or strings[l]["meta_desc"], l)
             if l != "en":

@@ -5,6 +5,11 @@ import re
 
 SITE = "https://still.ipe.rest"
 
+# The Organization hub lives on ipe.rest (its home JSON-LD). Every author/publisher/translator in still's JSON-LD points at the
+# same @id, with the hub's own name and url, so crawlers merge them into one entity.
+ORG_ID = "https://ipe.rest/#organization"
+ORG = {"@type": "Organization", "@id": ORG_ID, "name": "ipe()", "url": "https://ipe.rest/"}
+
 # The 11 languages of the still() app (decision 0087). name = the language's own name (language select), og = og:locale.
 # Order = order of the language select, hreflang lists and the sitemap.
 LANGS = {
