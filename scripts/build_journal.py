@@ -83,7 +83,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from site_common import GEN_MARK, KST, LANGS, ORG, SITE, check_fresh, esc, font_links, lang_url, meta_desc, parse_when, replace_between, with_localtime  # noqa: E402
 
-ASSET_V = "20261027b"  # ?v= of assets/journal.css — bump when the file changes
+ASSET_V = "20261027c"  # ?v= of assets/journal.css — bump when the file changes
 CF_TOKEN = "eab6249a56894cb084b7bcc8f1a860a6"  # Cloudflare Web Analytics (cookieless), same as the home page
 REQUIRED = ("title", "date", "slug", "lang", "description", "category")
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -928,14 +928,20 @@ def list_pairs(list_langs, n=1, counts=None):
 
 
 def render_pager(lang, n, total):
-    """prev/next links of a list page (newest first: page n-1 = newer posts, page n+1 = older ones) + `n / total`. "" when there is one page."""
+    """ipe-common pager of a list page (markup shared with idle.ipe.rest): prev step · one number per page (the current one a span with
+    aria-current=page) · next step. Newest first: page n-1 = newer posts, n+1 = older ones. Page 1 links to the plain list, never /page/1/.
+    aria-label is the shared "Page" (ui.json's aria_pager is no longer used). "" when there is one page."""
     if total <= 1:
         return ""
     t = ui(lang)
-    prev = '    <a class="pager-prev" rel="prev" href="%s"><span aria-hidden="true">←</span> %s</a>\n' % (list_path(lang, n - 1), esc(t["prev_page"])) if n > 1 else ""
-    nxt = '    <a class="pager-next" rel="next" href="%s">%s <span aria-hidden="true">→</span></a>\n' % (list_path(lang, n + 1), esc(t["next_page"])) if n < total else ""
-    return ('  <nav class="pager" aria-label="%s">\n%s    <span class="pager-now" aria-current="page">%d / %d</span>\n%s  </nav>'
-            % (esc(t["aria_pager"]), prev, n, total, nxt))
+    rows = []
+    if n > 1:
+        rows.append('<a class="pg-step" rel="prev" href="%s"><span aria-hidden="true">←</span> %s</a>' % (list_path(lang, n - 1), esc(t["prev_page"])))
+    for k in range(1, total + 1):
+        rows.append('<span class="pg-num" aria-current="page">%d</span>' % k if k == n else '<a class="pg-num" href="%s">%d</a>' % (list_path(lang, k), k))
+    if n < total:
+        rows.append('<a class="pg-step" rel="next" href="%s">%s <span aria-hidden="true">→</span></a>' % (list_path(lang, n + 1), esc(t["next_page"])))
+    return '  <nav class="pager" aria-label="Page">\n%s\n  </nav>' % "\n".join("    " + r for r in rows)
 
 
 HUB_TAG = "All languages"  # title tag of the /journal/ hub (English originals; the x-default of the language lists)

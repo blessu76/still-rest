@@ -211,19 +211,39 @@ class Paging(Base):
                 self.assertEqual(h.count('<link rel="prev"'), 1 if n > 1 else 0, (lang, n))
                 self.assertEqual(h.count('<link rel="next"'), 1 if n < 3 else 0, (lang, n))
                 # visible links
-                self.assertEqual(('class="pager-prev" rel="prev" href="%s"' % prev) in h, n > 1, (lang, n))
-                self.assertEqual(('class="pager-next" rel="next" href="%s"' % nxt) in h, n < 3, (lang, n))
-                self.assertIn('<span class="pager-now" aria-current="page">%d / 3</span>' % n, h, (lang, n))
+                self.assertEqual(('class="pg-step" rel="prev" href="%s"' % prev) in h, n > 1, (lang, n))
+                self.assertEqual(('class="pg-step" rel="next" href="%s"' % nxt) in h, n < 3, (lang, n))
                 self.assertNotIn("/page/1/", h, (lang, n))
+                self.check_pager(h, lang, n, 3)
         # the page number also reads in the page itself (eyebrow) from page 2 on
         self.assertIn('<p class="eyebrow">still() · Page 2</p>', self.list_html("en", 2))
         self.assertIn('<p class="eyebrow">still()</p>', self.list_html("en", 1))
+
+    def check_pager(self, h, lang, n, total):
+        """ipe-common pager: nav.pager[aria-label=Page] · one pg-num per page (links match each page's address, the current one is
+        the single aria-current span) · pg-step prev/next only where such a page exists · never /page/1/."""
+        navs = re.findall(r'<nav class="pager" aria-label="Page">(.*?)</nav>', h, re.S)
+        self.assertEqual(len(navs), 1, (lang, n))
+        nav = navs[0]
+        self.assertEqual(nav.count('aria-current="page"'), 1, (lang, n))
+        self.assertIn('<span class="pg-num" aria-current="page">%d</span>' % n, nav, (lang, n))
+        nums = dict(re.findall(r'<a class="pg-num" href="([^"]*)">(\d+)</a>', nav))
+        links = {int(k): u for u, k in nums.items()}
+        self.assertEqual(sorted(links), [k for k in range(1, total + 1) if k != n], (lang, n))
+        for k, u in links.items():
+            base = "/journal/%s/" % lang if lang else "/journal/"
+            self.assertEqual(u, base + ("" if k == 1 else "page/%d/" % k), (lang, n, k))
+        self.assertNotIn("/page/1/", nav, (lang, n))
+        self.assertEqual(len(re.findall(r'class="pg-step" rel="prev"', nav)), 1 if n > 1 else 0, (lang, n))
+        self.assertEqual(len(re.findall(r'class="pg-step" rel="next"', nav)), 1 if n < total else 0, (lang, n))
+        self.assertNotIn("pager-now", h, (lang, n))
 
     def test_one_page_has_no_pager_and_no_prev_next(self):
         self.build(10, langs=("ko", "en"))
         for lang in ("ko", "en", None):
             h = self.list_html(lang)
             self.assertNotIn('class="pager"', h, lang)
+            self.assertNotIn('pg-num', h, lang)
             self.assertNotIn('rel="prev"', h, lang)
             self.assertNotIn('rel="next"', h, lang)
             self.assertIn("<title>%s — still() · %s</title>" % (("저널", "한국어") if lang == "ko" else ("Journal", "English" if lang else "All languages")), h, lang)
@@ -234,9 +254,9 @@ class Paging(Base):
             h = self.list_html(None, n)
             self.assertIn('<link rel="canonical" href="https://still.ipe.rest/journal/%s">' % ("" if n == 1 else "page/%d/" % n), h)
             self.assertIn("<title>Journal — still() · All languages%s</title>" % ("" if n == 1 else " · Page %d" % n), h)
-        self.assertIn('class="pager-next" rel="next" href="/journal/page/2/"', self.list_html(None, 1))
-        self.assertIn('class="pager-prev" rel="prev" href="/journal/"', self.list_html(None, 2))
-        self.assertIn('class="pager-prev" rel="prev" href="/journal/page/2/"', self.list_html(None, 3))
+        self.assertIn('class="pg-step" rel="next" href="/journal/page/2/"', self.list_html(None, 1))
+        self.assertIn('class="pg-step" rel="prev" href="/journal/"', self.list_html(None, 2))
+        self.assertIn('class="pg-step" rel="prev" href="/journal/page/2/"', self.list_html(None, 3))
 
     def test_hreflang_links_the_same_page_number_only(self):
         # ko: 21 posts (3 pages) · en: first 11 posts (2 pages) · ja: first 5 (1 page)
@@ -327,6 +347,7 @@ class Paging(Base):
             for n in (1, 2, 3):
                 h = self.list_html(lang, n)
                 self.assertEqual(h.count('<nav class="pager"'), 1, (lang, n))
+                self.check_pager(h, lang, n, 3)
                 self.assertEqual(h.count('class="j-list"'), 1)
                 self.assertIn('content="index, follow', h)  # a later page is indexable too
 
