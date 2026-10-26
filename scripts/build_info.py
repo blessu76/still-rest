@@ -85,7 +85,8 @@ def render(bj, lang, page, T, home, has_posts):
     lede_html = '\n    <p class="lede">%s</p>' % esc(lede) if lede else ""
     extra = '<meta property="og:type" content="website">\n' + bj.ld(data) + bj.ld(breadcrumb(lang, title, url))
     nav = "link" if has_posts else "none"
-    return (bj.head("%s — still()" % title, meta, url, lang, False, extra, hint="edit content/info/pages.json and rebuild",
+    # "<title> — still()" repeats the site name when the page title already names it ("... about still()"): then the title stands alone
+    return (bj.head(title if "still()" in title else "%s — still()" % title, meta, url, lang, False, extra, hint="edit content/info/pages.json and rebuild",
                     alternates=alternates(page), locales=list(LANGS))
             + bj.header(lang, targets, None, nav) + f"""<main id="main" class="wrap">
   <div class="page-head">

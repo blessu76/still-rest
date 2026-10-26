@@ -81,7 +81,7 @@ import urllib.parse
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from site_common import GEN_MARK, KST, LANGS, ORG, SITE, check_fresh, esc, lang_url, parse_when, replace_between, with_localtime  # noqa: E402
+from site_common import GEN_MARK, KST, LANGS, ORG, SITE, check_fresh, esc, font_links, lang_url, meta_desc, parse_when, replace_between, with_localtime  # noqa: E402
 
 ASSET_V = "20261027b"  # ?v= of assets/journal.css — bump when the file changes
 CF_TOKEN = "eab6249a56894cb084b7bcc8f1a860a6"  # Cloudflare Web Analytics (cookieless), same as the home page
@@ -561,6 +561,7 @@ def og_image_alt(lang):
 def head(title, desc, canonical, lang, noindex, extra="", hint="edit content/journal/*.md and rebuild", image=None, alternates="", locales=(), image_alt=None):
     image_alt = image_alt if image else og_image_alt(lang)  # the default card has a description in the page's language
     image = image or SITE + "/og-image.png"
+    desc = meta_desc(desc)  # meta / og / twitter descriptions stay within 160 characters (the visible text, JSON-LD and RSS keep the full text)
     robots = "noindex, follow" if noindex else "index, follow, max-image-preview:large"
     alts = "".join('<meta property="og:locale:alternate" content="%s">\n' % LANGS[l]["og"] for l in locales if l != lang)
     return f"""<!DOCTYPE html>
@@ -587,9 +588,7 @@ def head(title, desc, canonical, lang, noindex, extra="", hint="edit content/jou
 <meta name="twitter:title" content="{esc(title)}">
 <meta name="twitter:description" content="{esc(desc)}">
 <meta name="twitter:image" content="{esc(image)}">
-{extra}<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gentium+Book+Plus:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+{extra}{font_links()}
 <link rel="stylesheet" href="/assets/journal.css?v={ASSET_V}">
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{{"token": "{CF_TOKEN}"}}'></script>
 </head>
@@ -939,6 +938,16 @@ def render_pager(lang, n, total):
             % (esc(t["aria_pager"]), prev, n, total, nxt))
 
 
+HUB_TAG = "All languages"  # title tag of the /journal/ hub (English originals; the x-default of the language lists)
+HUB_NOTE = "Originals in English, with AI translations."
+
+
+def hub_desc(sub):
+    """description of the hub: the first sentence of the shared summary + a line saying this list holds the originals."""
+    m = re.search(r"[.!?。！？](?=\s|$)", sub)
+    return (sub[:m.end()] if m else sub) + " " + HUB_NOTE
+
+
 def render_list(posts, lang=None, list_langs=("en",), page=1, counts=None):
     """lang=None -> /journal/ (x-default hub: language select + the originals). lang=xx -> /journal/xx/ (that language only).
     posts = ALL posts of that list (newest first); page n shows posts[(n-1)*PER_PAGE : n*PER_PAGE]. counts = {lang|None: number of pages}
@@ -984,8 +993,12 @@ def render_list(posts, lang=None, list_langs=("en",), page=1, counts=None):
     targets = {l: list_path(l, page if counts.get(l, 1) >= page else 1) for l in list_langs} if lang else {l: lang_path(l) for l in list_langs}
     jurl = first_url if page > 1 else (SITE + "/journal/" if not lang else None)
     crumb = breadcrumb(loc, page_label(loc, page), url, first_url) if page > 1 else breadcrumb(loc, None, url, jurl)
-    return with_localtime(head("%s — still()%s" % (t["journal"], suffix), t["sub"] + suffix, url, loc, not posts,
-                 ld(data) + ld(itemlist) + ld(crumb), alternates=alts, locales=list(pages))
+    # every list has its own title and description: a language list names its language (several languages share the word "Journal"),
+    # the hub (English originals, x-default) says it is the all-languages entry — so no two list pages repeat each other
+    scope = LANGS[lang]["name"] if lang else HUB_TAG
+    list_desc = t["sub"] if lang else hub_desc(t["sub"])
+    return with_localtime(head("%s — still() · %s%s" % (t["journal"], scope, suffix), list_desc + suffix, url, loc, not posts,
+                 '<meta property="og:type" content="website">\n' + ld(data) + ld(itemlist) + ld(crumb), alternates=alts, locales=list(pages))
             + header(loc, targets, None if lang else (t['other_langs'], list_path(None, page))) + f"""<main id="main" class="wrap">
   <div class="page-head">
     <p class="eyebrow">still(){esc(suffix)}</p>

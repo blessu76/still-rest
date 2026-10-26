@@ -24,7 +24,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from site_common import LANGS, SITE, check_fresh, esc, lang_url, replace_between, stamped_date, with_localtime  # noqa: E402
+from site_common import LANGS, SITE, check_fresh, esc, font_links, lang_url, meta_desc, replace_between, stamped_date, with_localtime  # noqa: E402
 
 TEMPLATE = Path("content") / "home" / "template.html"
 STRINGS = Path("content") / "home" / "i18n.json"
@@ -96,6 +96,11 @@ def render_page(tpl, strings, lang, root, cards_html=None, journal_href="/journa
     page_dict = {k: d[k] for k in ("letters_thanks",) if k in d}
     page_script = "<script>window.__PAGE=%s;</script>" % json.dumps({"lang": lang, "dict": page_dict}, ensure_ascii=False)
     names = json.dumps({l: LANGS[l]["name"] for l in LANGS}, ensure_ascii=False)
+    # the root (x-default) and /en/ are both English: /en/ may carry its own wording (page_meta_title / page_meta_desc in the en strings) so the
+    # two URLs do not repeat each other's title and description in search results. Other languages have no such keys.
+    title, desc = d["meta_title"], d["meta_desc"]
+    if not root:
+        title, desc = strings[lang].get("page_meta_title") or title, strings[lang].get("page_meta_desc") or desc
     ld_desc = strings[lang].get("ld_desc") or d["meta_desc"]  # structured data: English has its own long text, the others reuse their meta description
     lang_links = '<nav class="foot-langs" aria-label="%s">\n%s\n    </nav>' % (esc(d["aria_lang"]), "\n".join(
         '      <a href="%s/" hreflang="%s" lang="%s"%s>%s</a>' % ("/" + l, l, l, ' aria-current="true"' if l == lang and not root else "", LANGS[l]["name"]) for l in LANGS))
@@ -104,9 +109,10 @@ def render_page(tpl, strings, lang, root, cards_html=None, journal_href="/journa
         "LANG_OPTIONS": options, "LEGACY_SCRIPT": LEGACY_JS % "|".join(LANGS) if root else "", "PAGE_SCRIPT": page_script,
         "LANG_HINT": '<div class="lang-hint" id="%s" hidden></div>\n' % HINT_CSS_ID if root else "",
         "NAV_SCRIPT": NAV_SCRIPT % (HINT_JS % (names, json.dumps(d["aria_close"], ensure_ascii=False)) if root else ""),
-        "meta_title": esc(d["meta_title"]), "meta_desc": esc(d["meta_desc"]),
+        "FONT_LINKS": font_links(),
+        "meta_title": esc(title), "meta_desc": esc(meta_desc(desc)),
         # social cards: English keeps its own two short texts; other languages reuse their meta description
-        "og_desc": esc(strings[lang].get("og_desc") or d["meta_desc"]), "tw_desc": esc(strings[lang].get("tw_desc") or d["meta_desc"]),
+        "og_desc": esc(meta_desc(strings[lang].get("og_desc") or desc)), "tw_desc": esc(meta_desc(strings[lang].get("tw_desc") or desc)),
         "JOURNAL_HREF": journal_href, "LD_DESC": json.dumps(ld_desc, ensure_ascii=False), "LANG_LINKS": lang_links,
     }
     subs.update({k: esc(d[k]) for k in ARIA_KEYS})

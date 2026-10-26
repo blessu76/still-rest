@@ -1134,13 +1134,13 @@
   <!-- legal pages: hand-maintained (single URL each, en/ko toggle inside the page); lastmod = date of the last commit that touched the page (the commit date of its index.html) -->
   <url>
     <loc>https://still.ipe.rest/privacy/</loc>
-    <lastmod>2026-10-24</lastmod>
+    <lastmod>2026-10-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://still.ipe.rest/terms/</loc>
-    <lastmod>2026-10-24</lastmod>
+    <lastmod>2026-10-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>

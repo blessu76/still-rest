@@ -9,3 +9,5 @@
 - 언어 선택(select)은 해당 언어 주소로 이동한다.
 - 번역 문구: en·ko 외 9개 언어는 브랜드 톤 기계번역, 원어민 검수 대기(정본: 결정 0087·0088 — 성경 구절은 언어별 퍼블릭 도메인 번역본).
 - privacy·terms 는 en/ko 토글 페이지(`/privacy`, `/terms`) 그대로 — 푸터 링크는 모든 언어에서 `/privacy`.
+- 루트(`/`, x-default)와 `/en/` 은 둘 다 영어라 title·description 이 같으면 중복 그룹이 된다 → `/en/` 만 `i18n.json` en 의 `page_meta_title`·`page_meta_desc` 로 따로 쓴다(다른 언어엔 이 키 없음). meta/og/twitter description 은 빌드가 문장 경계에서 160자 이내로 자른다(`site_common.meta_desc`, 화면 문구·JSON-LD 는 그대로).
+- Google Fonts CSS 는 렌더를 막지 않게 `media="print" onload` + `<noscript>` 로 불러온다(`site_common.font_links`, 템플릿의 `{{FONT_LINKS}}`).

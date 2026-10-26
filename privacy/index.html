@@ -7,11 +7,65 @@
 <meta name="description" content="Privacy policy for still() — a Bible-companion app. We collect no personal data, in the app or on the website.">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://still.ipe.rest/privacy/">
+<link rel="alternate" hreflang="en" href="https://still.ipe.rest/privacy/">
+<link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/privacy/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="still()">
+<meta property="og:url" content="https://still.ipe.rest/privacy/">
+<meta property="og:title" content="Privacy Policy — still()">
+<meta property="og:description" content="Privacy policy for still() — a Bible-companion app. We collect no personal data, in the app or on the website.">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ko_KR">
+<meta property="og:image" content="https://still.ipe.rest/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="still() — the Bible for hard days. Psalm 46:10.">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Privacy Policy — still()">
+<meta name="twitter:description" content="Privacy policy for still() — a Bible-companion app. We collect no personal data, in the app or on the website.">
+<meta name="twitter:image" content="https://still.ipe.rest/og-image.png">
+
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Privacy Policy — still()",
+  "url": "https://still.ipe.rest/privacy/",
+  "description": "Privacy policy for still() — a Bible-companion app. We collect no personal data, in the app or on the website.",
+  "inLanguage": [
+    "en",
+    "ko"
+  ],
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "still()",
+    "url": "https://still.ipe.rest/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://ipe.rest/#organization",
+    "name": "ipe()",
+    "url": "https://ipe.rest/",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://ipe.rest/icon-512.png",
+      "width": 512,
+      "height": 512
+    }
+  }
+}
+</script>
 <!-- inline favicon (brand mark) -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230F1218'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='18' fill='%23C9A84C' text-anchor='middle'%3E()%3C/text%3E%3Ccircle cx='16' cy='15.5' r='1.6' fill='%23F5F0E8'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gentium+Book+Plus:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gentium+Book+Plus:ital@0;1&family=Inter:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gentium+Book+Plus:ital@0;1&family=Inter:wght@400;500;600&display=swap"></noscript>
 
 <!-- Cloudflare Web Analytics (cookieless, no PII) -->
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "eab6249a56894cb084b7bcc8f1a860a6"}'></script>
@@ -118,9 +172,10 @@
 <main>
   <div class="wrap">
 
+    <h1 data-t="h1">Privacy Policy — still()</h1>
+
     <!-- ===================== EN ===================== -->
     <div data-lang-block="en" class="on">
-      <h1>Privacy Policy — still()</h1>
       <p class="updated">Effective date: (to be published)</p>
       <p class="lede">The short version — and the whole version: we collect no personal data. Not through the App, and not through the Website.</p>
 
@@ -182,7 +237,6 @@
 
     <!-- ===================== KO ===================== -->
     <div data-lang-block="ko">
-      <h1>개인정보 처리방침 — still()</h1>
       <p class="updated">시행일: (게시 예정)</p>
       <p class="lede">핵심 — 그리고 전부: 당사는 어떠한 개인정보도 수집하지 않습니다. 앱에서도, 웹사이트에서도.</p>
 
@@ -266,6 +320,8 @@
       document.querySelectorAll('[data-setlang]').forEach(function(btn){
         btn.setAttribute('aria-pressed', String(btn.getAttribute('data-setlang')===lang));
       });
+      var h1=document.querySelector('[data-t="h1"]');
+      if(h1) h1.textContent=STR[lang].title;
       var back=document.querySelector('[data-t="back"]');
       if(back) back.textContent=STR[lang].back;
       var jl=document.querySelector('[data-t="journal"]');

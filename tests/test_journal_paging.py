@@ -196,7 +196,7 @@ class Paging(Base):
 
     def test_canonical_title_prev_next_and_visible_links(self):
         self.build(21, langs=("ko", "en"))
-        for lang, plain_title, page_title in (("ko", "저널 — still()", "저널 — still() · %d페이지"), ("en", "Journal — still()", "Journal — still() · Page %d")):
+        for lang, plain_title, page_title in (("ko", "저널 — still() · 한국어", "저널 — still() · 한국어 · %d페이지"), ("en", "Journal — still() · English", "Journal — still() · English · Page %d")):
             for n in (1, 2, 3):
                 h = self.list_html(lang, n)
                 path = "/journal/%s/" % lang + ("" if n == 1 else "page/%d/" % n)
@@ -226,14 +226,14 @@ class Paging(Base):
             self.assertNotIn('class="pager"', h, lang)
             self.assertNotIn('rel="prev"', h, lang)
             self.assertNotIn('rel="next"', h, lang)
-            self.assertIn("<title>%s — still()</title>" % ("저널" if lang == "ko" else "Journal"), h, lang)
+            self.assertIn("<title>%s — still() · %s</title>" % (("저널", "한국어") if lang == "ko" else ("Journal", "English" if lang else "All languages")), h, lang)
 
     def test_hub_pages(self):
         self.build(21, langs=("ko", "en"))  # the hub lists the originals (ko) only: 21 -> 3 pages
         for n in (1, 2, 3):
             h = self.list_html(None, n)
             self.assertIn('<link rel="canonical" href="https://still.ipe.rest/journal/%s">' % ("" if n == 1 else "page/%d/" % n), h)
-            self.assertIn("<title>Journal — still()%s</title>" % ("" if n == 1 else " · Page %d" % n), h)
+            self.assertIn("<title>Journal — still() · All languages%s</title>" % ("" if n == 1 else " · Page %d" % n), h)
         self.assertIn('class="pager-next" rel="next" href="/journal/page/2/"', self.list_html(None, 1))
         self.assertIn('class="pager-prev" rel="prev" href="/journal/"', self.list_html(None, 2))
         self.assertIn('class="pager-prev" rel="prev" href="/journal/page/2/"', self.list_html(None, 3))
