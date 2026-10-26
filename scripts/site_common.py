@@ -6,9 +6,12 @@ import re
 SITE = "https://still.ipe.rest"
 
 # The Organization hub lives on ipe.rest (its home JSON-LD). Every author/publisher/translator in still's JSON-LD points at the
-# same @id, with the hub's own name and url, so crawlers merge them into one entity.
+# same @id, with the hub's own name, url and logo, so crawlers merge them into one entity.
 ORG_ID = "https://ipe.rest/#organization"
-ORG = {"@type": "Organization", "@id": ORG_ID, "name": "ipe()", "url": "https://ipe.rest/"}
+# Square logo = the hub's own icon (https://ipe.rest/icon-512.png, 512x512 PNG, 200 live). still-rest has no square icon file
+# (only the 1200x630 og-image and an inline SVG favicon), and the same @id must carry the same logo as the hub declares.
+ORG_LOGO = {"@type": "ImageObject", "url": "https://ipe.rest/icon-512.png", "width": 512, "height": 512}
+ORG = {"@type": "Organization", "@id": ORG_ID, "name": "ipe()", "url": "https://ipe.rest/", "logo": ORG_LOGO}
 
 # The 11 languages of the still() app (decision 0087). name = the language's own name (language select), og = og:locale.
 # Order = order of the language select, hreflang lists and the sitemap.

@@ -14,7 +14,8 @@ sys.path.insert(0, str(REPO / "scripts"))
 from site_common import LANGS, ORG, ORG_ID  # noqa: E402
 
 LD = re.compile(r'<script type="application/ld\+json">\n(.*?)\n</script>', re.S)
-HUB = {"@type": "Organization", "@id": "https://ipe.rest/#organization", "name": "ipe()", "url": "https://ipe.rest/"}  # as published on https://ipe.rest/
+LOGO = {"@type": "ImageObject", "url": "https://ipe.rest/icon-512.png", "width": 512, "height": 512}  # the hub's square icon (hub declares the same file)
+HUB = {"@type": "Organization", "@id": "https://ipe.rest/#organization", "name": "ipe()", "url": "https://ipe.rest/", "logo": LOGO}  # as published on https://ipe.rest/
 
 
 def lds(path):
@@ -26,10 +27,27 @@ def nodes(doc):
     return doc["@graph"] if "@graph" in doc else [doc]
 
 
+def logo_problems(org):
+    """why this Organization's logo is not an acceptable square ImageObject (empty list = fine)"""
+    logo = org.get("logo")
+    if not isinstance(logo, dict):
+        return ["logo is not an ImageObject node: %r" % (logo,)]
+    bad = []
+    if logo.get("@type") != "ImageObject":
+        bad.append("logo.@type=%r" % logo.get("@type"))
+    url = logo.get("url")
+    if not (isinstance(url, str) and url.startswith("https://") and len(url) > len("https://")):
+        bad.append("logo.url not an https absolute URL: %r" % (url,))
+    w, h = logo.get("width"), logo.get("height")
+    if not (isinstance(w, int) and isinstance(h, int) and w > 0 and w == h):
+        bad.append("logo not square: %r x %r" % (w, h))
+    return bad
+
+
 def is_org_ref(v, full):
-    """full: @id + @type + name + url (a lone @id reference may not give a crawler the name); else the bare reference is fine too"""
+    """full: @id + @type + name + url + logo (a lone @id reference may not give a crawler the name); else the bare reference is fine too"""
     if full:
-        return v.get("@id") == ORG_ID and all(v.get(k) == HUB[k] for k in HUB)
+        return v.get("@id") == ORG_ID and v.get("name") == "ipe()" and not logo_problems(v) and all(v.get(k) == HUB[k] for k in HUB)
     return v.get("@id") == ORG_ID
 
 
@@ -52,6 +70,16 @@ class OrgHub(unittest.TestCase):
     def test_constant_matches_the_hub(self):
         self.assertEqual(ORG_ID, "https://ipe.rest/#organization")
         self.assertEqual(ORG, HUB)
+        self.assertEqual(ORG["name"], "ipe()")
+        self.assertEqual(logo_problems(ORG), [])
+
+    def test_logo_is_a_square_https_imageobject(self):
+        self.assertEqual(logo_problems(ORG), [])
+        self.assertEqual(logo_problems(dict(ORG, logo="https://ipe.rest/icon-512.png")), ["logo is not an ImageObject node: 'https://ipe.rest/icon-512.png'"])
+        self.assertTrue(logo_problems(dict(ORG, logo=dict(LOGO, width=1200, height=630))))
+        self.assertTrue(logo_problems(dict(ORG, logo=dict(LOGO, url="/icon-512.png"))))
+        self.assertTrue(logo_problems(dict(ORG, logo=dict(LOGO, url="http://ipe.rest/icon-512.png"))))
+        self.assertTrue(logo_problems(dict(ORG, logo=dict(LOGO, **{"@type": "URL"}))))
 
     def check_posts(self, root):
         posts = sorted(root.glob("journal/*/*/index.html"))
@@ -105,6 +133,9 @@ class OrgHub(unittest.TestCase):
             self.assertEqual(len(orgs), 1, str(f))
             self.assertEqual(orgs[0]["@id"], ORG_ID, str(f))
             self.assertEqual((orgs[0]["name"], orgs[0]["url"]), (HUB["name"], HUB["url"]), str(f))
+            self.assertEqual(orgs[0]["name"], "ipe()", str(f))
+            self.assertEqual(logo_problems(orgs[0]), [], str(f))
+            self.assertEqual(orgs[0]["logo"], LOGO, str(f))
             for d in docs:
                 for n in nodes(d):
                     if "publisher" in n:
@@ -140,6 +171,9 @@ class OrgHub(unittest.TestCase):
                         if isinstance(v, dict):
                             if v.get("@type") == "Organization":
                                 self.assertEqual(v.get("@id"), ORG_ID, str(f))
+                                self.assertEqual(v.get("name"), "ipe()", str(f))
+                                if len(v) > 1:  # a full node (not a bare {"@id"} reference) always carries the logo
+                                    self.assertEqual(logo_problems(v), [], str(f))
                             stack.extend(v.values())
                         elif isinstance(v, list):
                             stack.extend(v)
