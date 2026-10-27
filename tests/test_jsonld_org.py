@@ -82,7 +82,7 @@ class OrgHub(unittest.TestCase):
         self.assertTrue(logo_problems(dict(ORG, logo=dict(LOGO, **{"@type": "URL"}))))
 
     def check_posts(self, root):
-        posts = sorted(root.glob("journal/*/*/index.html"))
+        posts = [f for f in sorted(root.glob("journal/*/*/index.html")) if f.relative_to(root).parts[1] != "page"]  # list pages 2+ of the hub (journal/page/<n>/) are not posts
         self.assertGreaterEqual(len(posts), 18)
         n = 0
         for f in posts:

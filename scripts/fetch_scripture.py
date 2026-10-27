@@ -63,15 +63,15 @@ SOURCES = {
 
 # the name a reference is written with, per language (a citation label, not Scripture text). Add a book here before its first use.
 BOOK_NAMES = {
-    "en": {"PSA": "Psalm", "ISA": "Isaiah", "LAM": "Lamentations", "MAT": "Matthew", "1PE": "1 Peter"},
-    "ja": {"PSA": "詩篇", "ISA": "イザヤ書", "LAM": "哀歌", "MAT": "マタイによる福音書", "1PE": "ペテロの第一の手紙"},
-    "zh": {"PSA": "诗篇", "ISA": "以赛亚书", "LAM": "耶利米哀歌", "MAT": "马太福音", "1PE": "彼得前书"},
-    "es": {"PSA": "Salmos", "ISA": "Isaías", "LAM": "Lamentaciones", "MAT": "Mateo", "1PE": "1 Pedro"},
-    "pt": {"PSA": "Salmos", "ISA": "Isaías", "LAM": "Lamentações", "MAT": "Mateus", "1PE": "1 Pedro"},
-    "ru": {"PSA": "Псалом", "ISA": "Исаия", "LAM": "Плач Иеремии", "MAT": "От Матфея", "1PE": "1 Петра"},
-    "vi": {"PSA": "Thi Thiên", "ISA": "Ê-sai", "LAM": "Ca Thương", "MAT": "Ma-thi-ơ", "1PE": "1 Phi-e-rơ"},
-    "fr": {"PSA": "Psaume", "ISA": "Ésaïe", "LAM": "Lamentations", "MAT": "Matthieu", "1PE": "1 Pierre"},
-    "de": {"PSA": "Psalm", "ISA": "Jesaja", "LAM": "Klagelieder", "MAT": "Matthäus", "1PE": "1. Petrus"},
+    "en": {"PSA": "Psalm", "ISA": "Isaiah", "LAM": "Lamentations", "MAT": "Matthew", "1PE": "1 Peter", "PHP": "Philippians"},
+    "ja": {"PSA": "詩篇", "ISA": "イザヤ書", "LAM": "哀歌", "MAT": "マタイによる福音書", "1PE": "ペテロの第一の手紙", "PHP": "ピリピ人への手紙"},
+    "zh": {"PSA": "诗篇", "ISA": "以赛亚书", "LAM": "耶利米哀歌", "MAT": "马太福音", "1PE": "彼得前书", "PHP": "腓立比书"},
+    "es": {"PSA": "Salmos", "ISA": "Isaías", "LAM": "Lamentaciones", "MAT": "Mateo", "1PE": "1 Pedro", "PHP": "Filipenses"},
+    "pt": {"PSA": "Salmos", "ISA": "Isaías", "LAM": "Lamentações", "MAT": "Mateus", "1PE": "1 Pedro", "PHP": "Filipenses"},
+    "ru": {"PSA": "Псалом", "ISA": "Исаия", "LAM": "Плач Иеремии", "MAT": "От Матфея", "1PE": "1 Петра", "PHP": "К Филиппийцам"},
+    "vi": {"PSA": "Thi Thiên", "ISA": "Ê-sai", "LAM": "Ca Thương", "MAT": "Ma-thi-ơ", "1PE": "1 Phi-e-rơ", "PHP": "Phi-líp"},
+    "fr": {"PSA": "Psaume", "ISA": "Ésaïe", "LAM": "Lamentations", "MAT": "Matthieu", "1PE": "1 Pierre", "PHP": "Philippiens"},
+    "de": {"PSA": "Psalm", "ISA": "Jesaja", "LAM": "Klagelieder", "MAT": "Matthäus", "1PE": "1. Petrus", "PHP": "Philipper"},
 }
 # Korean (= English) Psalm numbering -> the numbering of the source text, checked by reading the source (2026-10-25, Paul; PSA 34:18 2026-10-27, Paul).
 # ru Synodal: LXX chapter numbers + titles counted as verses. fr LSG: titles counted as verse 1. de deu1912 on ebible is already

@@ -1003,6 +1003,8 @@ def render_list(posts, lang=None, list_langs=("en",), page=1, counts=None):
     # the hub (English originals, x-default) says it is the all-languages entry — so no two list pages repeat each other
     scope = LANGS[lang]["name"] if lang else HUB_TAG
     list_desc = t["sub"] if lang else hub_desc(t["sub"])
+    if suffix:  # keep the "· Page N" marker inside the 160-character meta limit: shorten the sentence, never the marker (page 2 must differ from page 1)
+        list_desc = meta_desc(list_desc, 160 - len(suffix))
     return with_localtime(head("%s — still() · %s%s" % (t["journal"], scope, suffix), list_desc + suffix, url, loc, not posts,
                  '<meta property="og:type" content="website">\n' + ld(data) + ld(itemlist) + ld(crumb), alternates=alts, locales=list(pages))
             + header(loc, targets, None if lang else (t['other_langs'], list_path(None, page))) + f"""<main id="main" class="wrap">
