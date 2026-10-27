@@ -4,7 +4,7 @@
   "verses.<USFM ref, Korean/English numbering>.<lang>: ref = how the reference is written in that language (chapter:verse OF ITS SOURCE), text = the verse. A language with mode 'reference' has no text: its posts give the reference only.",
   "A translated post's quotation block must be exactly `> {text}` / `>` / `> {ref} ({version})` (build_journal.py checks it)."
  ],
- "fetched_on": "2026-10-25",
+ "fetched_on": "2026-10-27",
  "versions": {
   "en": {
    "mode": "text",
@@ -166,6 +166,52 @@
     "ref": "Salmos 23:2"
    }
   },
+  "PSA 34:18": {
+   "ko": {
+    "ref": "시편 34:18"
+   },
+   "en": {
+    "ref": "Psalm 34:18",
+    "src": "PSA 34:18",
+    "text": "The LORD is near to those who have a broken heart, and saves those who have a crushed spirit."
+   },
+   "zh": {
+    "ref": "诗篇 34:18",
+    "src": "PSA 34:18",
+    "text": "耶和华靠近伤心的人，拯救灵性痛悔的人。"
+   },
+   "es": {
+    "ref": "Salmos 34:18",
+    "src": "PSA 34:18",
+    "text": "Cercano está Jehová á los quebrantados de corazón; y salvará á los contritos de espíritu."
+   },
+   "ru": {
+    "ref": "Псалом 33:19",
+    "src": "PSA 33:19",
+    "text": "Близок Господь к сокрушенным сердцем и смиренных духом спасет."
+   },
+   "vi": {
+    "ref": "Thi Thiên 34:18",
+    "src": "PSA 34:18",
+    "text": "Đức Giê-hô-va ở gần những người có lòng đau thương, Và cứu kẻ nào có tâm hồn thống-hối."
+   },
+   "fr": {
+    "ref": "Psaume 34:19",
+    "src": "PSA 34:19",
+    "text": "L’Éternel est près de ceux qui ont le cœur brisé, Et il sauve ceux qui ont l’esprit dans l’abattement."
+   },
+   "de": {
+    "ref": "Psalm 34:18",
+    "src": "PSA 34:18",
+    "text": "Der HERR ist nahe bei denen, die zerbrochnes Herzens sind, und hilft denen, die ein zerschlagen Gemüt haben."
+   },
+   "ja": {
+    "ref": "詩篇 34:18"
+   },
+   "pt": {
+    "ref": "Salmos 34:18"
+   }
+  },
   "PSA 46:10": {
    "ko": {
     "ref": "시편 46:10"
@@ -256,6 +302,52 @@
    },
    "pt": {
     "ref": "Salmos 121:2"
+   }
+  },
+  "ISA 26:3": {
+   "ko": {
+    "ref": "이사야 26:3"
+   },
+   "en": {
+    "ref": "Isaiah 26:3",
+    "src": "ISA 26:3",
+    "text": "You will keep whoever’s mind is steadfast in perfect peace, because he trusts in you."
+   },
+   "zh": {
+    "ref": "以赛亚书 26:3",
+    "src": "ISA 26:3",
+    "text": "坚心倚赖你的，你必保守他十分平安，因为他倚靠你。"
+   },
+   "es": {
+    "ref": "Isaías 26:3",
+    "src": "ISA 26:3",
+    "text": "Tú le guardarás en completa paz, cuyo pensamiento en ti persevera; porque en ti se ha confiado."
+   },
+   "ru": {
+    "ref": "Исаия 26:3",
+    "src": "ISA 26:3",
+    "text": "Твердого духом Ты хранишь в совершенном мире, ибо на Тебя уповает он."
+   },
+   "vi": {
+    "ref": "Ê-sai 26:3",
+    "src": "ISA 26:3",
+    "text": "Người nào để trí mình nương dựa nơi Ngài, thì Ngài sẽ gìn giữ người trong sự bình yên trọn vẹn, vì người nhờ cậy Ngài."
+   },
+   "fr": {
+    "ref": "Ésaïe 26:3",
+    "src": "ISA 26:3",
+    "text": "A celui qui est ferme dans ses sentiments Tu assures la paix, la paix, Parce qu’il se confie en toi."
+   },
+   "de": {
+    "ref": "Jesaja 26:3",
+    "src": "ISA 26:3",
+    "text": "Du erhältst stets Frieden nach gewisser Zusage; denn man verläßt sich auf dich."
+   },
+   "ja": {
+    "ref": "イザヤ書 26:3"
+   },
+   "pt": {
+    "ref": "Isaías 26:3"
    }
   },
   "ISA 41:10": {

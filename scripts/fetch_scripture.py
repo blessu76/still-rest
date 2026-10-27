@@ -73,12 +73,12 @@ BOOK_NAMES = {
     "fr": {"PSA": "Psaume", "ISA": "Ésaïe", "LAM": "Lamentations", "MAT": "Matthieu", "1PE": "1 Pierre"},
     "de": {"PSA": "Psalm", "ISA": "Jesaja", "LAM": "Klagelieder", "MAT": "Matthäus", "1PE": "1. Petrus"},
 }
-# Korean (= English) Psalm numbering -> the numbering of the source text, checked by reading the source (2026-10-25, Paul).
+# Korean (= English) Psalm numbering -> the numbering of the source text, checked by reading the source (2026-10-25, Paul; PSA 34:18 2026-10-27, Paul).
 # ru Synodal: LXX chapter numbers + titles counted as verses. fr LSG: titles counted as verse 1. de deu1912 on ebible is already
 # renumbered to the English scheme (decision 0088 "46,11 -> 46:10"), so it needs no entry.
 VERSIFICATION = {
-    "ru": {"PSA 4:8": "PSA 4:9", "PSA 23:2": "PSA 22:2", "PSA 46:10": "PSA 45:11", "PSA 121:2": "PSA 120:2"},
-    "fr": {"PSA 4:8": "PSA 4:9", "PSA 23:2": "PSA 23:2", "PSA 46:10": "PSA 46:11", "PSA 121:2": "PSA 121:2"},
+    "ru": {"PSA 4:8": "PSA 4:9", "PSA 23:2": "PSA 22:2", "PSA 34:18": "PSA 33:19", "PSA 46:10": "PSA 45:11", "PSA 121:2": "PSA 120:2"},
+    "fr": {"PSA 4:8": "PSA 4:9", "PSA 23:2": "PSA 23:2", "PSA 34:18": "PSA 34:19", "PSA 46:10": "PSA 46:11", "PSA 121:2": "PSA 121:2"},
 }
 HAND_MAPPED = {"ru": ("PSA",), "fr": ("PSA",)}  # books whose numbering differs in that language: every reference needs an entry above
 NO_SPACE = ("zh", "ja")  # scripts without spaces between words: the line breaks of poetry are joined without a space
