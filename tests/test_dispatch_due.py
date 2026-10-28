@@ -81,6 +81,38 @@ class DueTests(unittest.TestCase):
         runs = [{"status": "completed", "createdAt": "2026-10-26T01:40:00Z"}]
         self.assertEqual(len(self.go("2026-10-26 11:00", lambda u: 404, runs)[1]), 1)
 
+    def test_cooldown_ignores_run_created_before_publish_at(self):
+        # posts are due 10:43 KST; a run created 10:40 KST (01:40Z) is 5 min old at 10:45 but could not contain them
+        runs = [{"status": "completed", "createdAt": "2026-10-26T01:40:00Z"}]
+        self.assertEqual(len(self.go("2026-10-26 10:45", lambda u: 404, runs)[1]), 1)
+
+    def test_cooldown_blocks_run_created_after_publish_at(self):
+        # created 10:44 KST (01:44Z), after publish_at 10:43 -> may already carry the posts: still in cooldown at 10:50
+        runs = [{"status": "completed", "createdAt": "2026-10-26T01:44:00Z"}]
+        self.assertEqual(self.go("2026-10-26 10:50", lambda u: 404, runs)[1], [])
+        # a run at exactly publish_at counts as after it
+        runs = [{"status": "completed", "createdAt": "2026-10-26T01:43:00Z"}]
+        self.assertEqual(self.go("2026-10-26 10:50", lambda u: 404, runs)[1], [])
+
+    def test_cooldown_uses_latest_missing_publish_at(self):
+        post(self.root, "ko", "second", "publish_at: 2026-10-26 10:48")
+        # run at 10:45 KST is after the 10:43 posts but before 10:48 -> cannot hold the newest one; dispatch
+        runs = [{"status": "completed", "createdAt": "2026-10-26T01:45:00Z"}]
+        self.assertEqual(len(self.go("2026-10-26 10:52", lambda u: 404, runs)[1]), 1)
+        # only the 10:43 posts are missing -> that run is a valid cooldown reason
+        self.assertEqual(self.go("2026-10-26 10:52", lambda u: 404 if "second" not in u else 200, runs)[1], [])
+
+    def test_active_run_blocks_even_if_created_before_publish_at(self):
+        runs = [{"status": "in_progress", "createdAt": "2026-10-26T01:30:00Z"}]
+        self.assertEqual(self.go("2026-10-26 10:45", lambda u: 404, runs)[1], [])
+
+    def test_busy_reason_not_before(self):
+        now = at("2026-10-26 11:00")
+        runs = [{"status": "completed", "createdAt": "2026-10-26T01:55:00Z"}]  # 10:55 KST
+        self.assertIsNotNone(dd.busy_reason(runs, now, 10))
+        self.assertIsNotNone(dd.busy_reason(runs, now, 10, at("2026-10-26 10:50")))
+        self.assertIsNone(dd.busy_reason(runs, now, 10, at("2026-10-26 10:56")))
+
     def test_dry_run_never_dispatches(self):
         code, calls = self.go("2026-10-26 11:00", lambda u: 404, dry=True)
         self.assertEqual((code, calls), (0, []))

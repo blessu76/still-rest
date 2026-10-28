@@ -7,7 +7,8 @@ GitHub's own `schedule` cron can start hours late (2026-10-24: ~4h50m), so the M
      and not older than --max-age-hours (long-published posts are not polled forever);
   2. GETs each live URL https://still.ipe.rest/journal/<lang>/<slug>/ (with a cache-busting query);
   3. if any answers 404 -> `gh workflow run deploy.yml -R blessu76/still-rest --ref main` ONCE, unless a deploy run is already
-     queued / in progress or one was created less than --cooldown-min minutes ago (the 404 may be a cached one).
+     queued / in progress or one was created less than --cooldown-min minutes ago (the 404 may be a cached one). A finished run
+     created BEFORE the latest missing post's publish_at is ignored by the cooldown: it could not have included that post.
 
   python3 scripts/dispatch_due.py                      # --now = the real clock
   python3 scripts/dispatch_due.py --dry-run            # check and print, never start a run
@@ -84,8 +85,11 @@ def gh_dispatch():
     return p.stdout.strip()
 
 
-def busy_reason(runs, now, cooldown_min):
-    """why not to start another run: one is active, or one was created less than cooldown_min ago. None = free to go."""
+def busy_reason(runs, now, cooldown_min, not_before=None):
+    """why not to start another run: one is active, or one was created less than cooldown_min ago. None = free to go.
+    not_before (aware datetime, the latest missing publish_at): a non-active run created before it could not have built the
+    post, so it does not count for the cooldown (2026-10-28: an 11:15 push run held back an 11:23 post until 11:30).
+    Active runs always block — we cannot tell when their build step reads the clock."""
     for r in runs:
         if r.get("status") in ACTIVE:
             return "a deploy run is already %s" % r["status"]
@@ -93,6 +97,8 @@ def busy_reason(runs, now, cooldown_min):
         try:
             created = dt.datetime.fromisoformat(r["createdAt"].replace("Z", "+00:00"))
         except (KeyError, ValueError, AttributeError):
+            continue
+        if not_before is not None and created < not_before:
             continue
         if dt.timedelta(0) <= now - created < dt.timedelta(minutes=cooldown_min):
             return "a deploy run was created %d min ago (cooldown %d min)" % ((now - created).total_seconds() // 60, cooldown_min)
@@ -109,13 +115,13 @@ def run(root, now, dry_run=False, max_age_hours=72, cooldown_min=10, status_fn=h
         st = status_fn(url)
         log("  %s -> %s" % (url, st if st is not None else "network error"))
         if st == 404:
-            missing.append(url)
+            missing.append((url, when))
     if not missing:
         log("nothing to deploy")
         return 0
     log("%d due post(s) not live yet" % len(missing))
     try:
-        why = busy_reason(runs_fn(), now, cooldown_min)
+        why = busy_reason(runs_fn(), now, cooldown_min, max(w for _, w in missing))
     except RuntimeError as ex:
         log("ERROR %s" % ex)
         return 1
