@@ -17,7 +17,10 @@
   "page": "Page {n}",
   "prev_page": "Previous page",
   "next_page": "Next page",
-  "page_word": "Page"
+  "page_word": "Page",
+  "prev_post": "Previous story",
+  "next_post": "Next story",
+  "related": "More stories"
  },
  "ko": {
   "journal": "저널",
@@ -36,7 +39,10 @@
   "page": "{n}페이지",
   "prev_page": "이전 페이지",
   "next_page": "다음 페이지",
-  "page_word": "페이지"
+  "page_word": "페이지",
+  "prev_post": "이전 글",
+  "next_post": "다음 글",
+  "related": "다른 글"
  },
  "ja": {
   "journal": "ジャーナル",
@@ -55,7 +61,10 @@
   "page": "{n}ページ",
   "prev_page": "前のページ",
   "next_page": "次のページ",
-  "page_word": "ページ"
+  "page_word": "ページ",
+  "prev_post": "前の記事",
+  "next_post": "次の記事",
+  "related": "ほかの記事"
  },
  "zh": {
   "journal": "日志",
@@ -74,7 +83,10 @@
   "page": "第 {n} 页",
   "prev_page": "上一页",
   "next_page": "下一页",
-  "page_word": "分页"
+  "page_word": "分页",
+  "prev_post": "上一篇",
+  "next_post": "下一篇",
+  "related": "更多文章"
  },
  "es": {
   "journal": "Diario",
@@ -93,7 +105,10 @@
   "page": "Página {n}",
   "prev_page": "Página anterior",
   "next_page": "Página siguiente",
-  "page_word": "Página"
+  "page_word": "Página",
+  "prev_post": "Historia anterior",
+  "next_post": "Historia siguiente",
+  "related": "Más historias"
  },
  "pt": {
   "journal": "Diário",
@@ -112,7 +127,10 @@
   "page": "Página {n}",
   "prev_page": "Página anterior",
   "next_page": "Próxima página",
-  "page_word": "Página"
+  "page_word": "Página",
+  "prev_post": "História anterior",
+  "next_post": "Próxima história",
+  "related": "Mais histórias"
  },
  "id": {
   "journal": "Jurnal",
@@ -131,7 +149,10 @@
   "page": "Halaman {n}",
   "prev_page": "Halaman sebelumnya",
   "next_page": "Halaman berikutnya",
-  "page_word": "Halaman"
+  "page_word": "Halaman",
+  "prev_post": "Cerita sebelumnya",
+  "next_post": "Cerita berikutnya",
+  "related": "Cerita lainnya"
  },
  "ru": {
   "journal": "Журнал",
@@ -150,7 +171,10 @@
   "page": "Страница {n}",
   "prev_page": "Предыдущая страница",
   "next_page": "Следующая страница",
-  "page_word": "Страница"
+  "page_word": "Страница",
+  "prev_post": "Предыдущая история",
+  "next_post": "Следующая история",
+  "related": "Другие истории"
  },
  "vi": {
   "journal": "Nhật ký",
@@ -169,7 +193,10 @@
   "page": "Trang {n}",
   "prev_page": "Trang trước",
   "next_page": "Trang sau",
-  "page_word": "Trang"
+  "page_word": "Trang",
+  "prev_post": "Câu chuyện trước",
+  "next_post": "Câu chuyện sau",
+  "related": "Câu chuyện khác"
  },
  "fr": {
   "journal": "Journal",
@@ -188,7 +215,10 @@
   "page": "Page {n}",
   "prev_page": "Page précédente",
   "next_page": "Page suivante",
-  "page_word": "Page"
+  "page_word": "Page",
+  "prev_post": "Histoire précédente",
+  "next_post": "Histoire suivante",
+  "related": "Autres histoires"
  },
  "de": {
   "journal": "Journal",
@@ -207,6 +237,9 @@
   "page": "Seite {n}",
   "prev_page": "Vorherige Seite",
   "next_page": "Nächste Seite",
-  "page_word": "Seite"
+  "page_word": "Seite",
+  "prev_post": "Vorherige Geschichte",
+  "next_post": "Nächste Geschichte",
+  "related": "Weitere Geschichten"
  }
 }

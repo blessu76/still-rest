@@ -83,7 +83,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from site_common import GEN_MARK, KST, LANGS, ORG, SITE, check_fresh, esc, font_links, lang_url, meta_desc, parse_when, replace_between, with_localtime  # noqa: E402
 
-ASSET_V = "20261027c"  # ?v= of assets/journal.css — bump when the file changes
+ASSET_V = "20261029a"  # ?v= of assets/journal.css — bump when the file changes
 CF_TOKEN = "eab6249a56894cb084b7bcc8f1a860a6"  # Cloudflare Web Analytics (cookieless), same as the home page
 REQUIRED = ("title", "date", "slug", "lang", "description", "category")
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -95,7 +95,9 @@ FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox
            "fill='%230F1218'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='18' fill='%23C9A84C' text-anchor='middle'"
            "%3E()%3C/text%3E%3Ccircle cx='16' cy='15.5' r='1.6' fill='%23F5F0E8'/%3E%3C/svg%3E")
 UI_KEYS = ("journal", "sub", "empty", "back", "read_more", "view_all", "skip", "rss", "ai_note", "ai_orig", "other_langs", "aria_home", "aria_primary",
-           "page", "prev_page", "next_page", "page_word")  # page = title/crumb template with {n}; page_word = the same word alone (pager nav label)
+           "page", "prev_page", "next_page", "page_word",  # page = title/crumb template with {n}; page_word = the same word alone (pager nav label)
+           "prev_post", "next_post", "related")  # end of an article: previous / next story (same language) and the "more stories" heading
+RELATED_COUNT = 3  # "more stories" under an article: the newest posts of the same language (the article itself left out)
 PER_PAGE = 10  # posts on one list page (hub and every language list)
 RESERVED_SLUGS = ("feed", "page")  # "page" = the URL segment of list pages 2+ (/journal/<lang>/page/<n>/), so no post may use it as its slug
 SAFETY_KEYS = ("fiction", "disclaimer", "jump", "help_title", "help_intro", "fallback", "bible_label")
@@ -852,7 +854,45 @@ def alternates(p, grp):
     return "\n".join(rows) + "\n"
 
 
-def render_post(p, grp=None):
+def post_neighbours(p, same_lang):
+    """(older, newer) post of the same language in publication order (same_lang = that language's posts, newest first); None at an end."""
+    i = next((k for k, q in enumerate(same_lang) if q is p), None)
+    if i is None:
+        return None, None
+    return (same_lang[i + 1] if i + 1 < len(same_lang) else None), (same_lang[i - 1] if i > 0 else None)
+
+
+def related_posts(p, same_lang, n=RELATED_COUNT):
+    """the newest `n` posts of the same language, the article itself left out. `same_lang` only ever holds published posts (a scheduled post
+    that is not due yet is not read at all), so a future post is never linked."""
+    return [q for q in same_lang if q is not p][:n]
+
+
+def render_more_posts(p, same_lang):
+    """previous / next story + "more stories" under the safety block of an article: plain links to other posts in the page's own language
+    (internal links for readers and crawlers). "" when the language has no other post."""
+    if not same_lang:
+        return ""
+    t = ui(p["lang"])
+    older, newer = post_neighbours(p, same_lang)
+    link = lambda q, cls, rel, label, arrow_first: (
+        '      <a class="post-nav-%s" rel="%s" href="%s">\n        <span class="post-nav-dir">%s</span>\n        <span class="post-nav-title">%s</span>\n      </a>'
+        % (cls, rel, post_path(q), ('<span aria-hidden="true">←</span> %s' if arrow_first else '%s <span aria-hidden="true">→</span>') % esc(label), esc(q["title"])))
+    nav = ""
+    if older or newer:
+        nav = '    <nav class="post-nav" aria-label="%s / %s">\n%s\n    </nav>\n' % (esc(t["prev_post"]), esc(t["next_post"]), "\n".join(
+            x for x in (link(older, "prev", "prev", t["prev_post"], True) if older else "", link(newer, "next", "next", t["next_post"], False) if newer else "") if x))
+    rel = related_posts(p, same_lang)
+    more = ""
+    if rel:
+        more = '    <section class="related" aria-labelledby="related-h">\n      <h2 id="related-h">%s</h2>\n      <ul>\n%s\n      </ul>\n    </section>\n' % (esc(t["related"]), "\n".join(
+            '        <li><a href="%s"><span class="r-meta">%s</span> <span class="r-title">%s</span></a></li>'
+            % (post_path(q), esc(fmt_date(q["_date"], q["lang"])), esc(q["title"])) for q in rel))  # no "No. N" here: the article head carries the page's one number
+    return nav + more
+
+
+def render_post(p, grp=None, same_lang=None):
+    """same_lang: every post of the page's language, newest first -> previous/next story + more stories at the end of the article."""
     grp = grp or {}
     members = grp.get(id(p), [p])
     t = ui(p["lang"])
@@ -911,7 +951,7 @@ def render_post(p, grp=None):
 {render_notice(p['lang'])}{ai_note}    <div class="prose">
 {p['_html']}
     </div>
-{render_safety(p)}    <nav class="article-foot" aria-label="{esc(t['journal'])}">
+{render_safety(p)}{render_more_posts(p, same_lang or [])}    <nav class="article-foot" aria-label="{esc(t['journal'])}">
       <a class="more-link" href="{jhome(p['lang'])}"><span aria-hidden="true">←</span> {esc(t['back'])}</a>
     </nav>
   </article>
@@ -1331,6 +1371,7 @@ def build(root, drafts=False, strict_safety=False, check_only=False, now=None):
     NUMBERS.clear()
     NUMBERS.update(assign_numbers(posts))
     grp = groups(posts)
+    by_lang = {l: [p for p in posts if p["lang"] == l] for l in LANGS}  # each newest first (posts is sorted that way)
     list_langs = [l for l in LANGS if any(p["lang"] == l for p in posts)]
     LIST_LANGS = set(list_langs)
     scopes = list_scopes(posts, list_langs)
@@ -1349,7 +1390,7 @@ def build(root, drafts=False, strict_safety=False, check_only=False, now=None):
         written.add(path)
 
     for p in posts:
-        write(root / post_path(p).strip("/") / "index.html", render_post(p, grp))
+        write(root / post_path(p).strip("/") / "index.html", render_post(p, grp, by_lang[p["lang"]]))
         for al in p["_aliases"]:  # old URL -> static redirect stub to the new address
             write(root / al.strip("/") / "index.html", render_redirect(post_url(p)))
     for key, scope in scopes.items():  # hub + every language list: page 1 at the plain address, pages 2+ at <list>page/<n>/
