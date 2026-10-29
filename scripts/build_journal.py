@@ -100,7 +100,7 @@ FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox
 UI_KEYS = ("journal", "sub", "empty", "back", "read_more", "view_all", "skip", "rss", "ai_note", "ai_orig", "other_langs", "aria_home", "aria_primary",
            "page", "prev_page", "next_page", "page_word",  # page = title/crumb template with {n}; page_word = the same word alone (pager nav label)
            "prev_post", "next_post", "related")  # end of an article: previous / next story (same language) and the "more stories" heading
-RELATED_COUNT = 3  # "more stories" under an article: the newest posts of the same language (the article itself left out)
+RELATED_COUNT = 3  # "more stories" under an article: the newest posts of the same language (the article itself and its previous / next story left out)
 PER_PAGE = 10  # posts on one list page (hub and every language list)
 RESERVED_SLUGS = ("feed", "page")  # "page" = the URL segment of list pages 2+ (/journal/<lang>/page/<n>/), so no post may use it as its slug
 SAFETY_KEYS = ("fiction", "disclaimer", "jump", "help_title", "help_intro", "fallback", "bible_label")
@@ -866,9 +866,11 @@ def post_neighbours(p, same_lang):
 
 
 def related_posts(p, same_lang, n=RELATED_COUNT):
-    """the newest `n` posts of the same language, the article itself left out. `same_lang` only ever holds published posts (a scheduled post
-    that is not due yet is not read at all), so a future post is never linked."""
-    return [q for q in same_lang if q is not p][:n]
+    """the newest `n` posts of the same language, the article itself and its previous / next story (already linked in the post-nav right above)
+    left out, so no story is listed twice; fewer than `n` when the language has not enough other posts. `same_lang` only ever holds published
+    posts (a scheduled post that is not due yet is not read at all), so a future post is never linked."""
+    skip = {id(q) for q in (p, *post_neighbours(p, same_lang)) if q is not None}
+    return [q for q in same_lang if id(q) not in skip][:n]
 
 
 def render_more_posts(p, same_lang):
