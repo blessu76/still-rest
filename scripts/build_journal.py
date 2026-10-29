@@ -68,8 +68,13 @@ Usage:
     python3 scripts/build_journal.py --check --strict-safety
         # also fail while any language that has a published post still has unreviewed (draft) crisis-line data
     Publishing lint (every build and --check, see lint_posts): FAILS on placeholder text, a future date without `publish_at`, a future
-        `published_at`/`updated`, `updated` before `date`; only WARNS (exit code stays 0) on an original shorter than 300 words / 800 CJK
-        characters, a title over 60 (CJK 40) characters, a description over 160 (CJK 110), the same title twice in one language.
+        `published_at`/`updated`, `updated` before `date`, and on a NEW original (front matter date 2026-10-31 or later) shorter than
+        300 words / 600 CJK characters; only WARNS (exit code stays 0) on any original shorter than 400 words / 800 CJK characters
+        (older posts: also below 300 / 600, they are being filled out), a title over 60 (CJK 40) characters, a description over 160
+        (CJK 110), the same title twice in one language. (Davy 2026-10-29: 400 words is the aim, 300 the floor; CJK per guide v1: 800 / 600 characters.)
+    python3 scripts/build_journal.py --check --length-errors-as-warnings   # (or env STILL_LENGTH_ERRORS_AS_WARNINGS=1) the deploy runner's mode:
+        # the new-post length floor is reported as a loud warning, never an error, so a scheduled post is never held back by it.
+        # The length floor is an authoring/merge gate (this command without the flag, and the unit tests).
     python3 scripts/build_journal.py --root /tmp/preview --drafts
         # preview: include drafts (marked DRAFT + noindex). Use only on a COPY of the site.
 """
@@ -77,6 +82,7 @@ import argparse
 import datetime as dt
 import html
 import json
+import os
 import re
 import shutil
 import sys
@@ -1302,8 +1308,13 @@ def render_llms_block(posts):
 # ---------------------------------------------------------------- publishing lint (SEO guide v1, pipeline A + B)
 CJK_LANGS = ("ko", "ja", "zh")  # measured in characters, not words
 PLACEHOLDER_RE = re.compile(r"\bTODO\b|\bTBD\b|YYYY-MM-DD|(?i:lorem ipsum)")  # TODO/TBD only in capitals: "todo" is a Portuguese/Spanish word
-# warning thresholds (guide P0-9 / P1-3): the original's body length, and what a search result can show before it cuts the text
-MIN_WORDS, MIN_CJK_CHARS = 300, 800
+# body length of an original (Davy 2026-10-29): AIM_* is the target (a shorter original only warns), MIN_* is the floor that is an ERROR for a
+# new post (front matter date >= LENGTH_ERROR_FROM). CJK is counted in characters (guide v1: 400 words = 800 chars, 300 words = 600 chars).
+AIM_WORDS, AIM_CJK_CHARS = 400, 800
+MIN_WORDS, MIN_CJK_CHARS = 300, 600
+LENGTH_ERROR_FROM = "2026-10-31"  # posts dated before this are only warned (they are being filled out)
+LENGTH_SOFT_ENV = "STILL_LENGTH_ERRORS_AS_WARNINGS"  # set (non-empty, not 0) by the deploy workflow: length floor -> warning, never an error
+# title / description: what a search result can show before it cuts the text
 MAX_TITLE, MAX_TITLE_CJK = 60, 40
 MAX_DESC, MAX_DESC_CJK = 160, 110
 
@@ -1316,15 +1327,21 @@ def body_size(p):
     return len(text.split()), "words"
 
 
-def lint_posts(all_posts, now=None):
+def length_soft_mode():
+    """True when the length floor must not fail (the deploy runner): env STILL_LENGTH_ERRORS_AS_WARNINGS is set and not 0/false."""
+    return os.environ.get(LENGTH_SOFT_ENV, "").strip().lower() not in ("", "0", "false", "no")
+
+
+def lint_posts(all_posts, now=None, length_errors_as_warnings=False):
     """-> (errors, warnings) for the posts that are not drafts — scheduled ones included, so a mistake is caught the day it is written.
     errors (the build/check fails): placeholder text, a date in the future for a post that is not scheduled (`publish_at` is the only way to
-    publish later), `updated` in the future or before `date`.
-    warnings (printed, never fail): original body shorter than 300 words / 800 CJK characters (P0-9: Davy decides before this fails),
-    title longer than 60 (CJK 40) characters, description longer than 160 (CJK 110), the same title twice in one language.
+    publish later), `updated` in the future or before `date`, a NEW original (date >= LENGTH_ERROR_FROM) under 300 words / 600 CJK characters
+    — unless `length_errors_as_warnings` (the deploy runner), where that one case becomes a loud warning so a scheduled post never drops out.
+    warnings (printed, never fail): original body shorter than 400 words / 800 CJK characters (aim), title longer than 60 (CJK 40) characters, description longer than 160 (CJK 110), the same title twice in one language.
     Required fields and the slug rules are enforced where the front matter is read (parse_post / read_posts): the file must be
     content/journal/<lang>/<slug>.md, so one slug can exist once per language — a second file with the same slug fails on its file name."""
     today = (now or dt.datetime.now(KST)).astimezone(KST).date()
+    new_from = dt.date.fromisoformat(LENGTH_ERROR_FROM)
     errs, warns = [], []
     titles = {}
     for key in sorted(all_posts):
@@ -1349,8 +1366,15 @@ def lint_posts(all_posts, now=None):
         cjk = p["lang"] in CJK_LANGS
         if not p.get("translation_of"):
             n, unit = body_size(p)
-            if n < (MIN_CJK_CHARS if cjk else MIN_WORDS):
-                warns.append("%s: original is short — %d %s (aim for %d+)" % (src, n, unit, MIN_CJK_CHARS if cjk else 400))
+            floor, aim = (MIN_CJK_CHARS, AIM_CJK_CHARS) if cjk else (MIN_WORDS, AIM_WORDS)
+            if n < floor and p["_date"] >= new_from:
+                msg = "%s: new post is below the length floor — %d %s (minimum %d, aim for %d+)" % (src, n, unit, floor, aim)
+                if length_errors_as_warnings:
+                    warns.append(msg + " — would FAIL the author/merge check; not failing here so the scheduled post still goes out, lengthen it")
+                else:
+                    errs.append(msg)
+            elif n < aim:
+                warns.append("%s: original is short — %d %s (aim for %d+)" % (src, n, unit, aim))
         if len(p["title"]) > (MAX_TITLE_CJK if cjk else MAX_TITLE):
             warns.append("%s: title is %d characters (max %d before a search result cuts it)" % (src, len(p["title"]), MAX_TITLE_CJK if cjk else MAX_TITLE))
         if len(p["description"]) > (MAX_DESC_CJK if cjk else MAX_DESC):
@@ -1424,12 +1448,15 @@ def warning_text(warnings):
         return ""
     kinds = {}
     for w in warnings:
-        k = ("short original" if "original is short" in w else "title too long" if ": title is" in w else "description too long" if ": description is" in w else "duplicate title")
+        k = ("new post below floor" if "new post is below the length floor" in w else "short original" if "original is short" in w else "title too long" if ": title is" in w else "description too long" if ": description is" in w else "duplicate title")
         kinds[k] = kinds.get(k, 0) + 1
-    return "\njournal: %d warning(s) — not failing (%s)\n  warning: %s" % (len(warnings), ", ".join("%s %d" % kv for kv in sorted(kinds.items())), "\n  warning: ".join(warnings))
+    text = "\njournal: %d warning(s) — not failing (%s)\n  warning: %s" % (len(warnings), ", ".join("%s %d" % kv for kv in sorted(kinds.items())), "\n  warning: ".join(warnings))
+    if os.environ.get("GITHUB_ACTIONS") == "true":  # the Actions run page shows a yellow annotation for each downgraded length error
+        text += "".join("\n::warning title=still length floor::%s" % w for w in warnings if "new post is below the length floor" in w)
+    return text
 
 
-def build(root, drafts=False, strict_safety=False, check_only=False, now=None):
+def build(root, drafts=False, strict_safety=False, check_only=False, now=None, length_errors_as_warnings=False):
     """validate everything and (unless check_only) write the site. Returns (exit code, message)."""
     global ROOT, LIST_LANGS
     ROOT = root
@@ -1439,7 +1466,7 @@ def build(root, drafts=False, strict_safety=False, check_only=False, now=None):
     posts, all_posts, errors = read_posts(root, drafts, now)
     warnings = []
     if not errors:
-        lint_errors, warnings = lint_posts(all_posts, now)
+        lint_errors, warnings = lint_posts(all_posts, now, length_errors_as_warnings or length_soft_mode())
         errors += lint_errors
         errors += check_translations(posts, all_posts, drafts)
         errors += scripture_errors(posts, all_posts)
@@ -1508,6 +1535,8 @@ def main():
                     "Default: none are (the committed output). The deploy runner uses this; never commit the result.")
     ap.add_argument("--strict-safety", action="store_true",
                     help="fail while a language with published posts still has draft (unreviewed) crisis-line data — the deploy gate")
+    ap.add_argument("--length-errors-as-warnings", action="store_true",
+                    help="the deploy runner's mode (also env %s=1): the new-post length floor is a loud warning, not an error, so a scheduled post is never held back" % LENGTH_SOFT_ENV)
     a = ap.parse_args()
     root = Path(a.root).resolve()
     try:
@@ -1516,13 +1545,13 @@ def main():
         print("journal: --now: %s" % ex, file=sys.stderr)
         return 1
     if a.check:
-        code, msg = build(root, a.drafts, a.strict_safety, check_only=True, now=now)
+        code, msg = build(root, a.drafts, a.strict_safety, check_only=True, now=now, length_errors_as_warnings=a.length_errors_as_warnings)
         if code == 0 and not a.drafts and now is None:  # freshness only for the committed (clock-free) output
-            diffs = check_fresh(root, lambda r: build(r, False, False))
+            diffs = check_fresh(root, lambda r: build(r, False, False, length_errors_as_warnings=a.length_errors_as_warnings))
             if diffs:
                 code, msg = 1, "journal: out of date — run python3 scripts/build_journal.py\n  " + "\n  ".join(diffs)
     else:
-        code, msg = build(root, a.drafts, a.strict_safety, now=now)
+        code, msg = build(root, a.drafts, a.strict_safety, now=now, length_errors_as_warnings=a.length_errors_as_warnings)
     print(msg, file=sys.stderr if code else sys.stdout)
     return code
 

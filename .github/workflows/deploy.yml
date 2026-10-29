@@ -20,6 +20,12 @@ concurrency:
   group: pages
   cancel-in-progress: true
 
+env:
+  # Deploy mode: the new-post length floor (300 words / 600 CJK chars, scripts/build_journal.py LENGTH_ERROR_FROM) is an authoring/merge gate (local
+  # --check + unit tests). Here it is only a loud warning (yellow annotation), so a scheduled morning/evening post can never drop out because of it.
+  # Every other lint error (placeholder, future date, ...) still fails the run as before.
+  STILL_LENGTH_ERRORS_AS_WARNINGS: "1"
+
 jobs:
   deploy:
     runs-on: ubuntu-latest

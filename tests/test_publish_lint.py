@@ -1,5 +1,6 @@
-"""Publishing lint of `build_journal.py --check` (SEO guide v1, pipeline A + B): hard errors for broken posts, warnings (never failing) for
-thin / long / repeated text. Run: python3 -m unittest discover -s tests"""
+"""Publishing lint of `build_journal.py --check` (SEO guide v1, pipeline A + B): hard errors for broken posts (and for a NEW post under the
+length floor), warnings (never failing) for thin / long / repeated text. Run: python3 -m unittest discover -s tests"""
+import os
 import re
 import sys
 import unittest
@@ -10,7 +11,7 @@ sys.path.insert(0, str(REPO / "scripts"))
 import build_journal as bj  # noqa: E402
 from test_build_journal import Base, run  # noqa: E402
 
-LONG_EN = " ".join(["word"] * 320)
+LONG_EN = " ".join(["word"] * 420)
 LONG_KO = "가" * 850
 
 
@@ -114,14 +115,21 @@ class Warnings(Base):
         return re.findall(r"warning: (.*)", r.stdout)
 
     def test_a_short_original_warns_in_words_and_in_cjk_characters(self):
-        post(self.tmp, lang="en", slug="a", body=" ".join(["w"] * 299))
+        post(self.tmp, lang="en", slug="a", body=" ".join(["w"] * 399))
         post(self.tmp, lang="ko", slug="b", body="가" * 799)
         w = self.lines(check(self.tmp))
-        self.assertIn("en/a.md: original is short — 299 words (aim for 400+)", w)
+        self.assertIn("en/a.md: original is short — 399 words (aim for 400+)", w)
         self.assertIn("ko/b.md: original is short — 799 chars (aim for 800+)", w)
-        post(self.tmp, lang="en", slug="a", body=" ".join(["w"] * 300))
+        post(self.tmp, lang="en", slug="a", body=" ".join(["w"] * 400))
         post(self.tmp, lang="ko", slug="b", body="가" * 800)
         self.assertEqual([x for x in self.lines(check(self.tmp)) if "short" in x], [])
+
+    def test_an_old_post_under_the_floor_only_warns(self):
+        post(self.tmp, lang="en", slug="a", date="2026-10-30", extra="publish_at: 2026-10-30 10:00\n", body=" ".join(["w"] * 10))
+        post(self.tmp, lang="ko", slug="b", date="2026-10-30", extra="publish_at: 2026-10-30 10:00\n", body="가" * 10)
+        w = self.lines(check(self.tmp))  # returncode 0 asserted in lines()
+        self.assertIn("en/a.md: original is short — 10 words (aim for 400+)", w)
+        self.assertIn("ko/b.md: original is short — 10 chars (aim for 800+)", w)
 
     def test_a_translation_is_not_judged_by_length(self):
         post(self.tmp, lang="en", slug="a")
@@ -173,6 +181,102 @@ class Warnings(Base):
     def test_the_summary_counts_each_kind(self):
         post(self.tmp, lang="en", slug="a", title="t" * 99, desc="d" * 300, body="short")
         self.assertIn("(description too long 1, short original 1, title too long 1)", check(self.tmp).stdout)
+
+
+class LengthFloor(Base):
+    """Davy 2026-10-29: a NEW original (date >= LENGTH_ERROR_FROM) under 300 words / 600 CJK chars is an error at the author/merge gate;
+    the deploy runner (flag or env) only warns, so a scheduled post is never held back by it."""
+    NEW = "2026-10-31"
+
+    def setUp(self):
+        super().setUp()
+        self._env = os.environ.pop(bj.LENGTH_SOFT_ENV, None)  # these tests judge the gate itself, whatever the outer shell exports
+
+    def tearDown(self):
+        if self._env is not None:
+            os.environ[bj.LENGTH_SOFT_ENV] = self._env
+        super().tearDown()
+
+    def test_the_cut_over_date_is_named(self):
+        self.assertEqual((bj.LENGTH_ERROR_FROM, bj.MIN_WORDS, bj.MIN_CJK_CHARS, bj.AIM_WORDS, bj.AIM_CJK_CHARS), ("2026-10-31", 300, 600, 400, 800))
+
+    def test_a_new_original_under_the_floor_fails_at_the_boundary(self):
+        post(self.tmp, lang="en", slug="a", date=self.NEW, extra="publish_at: %s 10:00\n" % self.NEW, body=" ".join(["w"] * 299))
+        r = check(self.tmp)
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("en/a.md: new post is below the length floor — 299 words (minimum 300, aim for 400+)", r.stderr)
+        post(self.tmp, lang="en", slug="a", date=self.NEW, extra="publish_at: %s 10:00\n" % self.NEW, body=" ".join(["w"] * 300))
+        r = check(self.tmp)
+        self.assertEqual(r.returncode, 0, r.stderr)  # 300..399 is only the aim warning
+        self.assertIn("en/a.md: original is short — 300 words (aim for 400+)", r.stdout)
+
+    def test_a_new_korean_original_under_the_floor_fails_at_the_boundary(self):
+        for lang in ("ko",):  # ja/zh are translations only (originals are ko/en), so they are never judged
+            post(self.tmp, lang=lang, slug="b", date=self.NEW, extra="publish_at: %s 10:00\n" % self.NEW, body="가" * 599)
+            r = check(self.tmp)
+            self.assertEqual(r.returncode, 1, lang)
+            self.assertIn("%s/b.md: new post is below the length floor — 599 chars (minimum 600, aim for 800+)" % lang, r.stderr)
+            post(self.tmp, lang=lang, slug="b", date=self.NEW, extra="publish_at: %s 10:00\n" % self.NEW, body="가" * 600)
+            r = check(self.tmp)
+            self.assertEqual(r.returncode, 0, r.stderr)
+            self.assertIn("%s/b.md: original is short — 600 chars (aim for 800+)" % lang, r.stdout)
+            (Path(self.tmp) / "content/journal" / lang / "b.md").unlink()
+
+    def test_a_post_dated_2026_10_30_is_never_an_error_however_short(self):
+        post(self.tmp, lang="en", slug="a", date="2026-10-30", extra="publish_at: 2026-10-30 10:00\n", body="short")
+        post(self.tmp, lang="ko", slug="b", date="2026-10-30", extra="publish_at: 2026-10-30 10:00\n", body="짧다")
+        self.assertEqual(check(self.tmp).returncode, 0)
+
+    def test_a_translation_is_not_judged_by_the_floor(self):
+        post(self.tmp, lang="en", slug="a", date=self.NEW, extra="publish_at: %s 10:00\n" % self.NEW)
+        post(self.tmp, lang="ja", slug="a", date=self.NEW, extra="publish_at: %s 10:00\n" % self.NEW, body="短い")
+        self.assertEqual(check(self.tmp).returncode, 0)
+
+    def test_the_normal_build_fails_too(self):
+        post(self.tmp, lang="en", slug="a", date=self.NEW, extra="publish_at: %s 10:00\n" % self.NEW, body="short")
+        self.assertEqual(run(self.tmp).returncode, 1)
+
+    def test_the_deploy_mode_flag_turns_the_floor_into_a_loud_warning(self):
+        post(self.tmp, lang="en", slug="a", date=self.NEW, extra="publish_at: %s 10:00\n" % self.NEW, body=" ".join(["w"] * 299))
+        post(self.tmp, lang="ko", slug="b", date=self.NEW, extra="publish_at: %s 10:00\n" % self.NEW, body="가" * 599)
+        self.assertEqual(run(self.tmp, "--length-errors-as-warnings").returncode, 0)
+        r = run(self.tmp, "--check", "--length-errors-as-warnings", "--now", "2026-10-31 12:00")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn("new post below floor 2", r.stdout)
+        self.assertIn("en/a.md: new post is below the length floor — 299 words (minimum 300, aim for 400+) — would FAIL", r.stdout)
+        self.assertIn("ko/b.md: new post is below the length floor — 599 chars (minimum 600, aim for 800+) — would FAIL", r.stdout)
+        self.assertEqual(check(self.tmp, "--length-errors-as-warnings").returncode, 0)  # incl. the "committed pages are up to date" part
+
+    def test_the_deploy_mode_env_does_the_same_and_0_does_not(self):
+        post(self.tmp, lang="en", slug="a", date=self.NEW, extra="publish_at: %s 10:00\n" % self.NEW, body="short")
+        for val, code in (("1", 0), ("0", 1), ("", 1)):
+            os.environ[bj.LENGTH_SOFT_ENV] = val
+            try:
+                self.assertEqual(check(self.tmp).returncode, code, repr(val))
+            finally:
+                del os.environ[bj.LENGTH_SOFT_ENV]
+
+    def test_the_deploy_workflow_runs_in_deploy_mode(self):
+        """the workflow's top-level env keeps the verify + publish steps (and the unit tests inside them) from failing on the length floor"""
+        wf = (REPO / ".github/workflows/deploy.yml").read_text(encoding="utf-8")
+        self.assertRegex(wf, r'(?m)^env:\n(?:  .*\n|\n)*?  %s: "1"\n' % bj.LENGTH_SOFT_ENV)
+
+    def test_the_actions_annotation_is_printed_for_a_downgraded_floor(self):
+        w = "en/a.md: new post is below the length floor — 299 words (minimum 300, aim for 400+) — would FAIL"
+        old = os.environ.get("GITHUB_ACTIONS")
+        os.environ["GITHUB_ACTIONS"] = "true"
+        try:
+            self.assertIn("::warning title=still length floor::" + w, bj.warning_text([w]))
+        finally:
+            os.environ.pop("GITHUB_ACTIONS") if old is None else os.environ.__setitem__("GITHUB_ACTIONS", old)
+
+    def test_the_deploy_mode_leaves_the_other_errors_alone(self):
+        post(self.tmp, date="2999-01-01", body="short")  # a future date without publish_at
+        post(self.tmp, slug="ph", title="TODO later")
+        r = run(self.tmp, "--check", "--length-errors-as-warnings")
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("is in the future", r.stderr)
+        self.assertIn("placeholder text", r.stderr)
 
 
 class Committed(unittest.TestCase):
