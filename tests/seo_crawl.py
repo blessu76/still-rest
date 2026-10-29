@@ -20,7 +20,8 @@ class Page(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.url, self.lang = url, None
         self.title, self.meta, self.links, self.h1, self.ld, self.anchors = None, {}, [], 0, [], []
-        self._in_title, self._in_ld, self._noscript = False, False, 0
+        self.h1_text = ""
+        self._in_title, self._in_ld, self._in_h1, self._noscript = False, False, False, 0
         self.feed(text)
 
     def handle_starttag(self, tag, attrs):
@@ -39,6 +40,7 @@ class Page(HTMLParser):
             self.links.append(a)
         elif tag == "h1":
             self.h1 += 1
+            self._in_h1 = True
         elif tag == "a" and a.get("href"):
             self.anchors.append(a)
         elif tag == "script" and a.get("type") == "application/ld+json":
@@ -48,6 +50,8 @@ class Page(HTMLParser):
     def handle_endtag(self, tag):
         if tag == "title":
             self._in_title = False
+        elif tag == "h1":
+            self._in_h1 = False
         elif tag == "noscript":
             self._noscript = max(0, self._noscript - 1)
         elif tag == "script":
@@ -58,6 +62,8 @@ class Page(HTMLParser):
             self.title += data
         if self._in_ld:
             self.ld[-1] += data
+        if self._in_h1:
+            self.h1_text += data
 
     # ---- what the tests ask for
     def first(self, key):
