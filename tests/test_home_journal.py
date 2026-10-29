@@ -10,12 +10,11 @@ sys.path.insert(0, str(REPO / "scripts"))
 sys.path.insert(0, str(REPO / "tests"))
 from site_common import LANGS  # noqa: E402
 import build_journal as bj  # noqa: E402
-from test_build_journal import POST, Base, run, write_post  # noqa: E402
+from test_build_journal import POST, VERSES, Base, run, write_post  # noqa: E402  (VERSES: the app's verse file, see find_verses())
 
 PAGES = [("en", REPO / "index.html")] + [(l, REPO / l / "index.html") for l in LANGS]  # root (x-default, English) + 11 languages
 SECTION = re.compile(r'<section class="journal"[^>]*>.*?</section>', re.S)
 CARD = re.compile(r'<a class="j-card"[^>]*>.*?</a>', re.S)
-VERSES = Path("/Users/davy.kim/Desktop/foundry-f001/assets/verses/daily_verses.json")  # canonical verse file of the app (not in this repo)
 # slug -> the reference its verse chip must show. Written by hand from the articles' quotation blocks and checked against the app's verse file.
 PINNED = {
     "commute-get-off-early": "이사야 41:10",

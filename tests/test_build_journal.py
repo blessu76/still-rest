@@ -1,5 +1,6 @@
 """Tests for scripts/build_journal.py — run: python3 -m unittest discover -s tests"""
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -355,7 +356,15 @@ POSTS = {  # slug -> (verse reference, planned publication day)
     "first-day-at-the-clinic": ("예레미야애가 3:23", "2026-10-24"),
     "three-am-counting-hours": ("시편 4:8", "2026-10-24"),
 }
-VERSES = Path("/Users/davy.kim/Desktop/foundry-f001/assets/verses/daily_verses.json")  # canonical text of the app (not in this repo)
+def find_verses():
+    """canonical verse file of the app (not in this repo): $STILL_APP_VERSES -> ~/Developer/foundry-f001/... -> the old Desktop path.
+    The first one that exists wins; none exists (CI, any machine without the app) -> the old path, so the tests that need it skip."""
+    candidates = [Path(os.environ["STILL_APP_VERSES"]).expanduser()] if os.environ.get("STILL_APP_VERSES") else []
+    candidates += [Path.home() / "Developer/foundry-f001/assets/verses/daily_verses.json", Path("/Users/davy.kim/Desktop/foundry-f001/assets/verses/daily_verses.json")]
+    return next((c for c in candidates if c.is_file()), candidates[-1])
+
+
+VERSES = find_verses()  # canonical text of the app (not in this repo)
 
 
 SCHEDULE = {"first-day-at-the-clinic": "2026-10-24 11:00", "three-am-counting-hours": "2026-10-24 17:00"}  # KST; the others have no publish_at
