@@ -792,11 +792,9 @@ def check_translations(posts, all_posts, drafts_ok):
 
 
 def image_obj(rel, caption=None):
-    url = abs_url(rel)
+    """JSON-LD ImageObject (always an object, never a bare URL string: Google wants width/height/caption where they are known)."""
+    o = {"@type": "ImageObject", "url": abs_url(rel)}
     wh = image_size(rel)
-    if not wh and not caption:
-        return url
-    o = {"@type": "ImageObject", "url": url}
     if wh:
         o["width"], o["height"] = wh
     if caption:
