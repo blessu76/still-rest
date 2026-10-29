@@ -11,11 +11,11 @@ translation_of: ko
 publish_at: 2026-10-30 10:06
 ---
 
-El viernes por la mañana, antes de salir, abrí la cremallera de la mochila y encontré un paraguas plegable. Lo había metido el lunes al ver que el pronóstico anunciaba lluvia, y desde entonces no había caído ni una gota. O sea, que lo llevé al hombro toda la semana.
+El viernes por la mañana, antes de salir, abrí la cremallera de la mochila y encontré un paraguas plegable. Lo había metido el lunes al ver que el pronóstico anunciaba lluvia, y desde entonces no había caído ni una gota. O sea, que lo llevé al hombro toda la semana. La correa con el botón seguía abrochada tal como la dejé el lunes, sin haberse soltado ni una vez.
 
-Ya puestos, saqué todo lo que había dentro. Un libro sin leer, una batería externa que nunca usé, unos cuantos tickets arrugados y un montón de cosas guardadas por si acaso. Haciendo cuentas, la mitad de la mochila eran cosas que estaban ahí «por si acaso». Con razón me dolía el hombro toda la semana.
+Ya puestos, saqué todo lo que había dentro. Un libro sin leer, una batería externa que nunca usé, unos cuantos tickets arrugados y un montón de cosas guardadas por si acaso. En el fondo había migas de galleta que no recordaba haber derramado y un cable de auriculares enredado. Haciendo cuentas, la mitad de la mochila eran cosas que estaban ahí «por si acaso». Con razón me dolía el hombro toda la semana. Al ponerlo todo en el suelo de la entrada, lo único que había tocado esta semana eran la cartera y las llaves.
 
-Me pareció que no solo la mochila era así. Preparar de antemano lo que aún no ha pasado y cargarlo en la cabeza es una vieja costumbre mía. Qué hago si en la reunión sale esta pregunta, qué hago si ese correo no recibe respuesta. Cosas que no se usan y solo suman peso.
+Me pareció que no solo la mochila era así. Preparar de antemano lo que aún no ha pasado y cargarlo en la cabeza es una vieja costumbre mía. Qué hago si en la reunión sale esta pregunta, qué hago si ese correo no recibe respuesta. Cosas que no se usan y solo suman peso. Anoche también, antes de dormirme, repasé varias veces lo de hoy, y casi nada ocurrió tal como lo había ensayado.
 
 ## Unas palabras para soltar lo que tenía agarrado
 
@@ -25,8 +25,8 @@ Mientras me ponía los zapatos en la entrada, abrí still().
 >
 > Salmos 55:22 (Reina-Valera 1909)
 
-«Echa». Mis ojos se quedaron un buen rato en esa palabra. La leí no como un «no hagas nada», sino como una invitación a soltar, aunque sea una vez, lo que llevaba agarrado. Y «él te sustentará» me sonó a que hay alguien que me sostiene en el lugar donde lo suelto. Leer este versículo no hace que el trabajo de hoy sea menor. La reunión sigue ahí, y los correos que tengo que enviar también. Aun así, solo con saber que existe una frase que dice que no hace falta cargar con todo a solas, los hombros me bajaron un poco.
+«Echa». Mis ojos se quedaron un buen rato en esa palabra. La leí no como un «no hagas nada», sino como una invitación a soltar, aunque sea una vez, lo que llevaba agarrado. Y «él te sustentará» me sonó a que hay alguien que me sostiene en el lugar donde lo suelto. Leer este versículo no hace que el trabajo de hoy sea menor. La reunión sigue ahí, y los correos que tengo que enviar también. Aun así, solo con saber que existe una frase que dice que no hace falta cargar con todo a solas, los hombros me bajaron un poco. Confiar, me pareció, se parece menos a olvidar y más a abrir una mano cerrada. Al mirarme la palma vi la marca roja que había dejado el mango del paraguas.
 
-Dejé el paraguas encima del zapatero, saqué también el libro y salí. Con la mochila más ligera, los pasos también fueron un poco más ligeros. Pensé que, si llovía, ya me mojaría entonces.
+Dejé el paraguas encima del zapatero, saqué también el libro y salí. Con la mochila más ligera, los pasos también fueron un poco más ligeros. Antes de cerrar la puerta miré atrás, y el paraguas sobre el zapatero parecía más cómodo que antes. En el espejo del ascensor, los hombros me quedaban un palmo más abajo. Pensé que, si llovía, ya me mojaría entonces.
 
 **El aliento de hoy** — Antes de ponerte la mochila, suelta la tensión de los hombros y deja salir el aire despacio una vez.

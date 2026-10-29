@@ -11,11 +11,11 @@ translation_of: ko
 publish_at: 2026-10-30 10:06
 ---
 
-Vendredi matin, avant de sortir, j’ai ouvert la fermeture éclair de mon sac et j’y ai trouvé un parapluie pliant. Je l’y avais glissé lundi en voyant une prévision de pluie, et depuis il n’était pas tombé une goutte. Je l’avais donc porté sur l’épaule toute la semaine.
+Vendredi matin, avant de sortir, j’ai ouvert la fermeture éclair de mon sac et j’y ai trouvé un parapluie pliant. Je l’y avais glissé lundi en voyant une prévision de pluie, et depuis il n’était pas tombé une goutte. Je l’avais donc porté sur l’épaule toute la semaine. La bride avec son bouton était restée fermée comme je l’avais laissée lundi, sans jamais se défaire.
 
-Tant qu’à faire, j’ai tout sorti du sac. Un livre pas lu, une batterie externe jamais utilisée, quelques tickets froissés, et un tas de choses emportées au cas où. À y regarder de près, la moitié du sac, c’était des choses présentes « au cas où ». Pas étonnant que mon épaule soit raide depuis lundi.
+Tant qu’à faire, j’ai tout sorti du sac. Un livre pas lu, une batterie externe jamais utilisée, quelques tickets froissés, et un tas de choses emportées au cas où. Tout au fond, il y avait des miettes de biscuit dont je ne savais plus d’où elles venaient et un fil d’écouteurs emmêlé. À y regarder de près, la moitié du sac, c’était des choses présentes « au cas où ». Pas étonnant que mon épaule soit raide depuis lundi. Quand j’ai tout étalé sur le sol de l’entrée, les seules choses que j’avais touchées cette semaine, c’étaient mon portefeuille et mes clés.
 
-J’ai eu l’impression que le sac n’était pas seul dans ce cas. Préparer d’avance ce qui n’est pas encore arrivé et le trimballer dans ma tête, c’est une vieille habitude. Et si cette question tombe en réunion, et si ce courriel reste sans réponse. Des choses qui ne servent jamais et ne font qu’ajouter du poids.
+J’ai eu l’impression que le sac n’était pas seul dans ce cas. Préparer d’avance ce qui n’est pas encore arrivé et le trimballer dans ma tête, c’est une vieille habitude. Et si cette question tombe en réunion, et si ce courriel reste sans réponse. Des choses qui ne servent jamais et ne font qu’ajouter du poids. Hier soir encore, avant de m’endormir, j’avais répété plusieurs fois la journée d’aujourd’hui, et presque rien ne s’est passé comme je l’avais imaginé.
 
 ## Des mots pour lâcher ce que je serrais
 
@@ -25,8 +25,8 @@ En enfilant mes chaussures dans l’entrée, j’ai ouvert still().
 >
 > Psaume 55:23 (Louis Segond 1910)
 
-« Remets ». Mes yeux sont restés un bon moment sur ce mot. Je l’ai lu non comme un « ne fais rien », mais comme une invitation à poser, ne serait-ce qu’une fois, ce que je serrais. Et « il te soutiendra » m’a fait l’effet de dire qu’il y a quelqu’un qui me soutient à l’endroit où je dépose. Lire ce verset ne rend pas le travail d’aujourd’hui plus léger. La réunion est toujours là, et les courriels à envoyer aussi. Pourtant, rien que de savoir qu’une phrase dit que je n’ai pas à tout porter à moi seul, mes épaules sont un peu descendues.
+« Remets ». Mes yeux sont restés un bon moment sur ce mot. Je l’ai lu non comme un « ne fais rien », mais comme une invitation à poser, ne serait-ce qu’une fois, ce que je serrais. Et « il te soutiendra » m’a fait l’effet de dire qu’il y a quelqu’un qui me soutient à l’endroit où je dépose. Lire ce verset ne rend pas le travail d’aujourd’hui plus léger. La réunion est toujours là, et les courriels à envoyer aussi. Pourtant, rien que de savoir qu’une phrase dit que je n’ai pas à tout porter à moi seul, mes épaules sont un peu descendues. Remettre, me suis-je dit, ressemble moins à oublier qu’à ouvrir une main serrée. En regardant ma paume, j’ai vu la marque rouge laissée par la poignée du parapluie.
 
-J’ai posé le parapluie sur le meuble à chaussures, j’ai sorti le livre aussi, et j’ai passé la porte. Avec un sac plus léger, mes pas l’étaient un peu aussi. Je me suis dit que s’il pleuvait, je la recevrais à ce moment-là.
+J’ai posé le parapluie sur le meuble à chaussures, j’ai sorti le livre aussi, et j’ai passé la porte. Avec un sac plus léger, mes pas l’étaient un peu aussi. Avant de fermer la porte, j’ai jeté un coup d’œil en arrière : le parapluie sur le meuble à chaussures avait l’air plutôt à son aise. Dans le miroir de l’ascenseur, mes épaules étaient une main plus bas qu’avant. Je me suis dit que s’il pleuvait, je la recevrais à ce moment-là.
 
 **Le souffle du jour** — Avant de mettre ton sac, relâche la tension de tes épaules et expire lentement une fois.
