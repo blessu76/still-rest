@@ -67,6 +67,9 @@ Usage:
     python3 scripts/build_journal.py --check    # validate posts + safety data and fail if the committed output is stale
     python3 scripts/build_journal.py --check --strict-safety
         # also fail while any language that has a published post still has unreviewed (draft) crisis-line data
+    Publishing lint (every build and --check, see lint_posts): FAILS on placeholder text, a future date without `publish_at`, a future
+        `published_at`/`updated`, `updated` before `date`; only WARNS (exit code stays 0) on an original shorter than 300 words / 800 CJK
+        characters, a title over 60 (CJK 40) characters, a description over 160 (CJK 110), the same title twice in one language.
     python3 scripts/build_journal.py --root /tmp/preview --drafts
         # preview: include drafts (marked DRAFT + noindex). Use only on a COPY of the site.
 """
@@ -1294,6 +1297,69 @@ def render_llms_block(posts):
     return "\n".join(lines) + "\n"
 
 
+# ---------------------------------------------------------------- publishing lint (SEO guide v1, pipeline A + B)
+CJK_LANGS = ("ko", "ja", "zh")  # measured in characters, not words
+PLACEHOLDER_RE = re.compile(r"\bTODO\b|\bTBD\b|YYYY-MM-DD|(?i:lorem ipsum)")  # TODO/TBD only in capitals: "todo" is a Portuguese/Spanish word
+# warning thresholds (guide P0-9 / P1-3): the original's body length, and what a search result can show before it cuts the text
+MIN_WORDS, MIN_CJK_CHARS = 300, 800
+MAX_TITLE, MAX_TITLE_CJK = 60, 40
+MAX_DESC, MAX_DESC_CJK = 160, 110
+
+
+def body_size(p):
+    """(amount, unit) of the post's text: words for most languages, characters (no spaces/punctuation) for ko/ja/zh."""
+    text = plain_text(markdown(p["_body"]))
+    if p["lang"] in CJK_LANGS:
+        return len(re.findall(r"\w", text)), "chars"
+    return len(text.split()), "words"
+
+
+def lint_posts(all_posts, now=None):
+    """-> (errors, warnings) for the posts that are not drafts — scheduled ones included, so a mistake is caught the day it is written.
+    errors (the build/check fails): placeholder text, a date in the future for a post that is not scheduled (`publish_at` is the only way to
+    publish later), `updated` in the future or before `date`.
+    warnings (printed, never fail): original body shorter than 300 words / 800 CJK characters (P0-9: Davy decides before this fails),
+    title longer than 60 (CJK 40) characters, description longer than 160 (CJK 110), the same title twice in one language.
+    Required fields and the slug rules are enforced where the front matter is read (parse_post / read_posts): the file must be
+    content/journal/<lang>/<slug>.md, so one slug can exist once per language — a second file with the same slug fails on its file name."""
+    today = (now or dt.datetime.now(KST)).astimezone(KST).date()
+    errs, warns = [], []
+    titles = {}
+    for key in sorted(all_posts):
+        p = all_posts[key]
+        if p["draft"]:
+            continue
+        src = p["_src"]
+        for field in ("title", "description", "category"):
+            m = PLACEHOLDER_RE.search(p.get(field, ""))
+            if m:
+                errs.append("%s: placeholder text %r in %s" % (src, m.group(0), field))
+        if not p["_publish_at"] and p["_date"] > today:
+            errs.append("%s: date %s is in the future (today is %s) and the post is not scheduled — use `publish_at` to publish later" % (src, p["date"], today))
+        if p["_published_at"] and p["_published_at"].astimezone(KST).date() > today:
+            errs.append("%s: published_at %s is in the future" % (src, p["published_at"]))
+        if p.get("updated"):
+            upd = dt.date.fromisoformat(p["updated"])
+            if upd > today:
+                errs.append("%s: updated %s is in the future (today is %s)" % (src, p["updated"], today))
+            if upd < p["_date"]:
+                errs.append("%s: updated %s is before the post's date %s" % (src, p["updated"], p["date"]))
+        cjk = p["lang"] in CJK_LANGS
+        if not p.get("translation_of"):
+            n, unit = body_size(p)
+            if n < (MIN_CJK_CHARS if cjk else MIN_WORDS):
+                warns.append("%s: original is short — %d %s (aim for %d+)" % (src, n, unit, MIN_CJK_CHARS if cjk else 400))
+        if len(p["title"]) > (MAX_TITLE_CJK if cjk else MAX_TITLE):
+            warns.append("%s: title is %d characters (max %d before a search result cuts it)" % (src, len(p["title"]), MAX_TITLE_CJK if cjk else MAX_TITLE))
+        if len(p["description"]) > (MAX_DESC_CJK if cjk else MAX_DESC):
+            warns.append("%s: description is %d characters (max %d before a search result cuts it)" % (src, len(p["description"]), MAX_DESC_CJK if cjk else MAX_DESC))
+        titles.setdefault((p["lang"], p["title"].strip().casefold()), []).append(src)
+    for (lang, _), srcs in sorted(titles.items()):
+        if len(srcs) > 1:
+            warns.append("%s: the same title is used by %d posts in %s" % (", ".join(srcs), len(srcs), lang))
+    return errs, warns
+
+
 # ---------------------------------------------------------------- sources
 def read_posts(root, drafts, now=None):
     """-> (published posts [with _html], all posts {(slug, lang): post}, errors). Drafts are skipped unless `drafts`.
@@ -1350,6 +1416,17 @@ def expected_sitemap_urls(root, now=None):
     return want
 
 
+def warning_text(warnings):
+    """the lint warnings as a block under the OK line (empty when there are none). They never change the exit code."""
+    if not warnings:
+        return ""
+    kinds = {}
+    for w in warnings:
+        k = ("short original" if "original is short" in w else "title too long" if ": title is" in w else "description too long" if ": description is" in w else "duplicate title")
+        kinds[k] = kinds.get(k, 0) + 1
+    return "\njournal: %d warning(s) — not failing (%s)\n  warning: %s" % (len(warnings), ", ".join("%s %d" % kv for kv in sorted(kinds.items())), "\n  warning: ".join(warnings))
+
+
 def build(root, drafts=False, strict_safety=False, check_only=False, now=None):
     """validate everything and (unless check_only) write the site. Returns (exit code, message)."""
     global ROOT, LIST_LANGS
@@ -1358,7 +1435,10 @@ def build(root, drafts=False, strict_safety=False, check_only=False, now=None):
     if errors:
         return 1, "journal: errors\n  " + "\n  ".join(errors)
     posts, all_posts, errors = read_posts(root, drafts, now)
+    warnings = []
     if not errors:
+        lint_errors, warnings = lint_posts(all_posts, now)
+        errors += lint_errors
         errors += check_translations(posts, all_posts, drafts)
         errors += scripture_errors(posts, all_posts)
         for p in posts:
@@ -1378,7 +1458,7 @@ def build(root, drafts=False, strict_safety=False, check_only=False, now=None):
     originals = scopes[None]
     counts = page_counts(scopes)
     if check_only:
-        return 0, "journal: OK — %d post(s) ready%s" % (len(posts), " (incl. drafts)" if drafts else "")
+        return 0, "journal: OK — %d post(s) ready%s" % (len(posts), " (incl. drafts)" if drafts else "") + warning_text(warnings)
 
     out = root / "journal"
     out.mkdir(exist_ok=True)
@@ -1413,7 +1493,7 @@ def build(root, drafts=False, strict_safety=False, check_only=False, now=None):
                      max([p.get("updated") or p["_date"].isoformat() for p in posts], default=None))
     import build_info  # FAQ + "how still() is different" pages, 11 languages (uses this module's header/footer/head)
     build_info.build(root, sys.modules[__name__], bool(posts))
-    return 0, "journal: built %d post(s)%s → %s" % (len(posts), " (incl. drafts)" if drafts else "", out)
+    return 0, "journal: built %d post(s)%s → %s" % (len(posts), " (incl. drafts)" if drafts else "", out) + warning_text(warnings)
 
 
 # ---------------------------------------------------------------- main
