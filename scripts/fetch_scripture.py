@@ -63,22 +63,22 @@ SOURCES = {
 
 # the name a reference is written with, per language (a citation label, not Scripture text). Add a book here before its first use.
 BOOK_NAMES = {
-    "en": {"PSA": "Psalm", "ISA": "Isaiah", "LAM": "Lamentations", "MAT": "Matthew", "1PE": "1 Peter", "PHP": "Philippians", "JHN": "John"},
-    "ja": {"PSA": "詩篇", "ISA": "イザヤ書", "LAM": "哀歌", "MAT": "マタイによる福音書", "1PE": "ペテロの第一の手紙", "PHP": "ピリピ人への手紙", "JHN": "ヨハネによる福音書"},
-    "zh": {"PSA": "诗篇", "ISA": "以赛亚书", "LAM": "耶利米哀歌", "MAT": "马太福音", "1PE": "彼得前书", "PHP": "腓立比书", "JHN": "约翰福音"},
-    "es": {"PSA": "Salmos", "ISA": "Isaías", "LAM": "Lamentaciones", "MAT": "Mateo", "1PE": "1 Pedro", "PHP": "Filipenses", "JHN": "Juan"},
-    "pt": {"PSA": "Salmos", "ISA": "Isaías", "LAM": "Lamentações", "MAT": "Mateus", "1PE": "1 Pedro", "PHP": "Filipenses", "JHN": "João"},
-    "ru": {"PSA": "Псалом", "ISA": "Исаия", "LAM": "Плач Иеремии", "MAT": "От Матфея", "1PE": "1 Петра", "PHP": "К Филиппийцам", "JHN": "От Иоанна"},
-    "vi": {"PSA": "Thi Thiên", "ISA": "Ê-sai", "LAM": "Ca Thương", "MAT": "Ma-thi-ơ", "1PE": "1 Phi-e-rơ", "PHP": "Phi-líp", "JHN": "Giăng"},
-    "fr": {"PSA": "Psaume", "ISA": "Ésaïe", "LAM": "Lamentations", "MAT": "Matthieu", "1PE": "1 Pierre", "PHP": "Philippiens", "JHN": "Jean"},
-    "de": {"PSA": "Psalm", "ISA": "Jesaja", "LAM": "Klagelieder", "MAT": "Matthäus", "1PE": "1. Petrus", "PHP": "Philipper", "JHN": "Johannes"},
+    "en": {"PSA": "Psalm", "ISA": "Isaiah", "LAM": "Lamentations", "MAT": "Matthew", "1PE": "1 Peter", "PHP": "Philippians", "JHN": "John", "EXO": "Exodus"},
+    "ja": {"PSA": "詩篇", "ISA": "イザヤ書", "LAM": "哀歌", "MAT": "マタイによる福音書", "1PE": "ペテロの第一の手紙", "PHP": "ピリピ人への手紙", "JHN": "ヨハネによる福音書", "EXO": "出エジプト記"},
+    "zh": {"PSA": "诗篇", "ISA": "以赛亚书", "LAM": "耶利米哀歌", "MAT": "马太福音", "1PE": "彼得前书", "PHP": "腓立比书", "JHN": "约翰福音", "EXO": "出埃及记"},
+    "es": {"PSA": "Salmos", "ISA": "Isaías", "LAM": "Lamentaciones", "MAT": "Mateo", "1PE": "1 Pedro", "PHP": "Filipenses", "JHN": "Juan", "EXO": "Éxodo"},
+    "pt": {"PSA": "Salmos", "ISA": "Isaías", "LAM": "Lamentações", "MAT": "Mateus", "1PE": "1 Pedro", "PHP": "Filipenses", "JHN": "João", "EXO": "Êxodo"},
+    "ru": {"PSA": "Псалом", "ISA": "Исаия", "LAM": "Плач Иеремии", "MAT": "От Матфея", "1PE": "1 Петра", "PHP": "К Филиппийцам", "JHN": "От Иоанна", "EXO": "Исход"},
+    "vi": {"PSA": "Thi Thiên", "ISA": "Ê-sai", "LAM": "Ca Thương", "MAT": "Ma-thi-ơ", "1PE": "1 Phi-e-rơ", "PHP": "Phi-líp", "JHN": "Giăng", "EXO": "Xuất Ê-díp-tô Ký"},
+    "fr": {"PSA": "Psaume", "ISA": "Ésaïe", "LAM": "Lamentations", "MAT": "Matthieu", "1PE": "1 Pierre", "PHP": "Philippiens", "JHN": "Jean", "EXO": "Exode"},
+    "de": {"PSA": "Psalm", "ISA": "Jesaja", "LAM": "Klagelieder", "MAT": "Matthäus", "1PE": "1. Petrus", "PHP": "Philipper", "JHN": "Johannes", "EXO": "2. Mose"},
 }
-# Korean (= English) Psalm numbering -> the numbering of the source text, checked by reading the source (2026-10-25, Paul; PSA 34:18 2026-10-27, Paul).
+# Korean (= English) Psalm numbering -> the numbering of the source text, checked by reading the source (2026-10-25, Paul; PSA 34:18 2026-10-27, Paul; PSA 55:22 2026-10-29, Paul).
 # ru Synodal: LXX chapter numbers + titles counted as verses. fr LSG: titles counted as verse 1. de deu1912 on ebible is already
 # renumbered to the English scheme (decision 0088 "46,11 -> 46:10"), so it needs no entry.
 VERSIFICATION = {
-    "ru": {"PSA 4:8": "PSA 4:9", "PSA 23:2": "PSA 22:2", "PSA 34:18": "PSA 33:19", "PSA 46:10": "PSA 45:11", "PSA 121:2": "PSA 120:2"},
-    "fr": {"PSA 4:8": "PSA 4:9", "PSA 23:2": "PSA 23:2", "PSA 34:18": "PSA 34:19", "PSA 46:10": "PSA 46:11", "PSA 121:2": "PSA 121:2"},
+    "ru": {"PSA 4:8": "PSA 4:9", "PSA 23:2": "PSA 22:2", "PSA 34:18": "PSA 33:19", "PSA 46:10": "PSA 45:11", "PSA 55:22": "PSA 54:23", "PSA 121:2": "PSA 120:2"},
+    "fr": {"PSA 4:8": "PSA 4:9", "PSA 23:2": "PSA 23:2", "PSA 34:18": "PSA 34:19", "PSA 46:10": "PSA 46:11", "PSA 55:22": "PSA 55:23", "PSA 121:2": "PSA 121:2"},
 }
 HAND_MAPPED = {"ru": ("PSA",), "fr": ("PSA",)}  # books whose numbering differs in that language: every reference needs an entry above
 NO_SPACE = ("zh", "ja")  # scripts without spaces between words: the line breaks of poetry are joined without a space

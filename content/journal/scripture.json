@@ -4,7 +4,7 @@
   "verses.<USFM ref, Korean/English numbering>.<lang>: ref = how the reference is written in that language (chapter:verse OF ITS SOURCE), text = the verse. A language with mode 'reference' has no text: its posts give the reference only.",
   "A translated post's quotation block must be exactly `> {text}` / `>` / `> {ref} ({version})` (build_journal.py checks it)."
  ],
- "fetched_on": "2026-10-28",
+ "fetched_on": "2026-10-29",
  "versions": {
   "en": {
    "mode": "text",
@@ -74,6 +74,52 @@
   }
  },
  "verses": {
+  "EXO 14:14": {
+   "ko": {
+    "ref": "출애굽기 14:14"
+   },
+   "en": {
+    "ref": "Exodus 14:14",
+    "src": "EXO 14:14",
+    "text": "The LORD will fight for you, and you shall be still.”"
+   },
+   "zh": {
+    "ref": "出埃及记 14:14",
+    "src": "EXO 14:14",
+    "text": "耶和华必为你们争战；你们只管静默，不要作声。」"
+   },
+   "es": {
+    "ref": "Éxodo 14:14",
+    "src": "EXO 14:14",
+    "text": "Jehová peleará por vosotros, y vosotros estaréis quedos."
+   },
+   "ru": {
+    "ref": "Исход 14:14",
+    "src": "EXO 14:14",
+    "text": "Господь будет поборать за вас, а вы будьте спокойны."
+   },
+   "vi": {
+    "ref": "Xuất Ê-díp-tô Ký 14:14",
+    "src": "EXO 14:14",
+    "text": "Đức Giê-hô-va sẽ chiến cự cho, còn các ngươi cứ yên lặng."
+   },
+   "fr": {
+    "ref": "Exode 14:14",
+    "src": "EXO 14:14",
+    "text": "L’Éternel combattra pour vous; et vous, gardez le silence."
+   },
+   "de": {
+    "ref": "2. Mose 14:14",
+    "src": "EXO 14:14",
+    "text": "Der HERR wird für euch streiten, und ihr werdet still sein."
+   },
+   "ja": {
+    "ref": "出エジプト記 14:14"
+   },
+   "pt": {
+    "ref": "Êxodo 14:14"
+   }
+  },
   "PSA 4:8": {
    "ko": {
     "ref": "시편 4:8"
@@ -256,6 +302,52 @@
    },
    "pt": {
     "ref": "Salmos 46:10"
+   }
+  },
+  "PSA 55:22": {
+   "ko": {
+    "ref": "시편 55:22"
+   },
+   "en": {
+    "ref": "Psalm 55:22",
+    "src": "PSA 55:22",
+    "text": "Cast your burden on the LORD and he will sustain you. He will never allow the righteous to be moved."
+   },
+   "zh": {
+    "ref": "诗篇 55:22",
+    "src": "PSA 55:22",
+    "text": "你要把你的重担卸给耶和华，他必抚养你；他永不叫义人动摇。"
+   },
+   "es": {
+    "ref": "Salmos 55:22",
+    "src": "PSA 55:22",
+    "text": "Echa sobre Jehová tu carga, y él te sustentará; no dejará para siempre caído al justo."
+   },
+   "ru": {
+    "ref": "Псалом 54:23",
+    "src": "PSA 54:23",
+    "text": "Возложи на Господа заботы твои, и Он поддержит тебя. Никогда не даст Он поколебаться праведнику."
+   },
+   "vi": {
+    "ref": "Thi Thiên 55:22",
+    "src": "PSA 55:22",
+    "text": "Hãy trao gánh nặng ngươi cho Đức Giê-hô-va, Ngài sẽ nâng đỡ ngươi; Ngài sẽ chẳng hề cho người công bình bị rúng động."
+   },
+   "fr": {
+    "ref": "Psaume 55:23",
+    "src": "PSA 55:23",
+    "text": "Remets ton sort à l’Éternel, et il te soutiendra, Il ne laissera jamais chanceler le juste."
+   },
+   "de": {
+    "ref": "Psalm 55:22",
+    "src": "PSA 55:22",
+    "text": "Wirf dein Anliegen auf den HERRN; der wird dich versorgen und wird den Gerechten nicht ewiglich in Unruhe lassen."
+   },
+   "ja": {
+    "ref": "詩篇 55:22"
+   },
+   "pt": {
+    "ref": "Salmos 55:22"
    }
   },
   "PSA 121:2": {
