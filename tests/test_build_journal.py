@@ -43,7 +43,7 @@ def write_post(root, lang, slug="hello", extra=None, text=None):
 
 def site_copy():
     tmp = Path(tempfile.mkdtemp())
-    for f in ("sitemap.xml", "llms.txt", "og-image.png"):
+    for f in ("sitemap.xml", "llms.txt", "og-image.png", "robots.txt"):
         shutil.copy(REPO / f, tmp / f)
     shutil.copytree(REPO / "content/home", tmp / "content/home")
     shutil.copytree(REPO / "content/info", tmp / "content/info")
@@ -54,6 +54,12 @@ def site_copy():
     for f in ("safety.json", "ui.json"):
         shutil.copy(REPO / "content/journal" / f, tmp / "content/journal" / f)
     return tmp
+
+
+def sitemap_errors_at(root, when):
+    """check_sitemap problems with the build clock `when`, except "lastmod after today": these tests time-travel to a day before the copied
+    home pages' own lastmod, which is a fixture artifact (the deploy runner's clock is the real one)."""
+    return [e for e in check_sitemap.check(root, bj.parse_when(when))[0] if "is after today" not in e]
 
 
 def run(root, *args):
@@ -435,7 +441,7 @@ class FirstPosts(unittest.TestCase):
                 self.assertEqual(r.returncode, 0, r.stderr)
                 for slug in SCHEDULE:
                     self.assertEqual((tmp / "s/journal/ko" / slug / "index.html").is_file(), slug in live, (when, slug))
-                self.assertEqual(check_sitemap.check(tmp / "s", bj.parse_when(when))[0], [], when)
+                self.assertEqual(sitemap_errors_at(tmp / "s", when), [], when)
         finally:
             shutil.rmtree(tmp)
 
@@ -489,7 +495,7 @@ class Posts1026(unittest.TestCase):
                 self.assertEqual(r.returncode, 0, r.stderr)
                 for slug in POSTS_1026:
                     self.assertEqual((tmp / "s/journal/ko" / slug / "index.html").is_file(), slug in live, (when, slug))
-                self.assertEqual(check_sitemap.check(tmp / "s", bj.parse_when(when))[0], [], when)
+                self.assertEqual(sitemap_errors_at(tmp / "s", when), [], when)
             h = (tmp / "s/journal/ko/monday-afternoon-ten-minutes-outside/index.html").read_text(encoding="utf-8")
             data = json.loads((REPO / "content/journal/safety.json").read_text(encoding="utf-8"))["text"]["ko"]
             end = h[h.index('data-safety="block"'):]
@@ -604,7 +610,7 @@ class Scheduled(Base):
     def test_the_sitemap_follows_the_same_rule(self):
         for now, want in (("2026-10-23 18:00", {"past-post"}), ("2026-10-24 11:00", {"past-post", "future-post"})):
             self.assertEqual(run(self.tmp, "--now", now).returncode, 0)
-            self.assertEqual(check_sitemap.check(self.tmp, bj.parse_when(now))[0], [], now)
+            self.assertEqual(sitemap_errors_at(self.tmp, now), [], now)
             sm = self.sitemap()
             for slug in ("past-post", "future-post"):
                 self.assertEqual("/journal/ko/%s/" % slug in sm, slug in want, (now, slug))

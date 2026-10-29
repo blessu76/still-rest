@@ -1131,17 +1131,21 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/en/about/"/>
   </url>
   <!-- info:end -->
-  <!-- legal pages: hand-maintained (single URL each, en/ko toggle inside the page); lastmod = date of the last commit that touched the page (the commit date of its index.html) -->
+  <!-- legal pages: hand-maintained (single URL each, en/ko toggle inside the page; hreflang en + x-default = itself, as in the page's own head); lastmod = date of the last commit that touched the page (the commit date of its index.html) -->
   <url>
     <loc>https://still.ipe.rest/privacy/</loc>
     <lastmod>2026-10-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://still.ipe.rest/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/privacy/"/>
   </url>
   <url>
     <loc>https://still.ipe.rest/terms/</loc>
     <lastmod>2026-10-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://still.ipe.rest/terms/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/terms/"/>
   </url>
 </urlset>
