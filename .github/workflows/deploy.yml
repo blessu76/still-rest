@@ -45,6 +45,7 @@ jobs:
         run: |
           NOW="$(TZ=Asia/Seoul date '+%Y-%m-%d %H:%M')"
           echo "publish clock: $NOW KST"
+          echo "PUBLISH_NOW=$NOW" >> "$GITHUB_ENV"   # the IndexNow step below uses the very same clock
           python3 scripts/build_journal.py --now "$NOW" --strict-safety
           python3 scripts/check_sitemap.py --now "$NOW"
 
@@ -53,6 +54,11 @@ jobs:
         run: |
           mkdir -p "$RUNNER_TEMP/site"
           rsync -a --exclude='/.git' --exclude='/.github' --exclude='/content' --exclude='/scripts' --exclude='/tests' ./ "$RUNNER_TEMP/site/"
+
+      - name: Remember the sitemap that is live right now (IndexNow sends only what is new)
+        # Taken BEFORE the deploy replaces it. A failed download is fine: IndexNow then sends all of today's URLs.
+        continue-on-error: true
+        run: curl -fsS --max-time 30 -o "$RUNNER_TEMP/live-sitemap.xml" https://still.ipe.rest/sitemap.xml
 
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
@@ -63,16 +69,25 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
+      - name: IndexNow — tell Bing/Naver/Yandex about the URLs that changed in this deploy
+        # Only pages whose sitemap lastmod is today (KST) and that are not already live: the new posts, the lists and the home pages. A post that is
+        # still scheduled is not in the runner's sitemap, so it is never sent early; it goes out in the run that publishes it. The key file
+        # (the <32 hex>.txt in the repo root) is a public file, not a secret. A failure here never fails the deploy (the site is already live).
+        id: indexnow
+        continue-on-error: true
+        run: python3 scripts/indexnow.py --changed --now "$PUBLISH_NOW" --previous "$RUNNER_TEMP/live-sitemap.xml"
+
       - name: Notify Slack — success
         if: success() && env.SLACK_BOT_TOKEN != ''
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           HEAD_COMMIT_MSG: ${{ github.event.head_commit.message }}
           RUN_ID: ${{ github.run_id }}
+          INDEXNOW: ${{ steps.indexnow.outcome }}
         run: |
           COMMIT_MSG=$(printf '%s' "$HEAD_COMMIT_MSG" | head -1)
           [ -n "$COMMIT_MSG" ] || COMMIT_MSG="${{ github.event_name }} ${GITHUB_SHA::7}"  # cron / manual runs have no head commit
-          TEXT=$(printf '🕊️ *still.ipe.rest 배포 완료*\n_보고: Paul (Head of Reach) → #release-note_\n\n• 커밋: `%s`\n• URL: https://still.ipe.rest' "$COMMIT_MSG")
+          TEXT=$(printf '🕊️ *still.ipe.rest 배포 완료*\n_보고: Paul (Head of Reach) → #release-note_\n\n• 커밋: `%s`\n• URL: https://still.ipe.rest\n• IndexNow: %s' "$COMMIT_MSG" "$INDEXNOW")
           PAYLOAD=$(jq -nc \
             --arg channel "C0BJ1EF5PC0" \
             --arg text "$TEXT" \
