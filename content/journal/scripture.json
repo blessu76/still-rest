@@ -4,7 +4,7 @@
   "verses.<USFM ref, Korean/English numbering>.<lang>: ref = how the reference is written in that language (chapter:verse OF ITS SOURCE), text = the verse. A language with mode 'reference' has no text: its posts give the reference only.",
   "A translated post's quotation block must be exactly `> {text}` / `>` / `> {ref} ({version})` (build_journal.py checks it)."
  ],
- "fetched_on": "2026-10-29",
+ "fetched_on": "2026-10-30",
  "versions": {
   "en": {
    "mode": "text",
@@ -12,7 +12,7 @@
    "name": "World English Bible",
    "copyright": "https://ebible.org/engwebp/copyright.htm",
    "source": "https://ebible.org/Scriptures/engwebp_usfm.zip",
-   "sha256": "d2a7c9640820003d8ed475ce6d92cc990b0447fe96ce72fd0df17c0dac9d95fe"
+   "sha256": "004bb01afd94a3dbecc0d5cbd0cfbb75f0339592512f18a796160d816f86d746"
   },
   "zh": {
    "mode": "text",
@@ -118,6 +118,52 @@
    },
    "pt": {
     "ref": "Êxodo 14:14"
+   }
+  },
+  "JOS 1:9": {
+   "ko": {
+    "ref": "여호수아 1:9"
+   },
+   "en": {
+    "ref": "Joshua 1:9",
+    "src": "JOS 1:9",
+    "text": "Haven’t I commanded you? Be strong and courageous. Don’t be afraid. Don’t be dismayed, for the LORD your God is with you wherever you go.”"
+   },
+   "zh": {
+    "ref": "约书亚记 1:9",
+    "src": "JOS 1:9",
+    "text": "我岂没有吩咐你吗？你当刚强壮胆！不要惧怕，也不要惊惶；因为你无论往哪里去，耶和华—你的　神必与你同在。」"
+   },
+   "es": {
+    "ref": "Josué 1:9",
+    "src": "JOS 1:9",
+    "text": "Mira que te mando que te esfuerces y seas valiente: no temas ni desmayes, porque Jehová tu Dios será contigo en donde quiera que fueres."
+   },
+   "ru": {
+    "ref": "Иисус Навин 1:9",
+    "src": "JOS 1:9",
+    "text": "Вот Я повелеваю тебе: будь тверд и мужествен, не страшись и не ужасайся; ибо с тобою Господь Бог твой везде, куда ни пойдешь."
+   },
+   "vi": {
+    "ref": "Giô-suê 1:9",
+    "src": "JOS 1:9",
+    "text": "Ta há không có phán dặn ngươi sao? Hãy vững lòng bền chí, chớ run sợ, chớ kinh khủng; vì Giê-hô-va Đức Chúa Trời ngươi vẫn ở cùng ngươi trong mọi nơi ngươi đi."
+   },
+   "fr": {
+    "ref": "Josué 1:9",
+    "src": "JOS 1:9",
+    "text": "Ne t’ai-je pas donné cet ordre: Fortifie-toi et prends courage? Ne t’effraie point et ne t’épouvante point, car l’Éternel, ton Dieu, est avec toi dans tout ce que tu entreprendras."
+   },
+   "de": {
+    "ref": "Josua 1:9",
+    "src": "JOS 1:9",
+    "text": "Siehe, ich habe dir geboten, daß du getrost und freudig seist. Laß dir nicht grauen und entsetze dich nicht; denn der HERR, dein Gott, ist mit dir in allem, was du tun wirst."
+   },
+   "ja": {
+    "ref": "ヨシュア記 1:9"
+   },
+   "pt": {
+    "ref": "Josué 1:9"
    }
   },
   "PSA 4:8": {
@@ -394,6 +440,52 @@
    },
    "pt": {
     "ref": "Salmos 121:2"
+   }
+  },
+  "PSA 147:3": {
+   "ko": {
+    "ref": "시편 147:3"
+   },
+   "en": {
+    "ref": "Psalm 147:3",
+    "src": "PSA 147:3",
+    "text": "He heals the broken in heart, and binds up their wounds."
+   },
+   "zh": {
+    "ref": "诗篇 147:3",
+    "src": "PSA 147:3",
+    "text": "他医好伤心的人，裹好他们的伤处。"
+   },
+   "es": {
+    "ref": "Salmos 147:3",
+    "src": "PSA 147:3",
+    "text": "El sana á los quebrantados de corazón, y liga sus heridas."
+   },
+   "ru": {
+    "ref": "Псалом 146:3",
+    "src": "PSA 146:3",
+    "text": "Он исцеляет сокрушенных сердцем и врачует скорби их;"
+   },
+   "vi": {
+    "ref": "Thi Thiên 147:3",
+    "src": "PSA 147:3",
+    "text": "Chữa lành người có lòng đau thương, Và bó vít của họ."
+   },
+   "fr": {
+    "ref": "Psaume 147:3",
+    "src": "PSA 147:3",
+    "text": "Il guérit ceux qui ont le cœur brisé, Et il panse leurs blessures."
+   },
+   "de": {
+    "ref": "Psalm 147:3",
+    "src": "PSA 147:3",
+    "text": "Er heilt, die zerbrochnes Herzens sind, und verbindet ihre Schmerzen."
+   },
+   "ja": {
+    "ref": "詩篇 147:3"
+   },
+   "pt": {
+    "ref": "Salmos 147:3"
    }
   },
   "ISA 26:3": {
