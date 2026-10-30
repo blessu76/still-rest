@@ -9,6 +9,7 @@ keywords: jueves, mañana, alarma, octubre
 bible_version: Reina-Valera 1909
 translation_of: ko
 publish_at: 2026-10-29 09:04
+updated: 2026-10-30
 ---
 
 El jueves por la mañana, cuando sonó la alarma, la mano se movió primero y la apagó. Diez minutos después sonó la segunda y también la apagué. Cuando la pantalla del móvil se apagó, la habitación volvió a quedar en silencio, y una raya fina de luz que entraba por la rendija de la cortina quedó colgada en el techo. Tumbado boca arriba, mirando el techo, pensé: ya siento que me he gastado esta semana entera.

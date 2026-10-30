@@ -9,6 +9,7 @@ keywords: lunes, tarde, descanso, paseo
 bible_version: Reina-Valera 1909
 translation_of: ko
 publish_at: 2026-10-26 16:49
+updated: 2026-10-30
 ---
 
 Pasadas las dos y media de la tarde, las letras del monitor se desdibujan. Hacía una hora que había vuelto del almuerzo y me había sentado, y estaba leyendo por tercera vez la misma frase de un correo. Los ojos seguían las letras, pero nada del contenido entraba. Solo el cursor parpadeaba en el mismo sitio de la pantalla, y del café frío ya no salía vapor.

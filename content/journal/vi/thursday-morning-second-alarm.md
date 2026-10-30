@@ -9,6 +9,7 @@ keywords: thứ Năm, buổi sáng, báo thức, tháng Mười
 bible_version: Kinh Thánh 1925
 translation_of: ko
 publish_at: 2026-10-29 09:04
+updated: 2026-10-30
 draft: true
 ---
 

@@ -9,6 +9,7 @@ keywords: Donnerstag, Morgen, Wecker, Oktober
 bible_version: Lutherbibel 1912
 translation_of: ko
 publish_at: 2026-10-29 09:04
+updated: 2026-10-30
 ---
 
 Am Donnerstagmorgen, als der Wecker klingelte, bewegte sich zuerst meine Hand und stellte ihn ab. Zehn Minuten später klingelte der zweite, und auch den stellte ich ab. Als der Handybildschirm dunkel wurde, war es im Zimmer wieder still, und ein dünner Lichtstreifen aus dem Vorhangspalt hing an der Decke. Ich lag auf dem Rücken, sah zur Decke und dachte: Diese Woche habe ich schon aufgebraucht.

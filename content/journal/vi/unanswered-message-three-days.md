@@ -9,6 +9,7 @@ keywords: liên lạc, trả lời tin nhắn, áy náy, Chủ nhật
 bible_version: Kinh Thánh 1925
 translation_of: ko
 publish_at: 2026-10-25 11:17
+updated: 2026-10-30
 draft: true
 ---
 

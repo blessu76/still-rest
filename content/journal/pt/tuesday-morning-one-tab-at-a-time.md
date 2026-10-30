@@ -10,6 +10,7 @@ verse: Isaías 26:3
 bible_version: none
 translation_of: ko
 publish_at: 2026-10-27 13:17
+updated: 2026-10-30
 ---
 
 Terça-feira, dez e meia da manhã, e havia onze janelas abertas na parte de baixo da tela. O rascunho do relatório, o pedido de alterações que chegou ontem, a agenda de reuniões, dois e-mails pela metade. Eu abria uma, corrigia algumas linhas, e tocava um aviso do mensageiro; ia para aquela janela, respondia, e outra já começava a piscar. Na barra de tarefas, os títulos das janelas iam ficando mais curtos, até que depois eu já não distinguia qual janela era qual tarefa.

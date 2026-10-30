@@ -9,6 +9,7 @@ keywords: contact, réponse, être en tort, dimanche
 bible_version: Louis Segond 1910
 translation_of: ko
 publish_at: 2026-10-25 11:17
+updated: 2026-10-30
 ---
 
 En haut de l’écran de mon téléphone, le nom d’une personne amie s’affiche. « Tu vas bien ? Plus aucune nouvelle ces temps-ci. » Le message est arrivé jeudi soir, et à ce dimanche matin, je n’avais laissé que l’indication de lecture. Dans la petite photo à côté du nom, mon ami souriait toujours, et je n’ai pas pu regarder ce visage longtemps : j’ai éteint l’écran.

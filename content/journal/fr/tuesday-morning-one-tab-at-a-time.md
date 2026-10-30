@@ -9,6 +9,7 @@ keywords: mardi, matin, travail, concentration
 bible_version: Louis Segond 1910
 translation_of: ko
 publish_at: 2026-10-27 13:17
+updated: 2026-10-30
 ---
 
 Mardi, dix heures et demie du matin : onze fenêtres étaient ouvertes en bas de mon écran. Le brouillon du rapport, la demande de corrections reçue la veille, le planning des réunions, deux mails à moitié écrits. J’en ouvrais une pour corriger quelques lignes, et la messagerie sonnait ; je basculais pour répondre, et une autre fenêtre se mettait à clignoter. Dans la barre des tâches, les titres des fenêtres raccourcissaient peu à peu, et à la fin je ne savais plus quelle fenêtre correspondait à quelle tâche.

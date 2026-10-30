@@ -9,6 +9,7 @@ keywords: Montag, Nachmittag, Ruhe, Spaziergang
 bible_version: Lutherbibel 1912
 translation_of: ko
 publish_at: 2026-10-26 16:49
+updated: 2026-10-30
 ---
 
 Nach halb drei verschwimmen die Buchstaben auf dem Monitor. Seit dem Mittagessen saß ich wieder eine Stunde am Platz und las in einer Mail zum dritten Mal denselben Satz. Die Augen folgten den Buchstaben, aber vom Inhalt kam nichts bei mir an. Nur der Cursor blinkte auf dem Bildschirm an derselben Stelle, und aus dem kalt gewordenen Kaffee stieg kein Dampf mehr.

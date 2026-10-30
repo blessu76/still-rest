@@ -9,6 +9,7 @@ keywords: Kontakt, Antwort, schlechtes Gewissen, Sonntag
 bible_version: Lutherbibel 1912
 translation_of: ko
 publish_at: 2026-10-25 11:17
+updated: 2026-10-30
 ---
 
 Oben auf dem Handydisplay steht der Name einer Freundschaft. „Wie geht’s dir? Man hört ja gar nichts mehr von dir.“ Die Nachricht kam am Donnerstagabend, und bis Sonntagmorgen ließ ich nur das Häkchen für „gelesen“ stehen. Auf dem kleinen Foto neben dem Namen lächelte die Freundschaft noch immer, und ich konnte dieses Gesicht nicht lange ansehen und schaltete den Bildschirm aus.

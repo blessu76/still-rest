@@ -9,6 +9,7 @@ keywords: thứ Ba, buổi sáng, công việc, tập trung
 bible_version: Kinh Thánh 1925
 translation_of: ko
 publish_at: 2026-10-27 13:17
+updated: 2026-10-30
 draft: true
 ---
 

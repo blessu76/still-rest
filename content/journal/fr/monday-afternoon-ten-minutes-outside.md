@@ -9,6 +9,7 @@ keywords: lundi, après-midi, repos, promenade
 bible_version: Louis Segond 1910
 translation_of: ko
 publish_at: 2026-10-26 16:49
+updated: 2026-10-30
 ---
 
 Passé quatorze heures trente, les lettres de l’écran se brouillent. Une heure s’était écoulée depuis mon retour du déjeuner, et je lisais pour la troisième fois la même phrase d’un mail. Mes yeux suivaient les lettres, mais rien du contenu n’entrait. Seul le curseur clignotait au même endroit de l’écran, et le café refroidi ne fumait plus.

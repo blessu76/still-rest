@@ -9,6 +9,7 @@ keywords: jeudi, matin, alarme, octobre
 bible_version: Louis Segond 1910
 translation_of: ko
 publish_at: 2026-10-29 09:04
+updated: 2026-10-30
 ---
 
 Jeudi matin, quand l’alarme a sonné, ma main a bougé la première et l’a éteinte. Dix minutes plus tard, la deuxième a sonné, et je l’ai éteinte aussi. Quand l’écran du téléphone s’est éteint, la chambre est redevenue silencieuse, et un mince filet de lumière passant entre les rideaux restait accroché au plafond. Allongé sur le dos, les yeux au plafond, j’ai pensé : j’ai l’impression d’avoir déjà épuisé toute cette semaine.

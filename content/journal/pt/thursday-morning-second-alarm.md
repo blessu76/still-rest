@@ -10,6 +10,7 @@ verse: Isaías 40:31
 bible_version: none
 translation_of: ko
 publish_at: 2026-10-29 09:04
+updated: 2026-10-30
 ---
 
 Na quinta de manhã, quando o alarme tocou, a mão se mexeu primeiro e o desligou. Dez minutos depois tocou o segundo, e eu desliguei esse também. Quando a tela do celular escureceu, o quarto voltou a ficar quieto, e uma linha fina de luz que entrava pela fresta da cortina ficou pendurada no teto. Deitado de barriga para cima, olhando o teto, pensei: sinto que já gastei esta semana inteira.

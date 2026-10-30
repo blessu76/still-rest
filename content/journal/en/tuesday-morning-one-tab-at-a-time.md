@@ -9,6 +9,7 @@ keywords: Tuesday, morning, work, focus
 bible_version: WEB
 translation_of: ko
 publish_at: 2026-10-27 13:17
+updated: 2026-10-30
 ---
 
 Ten thirty on Tuesday morning, and there were eleven windows open along the bottom of my screen. A draft report, the revision request from yesterday, the meeting schedule, two half-written emails. I'd open one and fix a few lines, and a messenger alert would go off. I'd switch to that window and reply, and another window would start blinking. On the taskbar the titles of the windows kept getting shorter, until later I couldn't tell which window was which task.

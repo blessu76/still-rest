@@ -9,6 +9,7 @@ keywords: thứ Hai, buổi chiều, nghỉ ngơi, đi dạo
 bible_version: Kinh Thánh 1925
 translation_of: ko
 publish_at: 2026-10-26 16:49
+updated: 2026-10-30
 draft: true
 ---
 

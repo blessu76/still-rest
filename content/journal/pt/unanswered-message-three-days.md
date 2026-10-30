@@ -10,6 +10,7 @@ verse: Salmos 46:10
 bible_version: none
 translation_of: ko
 publish_at: 2026-10-25 11:17
+updated: 2026-10-30
 ---
 
 No alto da tela do celular está o nome de uma pessoa amiga. "E aí, tudo bem? Faz tempo que a gente não se fala." Essa mensagem chegou na quinta à noite, e até a manhã de domingo eu só deixei o aviso de visualizada. Na foto pequena ao lado do nome, a pessoa continuava sorrindo, e não consegui olhar para aquele rosto por muito tempo; apaguei a tela.

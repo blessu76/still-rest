@@ -9,6 +9,7 @@ keywords: Dienstag, Vormittag, Arbeit, Konzentration
 bible_version: Lutherbibel 1912
 translation_of: ko
 publish_at: 2026-10-27 13:17
+updated: 2026-10-30
 ---
 
 Dienstag, halb elf am Vormittag, unten auf dem Bildschirm waren elf Fenster geöffnet. Der Berichtsentwurf, die Änderungswünsche von gestern, der Besprechungsplan, zwei halb geschriebene Mails. Öffnete ich eines und korrigierte ein paar Zeilen, meldete sich der Messenger. Wechselte ich dorthin und antwortete, blinkte schon das nächste Fenster. In der Taskleiste wurden die Titel der Fenster immer kürzer, bis ich später kaum noch wusste, welches Fenster welche Aufgabe war.

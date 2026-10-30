@@ -9,6 +9,7 @@ keywords: martes, mañana, trabajo, concentración
 bible_version: Reina-Valera 1909
 translation_of: ko
 publish_at: 2026-10-27 13:17
+updated: 2026-10-30
 ---
 
 Martes, diez y media de la mañana, y en la parte de abajo de la pantalla tenía once ventanas abiertas. El borrador del informe, la petición de cambios que me llegó ayer, el calendario de reuniones, dos correos a medio escribir. Abría una para corregir unas líneas y sonaba un aviso del chat; me pasaba a esa ventana para contestar y ya parpadeaba otra. En la barra de tareas los títulos de las ventanas se iban acortando, hasta que ya no distinguía qué ventana era qué tarea.

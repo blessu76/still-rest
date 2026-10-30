@@ -9,6 +9,7 @@ keywords: Monday, afternoon, rest, walk
 bible_version: WEB
 translation_of: ko
 publish_at: 2026-10-26 16:49
+updated: 2026-10-30
 ---
 
 After two thirty in the afternoon, the words on the monitor start to blur. It had been an hour since I came back from lunch and sat down, and I was reading the same sentence in an email for the third time. My eyes followed the letters, but none of the meaning came in. Only the cursor on the screen kept blinking in the same spot, and the cold coffee no longer gave off any steam.

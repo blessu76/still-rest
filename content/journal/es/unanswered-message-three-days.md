@@ -9,6 +9,7 @@ keywords: contacto, respuesta, disculpa, domingo
 bible_version: Reina-Valera 1909
 translation_of: ko
 publish_at: 2026-10-25 11:17
+updated: 2026-10-30
 ---
 
 En la parte de arriba de la pantalla del móvil aparece el nombre de mi amigo. «¿Qué tal? Hace mucho que no sé nada de ti.» Es un mensaje que llegó el jueves por la noche y, ya domingo por la mañana, solo había dejado la marca de leído. En la foto pequeña junto al nombre, mi amigo seguía sonriendo, y no pude mirar esa cara mucho rato, así que apagué la pantalla.

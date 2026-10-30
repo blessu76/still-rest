@@ -9,6 +9,7 @@ keywords: contact, reply, apology, Sunday
 bible_version: WEB
 translation_of: ko
 publish_at: 2026-10-25 11:17
+updated: 2026-10-30
 ---
 
 My friend's name sits at the top of my phone screen. "How are you? I haven't heard from you in ages." The message came on Thursday evening, and by Sunday morning all I had done was leave it marked as read. In the small photo beside the name my friend was still smiling, and I couldn't look at that face for long, so I turned the screen off.

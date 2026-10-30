@@ -10,6 +10,7 @@ verse: Salmos 23:2
 bible_version: none
 translation_of: ko
 publish_at: 2026-10-26 16:49
+updated: 2026-10-30
 ---
 
 Depois das duas e meia da tarde, as letras do monitor ficam borradas. Fazia uma hora que eu tinha voltado do almoço e estava lendo pela terceira vez a mesma frase de um e-mail. Os olhos seguiam as letras, mas nada do conteúdo entrava. Só o cursor piscava no mesmo lugar da tela, e o café frio já não soltava vapor.

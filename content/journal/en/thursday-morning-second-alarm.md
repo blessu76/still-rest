@@ -9,6 +9,7 @@ keywords: Thursday, morning, alarm, October
 bible_version: WEB
 translation_of: ko
 publish_at: 2026-10-29 09:04
+updated: 2026-10-30
 ---
 
 On Thursday morning, when the alarm went off, my hand moved first and switched it off. Ten minutes later the second alarm rang, and I switched that off too. When the phone screen went dark the room grew quiet again, and a thin line of light through a gap in the curtain lay across the ceiling. Lying on my back, staring at the ceiling, I thought: I feel like I've already used up this week.
