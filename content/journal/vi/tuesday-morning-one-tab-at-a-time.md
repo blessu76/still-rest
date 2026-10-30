@@ -12,22 +12,22 @@ publish_at: 2026-10-27 13:17
 draft: true
 ---
 
-Mười giờ rưỡi sáng thứ Ba, phía dưới màn hình có mười một cửa sổ đang mở. Bản nháp báo cáo, yêu cầu chỉnh sửa nhận từ hôm qua, lịch họp, hai email viết dở. Mở một cái sửa vài dòng thì thông báo tin nhắn lại kêu; chuyển sang cửa sổ đó trả lời xong thì một cửa sổ khác lại nhấp nháy.
+Mười giờ rưỡi sáng thứ Ba, phía dưới màn hình có mười một cửa sổ đang mở. Bản nháp báo cáo, yêu cầu chỉnh sửa nhận từ hôm qua, lịch họp, hai email viết dở. Mở một cái sửa vài dòng thì thông báo tin nhắn lại kêu; chuyển sang cửa sổ đó trả lời xong thì một cửa sổ khác lại nhấp nháy. Trên thanh tác vụ, tên các cửa sổ ngắn dần, đến cuối tôi không còn phân biệt được cửa sổ nào là việc nào.
 
-Thứ Hai vốn dĩ bận nên tôi còn cho qua, nhưng sang thứ Ba thì hết cớ. Hóa ra cả tuần này thật sự sẽ đi với tốc độ này, tôi nghĩ. Trưởng nhóm đi ngang qua hỏi: "Chiều nay xong được chứ?", và tôi gật đầu. Thậm chí chưa hỏi lại cho rõ cái gì phải xong trước buổi chiều.
+Thứ Hai vốn dĩ bận nên tôi còn cho qua, nhưng sang thứ Ba thì hết cớ. Hóa ra cả tuần này thật sự sẽ đi với tốc độ này, tôi nghĩ. Trưởng nhóm đi ngang qua hỏi: "Chiều nay xong được chứ?", và tôi gật đầu. Thậm chí chưa hỏi lại cho rõ cái gì phải xong trước buổi chiều. Về đến chỗ ngồi tôi mới nhận ra lòng bàn tay mình hơi ẩm.
 
-Gần mười một giờ, tôi mới nhận ra. Từ sáng tay không ngừng làm, vậy mà chẳng xong việc nào. Tôi chỉ chạm vào mỗi việc một chút. Lòng tôi cũng như màn hình, như bị chia thành mười một mảnh.
+Gần mười một giờ, tôi mới nhận ra. Từ sáng tay không ngừng làm, vậy mà chẳng xong việc nào. Tôi chỉ chạm vào mỗi việc một chút. Lòng tôi cũng như màn hình, như bị chia thành mười một mảnh. Tôi cố tựa lưng vào ghế nhưng vai vẫn chúi về phía màn hình.
 
 ## Dù tản mát, vẫn được gìn giữ
 
-Vừa đi rót một cốc nước, tôi vừa mở still().
+Vừa đi rót một cốc nước, tôi vừa mở still(). Qua cửa sổ phòng pha trà có thể thấy người trong tòa nhà đối diện, ai cũng có vẻ bận rộn trước màn hình giống tôi.
 
 > Người nào để trí mình nương dựa nơi Ngài, thì Ngài sẽ gìn giữ người trong sự bình yên trọn vẹn, vì người nhờ cậy Ngài.
 >
 > Ê-sai 26:3 (Kinh Thánh 1925)
 
-Lúc đầu tôi khựng lại ở "để trí mình nương dựa nơi Ngài". Lúc ấy trí tôi chẳng nương dựa vào đâu cả, nó tản ra khắp nơi. Nhưng đọc lại thì người gìn giữ không phải là tôi. "Ngài sẽ gìn giữ". Câu ấy không bắt tôi tự tạo ra sự bình yên, mà như nói rằng có một chỗ để mình được gìn giữ. Câu ấy không làm công việc buổi sáng ít đi. Dù vậy, giữa cái lòng đang chia mười một mảnh, như có một chỗ để bám lấy trong chốc lát.
+Lúc đầu tôi khựng lại ở "để trí mình nương dựa nơi Ngài". Lúc ấy trí tôi chẳng nương dựa vào đâu cả, nó tản ra khắp nơi. Nhưng đọc lại thì người gìn giữ không phải là tôi. "Ngài sẽ gìn giữ". Câu ấy không bắt tôi tự tạo ra sự bình yên, mà như nói rằng có một chỗ để mình được gìn giữ. Câu ấy không làm công việc buổi sáng ít đi. Dù vậy, giữa cái lòng đang chia mười một mảnh, như có một chỗ để bám lấy trong chốc lát. Khi thở ra một hơi, vai tôi hạ xuống chừng nửa gang tay.
 
-Quay về chỗ ngồi, tôi đóng từng cửa sổ một. Chỉ để lại báo cáo, tắt thông báo tin nhắn ba mươi phút. Rồi tôi hỏi trưởng nhóm thật ngắn gọn, chính xác là phần nào cần trước buổi chiều. Câu trả lời nhỏ hơn tôi tưởng. Tôi bắt đầu từ phần đó.
+Quay về chỗ ngồi, tôi đóng từng cửa sổ một. Chỉ để lại báo cáo, tắt thông báo tin nhắn ba mươi phút. Mỗi lần đóng một cái, trong lòng có chút vướng víu, nhưng cứ một cửa sổ biến mất thì màn hình lẫn đầu óc lại rộng ra một chút. Rồi tôi hỏi trưởng nhóm thật ngắn gọn, chính xác là phần nào cần trước buổi chiều. Câu trả lời nhỏ hơn tôi tưởng. Tôi bắt đầu từ phần đó. Xong một dòng, mười một việc ấy cuối cùng mới bắt đầu đếm được từng việc một. Cốc nước trên bàn đã vơi một nửa từ lúc nào.
 
 **Hơi thở hôm nay** — Trong các cửa sổ đang mở, chỉ để lại một, đóng hết phần còn lại. Thở ra một lần, rồi bắt đầu từ cái đó.

@@ -11,11 +11,11 @@ translation_of: ko
 publish_at: 2026-10-29 09:04
 ---
 
-Jeudi matin, quand l’alarme a sonné, ma main a bougé la première et l’a éteinte. Dix minutes plus tard, la deuxième a sonné, et je l’ai éteinte aussi. Allongé sur le dos, les yeux au plafond, j’ai pensé : j’ai l’impression d’avoir déjà épuisé toute cette semaine.
+Jeudi matin, quand l’alarme a sonné, ma main a bougé la première et l’a éteinte. Dix minutes plus tard, la deuxième a sonné, et je l’ai éteinte aussi. Quand l’écran du téléphone s’est éteint, la chambre est redevenue silencieuse, et un mince filet de lumière passant entre les rideaux restait accroché au plafond. Allongé sur le dos, les yeux au plafond, j’ai pensé : j’ai l’impression d’avoir déjà épuisé toute cette semaine.
 
-En fait, il reste deux jours. Aujourd’hui et demain. Mais mon corps était déjà lourd comme un vendredi soir. Le lundi, il y avait au moins quelque chose qui s’appelait un plan. Le jeudi, le plan s’est éparpillé et il ne reste que les choses à faire.
+En fait, il reste deux jours. Aujourd’hui et demain. Mais mon corps était déjà lourd comme un vendredi soir. Le lundi, il y avait au moins quelque chose qui s’appelait un plan. Le jeudi, le plan s’est éparpillé et il ne reste que les choses à faire. Sous la couette, je remuais les orteils en cherchant longtemps une raison de me lever. Je n’en ai pas trouvé, et ce sont mes pieds qui ont touché le sol les premiers. En enfilant mes chaussettes, je me suis arrêté et je suis resté assis au bord du lit.
 
-Je me suis enfin levé, lavé, et je suis sorti. Le chemin jusqu’à l’arrêt m’a paru plus long que d’habitude. En regardant le dos des gens qui marchaient devant moi, il m’a semblé qu’ils allaient tous plus légèrement que moi. Ils vivent sans doute tous un jeudi à peu près pareil.
+Je me suis enfin levé, lavé, et je suis sorti. Le chemin jusqu’à l’arrêt m’a paru plus long que d’habitude. En regardant le dos des gens qui marchaient devant moi, il m’a semblé qu’ils allaient tous plus légèrement que moi. Ils vivent sans doute tous un jeudi à peu près pareil. J’ai remonté la bretelle de mon sac et raccourci volontairement mon pas. Les boutiques de la rue avaient encore leur rideau à moitié baissé.
 
 ## Une phrase qui ne me demande pas de courir
 
@@ -25,8 +25,8 @@ En attendant le bus, j’ai ouvert still().
 >
 > Ésaïe 40:31 (Louis Segond 1910)
 
-« Ceux qui se confient en l’Éternel ». Je l’ai lu comme un regard levé vers quelqu’un. Cela ne m’a pas semblé un ordre de trouver de la force, plutôt une phrase sur l’endroit où se tourne le regard de celui qui n’en a plus. Les aigles et la course n’étaient pas mon histoire d’aujourd’hui. Mes yeux se sont arrêtés sur la fin : « Ils marchent, et ne se fatiguent point ». Cela semblait dire qu’il n’est pas nécessaire de courir, que marcher aussi est une part qui me revient. Cette lecture n’a pas rendu mon corps plus léger. Pourtant, en pensant que ma part d’aujourd’hui n’est que ce que je peux marcher, quelque chose qui pesait sur mes épaules a un peu baissé.
+« Ceux qui se confient en l’Éternel ». Je l’ai lu comme un regard levé vers quelqu’un. Cela ne m’a pas semblé un ordre de trouver de la force, plutôt une phrase sur l’endroit où se tourne le regard de celui qui n’en a plus. Les aigles et la course n’étaient pas mon histoire d’aujourd’hui. Mes yeux se sont arrêtés sur la fin : « Ils marchent, et ne se fatiguent point ». Cela semblait dire qu’il n’est pas nécessaire de courir, que marcher aussi est une part qui me revient. Cette lecture n’a pas rendu mon corps plus léger. Pourtant, en pensant que ma part d’aujourd’hui n’est que ce que je peux marcher, quelque chose qui pesait sur mes épaules a un peu baissé. J’ai relu « Ils marchent » une fois de plus dans ma tête.
 
-Avant l’arrivée du bus, j’ai levé la tête et regardé le ciel. Entre les immeubles, les nuages passaient lentement. Je ne me rappelais plus la dernière fois où j’avais regardé le ciel le matin. Aujourd’hui, j’ai décidé de ne pas courir et d’aller seulement aussi loin que je peux marcher.
+Avant l’arrivée du bus, j’ai levé la tête et regardé le ciel. Entre les immeubles, les nuages passaient lentement. Je ne me rappelais plus la dernière fois où j’avais regardé le ciel le matin. Le bord des nuages était faiblement éclairé par la lumière du matin. Aujourd’hui, j’ai décidé de ne pas courir et d’aller seulement aussi loin que je peux marcher. Quand le bus est arrivé et que les portes se sont ouvertes, je ne me suis pas pressé non plus : je suis monté marche après marche derrière la personne qui me précédait. Je me suis assis près de la vitre et j’ai posé un instant mon front contre le verre.
 
 **Le souffle du jour** — Avant de te mettre à marcher, arrête-toi un instant, lève la tête vers le ciel et expire lentement une fois.

@@ -12,20 +12,20 @@ translation_of: ko
 publish_at: 2026-10-27 13:17
 ---
 
-Terça-feira, dez e meia da manhã, e havia onze janelas abertas na parte de baixo da tela. O rascunho do relatório, o pedido de alterações que chegou ontem, a agenda de reuniões, dois e-mails pela metade. Eu abria uma, corrigia algumas linhas, e tocava um aviso do mensageiro; ia para aquela janela, respondia, e outra já começava a piscar.
+Terça-feira, dez e meia da manhã, e havia onze janelas abertas na parte de baixo da tela. O rascunho do relatório, o pedido de alterações que chegou ontem, a agenda de reuniões, dois e-mails pela metade. Eu abria uma, corrigia algumas linhas, e tocava um aviso do mensageiro; ia para aquela janela, respondia, e outra já começava a piscar. Na barra de tarefas, os títulos das janelas iam ficando mais curtos, até que depois eu já não distinguia qual janela era qual tarefa.
 
-Na segunda, deixei passar, porque segunda é sempre corrida, mas na terça essa desculpa sumiu. Então a semana vai mesmo nesse ritmo, pensei. Meu chefe passou e perguntou: “Fica pronto até a tarde, né?”, e eu fiz que sim com a cabeça. Sem nem conferir o que exatamente precisava estar pronto até a tarde.
+Na segunda, deixei passar, porque segunda é sempre corrida, mas na terça essa desculpa sumiu. Então a semana vai mesmo nesse ritmo, pensei. Meu chefe passou e perguntou: “Fica pronto até a tarde, né?”, e eu fiz que sim com a cabeça. Sem nem conferir o que exatamente precisava estar pronto até a tarde. Só ao voltar à minha mesa percebi que as palmas das mãos estavam um pouco úmidas.
 
-Perto das onze, caiu a ficha. Desde cedo minhas mãos não tinham parado, e eu não tinha terminado nada. Só tinha mexido um pouco em tudo. Minha cabeça parecia dividida em onze pedaços, como a tela.
+Perto das onze, caiu a ficha. Desde cedo minhas mãos não tinham parado, e eu não tinha terminado nada. Só tinha mexido um pouco em tudo. Minha cabeça parecia dividida em onze pedaços, como a tela. Tentei me encostar no espaldar da cadeira, mas os ombros continuavam inclinados para o monitor.
 
 ## Mesmo em pedaços, ser guardado
 
-Indo buscar um copo de água, abri o still().
+Indo buscar um copo de água, abri o still(). Pela janela da copa dava para ver as pessoas do prédio em frente, e todas pareciam tão ocupadas diante das telas quanto eu.
 
 > Isaías 26:3
 
-Primeiro, travei na parte que fala de uma mente firme. Naquela hora, eu estava longe de qualquer firmeza. Mas, lendo de novo, percebi que quem guarda não era eu. Não soava como uma ordem para eu mesmo produzir a paz, e sim como se houvesse um lugar onde a gente é guardado. O versículo não diminuiu o trabalho da manhã. Mesmo assim, no meio de uma cabeça em onze pedaços, pareceu surgir por um momento algo em que me segurar.
+Primeiro, travei na parte que fala de uma mente firme. Naquela hora, eu estava longe de qualquer firmeza. Mas, lendo de novo, percebi que quem guarda não era eu. Não soava como uma ordem para eu mesmo produzir a paz, e sim como se houvesse um lugar onde a gente é guardado. O versículo não diminuiu o trabalho da manhã. Mesmo assim, no meio de uma cabeça em onze pedaços, pareceu surgir por um momento algo em que me segurar. Quando soltei o ar uma vez, os ombros desceram uns quatro dedos.
 
-De volta à mesa, fechei as janelas uma por uma. Deixei só o relatório e silenciei o mensageiro por trinta minutos. Depois perguntei rapidamente ao meu chefe que parte exatamente ele precisava até a tarde. A resposta era menor do que eu imaginava. Comecei por ela.
+De volta à mesa, fechei as janelas uma por uma. Deixei só o relatório e silenciei o mensageiro por trinta minutos. A cada janela fechada ficava um pequeno incômodo por dentro, mas, a cada uma que sumia, a tela e a cabeça ficavam um pouco mais amplas. Depois perguntei rapidamente ao meu chefe que parte exatamente ele precisava até a tarde. A resposta era menor do que eu imaginava. Comecei por ela. Terminada uma única linha, o que eram onze coisas enfim começou a poder ser contado uma a uma. O copo de água na minha mesa já estava pela metade.
 
 **O respiro de hoje** — De todas as janelas abertas, deixo só uma e fecho o resto. Solto o ar uma vez e começo por essa.

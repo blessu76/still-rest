@@ -11,11 +11,11 @@ translation_of: ko
 publish_at: 2026-10-29 09:04
 ---
 
-Am Donnerstagmorgen, als der Wecker klingelte, bewegte sich zuerst meine Hand und stellte ihn ab. Zehn Minuten später klingelte der zweite, und auch den stellte ich ab. Ich lag auf dem Rücken, sah zur Decke und dachte: Diese Woche habe ich schon aufgebraucht.
+Am Donnerstagmorgen, als der Wecker klingelte, bewegte sich zuerst meine Hand und stellte ihn ab. Zehn Minuten später klingelte der zweite, und auch den stellte ich ab. Als der Handybildschirm dunkel wurde, war es im Zimmer wieder still, und ein dünner Lichtstreifen aus dem Vorhangspalt hing an der Decke. Ich lag auf dem Rücken, sah zur Decke und dachte: Diese Woche habe ich schon aufgebraucht.
 
-Eigentlich sind es noch zwei Tage. Heute und morgen. Aber mein Körper war schon schwer wie an einem Freitagabend. Am Montag gab es wenigstens etwas, das Plan hieß. Am Donnerstag ist der Plan zerstreut, und nur das, was erledigt werden muss, ist übrig.
+Eigentlich sind es noch zwei Tage. Heute und morgen. Aber mein Körper war schon schwer wie an einem Freitagabend. Am Montag gab es wenigstens etwas, das Plan hieß. Am Donnerstag ist der Plan zerstreut, und nur das, was erledigt werden muss, ist übrig. Unter der Decke bewegte ich die Zehen und suchte lange nach einem Grund aufzustehen. Am Ende fand ich keinen, und die Füße berührten einfach zuerst den Boden. Beim Anziehen der Socken hielt ich inne und blieb auf der Bettkante sitzen.
 
-Mühsam stand ich auf, wusch mich und ging hinaus. Der Weg zur Haltestelle kam mir länger vor als sonst. Wenn ich den Menschen vor mir auf den Rücken sah, schienen alle leichter zu gehen als ich. Vermutlich haben alle einen ziemlich ähnlichen Donnerstag.
+Mühsam stand ich auf, wusch mich und ging hinaus. Der Weg zur Haltestelle kam mir länger vor als sonst. Wenn ich den Menschen vor mir auf den Rücken sah, schienen alle leichter zu gehen als ich. Vermutlich haben alle einen ziemlich ähnlichen Donnerstag. Ich rückte den Riemen meiner Tasche zurecht und verkürzte absichtlich meine Schritte. Die Läden an der Straße hatten ihre Rollläden noch halb unten.
 
 ## Ein Satz, der nicht verlangt, dass ich renne
 
@@ -25,8 +25,8 @@ Während ich auf den Bus wartete, öffnete ich still().
 >
 > Jesaja 40:31 (Lutherbibel 1912)
 
-„Die auf den HERRN harren.“ Ich las das als einen nach oben gerichteten Blick zu jemandem. Es kam mir nicht wie die Aufforderung vor, Kraft aufzubringen, eher wie ein Satz darüber, wohin jemand schaut, dessen Kraft zu Ende ist. Die Adler und das Laufen waren heute nicht meine Geschichte. Mein Blick blieb am Schluss hängen: „daß sie wandeln und nicht müde werden“. Es schien zu sagen, dass ich nicht rennen muss und dass auch das Gehen ein Teil dessen ist, was mir zukommt. Durch das Lesen wurde mein Körper nicht leichter. Trotzdem sank etwas, das auf meinen Schultern lag, ein wenig herab, als ich dachte, dass mein Teil für heute nur so viel ist, wie ich gehen kann.
+„Die auf den HERRN harren.“ Ich las das als einen nach oben gerichteten Blick zu jemandem. Es kam mir nicht wie die Aufforderung vor, Kraft aufzubringen, eher wie ein Satz darüber, wohin jemand schaut, dessen Kraft zu Ende ist. Die Adler und das Laufen waren heute nicht meine Geschichte. Mein Blick blieb am Schluss hängen: „daß sie wandeln und nicht müde werden“. Es schien zu sagen, dass ich nicht rennen muss und dass auch das Gehen ein Teil dessen ist, was mir zukommt. Durch das Lesen wurde mein Körper nicht leichter. Trotzdem sank etwas, das auf meinen Schultern lag, ein wenig herab, als ich dachte, dass mein Teil für heute nur so viel ist, wie ich gehen kann. Im Stillen las ich noch einmal „wandeln“.
 
-Bevor der Bus kam, hob ich den Kopf und sah zum Himmel. Zwischen den Gebäuden zogen langsam Wolken vorbei. Ich konnte mich nicht erinnern, wann ich zuletzt morgens zum Himmel geschaut hatte. Heute beschloss ich, nicht zu rennen und nur so weit zu gehen, wie ich gehen kann.
+Bevor der Bus kam, hob ich den Kopf und sah zum Himmel. Zwischen den Gebäuden zogen langsam Wolken vorbei. Ich konnte mich nicht erinnern, wann ich zuletzt morgens zum Himmel geschaut hatte. Die Ränder der Wolken waren vom Morgenlicht schwach aufgehellt. Heute beschloss ich, nicht zu rennen und nur so weit zu gehen, wie ich gehen kann. Als der Bus kam und die Türen aufgingen, hetzte ich auch nicht, sondern stieg hinter dem Menschen vor mir Stufe für Stufe ein. Ich setzte mich ans Fenster und lehnte die Stirn kurz an die Scheibe.
 
 **Der Atem des Tages** — Bevor du losgehst, bleib einen Moment stehen, heb den Kopf zum Himmel und atme einmal langsam aus.
