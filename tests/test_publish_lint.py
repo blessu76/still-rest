@@ -1,5 +1,7 @@
 """Publishing lint of `build_journal.py --check` (SEO guide v1, pipeline A + B): hard errors for broken posts (and for a NEW post under the
 length floor), warnings (never failing) for thin / long / repeated text. Run: python3 -m unittest discover -s tests"""
+import datetime as dt
+import json
 import os
 import re
 import sys
@@ -9,6 +11,8 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "scripts"))
 import build_journal as bj  # noqa: E402
+import check_sitemap  # noqa: E402
+import indexnow  # noqa: E402
 from test_build_journal import Base, run  # noqa: E402
 
 LONG_EN = " ".join(["word"] * 420)
@@ -277,6 +281,68 @@ class LengthFloor(Base):
         self.assertEqual(r.returncode, 1)
         self.assertIn("is in the future", r.stderr)
         self.assertIn("placeholder text", r.stderr)
+
+
+class UpdatedClock(Base):
+    """`updated` is judged against the REAL clock: a build that replays an earlier `--now` (the tests, a rebuild of the past) must not break on
+    an `updated` that is already history today, and must never print it as its own dateModified; a real build still rejects a future one."""
+
+    def modified(self, lang="en", slug="p1"):
+        h = (Path(self.tmp) / "journal" / lang / slug / "index.html").read_text(encoding="utf-8")
+        ld = json.loads(re.search(r'<script type="application/ld\+json">(.*?)</script>', h, re.S).group(1))
+        return ld["dateModified"], re.search(r'<meta property="article:modified_time" content="([^"]*)">', h).group(1)
+
+    def test_a_past_clock_build_clamps_a_later_updated_instead_of_failing(self):
+        post(self.tmp, date="2026-10-20", extra="updated: 2026-10-28\n")  # written after this clock, but long before the real today
+        for args in (("--now", "2026-10-24 12:00"), ("--now", "2026-10-20 09:00")):
+            r = run(self.tmp, *args)
+            self.assertEqual(r.returncode, 0, r.stderr)
+            self.assertEqual(run(self.tmp, "--check", *args).returncode, 0)
+            clock = args[1][:10]
+            self.assertEqual(self.modified(), (clock, clock), args)  # never a date from the build's own future
+            self.assertIn("<lastmod>%s</lastmod>" % clock, (Path(self.tmp) / "sitemap.xml").read_text(encoding="utf-8").split("/journal/en/p1/")[1])
+            errs = check_sitemap.check(self.tmp, dt.datetime.fromisoformat(args[1]).replace(tzinfo=bj.KST))[0]
+            self.assertEqual([e for e in errs if "/journal/" in e], [], args)  # (the copied home/info rows carry later stamps of their own)
+
+    def test_a_past_clock_build_still_fails_for_an_updated_after_the_real_today(self):
+        post(self.tmp, extra="updated: 2999-01-02\n")
+        r = run(self.tmp, "--now", "2026-10-24 12:00")
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("updated 2999-01-02 is in the future", r.stderr)
+
+    def test_a_real_clock_build_rejects_a_future_updated_and_keeps_todays(self):
+        today = dt.datetime.now(bj.KST).date()
+        post(self.tmp, extra="updated: %s\n" % (today + dt.timedelta(days=1)))
+        for args in ((), ("--now", "now")):
+            r = run(self.tmp, *args)
+            self.assertEqual(r.returncode, 1, args)
+            self.assertIn("is in the future", r.stderr)
+        post(self.tmp, extra="updated: %s\n" % today)
+        for args in ((), ("--now", "now")):
+            self.assertEqual(run(self.tmp, *args).returncode, 0, args)
+            self.assertEqual(self.modified(), (today.isoformat(),) * 2)
+
+    def test_a_future_clock_replay_is_unchanged(self):
+        post(self.tmp, extra="updated: 2027-01-02\n")
+        self.assertEqual(run(self.tmp, "--now", "2099-01-01 00:00").returncode, 0)
+        self.assertEqual(self.modified(), ("2027-01-02",) * 2)
+        post(self.tmp, extra="updated: 2100-01-02\n")
+        self.assertEqual(run(self.tmp, "--now", "2099-01-01 00:00").returncode, 1)
+
+    def test_indexnow_changed_picks_up_a_post_that_got_updated_today(self):
+        today = dt.datetime.now(bj.KST).date().isoformat()
+        post(self.tmp, date="2026-10-20")
+        self.assertEqual(run(self.tmp, "--now", "now").returncode, 0)
+        before = indexnow.sitemap_entries(Path(self.tmp) / "sitemap.xml")  # what is live: the post, lastmod = its date
+        post(self.tmp, date="2026-10-20", extra="updated: %s\n" % today)  # the enriched post is deployed with updated = today
+        self.assertEqual(run(self.tmp, "--now", "now").returncode, 0)
+        after = indexnow.sitemap_entries(Path(self.tmp) / "sitemap.xml")
+        urls = indexnow.changed_urls(after, today, before)
+        post_url = [loc for loc, _ in after if loc.endswith("/journal/en/p1/")]
+        self.assertEqual(len(post_url), 1)
+        self.assertIn(post_url[0], urls)
+        self.assertEqual(urls[-1].rsplit("/", 1)[-1], "sitemap.xml")
+        self.assertEqual(indexnow.changed_urls(after, today, after), [])  # the next hourly run: nothing new
 
 
 class Committed(unittest.TestCase):

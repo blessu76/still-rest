@@ -46,7 +46,7 @@ Front matter (between two `---` lines):
                     REQUIRED when the body has a quotation block (`> ...`); write `bible_version: none` when the quote is not Scripture.
     aliases:     optional, comma separated old site paths (/journal/old-slug/) → static redirect stubs to this page
   Optional GEO fields (omitted → simply not emitted):
-    updated:        YYYY-MM-DD, dateModified / sitemap lastmod
+    updated:        YYYY-MM-DD, dateModified / sitemap lastmod (never after today on the real clock; a build replaying an earlier `--now` clamps it to that day)
     image:          hero image, /assets/journal/<slug>/x.jpg (or https URL); default = first body image, else og-image
     image_alt:      alt text of the hero image (ImageObject.caption)
     keywords:       comma separated
@@ -68,7 +68,7 @@ Usage:
     python3 scripts/build_journal.py --check --strict-safety
         # also fail while any language that has a published post still has unreviewed (draft) crisis-line data
     Publishing lint (every build and --check, see lint_posts): FAILS on placeholder text, a future date without `publish_at`, a future
-        `published_at`/`updated`, `updated` before `date`, and on a NEW original (front matter date 2026-10-31 or later) shorter than
+        `published_at`/`updated` (after the real KST date), `updated` before `date`, and on a NEW original (front matter date 2026-10-31 or later) shorter than
         300 words / 600 CJK characters; only WARNS (exit code stays 0) on any original shorter than 400 words / 800 CJK characters
         (older posts: also below 300 / 600, they are being filled out), a title over 60 (CJK 40) characters, a description over 160
         (CJK 110), the same title twice in one language. (Davy 2026-10-29: 400 words is the aim, 300 the floor; CJK per guide v1: 800 / 600 characters.)
@@ -1341,6 +1341,7 @@ def lint_posts(all_posts, now=None, length_errors_as_warnings=False):
     Required fields and the slug rules are enforced where the front matter is read (parse_post / read_posts): the file must be
     content/journal/<lang>/<slug>.md, so one slug can exist once per language — a second file with the same slug fails on its file name."""
     today = (now or dt.datetime.now(KST)).astimezone(KST).date()
+    real_today = dt.datetime.now(KST).date()
     new_from = dt.date.fromisoformat(LENGTH_ERROR_FROM)
     errs, warns = [], []
     titles = {}
@@ -1357,12 +1358,15 @@ def lint_posts(all_posts, now=None, length_errors_as_warnings=False):
             errs.append("%s: date %s is in the future (today is %s) and the post is not scheduled — use `publish_at` to publish later" % (src, p["date"], today))
         if p["_published_at"] and p["_published_at"].astimezone(KST).date() > today:
             errs.append("%s: published_at %s is in the future" % (src, p["published_at"]))
-        if p.get("updated"):
-            upd = dt.date.fromisoformat(p["updated"])
-            if upd > today:
-                errs.append("%s: updated %s is in the future (today is %s)" % (src, p["updated"], today))
+        raw_updated = p.get("_updated_raw", p.get("updated"))
+        if raw_updated:
+            upd = dt.date.fromisoformat(raw_updated)
+            if upd > today and not (upd <= real_today and today < real_today):
+                # a build clock in the past (a replay, e.g. the tests' `--now 2026-10-24`) tolerates an `updated` that is already history on the real
+                # clock — read_posts clamps it to the clock's date, so the page never shows a future dateModified; a real build never gets here.
+                errs.append("%s: updated %s is in the future (today is %s)" % (src, raw_updated, today))
             if upd < p["_date"]:
-                errs.append("%s: updated %s is before the post's date %s" % (src, p["updated"], p["date"]))
+                errs.append("%s: updated %s is before the post's date %s" % (src, raw_updated, p["date"]))
         cjk = p["lang"] in CJK_LANGS
         if not p.get("translation_of"):
             n, unit = body_size(p)
@@ -1414,6 +1418,13 @@ def read_posts(root, drafts, now=None):
         if p["lang"] in HELD and not p["draft"]:
             errors.append("%s: the %s journal is on hold (%s) — keep the post `draft: true`" % (name, p["lang"], HELD[p["lang"]]))
             continue
+        p["_updated_raw"] = p.get("updated")
+        if p.get("updated") and now is not None:
+            # replaying a past clock (`--now`): an `updated` after that clock's date is clamped to it, so the output of a past-clock build never
+            # carries a dateModified/lastmod from its own future (lint_posts still judges the raw value against the real clock).
+            clock = now.astimezone(KST).date()
+            if dt.date.fromisoformat(p["updated"]) > clock:
+                p["updated"] = clock.isoformat()
         p["_held"] = bool(p["_publish_at"]) and (now is None or p["_publish_at"] > now)
         if (p["draft"] or p["_held"]) and not drafts:
             continue
