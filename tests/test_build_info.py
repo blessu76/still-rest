@@ -16,6 +16,11 @@ def page(lang, name):
     return (REPO / lang / name / "index.html").read_text(encoding="utf-8")
 
 
+def hub(lang):
+    """common language rule: a link to another ipe site carries the page's language - the path when the site has one, else root ?lang=xx."""
+    return "https://ipe.rest/%s/" % lang if lang != "vi" else "https://ipe.rest/?lang=vi"  # ipe.rest has no /vi/ page
+
+
 def ld(h, kind):
     for m in re.finditer(r'<script type="application/ld\+json">\n(.*?)\n</script>', h, re.S):
         d = json.loads(m.group(1))
@@ -62,7 +67,7 @@ class InfoPages(unittest.TestCase):
             self.assertIn('href="/privacy/"', h, l)  # privacy: one canonical page, linked from the answer
             self.assertIn('href="/%s/about/"' % l, h, l)  # "is it the same as other Still apps" -> the about page
             self.assertIn('href="https://findahelpline.com"', h, l)  # not therapy -> where to find help
-            self.assertIn('href="https://ipe.rest"', h, l)
+            self.assertIn('href="%s"' % hub(l), h, l)  # ipe.rest in this page's language
             self.assertRegex(h, r"3[.,]99", l)  # price, as on the home page
             self.assertIn("still.ipe.rest", h, l)
 
@@ -72,7 +77,7 @@ class InfoPages(unittest.TestCase):
             body = h[h.index('<div class="prose info">'):h.index("</main>")]
             ps = re.findall(r"<p>(.*?)</p>", body, re.S)
             self.assertEqual(len(ps), 2, l)  # the paragraph, then the umbrella/links line
-            self.assertIn('href="https://ipe.rest"', ps[1], l)  # ipe.rest umbrella link
+            self.assertIn('href="%s"' % hub(l), ps[1], l)  # ipe.rest umbrella link, in this page's language
             self.assertIn('href="/%s/faq/"' % l, ps[1], l)
             for needle in ("ipe Studio", "still.ipe.rest", "ipe"):
                 self.assertIn(needle, ps[0], (l, needle))
@@ -80,6 +85,16 @@ class InfoPages(unittest.TestCase):
             self.assertEqual(data["mainEntity"]["name"], "still()")
             self.assertNotIn("sameAs", json.dumps(data))  # until a store page / profile exists
             self.assertNotIn("downloadUrl", json.dumps(data))
+
+    def test_links_to_other_ipe_sites_carry_the_language(self):
+        for l in LANGS:
+            for p in PAGES:
+                h = page(l, p)
+                hrefs = re.findall(r'href="(https?://(?:[a-z]+\.)?ipe\.rest[^"]*)"', h)
+                visible = [u for u in hrefs if not u.startswith("https://still.ipe.rest")]
+                self.assertTrue(visible, (l, p))
+                for u in visible:
+                    self.assertIn(u, ("https://ipe.rest/%s/" % l, "https://ipe.rest/?lang=%s" % l), (l, p))  # never a bare https://ipe.rest
 
     def test_text_is_in_the_pages_language(self):
         faq_ko, faq_en = page("ko", "faq"), page("en", "faq")

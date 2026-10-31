@@ -139,7 +139,7 @@
   </div>
   <div class="prose info">
     <p>Other apps and websites also go by the name “Still”. still() — written with the brackets, from ipe Studio at still.ipe.rest — is a different, independent app, and it is not affiliated with them. What sets it apart: it is made for hard days — depression, panic, burnout, a heavy season. You tell it what you&#x27;re carrying, in your own words, and it finds a comforting Bible verse chosen for what you said, a plain-language word on what that verse means, and calm ipe lofi music to rest with. Everything runs on your device: no account, and nothing you type leaves your phone. The verses are human-reviewed Scripture, never written by AI, and still() offers comfort, not counseling. It is rooted in Psalm 46:10: “Be still, and know that I am God.”</p>
-    <p>still() is part of ipe Studio&#x27;s ipe() family — see <a href="https://ipe.rest" rel="noopener">ipe.rest</a>. More answers are in the <a href="/en/faq/">FAQ</a>; the <a href="/en/">home page</a> has the short version.</p>
+    <p>still() is part of ipe Studio&#x27;s ipe() family — see <a href="https://ipe.rest/en/" rel="noopener">ipe.rest</a>. More answers are in the <a href="/en/faq/">FAQ</a>; the <a href="/en/">home page</a> has the short version.</p>
   </div>
   <nav class="article-foot" aria-label="FAQ">
     <a class="more-link" href="/en/"><span aria-hidden="true">←</span> still()</a>
@@ -180,9 +180,14 @@
 (function () {
   var sel = document.getElementById('lang');
   if (sel) sel.addEventListener('change', function () {
-    var m = String(this.value).match(/^\/journal\/([a-z]{2})\//);
+    var m = String(this.value).match(/^\/(?:journal\/)?([a-z]{2})\//);
     try { if (m) localStorage.setItem('still_lang', m[1]); } catch (e) {}
     location.href = this.value;
+  });
+  var foot = document.querySelector('.foot-langs');
+  if (foot) foot.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[hreflang]');
+    if (a) { try { localStorage.setItem('still_lang', a.getAttribute('hreflang')); } catch (e2) {} }
   });
 })();
 </script>

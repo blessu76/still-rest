@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-{{LEGACY_SCRIPT}}<title>{{meta_title}}</title>
+{{LANG_SCRIPT}}<title>{{meta_title}}</title>
 <meta name="description" content="{{meta_desc}}">
 <meta name="keywords" content="Bible app, Bible verse, comfort, Christian app, on-device AI, private, Psalm 46:10, be still, devotional, prayer, still, ipe">
 <meta name="author" content="ipe Studio">
@@ -395,19 +395,6 @@
   .foot-langs a:hover,.foot-langs a[aria-current]{color:var(--cream);}
   .foot-studio{margin-top:26px;font-size:12px;letter-spacing:.06em;color:#565e6b;}
 
-  /* ---------- language hint (root only; suggests, never redirects) ---------- */
-  .lang-hint{
-    position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:60;
-    display:flex;align-items:center;gap:4px;max-width:calc(100vw - 24px);
-    background:rgba(15,18,24,.92);backdrop-filter:blur(8px);
-    border:1px solid rgba(201,168,76,.4);border-radius:999px;
-    padding:0 6px 0 18px;color:var(--cream);font-size:14px;
-  }
-  .lang-hint[hidden]{display:none;}
-  .lang-hint a{display:inline-flex;align-items:center;min-height:44px;color:var(--cream);font-weight:500;text-decoration:none;gap:8px;}
-  .lang-hint a:hover{color:var(--gold);}
-  .lang-hint button{min-width:44px;min-height:44px;border:0;background:transparent;color:#a9b0bc;font-size:20px;cursor:pointer;}
-
   /* ---------- journal link (calm, top-left — mirrors the language selector; removed while there is no post) ---------- */
   .topnav{
     position:fixed;top:18px;left:18px;z-index:50;
@@ -461,7 +448,7 @@
 </head>
 <body>
 
-{{LANG_HINT}}<!-- journal link (top; generated: dropped while there is no post) -->
+<!-- journal link (top; generated: dropped while there is no post) -->
 <a class="topnav" href="{{JOURNAL_HREF}}" data-i18n="foot_journal" data-journal-top>Journal</a>
 
 <!-- language selector -->

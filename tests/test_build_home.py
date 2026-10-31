@@ -74,29 +74,87 @@ class BuildHome(unittest.TestCase):
         for l in LANGS:
             self.assertFalse(keys - set(strings[l]), "%s lacks %s" % (l, sorted(keys - set(strings[l]))))
 
-    def test_root_is_x_default_without_forced_redirect(self):
+    def test_root_is_x_default_english_with_language_rule_script(self):
         h = self.page()
         self.assertIn('<link rel="canonical" href="https://still.ipe.rest/">', h)
         self.assertIn('<html lang="en" dir="ltr">', h)
-        self.assertIn('id="langHint" hidden', h)  # hint only: hidden until JS decides, never a redirect
-        self.assertNotIn('http-equiv="refresh"', h)
-        self.assertNotIn("langHint", self.page("ja"))  # only the root has the hint
-        self.assertNotIn("langHint", self.page("en"))
+        self.assertNotIn('http-equiv="refresh"', h)  # the move is the language script's, not a static refresh (crawlers stay on the English root)
+        self.assertNotIn("langHint", h)  # the old "한국어 →" hint band is gone
+        self.assertNotIn("lang-hint", h)
 
-    def test_legacy_query_redirect_is_first_script_of_root_only(self):
+    def root_script(self):
+        return re.search(r"<script>(\(function\(\)\{try\{var ALL=.*?)</script>", self.page(), re.S).group(1)
+
+    def test_root_script_is_first_in_head_and_follows_url_stored_browser_english_order(self):
         h = self.page()
-        self.assertIn("get('lang')", h)
-        self.assertLess(h.index("get('lang')"), h.index("<title>"))  # top of <head>, before anything renders
-        self.assertIn("location.replace('/'+l+'/'+location.hash)", h)
-        self.assertIn(r"/^(" + "|".join(LANGS) + r")$/", h)  # only known language codes are followed
+        self.assertLess(h.index("var ALL="), h.index("<title>"))  # top of <head>, before anything renders
+        js = self.root_script()
+        order = [js.index(k) for k in ("q=u.get('lang')", "localStorage.getItem('still_lang')", "navigator.languages")]
+        self.assertEqual(order, sorted(order))  # 1 URL, 2 stored choice, 3 browser; nothing found -> no move = English
+        self.assertIn("location.replace(PRE+pick+'/'", js)
+        self.assertIn("location.hash", js)
+        self.assertIn(".split('-')[0]", js)  # ko-KR -> ko, zh-TW -> zh, pt-BR -> pt
+        self.assertIn('ALL=' + json.dumps(LANGS), js)  # only known language codes are followed
+        self.assertIn('PRE="/"', js)
+
+    def test_language_pages_never_move_the_visitor(self):
         for l in LANGS:
-            self.assertNotIn("get('lang')", self.page(l))
+            h = self.page(l)
+            self.assertNotIn("var ALL=", h, l)
+            self.assertNotIn("location.replace", h, l)
+            self.assertNotIn("get('lang')", h, l)
+            self.assertNotIn("navigator.language", h, l)  # the URL is the decision on a /xx/ page
+
+    def test_language_choice_is_stored(self):
+        for l in [None] + LANGS:
+            h = self.page(l)
+            self.assertIn("localStorage.setItem('still_lang', this.value)", h, l)  # the <select>
+            self.assertIn("localStorage.setItem('still_lang', a.getAttribute('hreflang'))", h, l)  # footer language links
+
+    def test_root_script_behavior(self):
+        """run the real root script in node with a fake window: ?lang / stored / browser order, English stays, links keep query and hash."""
+        node = shutil.which("node")
+        if not node:
+            self.skipTest("node is not installed")
+        harness = (
+            "const js = require('fs').readFileSync(0, 'utf8');\n"
+            "function run(o) { let to = null, store = Object.assign({}, o.stored || {});\n"
+            "  const location = { search: o.search || '', hash: o.hash || '', replace: (u) => { to = u; } };\n"
+            "  const localStorage = { getItem: (k) => (k in store ? store[k] : null), setItem: (k, v) => { store[k] = v; } };\n"
+            "  const navigator = { languages: o.langs || [], language: (o.langs || [])[0] };\n"
+            "  new Function('location', 'localStorage', 'navigator', 'URLSearchParams', js)(location, localStorage, navigator, URLSearchParams);\n"
+            "  return { to, store }; }\n"
+            "const cases = JSON.parse(process.argv[1]);\n"
+            "console.log(JSON.stringify(cases.map(run)));\n")
+        cases = [
+            {"langs": ["ko-KR", "en-US"]},                                   # 0 browser Korean -> /ko/
+            {"langs": ["en-US"]},                                            # 1 English browser -> stays
+            {"langs": ["fr"]},                                               # 2 -> /fr/
+            {"langs": []},                                                   # 3 no language at all -> English, stays
+            {"langs": ["it", "de-AT", "en"]},                                # 4 first SUPPORTED match (it is not) -> /de/
+            {"langs": ["zh-TW"]},                                            # 5 -> /zh/
+            {"langs": ["pt-BR"]},                                            # 6 -> /pt/
+            {"langs": ["ko"], "stored": {"still_lang": "en"}},               # 7 stored choice beats the browser: English stays
+            {"langs": ["en"], "stored": {"still_lang": "ja"}},               # 8 stored ja beats an English browser -> /ja/
+            {"langs": ["ko"], "stored": {"still_lang": "xx"}},               # 9 junk stored value is ignored -> browser -> /ko/
+            {"langs": ["ko"], "search": "?lang=de", "stored": {"still_lang": "ja"}},  # 10 URL beats stored and browser -> /de/, and is remembered
+            {"langs": ["en"], "search": "?lang=en"},                         # 11 explicit URL English -> /en/
+            {"langs": ["ko"], "search": "?lang=zz"},                         # 12 unknown ?lang is ignored -> browser -> /ko/
+            {"langs": ["ko"], "search": "?utm_source=a&lang=es", "hash": "#faq"},  # 13 other query and hash survive; lang is dropped
+            {"langs": ["vi"]},                                               # 14 vi has a home page -> /vi/
+        ]
+        r = subprocess.run([node, "-e", harness, json.dumps(cases)], input=self.root_script(), capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        got = [c["to"] for c in json.loads(r.stdout)]
+        self.assertEqual(got, ["/ko/", None, "/fr/", None, "/de/", "/zh/", "/pt/", None, "/ja/", "/ko/", "/de/", "/en/", "/ko/",
+                               "/es/?utm_source=a#faq", "/vi/"])
+        self.assertEqual(json.loads(r.stdout)[10]["store"]["still_lang"], "de")
 
     def test_accessibility_labels_and_structured_data_follow_the_language(self):
         strings = json.loads((REPO / "content/home/i18n.json").read_text(encoding="utf-8"))
         for l in LANGS:
             h = self.page(l)
-            for k in ("aria_lang", "aria_verse_card", "aria_save", "aria_listen", "aria_email", "aria_footer", "aria_close", "og_image_alt"):
+            for k in ("aria_lang", "aria_verse_card", "aria_save", "aria_listen", "aria_email", "aria_footer", "og_image_alt"):
                 self.assertTrue(strings[l].get(k), "%s lacks %s" % (l, k))
             for k in ("aria_lang", "aria_verse_card", "aria_save", "aria_listen", "aria_email", "aria_footer"):
                 self.assertIn('aria-label="%s"' % html.escape(strings[l][k]), h, "%s %s" % (l, k))
@@ -114,9 +172,6 @@ class BuildHome(unittest.TestCase):
                 for english in ("Language", "Footer", "Email address", "Save this verse", "Example verse card", "Listen with calm music"):
                     self.assertNotIn('aria-label="%s"' % english, h, "%s still has English %r" % (l, english))
                 self.assertNotIn("A private, on-device AI companion", h, l)
-        self.assertNotIn('aria-label="×"', self.page(None))  # the hint's close button is labelled in English too, never a bare ×
-        self.assertIn('CLOSE = "Close"', self.page(None))
-        self.assertNotIn("CLOSE", self.page("ko"))  # hint is root only
 
     def test_language_switch_is_plain_links_too(self):
         for l in [None] + LANGS:

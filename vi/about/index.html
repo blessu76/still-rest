@@ -139,7 +139,7 @@
   </div>
   <div class="prose info">
     <p>Cũng có những ứng dụng và trang web khác mang tên “Still”. still() — viết có dấu ngoặc, của ipe Studio tại still.ipe.rest — là một ứng dụng độc lập, khác biệt và không liên kết với họ. Điểm khác biệt: nó được làm cho những ngày khó khăn — trầm cảm, hoảng loạn, kiệt sức, một giai đoạn nặng nề. Bạn kể điều mình đang gánh bằng chính lời của mình, và nó tìm một câu Kinh Thánh an ủi được chọn theo điều bạn nói, vài lời giản dị về ý nghĩa của câu ấy, cùng nhạc lofi ipe êm dịu để nghỉ ngơi. Mọi thứ chạy ngay trên thiết bị của bạn: không cần tài khoản, và không điều gì bạn gõ rời khỏi điện thoại. Các câu Kinh Thánh là văn bản được con người duyệt, không bao giờ do AI viết, và still() mang lại sự an ủi chứ không phải tư vấn. Ứng dụng bắt nguồn từ Thi Thiên 46:10: “Hãy yên lặng và biết rằng Ta là Đức Chúa Trời.”</p>
-    <p>still() thuộc gia đình ipe() của ipe Studio — xem <a href="https://ipe.rest" rel="noopener">ipe.rest</a>. Thêm câu trả lời ở <a href="/vi/faq/">câu hỏi thường gặp</a>, bản ngắn ở <a href="/vi/">trang chủ</a>.</p>
+    <p>still() thuộc gia đình ipe() của ipe Studio — xem <a href="https://ipe.rest/?lang=vi" rel="noopener">ipe.rest</a>. Thêm câu trả lời ở <a href="/vi/faq/">câu hỏi thường gặp</a>, bản ngắn ở <a href="/vi/">trang chủ</a>.</p>
   </div>
   <nav class="article-foot" aria-label="Câu hỏi thường gặp">
     <a class="more-link" href="/vi/"><span aria-hidden="true">←</span> still()</a>
@@ -180,9 +180,14 @@
 (function () {
   var sel = document.getElementById('lang');
   if (sel) sel.addEventListener('change', function () {
-    var m = String(this.value).match(/^\/journal\/([a-z]{2})\//);
+    var m = String(this.value).match(/^\/(?:journal\/)?([a-z]{2})\//);
     try { if (m) localStorage.setItem('still_lang', m[1]); } catch (e) {}
     location.href = this.value;
+  });
+  var foot = document.querySelector('.foot-langs');
+  if (foot) foot.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[hreflang]');
+    if (a) { try { localStorage.setItem('still_lang', a.getAttribute('hreflang')); } catch (e2) {} }
   });
 })();
 </script>

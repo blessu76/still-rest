@@ -212,7 +212,7 @@
     <h2>Perangkat dan bahasa apa yang didukung?</h2>
     <p>still() adalah aplikasi iOS. Aplikasi dan situs web ini tersedia dalam 11 bahasa: Inggris, Korea, Jepang, Mandarin, Spanyol, Portugis, Indonesia, Rusia, Vietnam, Prancis, dan Jerman.</p>
     <h2>Siapa yang membuat still()?</h2>
-    <p>still() dibuat oleh ipe Studio, studio independen dengan merek ipe() — “ketika proses akhirnya beristirahat” (when the process finally rests). Kunjungi <a href="https://ipe.rest" rel="noopener">ipe.rest</a> atau tulis ke ipe.haven@gmail.com.</p>
+    <p>still() dibuat oleh ipe Studio, studio independen dengan merek ipe() — “ketika proses akhirnya beristirahat” (when the process finally rests). Kunjungi <a href="https://ipe.rest/id/" rel="noopener">ipe.rest</a> atau tulis ke ipe.haven@gmail.com.</p>
   </div>
   <nav class="article-foot" aria-label="Tentang">
     <a class="more-link" href="/id/"><span aria-hidden="true">←</span> still()</a>
@@ -253,9 +253,14 @@
 (function () {
   var sel = document.getElementById('lang');
   if (sel) sel.addEventListener('change', function () {
-    var m = String(this.value).match(/^\/journal\/([a-z]{2})\//);
+    var m = String(this.value).match(/^\/(?:journal\/)?([a-z]{2})\//);
     try { if (m) localStorage.setItem('still_lang', m[1]); } catch (e) {}
     location.href = this.value;
+  });
+  var foot = document.querySelector('.foot-langs');
+  if (foot) foot.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[hreflang]');
+    if (a) { try { localStorage.setItem('still_lang', a.getAttribute('hreflang')); } catch (e2) {} }
   });
 })();
 </script>

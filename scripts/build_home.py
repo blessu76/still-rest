@@ -5,8 +5,9 @@ Source   content/home/template.html   English markup with data-i18n / data-i18n-
          content/home/i18n.json       strings per language (a missing key falls back to English)
 Writes   /<lang>/index.html           en ko ja zh es pt id ru vi fr de — html lang/dir, own title·description·og:locale,
                                       canonical = itself, hreflang 11 + x-default
-         /index.html                  x-default: English content, canonical "/", plus a *non-forcing* language hint
-                                      (no automatic redirect for crawlers or people; old ?lang=xx links go to /xx/)
+         /index.html                  x-default: English content, canonical "/". Its head script applies the common language rule
+                                      (?lang=xx -> stored choice -> browser language -> English): a visitor whose language is not
+                                      English is sent to /xx/; English stays here. /xx/ pages never move the visitor.
          sitemap.xml                  between <!-- home:start --> / <!-- home:end -->
          llms.txt                     between <!-- home:llms:start --> / <!-- home:llms:end -->
 
@@ -24,13 +25,15 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from site_common import GA_SNIPPET, LANGS, SITE, check_fresh, esc, font_links, lang_url, meta_desc, replace_between, stamped_date, with_localtime  # noqa: E402
+from site_common import GA_SNIPPET, LANGS, auto_lang_script, SITE, check_fresh, esc, font_links, lang_url, meta_desc, replace_between, stamped_date, with_localtime  # noqa: E402
 
 TEMPLATE = Path("content") / "home" / "template.html"
 STRINGS = Path("content") / "home" / "i18n.json"
 STAMP = Path("content") / "home" / "stamp.json"  # {hash, date}: when template/i18n last changed (sitemap lastmod); written by this script
 LANG_ATTR = re.compile(r'(<(?P<tag>[a-zA-Z0-9]+)(?P<attrs>[^>]*?\sdata-i18n="(?P<key>[^"]+)"[^>]*)>)(?P<inner>.*?)(</(?P=tag)>)', re.S)
 PH_ATTR = re.compile(r'<[a-zA-Z0-9]+[^>]*?\sdata-i18n-ph="([^"]+)"[^>]*>')
+# the visitor's own choice - the language <select> or a footer language link - is remembered (localStorage still_lang); the neutral entries (/ and
+# /journal/) read it back, see site_common.AUTO_LANG_JS. The select/link also go to the language's address, so ① (the URL) wins on that page.
 NAV_SCRIPT = """<script>
 (function () {
   var sel = document.getElementById('lang');
@@ -38,27 +41,13 @@ NAV_SCRIPT = """<script>
     try { localStorage.setItem('still_lang', this.value); } catch (e) {}
     location.href = '/' + this.value + '/';
   });
-%s})();
+  var foot = document.querySelector('.foot-langs');
+  if (foot) foot.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[hreflang]');
+    if (a) { try { localStorage.setItem('still_lang', a.getAttribute('hreflang')); } catch (e2) {} }
+  });
+})();
 </script>"""
-HINT_JS = """  // root only: suggest (never force) the visitor's language — stored choice first, then the browser's list
-  var hint = document.getElementById('langHint');
-  var NAMES = %s, CLOSE = %s;
-  if (hint) {
-    var off = false; try { off = sessionStorage.getItem('still_hint_off') === '1'; } catch (e) {}
-    var pick = null, stored = null;
-    try { stored = localStorage.getItem('still_lang'); } catch (e) {}
-    if (stored && NAMES[stored]) pick = stored;
-    else { try { var list = navigator.languages || [navigator.language || '']; for (var i = 0; i < list.length && !pick; i++) { var c = String(list[i]).toLowerCase().split('-')[0]; if (NAMES[c]) pick = c; } } catch (e) {} }
-    if (pick && pick !== 'en' && !off) {
-      hint.innerHTML = '<a href="/' + pick + '/" hreflang="' + pick + '" lang="' + pick + '">' + NAMES[pick] + ' <span aria-hidden="true">→</span></a><button type="button" aria-label="' + CLOSE + '">×</button>';
-      hint.hidden = false;
-      hint.querySelector('button').addEventListener('click', function () { hint.hidden = true; try { sessionStorage.setItem('still_hint_off', '1'); } catch (e) {} });
-    }
-  }
-"""
-LEGACY_JS = ("<script>(function(){try{var l=new URLSearchParams(location.search).get('lang');"
-             "if(l&&/^(%s)$/.test(l))location.replace('/'+l+'/'+location.hash);}catch(e){}})();</script>\n")
-HINT_CSS_ID = "langHint"
 ARIA_KEYS = ("aria_lang", "aria_verse_card", "aria_save", "aria_listen", "aria_email", "aria_footer", "og_image_alt")  # {{key}} in the template
 
 
@@ -95,7 +84,6 @@ def render_page(tpl, strings, lang, root, cards_html=None, journal_href="/journa
     options = "\n".join('    <option value="%s"%s>%s</option>' % (l, " selected" if l == lang else "", LANGS[l]["name"]) for l in LANGS)
     page_dict = {k: d[k] for k in ("letters_thanks",) if k in d}
     page_script = "<script>window.__PAGE=%s;</script>" % json.dumps({"lang": lang, "dict": page_dict}, ensure_ascii=False)
-    names = json.dumps({l: LANGS[l]["name"] for l in LANGS}, ensure_ascii=False)
     # the root (x-default) and /en/ are both English: /en/ may carry its own wording (page_meta_title / page_meta_desc in the en strings) so the
     # two URLs do not repeat each other's title and description in search results. Other languages have no such keys.
     title, desc = d["meta_title"], d["meta_desc"]
@@ -106,9 +94,8 @@ def render_page(tpl, strings, lang, root, cards_html=None, journal_href="/journa
         '      <a href="%s/" hreflang="%s" lang="%s"%s>%s</a>' % ("/" + l, l, l, ' aria-current="true"' if l == lang and not root else "", LANGS[l]["name"]) for l in LANGS))
     subs = {
         "LANG": lang, "DIR": LANGS[lang]["dir"], "CANONICAL": esc(canonical), "HREFLANG": hreflang, "OG_LOCALE": og,
-        "LANG_OPTIONS": options, "LEGACY_SCRIPT": LEGACY_JS % "|".join(LANGS) if root else "", "PAGE_SCRIPT": page_script,
-        "LANG_HINT": '<div class="lang-hint" id="%s" hidden></div>\n' % HINT_CSS_ID if root else "",
-        "NAV_SCRIPT": NAV_SCRIPT % (HINT_JS % (names, json.dumps(d["aria_close"], ensure_ascii=False)) if root else ""),
+        "LANG_OPTIONS": options, "LANG_SCRIPT": auto_lang_script("/", LANGS) if root else "", "PAGE_SCRIPT": page_script,
+        "NAV_SCRIPT": NAV_SCRIPT,
         "FONT_LINKS": font_links(),
         "GA_SNIPPET": GA_SNIPPET,
         "meta_title": esc(title), "meta_desc": esc(meta_desc(desc)),

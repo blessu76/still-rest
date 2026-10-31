@@ -215,6 +215,19 @@ class AllLanguages(Base):
         self.assertNotIn("<section class=\"journal\" id=\"journal\" hidden>", self.page("ja/index.html"))
         self.assertIn('href="/journal/ja/"', self.page("ja/index.html"))
 
+    def test_hub_follows_the_language_rule_and_language_lists_never_move(self):
+        hub = self.page("journal/index.html")
+        self.assertIn(bj.auto_lang_script("/journal/", LANGS).strip(), hub)
+        self.assertIn('PRE="/journal/"' if False else 'PRE=', hub)
+        self.assertIn("location.replace(PRE+pick+'/'", hub)
+        self.assertIn("still_lang", hub)
+        for l in LANGS:  # the language lists and the posts stay where they are
+            for p in ("journal/%s/index.html" % l, "journal/%s/hello/index.html" % l):
+                h = self.page(p)
+                self.assertNotIn("location.replace", h, p)
+        # a footer language link stores the choice
+        self.assertIn(".foot-langs", self.page("journal/ko/hello/index.html"))
+
     def test_idempotent_and_fresh(self):
         before = {p: p.read_bytes() for p in self.tmp.rglob("*") if p.is_file()}
         self.assertEqual(run(self.tmp).returncode, 0)

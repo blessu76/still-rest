@@ -139,7 +139,7 @@
   </div>
   <div class="prose info">
     <p>「Still」という名前を使う他のアプリやウェブサイトもあります。括弧をつけて書く still() — ipe Studio が作り、still.ipe.rest で出会えるアプリ — は、それらとは無関係の独立したアプリです。違いは、つらい日のために作られていること。うつ、パニック、燃え尽き、重い季節を歩む人が、いま抱えていることを自分の言葉で伝えると、その言葉に合わせて選んだ慰めの聖句と、その意味をやさしい言葉で添えた一言、休むための穏やかな ipe ローファイ音楽を届けます。すべて端末の中で動き、アカウントは不要で、入力した内容がスマートフォンの外に出ることはありません。聖句は人が確認した聖書の本文で、AI が書いたものではなく、still() が届けるのはカウンセリングではなく慰めです。詩篇46:10に根ざしています：“静まって、わたしこそ神であることを知れ。”</p>
-    <p>still() は ipe Studio の ipe() ファミリーの一員です — <a href="https://ipe.rest" rel="noopener">ipe.rest</a> をご覧ください。さらに詳しい答えは<a href="/ja/faq/">よくある質問</a>に、短い紹介は<a href="/ja/">ホーム</a>にあります。</p>
+    <p>still() は ipe Studio の ipe() ファミリーの一員です — <a href="https://ipe.rest/ja/" rel="noopener">ipe.rest</a> をご覧ください。さらに詳しい答えは<a href="/ja/faq/">よくある質問</a>に、短い紹介は<a href="/ja/">ホーム</a>にあります。</p>
   </div>
   <nav class="article-foot" aria-label="よくある質問">
     <a class="more-link" href="/ja/"><span aria-hidden="true">←</span> still()</a>
@@ -180,9 +180,14 @@
 (function () {
   var sel = document.getElementById('lang');
   if (sel) sel.addEventListener('change', function () {
-    var m = String(this.value).match(/^\/journal\/([a-z]{2})\//);
+    var m = String(this.value).match(/^\/(?:journal\/)?([a-z]{2})\//);
     try { if (m) localStorage.setItem('still_lang', m[1]); } catch (e) {}
     location.href = this.value;
+  });
+  var foot = document.querySelector('.foot-langs');
+  if (foot) foot.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[hreflang]');
+    if (a) { try { localStorage.setItem('still_lang', a.getAttribute('hreflang')); } catch (e2) {} }
   });
 })();
 </script>

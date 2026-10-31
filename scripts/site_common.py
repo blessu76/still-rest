@@ -128,6 +128,40 @@ def with_localtime(page):
     return page[:i] + "<script>" + js + "</script>\n" + page[i:]
 
 
+# Language rule shared by every ipe website (Davy 2026-11-01; _ipe/context/REACH_PROCESS.md "웹사이트 공통 언어 규칙"):
+#   1. the URL (/xx/ path, ?lang=xx)  2. the language the visitor chose (localStorage still_lang)  3. the browser's list (navigator.languages,
+#   first supported match, ko-KR -> ko)  4. English.
+# Only the language-neutral entries run this (the root /, the journal hub /journal/); every /xx/ page is already decided by its URL and never
+# moves the visitor. English (stored, browser or fallback) stays where it is - the root is the English page. Crawlers send no language, so they stay.
+AUTO_LANG_JS = (
+    "<script>(function(){try{"
+    "var ALL=__ALL__,OK=__OK__,PRE=__PRE__,u=new URLSearchParams(location.search),q=u.get('lang'),pick=null,url=false;"
+    "if(q&&ALL.indexOf(q)>=0){pick=q;url=true;try{localStorage.setItem('still_lang',q)}catch(e){}}"
+    "if(!pick){var s=null;try{s=localStorage.getItem('still_lang')}catch(e){}if(s&&ALL.indexOf(s)>=0)pick=s}"
+    "if(!pick){var b=navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||''];"
+    "for(var i=0;i<b.length&&!pick;i++){var c=String(b[i]).toLowerCase().split('-')[0];if(ALL.indexOf(c)>=0)pick=c}}"
+    "if(pick&&OK.indexOf(pick)>=0&&(pick!=='en'||url)){u.delete('lang');var r=u.toString();"
+    "location.replace(PRE+pick+'/'+(r?'?'+r:'')+location.hash)}"
+    "}catch(e){}})();</script>\n")
+
+
+def auto_lang_script(prefix, targets):
+    """the language-decision script for a neutral entry page. prefix: where the language pages live ('/' or '/journal/'); targets: the
+    languages that have a page there (a language outside it - e.g. vi for the journal - falls to English, i.e. the page stays)."""
+    import json
+    return (AUTO_LANG_JS.replace("__ALL__", json.dumps(list(LANGS))).replace("__OK__", json.dumps([l for l in LANGS if l in targets]))
+            .replace("__PRE__", json.dumps(prefix)))
+
+
+# ipe.rest (the studio hub) has a page for these languages at /<lang>/; the other still() languages go to its root with ?lang=<lang> (the hub
+# reads that query). Links from here to another ipe site carry the page's language - never a bare https://ipe.rest in a translated page.
+IPE_REST_LANG_PATHS = ("en", "ko", "ja", "zh", "es", "pt", "id", "ru", "fr", "de")
+
+
+def ipe_rest_url(lang):
+    return "https://ipe.rest/%s/" % lang if lang in IPE_REST_LANG_PATHS else "https://ipe.rest/?lang=%s" % lang
+
+
 def esc(s):
     return html.escape(str(s), quote=True)
 

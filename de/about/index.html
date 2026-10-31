@@ -139,7 +139,7 @@
   </div>
   <div class="prose info">
     <p>Auch andere Apps und Websites heißen „Still“. still() — mit Klammern geschrieben, von ipe Studio unter still.ipe.rest — ist eine eigene, unabhängige App und steht mit ihnen in keiner Verbindung. Was sie unterscheidet: Sie ist für schwere Tage gemacht — Depression, Panik, Erschöpfung, eine bleierne Zeit. Du erzählst mit eigenen Worten, was du trägst, und sie findet einen tröstenden Bibelvers, ausgewählt nach dem, was du gesagt hast, ein paar schlichte Worte dazu, was er bedeutet, und ruhige ipe-Lofi-Musik zum Ausruhen. Alles läuft auf deinem Gerät: ohne Konto, und nichts, was du schreibst, verlässt dein Telefon. Die Verse sind von Menschen geprüfter Bibeltext, nie von einer KI geschrieben, und still() bietet Trost, keine Beratung. Es wurzelt in Psalm 46,10: „Seid stille und erkennet, daß ich Gott bin.“</p>
-    <p>still() gehört zur ipe()-Familie von ipe Studio — siehe <a href="https://ipe.rest" rel="noopener">ipe.rest</a>. Weitere Antworten stehen in den <a href="/de/faq/">häufigen Fragen</a>, die Kurzfassung auf der <a href="/de/">Startseite</a>.</p>
+    <p>still() gehört zur ipe()-Familie von ipe Studio — siehe <a href="https://ipe.rest/de/" rel="noopener">ipe.rest</a>. Weitere Antworten stehen in den <a href="/de/faq/">häufigen Fragen</a>, die Kurzfassung auf der <a href="/de/">Startseite</a>.</p>
   </div>
   <nav class="article-foot" aria-label="FAQ">
     <a class="more-link" href="/de/"><span aria-hidden="true">←</span> still()</a>
@@ -180,9 +180,14 @@
 (function () {
   var sel = document.getElementById('lang');
   if (sel) sel.addEventListener('change', function () {
-    var m = String(this.value).match(/^\/journal\/([a-z]{2})\//);
+    var m = String(this.value).match(/^\/(?:journal\/)?([a-z]{2})\//);
     try { if (m) localStorage.setItem('still_lang', m[1]); } catch (e) {}
     location.href = this.value;
+  });
+  var foot = document.querySelector('.foot-langs');
+  if (foot) foot.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[hreflang]');
+    if (a) { try { localStorage.setItem('still_lang', a.getAttribute('hreflang')); } catch (e2) {} }
   });
 })();
 </script>

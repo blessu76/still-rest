@@ -90,7 +90,7 @@ import urllib.parse
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from site_common import GA_SNIPPET, GEN_MARK, KST, LANGS, ORG, SITE, check_fresh, esc, font_links, lang_url, meta_desc, parse_when, replace_between, with_localtime  # noqa: E402
+from site_common import GA_SNIPPET, GEN_MARK, KST, LANGS, ORG, SITE, auto_lang_script, check_fresh, esc, font_links, lang_url, meta_desc, parse_when, replace_between, with_localtime  # noqa: E402
 
 ASSET_V = "20261029a"  # ?v= of assets/journal.css — bump when the file changes
 CF_TOKEN = "eab6249a56894cb084b7bcc8f1a860a6"  # Cloudflare Web Analytics (cookieless), same as the home page
@@ -673,9 +673,14 @@ def footer(lang, targets=None, current=None, journal=True):
 (function () {{
   var sel = document.getElementById('lang');
   if (sel) sel.addEventListener('change', function () {{
-    var m = String(this.value).match(/^\\/journal\\/([a-z]{{2}})\\//);
+    var m = String(this.value).match(/^\\/(?:journal\\/)?([a-z]{{2}})\\//);
     try {{ if (m) localStorage.setItem('still_lang', m[1]); }} catch (e) {{}}
     location.href = this.value;
+  }});
+  var foot = document.querySelector('.foot-langs');
+  if (foot) foot.addEventListener('click', function (e) {{
+    var a = e.target.closest && e.target.closest('a[hreflang]');
+    if (a) {{ try {{ localStorage.setItem('still_lang', a.getAttribute('hreflang')); }} catch (e2) {{}} }}
   }});
 }})();
 </script>
@@ -1055,8 +1060,11 @@ def render_list(posts, lang=None, list_langs=("en",), page=1, counts=None):
     list_desc = t["sub"] if lang else hub_desc(t["sub"])
     if suffix:  # keep the "· Page N" marker inside the 160-character meta limit: shorten the sentence, never the marker (page 2 must differ from page 1)
         list_desc = meta_desc(list_desc, 160 - len(suffix))
+    # the language-neutral hub (page 1) applies the common language rule (URL -> chosen -> browser -> English): a visitor whose language has a list
+    # goes to /journal/<lang>/, everyone else (English, vi/id without posts, no preference, crawlers) stays. Language lists never move the visitor.
+    hub_lang_script = auto_lang_script("/journal/", list_langs) if not lang and page == 1 else ""
     return with_localtime(head("%s — still() · %s%s" % (t["journal"], scope, suffix), list_desc + suffix, url, loc, not posts,
-                 '<meta property="og:type" content="website">\n' + ld(data) + ld(itemlist) + ld(crumb), alternates=alts, locales=list(pages))
+                 '<meta property="og:type" content="website">\n' + ld(data) + ld(itemlist) + ld(crumb) + hub_lang_script, alternates=alts, locales=list(pages))
             + header(loc, targets, None if lang else (t['other_langs'], list_path(None, page))) + f"""<main id="main" class="wrap">
   <div class="page-head">
     <p class="eyebrow">still(){esc(suffix)}</p>

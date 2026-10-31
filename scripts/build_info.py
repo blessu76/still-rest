@@ -21,7 +21,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from site_common import LANGS, ORG, SITE, esc, lang_url, replace_between, stamped_date, sync_static_ga  # noqa: E402
+from site_common import LANGS, ORG, SITE, esc, ipe_rest_url, lang_url, replace_between, stamped_date, sync_static_ga  # noqa: E402
 
 PAGES = ("faq", "about")
 SOURCE = Path("content") / "info" / "pages.json"
@@ -39,10 +39,11 @@ def load(root):
 
 
 def fill(text, lang, home):
-    """{L} -> the language folder; {psalm}/{verse} -> the home page's own wording of Psalm 46:10 in that language."""
+    """{L} -> the language folder; (https://ipe.rest) -> the hub in this language; {psalm}/{verse} -> the home page's own wording of Psalm 46:10 in that language."""
     d = dict(home["en"], **home[lang])
     psalm = d["hero_tag"].split("—")[-1].strip()
-    return text.replace("{L}", lang).replace("{psalm}", psalm).replace("{verse}", d["verse_text"])
+    text = text.replace("{L}", lang).replace("{psalm}", psalm).replace("{verse}", d["verse_text"])
+    return text.replace("](https://ipe.rest)", "](%s)" % ipe_rest_url(lang))  # link to the studio hub in this page's language (common language rule)
 
 
 def plain(text):

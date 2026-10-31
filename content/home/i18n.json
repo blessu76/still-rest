@@ -78,7 +78,6 @@
   "aria_listen": "Listen with calm music",
   "aria_email": "Email address",
   "aria_footer": "Footer",
-  "aria_close": "Close",
   "og_image_alt": "still() — the Bible for hard days. Psalm 46:10.",
   "ld_desc": "A private, on-device AI companion for Christians. Tell it what you're going through and it returns a comforting Bible verse, a gentle explanation of what it means, and calm ipe lofi music to rest with. Everything runs on-device — nothing you type leaves your phone. Rooted in Psalm 46:10, \"Be still, and know that I am God.\"",
   "foot_faq": "FAQ",
@@ -159,7 +158,6 @@
   "aria_listen": "잔잔한 음악과 함께 듣기",
   "aria_email": "이메일 주소",
   "aria_footer": "푸터 메뉴",
-  "aria_close": "닫기",
   "og_image_alt": "still() — 힘든 날을 위한 성경. 시편 46:10.",
   "foot_faq": "자주 묻는 질문",
   "foot_about": "소개"
@@ -239,7 +237,6 @@
   "aria_listen": "穏やかな音楽と一緒に聴く",
   "aria_email": "メールアドレス",
   "aria_footer": "フッターメニュー",
-  "aria_close": "閉じる",
   "og_image_alt": "still() — つらい日のための聖書。詩篇46:10。",
   "foot_faq": "よくある質問",
   "foot_about": "について"
@@ -319,7 +316,6 @@
   "aria_listen": "伴着舒缓的音乐聆听",
   "aria_email": "电子邮件地址",
   "aria_footer": "页脚菜单",
-  "aria_close": "关闭",
   "og_image_alt": "still() — 写给艰难日子的圣经。诗篇46:10。",
   "foot_faq": "常见问题",
   "foot_about": "关于"
@@ -399,7 +395,6 @@
   "aria_listen": "Escuchar con música tranquila",
   "aria_email": "Correo electrónico",
   "aria_footer": "Pie de página",
-  "aria_close": "Cerrar",
   "og_image_alt": "still() — la Biblia para los días difíciles. Salmo 46:10.",
   "foot_faq": "Preguntas frecuentes",
   "foot_about": "Acerca de"
@@ -479,7 +474,6 @@
   "aria_listen": "Ouvir com música calma",
   "aria_email": "Endereço de e-mail",
   "aria_footer": "Rodapé",
-  "aria_close": "Fechar",
   "og_image_alt": "still() — a Bíblia para os dias difíceis. Salmo 46:10.",
   "foot_faq": "Perguntas frequentes",
   "foot_about": "Sobre"
@@ -559,7 +553,6 @@
   "aria_listen": "Dengarkan dengan musik yang tenang",
   "aria_email": "Alamat email",
   "aria_footer": "Menu kaki halaman",
-  "aria_close": "Tutup",
   "og_image_alt": "still() — Alkitab untuk hari-hari yang berat. Mazmur 46:10.",
   "foot_faq": "Pertanyaan umum",
   "foot_about": "Tentang"
@@ -639,7 +632,6 @@
   "aria_listen": "Слушать под спокойную музыку",
   "aria_email": "Адрес электронной почты",
   "aria_footer": "Нижнее меню",
-  "aria_close": "Закрыть",
   "og_image_alt": "still() — Библия для трудных дней. Псалом 45:11.",
   "foot_faq": "Вопросы и ответы",
   "foot_about": "О приложении"
@@ -719,7 +711,6 @@
   "aria_listen": "Nghe cùng nhạc êm dịu",
   "aria_email": "Địa chỉ email",
   "aria_footer": "Menu chân trang",
-  "aria_close": "Đóng",
   "og_image_alt": "still() — Kinh Thánh cho những ngày khó khăn. Thi Thiên 46:10.",
   "foot_faq": "Câu hỏi thường gặp",
   "foot_about": "Giới thiệu"
@@ -799,7 +790,6 @@
   "aria_listen": "Écouter avec une musique apaisante",
   "aria_email": "Adresse e-mail",
   "aria_footer": "Pied de page",
-  "aria_close": "Fermer",
   "og_image_alt": "still() — la Bible pour les jours difficiles. Psaume 46:11.",
   "foot_faq": "FAQ",
   "foot_about": "À propos"
@@ -879,7 +869,6 @@
   "aria_listen": "Mit ruhiger Musik anhören",
   "aria_email": "E-Mail-Adresse",
   "aria_footer": "Fußbereich",
-  "aria_close": "Schließen",
   "og_image_alt": "still() — die Bibel für schwere Tage. Psalm 46,10.",
   "foot_faq": "FAQ",
   "foot_about": "Über still()"

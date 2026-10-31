@@ -212,7 +212,7 @@
     <h2>Hỗ trợ những thiết bị và ngôn ngữ nào?</h2>
     <p>still() là ứng dụng iOS. Ứng dụng và trang web này có 11 ngôn ngữ: tiếng Anh, Hàn, Nhật, Trung, Tây Ban Nha, Bồ Đào Nha, Indonesia, Nga, Việt, Pháp và Đức.</p>
     <h2>Ai làm ra still()?</h2>
-    <p>still() do ipe Studio làm, một studio độc lập với thương hiệu ipe() — “khi quá trình cuối cùng cũng được nghỉ ngơi” (when the process finally rests). Hãy ghé <a href="https://ipe.rest" rel="noopener">ipe.rest</a> hoặc viết thư tới ipe.haven@gmail.com.</p>
+    <p>still() do ipe Studio làm, một studio độc lập với thương hiệu ipe() — “khi quá trình cuối cùng cũng được nghỉ ngơi” (when the process finally rests). Hãy ghé <a href="https://ipe.rest/?lang=vi" rel="noopener">ipe.rest</a> hoặc viết thư tới ipe.haven@gmail.com.</p>
   </div>
   <nav class="article-foot" aria-label="Giới thiệu">
     <a class="more-link" href="/vi/"><span aria-hidden="true">←</span> still()</a>
@@ -253,9 +253,14 @@
 (function () {
   var sel = document.getElementById('lang');
   if (sel) sel.addEventListener('change', function () {
-    var m = String(this.value).match(/^\/journal\/([a-z]{2})\//);
+    var m = String(this.value).match(/^\/(?:journal\/)?([a-z]{2})\//);
     try { if (m) localStorage.setItem('still_lang', m[1]); } catch (e) {}
     location.href = this.value;
+  });
+  var foot = document.querySelector('.foot-langs');
+  if (foot) foot.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[hreflang]');
+    if (a) { try { localStorage.setItem('still_lang', a.getAttribute('hreflang')); } catch (e2) {} }
   });
 })();
 </script>

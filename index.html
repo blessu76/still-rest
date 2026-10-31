@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>(function(){try{var l=new URLSearchParams(location.search).get('lang');if(l&&/^(en|ko|ja|zh|es|pt|id|ru|vi|fr|de)$/.test(l))location.replace('/'+l+'/'+location.hash);}catch(e){}})();</script>
+<script>(function(){try{var ALL=["en", "ko", "ja", "zh", "es", "pt", "id", "ru", "vi", "fr", "de"],OK=["en", "ko", "ja", "zh", "es", "pt", "id", "ru", "vi", "fr", "de"],PRE="/",u=new URLSearchParams(location.search),q=u.get('lang'),pick=null,url=false;if(q&&ALL.indexOf(q)>=0){pick=q;url=true;try{localStorage.setItem('still_lang',q)}catch(e){}}if(!pick){var s=null;try{s=localStorage.getItem('still_lang')}catch(e){}if(s&&ALL.indexOf(s)>=0)pick=s}if(!pick){var b=navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||''];for(var i=0;i<b.length&&!pick;i++){var c=String(b[i]).toLowerCase().split('-')[0];if(ALL.indexOf(c)>=0)pick=c}}if(pick&&OK.indexOf(pick)>=0&&(pick!=='en'||url)){u.delete('lang');var r=u.toString();location.replace(PRE+pick+'/'+(r?'?'+r:'')+location.hash)}}catch(e){}})();</script>
 <title>still() — Be still. A Bible for hard days.</title>
 <meta name="description" content="A private, on-device companion for hard days. Tell it what you&#x27;re carrying — it finds a verse, a gentle word, and calm music to rest with.">
 <meta name="keywords" content="Bible app, Bible verse, comfort, Christian app, on-device AI, private, Psalm 46:10, be still, devotional, prayer, still, ipe">
@@ -420,19 +420,6 @@
   .foot-langs a:hover,.foot-langs a[aria-current]{color:var(--cream);}
   .foot-studio{margin-top:26px;font-size:12px;letter-spacing:.06em;color:#565e6b;}
 
-  /* ---------- language hint (root only; suggests, never redirects) ---------- */
-  .lang-hint{
-    position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:60;
-    display:flex;align-items:center;gap:4px;max-width:calc(100vw - 24px);
-    background:rgba(15,18,24,.92);backdrop-filter:blur(8px);
-    border:1px solid rgba(201,168,76,.4);border-radius:999px;
-    padding:0 6px 0 18px;color:var(--cream);font-size:14px;
-  }
-  .lang-hint[hidden]{display:none;}
-  .lang-hint a{display:inline-flex;align-items:center;min-height:44px;color:var(--cream);font-weight:500;text-decoration:none;gap:8px;}
-  .lang-hint a:hover{color:var(--gold);}
-  .lang-hint button{min-width:44px;min-height:44px;border:0;background:transparent;color:#a9b0bc;font-size:20px;cursor:pointer;}
-
   /* ---------- journal link (calm, top-left — mirrors the language selector; removed while there is no post) ---------- */
   .topnav{
     position:fixed;top:18px;left:18px;z-index:50;
@@ -486,7 +473,6 @@
 </head>
 <body>
 
-<div class="lang-hint" id="langHint" hidden></div>
 <!-- journal link (top; generated: dropped while there is no post) -->
 <a class="topnav" href="/journal/en/" data-i18n="foot_journal">Journal</a>
 
@@ -764,21 +750,11 @@
     try { localStorage.setItem('still_lang', this.value); } catch (e) {}
     location.href = '/' + this.value + '/';
   });
-  // root only: suggest (never force) the visitor's language — stored choice first, then the browser's list
-  var hint = document.getElementById('langHint');
-  var NAMES = {"en": "English", "ko": "한국어", "ja": "日本語", "zh": "中文", "es": "Español", "pt": "Português", "id": "Bahasa Indonesia", "ru": "Русский", "vi": "Tiếng Việt", "fr": "Français", "de": "Deutsch"}, CLOSE = "Close";
-  if (hint) {
-    var off = false; try { off = sessionStorage.getItem('still_hint_off') === '1'; } catch (e) {}
-    var pick = null, stored = null;
-    try { stored = localStorage.getItem('still_lang'); } catch (e) {}
-    if (stored && NAMES[stored]) pick = stored;
-    else { try { var list = navigator.languages || [navigator.language || '']; for (var i = 0; i < list.length && !pick; i++) { var c = String(list[i]).toLowerCase().split('-')[0]; if (NAMES[c]) pick = c; } } catch (e) {} }
-    if (pick && pick !== 'en' && !off) {
-      hint.innerHTML = '<a href="/' + pick + '/" hreflang="' + pick + '" lang="' + pick + '">' + NAMES[pick] + ' <span aria-hidden="true">→</span></a><button type="button" aria-label="' + CLOSE + '">×</button>';
-      hint.hidden = false;
-      hint.querySelector('button').addEventListener('click', function () { hint.hidden = true; try { sessionStorage.setItem('still_hint_off', '1'); } catch (e) {} });
-    }
-  }
+  var foot = document.querySelector('.foot-langs');
+  if (foot) foot.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[hreflang]');
+    if (a) { try { localStorage.setItem('still_lang', a.getAttribute('hreflang')); } catch (e2) {} }
+  });
 })();
 </script>
 

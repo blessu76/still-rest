@@ -139,7 +139,7 @@
   </div>
   <div class="prose info">
     <p>Ada aplikasi dan situs web lain yang juga memakai nama “Still”. still() — ditulis dengan tanda kurung, dari ipe Studio di still.ipe.rest — adalah aplikasi mandiri yang berbeda dan tidak berafiliasi dengan mereka. Yang membedakannya: ia dibuat untuk hari-hari yang berat — depresi, panik, kelelahan, masa yang menekan. Kamu menceritakan apa yang kamu pikul dengan katamu sendiri, dan ia menemukan satu ayat yang menghibur yang dipilih dari apa yang kamu katakan, kata-kata sederhana tentang artinya, dan musik lofi ipe yang tenang untuk beristirahat. Semuanya berjalan di perangkatmu: tanpa akun, dan tidak ada yang kamu ketik yang meninggalkan ponselmu. Ayat-ayatnya adalah teks Alkitab yang ditinjau manusia, tidak pernah ditulis AI, dan still() menawarkan penghiburan, bukan konseling. Berakar pada Mazmur 46:10: “Diamlah dan ketahuilah olehmu bahwa Aku ini Allah.”</p>
-    <p>still() adalah bagian dari keluarga ipe() milik ipe Studio — lihat <a href="https://ipe.rest" rel="noopener">ipe.rest</a>. Jawaban lain ada di <a href="/id/faq/">pertanyaan umum</a>, dan versi singkatnya di <a href="/id/">beranda</a>.</p>
+    <p>still() adalah bagian dari keluarga ipe() milik ipe Studio — lihat <a href="https://ipe.rest/id/" rel="noopener">ipe.rest</a>. Jawaban lain ada di <a href="/id/faq/">pertanyaan umum</a>, dan versi singkatnya di <a href="/id/">beranda</a>.</p>
   </div>
   <nav class="article-foot" aria-label="Pertanyaan umum">
     <a class="more-link" href="/id/"><span aria-hidden="true">←</span> still()</a>
@@ -180,9 +180,14 @@
 (function () {
   var sel = document.getElementById('lang');
   if (sel) sel.addEventListener('change', function () {
-    var m = String(this.value).match(/^\/journal\/([a-z]{2})\//);
+    var m = String(this.value).match(/^\/(?:journal\/)?([a-z]{2})\//);
     try { if (m) localStorage.setItem('still_lang', m[1]); } catch (e) {}
     location.href = this.value;
+  });
+  var foot = document.querySelector('.foot-langs');
+  if (foot) foot.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[hreflang]');
+    if (a) { try { localStorage.setItem('still_lang', a.getAttribute('hreflang')); } catch (e2) {} }
   });
 })();
 </script>

@@ -212,7 +212,7 @@
     <h2>Какие устройства и языки поддерживаются?</h2>
     <p>still() — приложение для iOS. Приложение и этот сайт доступны на 11 языках: английском, корейском, японском, китайском, испанском, португальском, индонезийском, русском, вьетнамском, французском и немецком.</p>
     <h2>Кто делает still()?</h2>
-    <p>still() делает ipe Studio — независимая студия с брендом ipe() — «когда процесс наконец отдыхает» (when the process finally rests). Заходите на <a href="https://ipe.rest" rel="noopener">ipe.rest</a> или пишите на ipe.haven@gmail.com.</p>
+    <p>still() делает ipe Studio — независимая студия с брендом ipe() — «когда процесс наконец отдыхает» (when the process finally rests). Заходите на <a href="https://ipe.rest/ru/" rel="noopener">ipe.rest</a> или пишите на ipe.haven@gmail.com.</p>
   </div>
   <nav class="article-foot" aria-label="О приложении">
     <a class="more-link" href="/ru/"><span aria-hidden="true">←</span> still()</a>
@@ -253,9 +253,14 @@
 (function () {
   var sel = document.getElementById('lang');
   if (sel) sel.addEventListener('change', function () {
-    var m = String(this.value).match(/^\/journal\/([a-z]{2})\//);
+    var m = String(this.value).match(/^\/(?:journal\/)?([a-z]{2})\//);
     try { if (m) localStorage.setItem('still_lang', m[1]); } catch (e) {}
     location.href = this.value;
+  });
+  var foot = document.querySelector('.foot-langs');
+  if (foot) foot.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[hreflang]');
+    if (a) { try { localStorage.setItem('still_lang', a.getAttribute('hreflang')); } catch (e2) {} }
   });
 })();
 </script>

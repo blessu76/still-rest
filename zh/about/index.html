@@ -139,7 +139,7 @@
   </div>
   <div class="prose info">
     <p>也有其他应用和网站叫“Still”。带括号的 still()——由 ipe Studio 制作、网址为 still.ipe.rest——是一款独立的应用，与它们没有关联。它的不同之处在于：它为艰难的日子而做——抑郁、惊恐、倦怠，或是沉重的一段时期。你用自己的话说出此刻的重负，它会按你说的话挑选一节安慰的经文，用通俗的话解释这节经文的意思，并送上一段用来休息的舒缓 ipe lofi 音乐。一切都在你的设备上运行：无需账号，你输入的内容不会离开手机。经文是经过人工审阅的圣经原文，绝非 AI 所写；still() 提供的是安慰，而不是心理咨询。它扎根于诗篇46:10：“你们要休息，要知道我是神。”</p>
-    <p>still() 属于 ipe Studio 的 ipe() 家族——见 <a href="https://ipe.rest" rel="noopener">ipe.rest</a>。更多解答见<a href="/zh/faq/">常见问题</a>，简短介绍见<a href="/zh/">首页</a>。</p>
+    <p>still() 属于 ipe Studio 的 ipe() 家族——见 <a href="https://ipe.rest/zh/" rel="noopener">ipe.rest</a>。更多解答见<a href="/zh/faq/">常见问题</a>，简短介绍见<a href="/zh/">首页</a>。</p>
   </div>
   <nav class="article-foot" aria-label="常见问题">
     <a class="more-link" href="/zh/"><span aria-hidden="true">←</span> still()</a>
@@ -180,9 +180,14 @@
 (function () {
   var sel = document.getElementById('lang');
   if (sel) sel.addEventListener('change', function () {
-    var m = String(this.value).match(/^\/journal\/([a-z]{2})\//);
+    var m = String(this.value).match(/^\/(?:journal\/)?([a-z]{2})\//);
     try { if (m) localStorage.setItem('still_lang', m[1]); } catch (e) {}
     location.href = this.value;
+  });
+  var foot = document.querySelector('.foot-langs');
+  if (foot) foot.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[hreflang]');
+    if (a) { try { localStorage.setItem('still_lang', a.getAttribute('hreflang')); } catch (e2) {} }
   });
 })();
 </script>
