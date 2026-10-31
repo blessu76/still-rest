@@ -21,7 +21,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from site_common import LANGS, ORG, SITE, esc, lang_url, replace_between, stamped_date  # noqa: E402
+from site_common import LANGS, ORG, SITE, esc, lang_url, replace_between, stamped_date, sync_static_ga  # noqa: E402
 
 PAGES = ("faq", "about")
 SOURCE = Path("content") / "info" / "pages.json"
@@ -141,4 +141,5 @@ def build(root, bj, has_posts=False):
     llms = root / "llms.txt"
     llms.write_text(replace_between(llms.read_text(encoding="utf-8"), r"<!-- info:llms:start[^>]*-->", "<!-- info:llms:end -->",
                                     llms_block(pages), "llms.txt"), encoding="utf-8")
+    sync_static_ga(root)  # the hand-written pages (privacy, terms, 404) get the same GA4 block from the same constant
     return written

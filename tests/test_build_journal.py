@@ -49,9 +49,10 @@ def site_copy():
     shutil.copytree(REPO / "content/home", tmp / "content/home")
     shutil.copytree(REPO / "content/info", tmp / "content/info")
     (tmp / "content/journal").mkdir(parents=True)
-    for page in ("privacy", "terms"):  # legal pages listed in the sitemap
+    for page in ("privacy", "terms"):  # legal pages listed in the sitemap — the real ones: the build puts the GA4 block into their <head>
         (tmp / page).mkdir()
-        (tmp / page / "index.html").write_text("x")
+        shutil.copy(REPO / page / "index.html", tmp / page / "index.html")
+    shutil.copy(REPO / "404.html", tmp / "404.html")
     for f in ("safety.json", "ui.json"):
         shutil.copy(REPO / "content/journal" / f, tmp / "content/journal" / f)
     return tmp

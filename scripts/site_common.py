@@ -42,6 +42,48 @@ def font_links(css=FONT_CSS):
             '<noscript><link rel="stylesheet" href="%s"></noscript>' % (css, css))
 
 
+# GA4 — the same property as ipe.rest (a sub-domain of it, so no cross-domain setup). ONE snippet, inserted into the <head> of every page:
+# generated pages through head() / the home template ({{GA_SNIPPET}}), the hand-written pages (privacy, terms, 404) through sync_static_ga().
+# The privacy policy (section 2), the FAQ answer (content/info/pages.json), llms.txt and README say so -> change them together with this.
+GA_MEASUREMENT_ID = "G-XG4BH800J0"
+GA_SNIPPET = (
+    "<script>(function(){var GA_ID='%s';"
+    "window.dataLayer=window.dataLayer||[];window.gtag=function(){window.dataLayer.push(arguments)};"
+    # a local preview (python -m http.server, a test render) must not count as a visit
+    "if(/^(localhost|127\\.0\\.0\\.1|\\[::1\\])$/.test(location.hostname))return;"
+    "var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+GA_ID;document.head.appendChild(s);"
+    "window.gtag('js',new Date());window.gtag('config',GA_ID);"
+    # clicks on links that leave the site (link address only); *.ipe.rest is the same studio, not an exit
+    "function out(e){if(e.type==='auxclick'&&e.button!==1)return;"
+    "var a=e.target.closest&&e.target.closest('a[href^=\"http\"]');if(!a)return;"
+    "var h=a.hostname;if(h===location.hostname||h==='ipe.rest'||/\\.ipe\\.rest$/.test(h))return;"
+    "window.gtag('event','outbound_click',{link_url:a.href,link_domain:h,transport_type:'beacon'})}"
+    "document.addEventListener('click',out);document.addEventListener('auxclick',out)})();</script>") % GA_MEASUREMENT_ID
+GA_START, GA_END = "<!-- ga4:start — scripts/site_common.py GA_SNIPPET -->", "<!-- ga4:end -->"
+STATIC_PAGES = ("privacy/index.html", "terms/index.html", "404.html")  # hand-written, not generated: they only get the GA4 block
+
+
+def sync_static_ga(root):
+    """put GA_SNIPPET (between the ga4 markers, just before </head>) into the hand-written pages; idempotent. Returns the paths written."""
+    from pathlib import Path
+    written = []
+    for rel in STATIC_PAGES:
+        path = Path(root) / rel
+        text = path.read_text(encoding="utf-8")
+        block = "%s\n%s\n%s\n" % (GA_START, GA_SNIPPET, GA_END)
+        i, j = text.find("<!-- ga4:start"), text.find(GA_END)
+        if i != -1 and j > i:
+            new = text[:i] + block.rstrip("\n") + text[j + len(GA_END):]
+        elif i == -1 and j == -1 and text.count("</head>") == 1:
+            new = text.replace("</head>", block + "</head>")
+        else:
+            raise SystemExit("%s: ga4 markers are broken (or no single </head>)" % rel)
+        if new != text:
+            path.write_text(new, encoding="utf-8")
+        written.append(path)
+    return written
+
+
 META_DESC_MAX = 160
 _SENTENCE_END = re.compile(r"[.!?。！？](?=\s|$)|[。！？]")
 

@@ -90,7 +90,7 @@ import urllib.parse
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from site_common import GEN_MARK, KST, LANGS, ORG, SITE, check_fresh, esc, font_links, lang_url, meta_desc, parse_when, replace_between, with_localtime  # noqa: E402
+from site_common import GA_SNIPPET, GEN_MARK, KST, LANGS, ORG, SITE, check_fresh, esc, font_links, lang_url, meta_desc, parse_when, replace_between, with_localtime  # noqa: E402
 
 ASSET_V = "20261029a"  # ?v= of assets/journal.css — bump when the file changes
 CF_TOKEN = "eab6249a56894cb084b7bcc8f1a860a6"  # Cloudflare Web Analytics (cookieless), same as the home page
@@ -601,6 +601,7 @@ def head(title, desc, canonical, lang, noindex, extra="", hint="edit content/jou
 <meta name="twitter:image" content="{esc(image)}">
 {extra}{font_links()}
 <link rel="stylesheet" href="/assets/journal.css?v={ASSET_V}">
+{GA_SNIPPET}
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{{"token": "{CF_TOKEN}"}}'></script>
 </head>
 <body>

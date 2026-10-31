@@ -15,7 +15,7 @@
    ],
    [
     "Does what I type leave my phone?",
-    "No. What you type is understood on your device by an on-device model. There is no account and no sign-in, and nothing you write is sent to a server, stored by us or seen by us. The app only downloads the model file itself, one way. This website uses cookieless analytics that do not track individual visitors. Details are in the [privacy policy](/privacy/)."
+    "No. What you type is understood on your device by an on-device model. There is no account and no sign-in, and nothing you write is sent to a server, stored by us or seen by us. The app only downloads the model file itself, one way. The app itself collects nothing about you. Only this website (not the app) measures visits, with Google Analytics, which uses cookies, and with Cloudflare Web Analytics, which does not. Details are in the [privacy policy](/privacy/)."
    ],
    [
     "Is still() free?",
@@ -61,7 +61,7 @@
    ],
    [
     "제가 입력한 내용이 휴대폰 밖으로 나가나요?",
-    "나가지 않습니다. 입력한 내용은 기기 안의 온디바이스 모델이 이해합니다. 계정도 로그인도 없고, 쓴 내용은 서버로 전송되지 않으며 저희가 저장하거나 볼 수도 없습니다. 앱이 내려받는 것은 모델 파일뿐이고, 한 방향 다운로드입니다. 이 웹사이트는 개별 방문자를 추적하지 않는 쿠키 없는 분석만 사용합니다. 자세한 내용은 [개인정보 처리방침](/privacy/)을 보세요."
+    "나가지 않습니다. 입력한 내용은 기기 안의 온디바이스 모델이 이해합니다. 계정도 로그인도 없고, 쓴 내용은 서버로 전송되지 않으며 저희가 저장하거나 볼 수도 없습니다. 앱이 내려받는 것은 모델 파일뿐이고, 한 방향 다운로드입니다. 앱 자체는 사용자에 대한 어떤 정보도 수집하지 않습니다. 앱이 아닌 이 웹사이트만 방문을 측정하며, 쿠키를 사용하는 Google Analytics와 쿠키를 쓰지 않는 Cloudflare Web Analytics를 씁니다. 자세한 내용은 [개인정보 처리방침](/privacy/)을 보세요."
    ],
    [
     "still()은 무료인가요?",
@@ -107,7 +107,7 @@
    ],
    [
     "入力した内容は端末の外に出ますか？",
-    "出ません。入力した内容は、端末内のモデルがその場で理解します。アカウントもログインもなく、書いたものはサーバーに送られず、私たちが保存することも見ることもありません。アプリがダウンロードするのはモデルファイルだけで、一方向のダウンロードです。このウェブサイトは、訪問者を個別に追跡しないクッキーなしの解析のみを使います。詳しくは[プライバシーポリシー](/privacy/)をご覧ください。"
+    "出ません。入力した内容は、端末内のモデルがその場で理解します。アカウントもログインもなく、書いたものはサーバーに送られず、私たちが保存することも見ることもありません。アプリがダウンロードするのはモデルファイルだけで、一方向のダウンロードです。アプリ自体は、あなたに関する情報を何も収集しません。訪問を計測しているのは、アプリではなくこのウェブサイトだけで、クッキーを使うGoogle Analyticsと、クッキーを使わないCloudflare Web Analyticsを利用しています。詳しくは[プライバシーポリシー](/privacy/)をご覧ください。"
    ],
    [
     "still() は無料ですか？",
@@ -153,7 +153,7 @@
    ],
    [
     "我输入的内容会离开手机吗？",
-    "不会。你输入的内容由设备本地的模型理解。没有账号，也无需登录，你写的内容不会发送到服务器，我们不会保存，也看不到。应用只会下载模型文件本身，且是单向下载。本网站只使用不设 Cookie、不追踪个别访客的统计服务。详情见[隐私政策](/privacy/)。"
+    "不会。你输入的内容由设备本地的模型理解。没有账号，也无需登录，你写的内容不会发送到服务器，我们不会保存，也看不到。应用只会下载模型文件本身，且是单向下载。应用本身不收集任何关于你的信息。只有本网站（而非应用）会统计访问，使用的是会设置 Cookie 的 Google Analytics，以及不设 Cookie 的 Cloudflare Web Analytics。详情见[隐私政策](/privacy/)。"
    ],
    [
     "still() 免费吗？",
@@ -199,7 +199,7 @@
    ],
    [
     "¿Lo que escribo sale de mi teléfono?",
-    "No. Lo que escribes lo entiende un modelo que funciona en tu dispositivo. No hay cuenta ni inicio de sesión, y nada de lo que escribes se envía a un servidor, lo guardamos nosotros ni lo vemos. La app solo descarga el propio archivo del modelo, en un solo sentido. Este sitio web usa analítica sin cookies que no rastrea a cada visitante. Los detalles están en la [política de privacidad](/privacy/)."
+    "No. Lo que escribes lo entiende un modelo que funciona en tu dispositivo. No hay cuenta ni inicio de sesión, y nada de lo que escribes se envía a un servidor, lo guardamos nosotros ni lo vemos. La app solo descarga el propio archivo del modelo, en un solo sentido. La app en sí no recopila nada sobre ti. Solo este sitio web (no la app) mide las visitas, con Google Analytics, que usa cookies, y con Cloudflare Web Analytics, que no las usa. Los detalles están en la [política de privacidad](/privacy/)."
    ],
    [
     "¿still() es gratis?",
@@ -245,7 +245,7 @@
    ],
    [
     "O que eu escrevo sai do meu telefone?",
-    "Não. O que você escreve é entendido por um modelo que funciona no seu dispositivo. Não há conta nem login, e nada do que você escreve é enviado a um servidor, guardado por nós ou visto por nós. O app só baixa o próprio arquivo do modelo, em uma única direção. Este site usa análise sem cookies, que não rastreia visitantes individuais. Os detalhes estão na [política de privacidade](/privacy/)."
+    "Não. O que você escreve é entendido por um modelo que funciona no seu dispositivo. Não há conta nem login, e nada do que você escreve é enviado a um servidor, guardado por nós ou visto por nós. O app só baixa o próprio arquivo do modelo, em uma única direção. O app em si não coleta nada sobre você. Só este site (não o app) mede as visitas, com o Google Analytics, que usa cookies, e com o Cloudflare Web Analytics, que não usa. Os detalhes estão na [política de privacidade](/privacy/)."
    ],
    [
     "O still() é gratuito?",
@@ -291,7 +291,7 @@
    ],
    [
     "Apakah yang saya ketik keluar dari ponsel saya?",
-    "Tidak. Apa yang kamu ketik dipahami oleh model yang berjalan di perangkatmu. Tidak ada akun dan tidak perlu masuk, dan tidak ada yang kamu tulis dikirim ke server, disimpan oleh kami, atau kami lihat. Aplikasi hanya mengunduh file modelnya sendiri, satu arah. Situs web ini memakai analitik tanpa cookie yang tidak melacak pengunjung secara individual. Rinciannya ada di [kebijakan privasi](/privacy/)."
+    "Tidak. Apa yang kamu ketik dipahami oleh model yang berjalan di perangkatmu. Tidak ada akun dan tidak perlu masuk, dan tidak ada yang kamu tulis dikirim ke server, disimpan oleh kami, atau kami lihat. Aplikasi hanya mengunduh file modelnya sendiri, satu arah. Aplikasinya sendiri tidak mengumpulkan apa pun tentangmu. Hanya situs web ini (bukan aplikasinya) yang mengukur kunjungan, dengan Google Analytics yang memakai cookie dan Cloudflare Web Analytics yang tidak memakainya. Rinciannya ada di [kebijakan privasi](/privacy/)."
    ],
    [
     "Apakah still() gratis?",
@@ -337,7 +337,7 @@
    ],
    [
     "Уходит ли то, что я пишу, с моего телефона?",
-    "Нет. Написанное понимает модель, работающая прямо на вашем устройстве. Нет ни аккаунта, ни входа, и ничего из написанного вами не отправляется на сервер, не хранится у нас и не видно нам. Приложение лишь скачивает сам файл модели — в одну сторону. На этом сайте используется аналитика без файлов cookie, которая не отслеживает отдельных посетителей. Подробнее — в [политике конфиденциальности](/privacy/)."
+    "Нет. Написанное понимает модель, работающая прямо на вашем устройстве. Нет ни аккаунта, ни входа, и ничего из написанного вами не отправляется на сервер, не хранится у нас и не видно нам. Приложение лишь скачивает сам файл модели — в одну сторону. Само приложение ничего о вас не собирает. Только этот сайт (не приложение) измеряет посещения: через Google Analytics, который использует файлы cookie, и через Cloudflare Web Analytics, который их не использует. Подробнее — в [политике конфиденциальности](/privacy/)."
    ],
    [
     "still() бесплатно?",
@@ -383,7 +383,7 @@
    ],
    [
     "Những gì tôi gõ có rời khỏi điện thoại không?",
-    "Không. Điều bạn gõ được một mô hình chạy ngay trên thiết bị của bạn hiểu. Không có tài khoản, không cần đăng nhập, và không điều gì bạn viết được gửi tới máy chủ, được chúng tôi lưu hay được chúng tôi nhìn thấy. Ứng dụng chỉ tải về chính tệp mô hình, theo một chiều. Trang web này chỉ dùng phân tích không cookie, không theo dõi từng khách truy cập. Chi tiết trong [chính sách quyền riêng tư](/privacy/)."
+    "Không. Điều bạn gõ được một mô hình chạy ngay trên thiết bị của bạn hiểu. Không có tài khoản, không cần đăng nhập, và không điều gì bạn viết được gửi tới máy chủ, được chúng tôi lưu hay được chúng tôi nhìn thấy. Ứng dụng chỉ tải về chính tệp mô hình, theo một chiều. Bản thân ứng dụng không thu thập gì về bạn. Chỉ trang web này (không phải ứng dụng) đo lượt truy cập, bằng Google Analytics có dùng cookie và Cloudflare Web Analytics không dùng cookie. Chi tiết trong [chính sách quyền riêng tư](/privacy/)."
    ],
    [
     "still() có miễn phí không?",
@@ -429,7 +429,7 @@
    ],
    [
     "Ce que j'écris quitte-t-il mon téléphone ?",
-    "Non. Ce que vous écrivez est compris par un modèle qui fonctionne sur votre appareil. Il n'y a ni compte ni connexion, et rien de ce que vous écrivez n'est envoyé à un serveur, conservé par nous ni vu par nous. L'application ne télécharge que le fichier du modèle lui-même, dans un seul sens. Ce site utilise une mesure d'audience sans cookies qui ne suit pas les visiteurs individuellement. Les détails figurent dans la [politique de confidentialité](/privacy/)."
+    "Non. Ce que vous écrivez est compris par un modèle qui fonctionne sur votre appareil. Il n'y a ni compte ni connexion, et rien de ce que vous écrivez n'est envoyé à un serveur, conservé par nous ni vu par nous. L'application ne télécharge que le fichier du modèle lui-même, dans un seul sens. L'application elle-même ne collecte rien sur vous. Seul ce site (pas l'application) mesure les visites, avec Google Analytics, qui utilise des cookies, et Cloudflare Web Analytics, qui n'en utilise pas. Les détails figurent dans la [politique de confidentialité](/privacy/)."
    ],
    [
     "still() est-elle gratuite ?",
@@ -475,7 +475,7 @@
    ],
    [
     "Verlässt das, was ich schreibe, mein Telefon?",
-    "Nein. Was du schreibst, versteht ein Modell, das auf deinem Gerät läuft. Es gibt kein Konto und keine Anmeldung, und nichts, was du schreibst, wird an einen Server gesendet, von uns gespeichert oder von uns gesehen. Die App lädt nur die Modelldatei selbst herunter, in eine Richtung. Diese Website nutzt eine cookielose Reichweitenmessung, die einzelne Besucher nicht verfolgt. Einzelheiten stehen in der [Datenschutzerklärung](/privacy/)."
+    "Nein. Was du schreibst, versteht ein Modell, das auf deinem Gerät läuft. Es gibt kein Konto und keine Anmeldung, und nichts, was du schreibst, wird an einen Server gesendet, von uns gespeichert oder von uns gesehen. Die App lädt nur die Modelldatei selbst herunter, in eine Richtung. Die App selbst erhebt nichts über dich. Nur diese Website (nicht die App) misst Besuche, mit Google Analytics, das Cookies verwendet, und mit Cloudflare Web Analytics, das keine verwendet. Einzelheiten stehen in der [Datenschutzerklärung](/privacy/)."
    ],
    [
     "Ist still() kostenlos?",

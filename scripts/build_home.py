@@ -24,7 +24,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from site_common import LANGS, SITE, check_fresh, esc, font_links, lang_url, meta_desc, replace_between, stamped_date, with_localtime  # noqa: E402
+from site_common import GA_SNIPPET, LANGS, SITE, check_fresh, esc, font_links, lang_url, meta_desc, replace_between, stamped_date, with_localtime  # noqa: E402
 
 TEMPLATE = Path("content") / "home" / "template.html"
 STRINGS = Path("content") / "home" / "i18n.json"
@@ -110,6 +110,7 @@ def render_page(tpl, strings, lang, root, cards_html=None, journal_href="/journa
         "LANG_HINT": '<div class="lang-hint" id="%s" hidden></div>\n' % HINT_CSS_ID if root else "",
         "NAV_SCRIPT": NAV_SCRIPT % (HINT_JS % (names, json.dumps(d["aria_close"], ensure_ascii=False)) if root else ""),
         "FONT_LINKS": font_links(),
+        "GA_SNIPPET": GA_SNIPPET,
         "meta_title": esc(title), "meta_desc": esc(meta_desc(desc)),
         # social cards: English keeps its own two short texts; other languages reuse their meta description
         "og_desc": esc(meta_desc(strings[lang].get("og_desc") or desc)), "tw_desc": esc(meta_desc(strings[lang].get("tw_desc") or desc)),

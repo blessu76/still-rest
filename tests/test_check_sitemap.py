@@ -93,7 +93,7 @@ class CheckSitemap(unittest.TestCase):
         p.write_text(t.replace(old, new, 1), encoding="utf-8")
 
     def test_every_url_needs_a_lastmod_that_is_a_date(self):
-        self.edit("<loc>https://still.ipe.rest/privacy/</loc>\n    <lastmod>2026-10-27</lastmod>", "<loc>https://still.ipe.rest/privacy/</loc>\n")
+        self.edit("<loc>https://still.ipe.rest/privacy/</loc>\n    <lastmod>2026-11-01</lastmod>", "<loc>https://still.ipe.rest/privacy/</loc>\n")
         self.assertIn("https://still.ipe.rest/privacy/: no lastmod", self.errs())
         self.edit("<loc>https://still.ipe.rest/terms/</loc>\n    <lastmod>2026-10-27</lastmod>", "<loc>https://still.ipe.rest/terms/</loc>\n    <lastmod>yesterday</lastmod>")
         self.assertTrue(any("terms/: lastmod is not a date" in e for e in self.errs()), self.errs())

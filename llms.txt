@@ -7,6 +7,7 @@
 - Platform: iOS (mobile app)
 - What it does: understands how you feel and matches a reviewed, comforting Bible verse plus a plain-language explanation of what it means
 - Privacy: fully on-device — what you type is never sent to a server, stored, or seen
+- Website analytics: the app collects nothing about you; this website (still.ipe.rest, not the app) measures visits with Google Analytics (GA4, uses cookies) and Cloudflare Web Analytics (no cookies) — see https://still.ipe.rest/privacy/
 - Safety: crisis signals are handled front-line by rules (not the model); it never generates scripture text — verses are human-reviewed and curated
 - Music: pairs with calm ipe lofi made for rest
 - Pricing: free tier ("Still"); optional subscription "Still & Deep" at $3.99/month
