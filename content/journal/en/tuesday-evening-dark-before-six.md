@@ -9,13 +9,14 @@ keywords: commute home, evening, fatigue, October
 bible_version: WEB
 translation_of: ko
 publish_at: 2026-10-27 16:32
+updated: 2026-10-31
 ---
 
-I left the office building at six thirty, and it was already dark outside. Only a few weeks ago the sky was still orange at this hour, but now, at the very end of October, the sun leaves before I do. The wind was cold, so I zipped my jacket all the way up.
+I left the office building at six thirty, and it was already dark outside. Only a few weeks ago the sky was still orange at this hour, but now, at the very end of October, the sun leaves before I do. The wind was cold, so I zipped my jacket all the way up. The streetlamps along the road were already all lit, and only the convenience store sign stood out, unusually bright.
 
-The moment I sat down on the bus, my body seemed to sink into the seat. I'd done nothing but sit all day, yet my legs were heavy and the back of my neck was stiff. A friend had messaged asking to get dinner this week. I started to write back, then just turned off the screen. I did want to see them, but I had no strength left to make plans.
+The moment I sat down on the bus, my body seemed to sink into the seat. I'd done nothing but sit all day, yet my legs were heavy and the back of my neck was stiff. A friend had messaged asking to get dinner this week. I started to write back, then just turned off the screen. I did want to see them, but I had no strength left to make plans. The people holding the straps were either looking at their phones in silence or had their eyes closed. The heater's warm air reached only my ankles.
 
-As I looked at my face reflected in the window, a few tears came. Nothing especially sad had happened, and nobody had said anything to me. It had just been a long day, and my body was worn out. It felt embarrassing to cry for no reason, so I pulled my mask up to the tip of my nose.
+As I looked at my face reflected in the window, a few tears came. Nothing especially sad had happened, and nobody had said anything to me. It had just been a long day, and my body was worn out. It felt embarrassing to cry for no reason, so I pulled my mask up to the tip of my nose. The lights outside blurred in front of my eyes and then came back into focus. Each time the doors opened at a stop, a thread of cold air came in.
 
 ## Near, even without a reason
 
@@ -27,6 +28,6 @@ With three stops to go, I opened still().
 
 “Is near.” This sentence didn't first ask why my heart was broken. It didn't say I had to be able to explain it before anyone would come near. Still, it would be a lie to say the tiredness went away when I read it. My legs were as heavy as before. But I could take it as saying that an evening of being worn out for no reason isn't something I have to hide on my own.
 
-At home, I turned on just one light and washed my hands in warm water for a long time. I sent my friend a short reply: "I'm pretty worn out this week, let's meet next week." Once it was sent, my heart felt a little lighter. And I thought: if evenings like this go on for weeks, then I won't keep it to myself. I'll make sure to tell someone. Tonight, I decided to go to bed early.
+At home, I turned on just one light and washed my hands in warm water for a long time. I sent my friend a short reply: "I'm pretty worn out this week, let's meet next week." Once it was sent, my heart felt a little lighter. And I thought: if evenings like this go on for weeks, then I won't keep it to myself. I'll make sure to tell someone. Tonight, I decided to go to bed early. Even untying my shoes at the entrance took a long while. Only after hanging up my coat did I realize my shoulders had been tensed. I poured a glass of water, set it on the table, and looked at it for a while.
 
 **Today's breath** — When you get home, turn on just one light, and with your hands in warm water, breathe out three times.

@@ -9,13 +9,14 @@ keywords: Mittwoch, Abend, Winterdecke, Oktober
 bible_version: Lutherbibel 1912
 translation_of: ko
 publish_at: 2026-10-28 17:47
+updated: 2026-10-31
 ---
 
-Letzte Nacht bin ich einmal vor Kälte aufgewacht. Ich hatte mich mit einer Wolldecke über der Sommerdecke durchgeschlagen, aber jetzt froren mir die Zehen, und es ging nicht mehr. Deshalb aß ich heute gleich nach der Heimkehr nur schnell etwas und holte als Erstes die Winterdecke aus dem obersten Schrankfach.
+Letzte Nacht bin ich einmal vor Kälte aufgewacht. Ich hatte mich mit einer Wolldecke über der Sommerdecke durchgeschlagen, aber jetzt froren mir die Zehen, und es ging nicht mehr. Deshalb aß ich heute gleich nach der Heimkehr nur schnell etwas und holte als Erstes die Winterdecke aus dem obersten Schrankfach. Als ich den Schrank öffnete, kam zuerst der Geruch von lange verstautem Stoff heraus. Die Decke lag im oberen Fach, ich musste mich auf die Zehenspitzen stellen, um gerade so heranzukommen.
 
-Die Decke war schwerer als gedacht. Als ich die Arme ausstreckte und sie herunterzog, wäre sie mir samt Staub fast auf den Kopf gefallen. Den Bezug überzuziehen ist immer eine ungeschickte Arbeit. Ich kroch in die Decke, um die Ecken zu treffen, zappelte herum, und am Ende stand mir der Schweiß auf der Stirn. Es kam mir komisch vor, an einem Mittwochabend so etwas zu tun.
+Die Decke war schwerer als gedacht. Als ich die Arme ausstreckte und sie herunterzog, wäre sie mir samt Staub fast auf den Kopf gefallen. Den Bezug überzuziehen ist immer eine ungeschickte Arbeit. Ich kroch in die Decke, um die Ecken zu treffen, zappelte herum, und am Ende stand mir der Schweiß auf der Stirn. Es kam mir komisch vor, an einem Mittwochabend so etwas zu tun. Als der Bezug saß, schüttelte ich die Decke ein paarmal aus, und der Staub schwebte einen Moment im Licht, das durchs Fenster fiel, bevor er sich wieder legte.
 
-Als ich endlich alles bezogen, aufs Bett gelegt und mich auf die Kante gesetzt hatte, fragte ich mich plötzlich, ob ich mich in dieser Woche überhaupt einmal ausgeruht hatte. Ich hatte nach der Arbeit zwar gelegen. Aber ich hatte das Handy in der Hand, und die Augen überflogen den Terminplan von morgen. Ich lag nur da; weder Körper noch Gemüt ruhten sich aus. Seit Montag war das so.
+Als ich endlich alles bezogen, aufs Bett gelegt und mich auf die Kante gesetzt hatte, fragte ich mich plötzlich, ob ich mich in dieser Woche überhaupt einmal ausgeruht hatte. Ich hatte nach der Arbeit zwar gelegen. Aber ich hatte das Handy in der Hand, und die Augen überflogen den Terminplan von morgen. Ich lag nur da; weder Körper noch Gemüt ruhten sich aus. Seit Montag war das so. Beim Zurechtrücken des Kissens fiel mein Blick auf ein halb gelesenes Buch auf dem Nachttisch. Es kam mir vor, als hätte ich es seit mehr als einer Woche nicht aufgeschlagen.
 
 ## Wenn auch das Ausruhen gelernt sein will
 
@@ -27,6 +28,6 @@ Auf der Decke sitzend, öffnete ich still().
 
 Zuerst blieb ich an „Nehmet auf euch mein Joch“ hängen. Wie sagt man jemandem, der ausruhen will, er solle etwas auf sich nehmen? Aber danach kam „lernet von mir“. Ich las es so, dass Ruhe nicht einfach kommt, sondern gelernt wird. Ich hatte gedacht, Hinlegen genüge zum Ausruhen, aber offenbar hatte ich nie richtig gelernt, wie das geht. Dass ich diesen Satz las, hieß nicht, dass mein Gemüt sofort Ruhe fand. Mir fiel nur eine sehr kleine Übung ein, die ich heute Abend versuchen kann.
 
-Das Handy steckte ich ans Ladegerät und legte es auf den Schreibtisch, weit weg vom Bett. Als ich das Licht ausmachte und unter die Decke schlüpfte, wurden die Füße schnell warm. Die Arbeit von morgen wird morgen noch da sein. Trotzdem beschloss ich, heute Abend zu üben, einfach dazuliegen und nichts zu tun.
+Das Handy steckte ich ans Ladegerät und legte es auf den Schreibtisch, weit weg vom Bett. Als ich das Licht ausmachte und unter die Decke schlüpfte, wurden die Füße schnell warm. Die Arbeit von morgen wird morgen noch da sein. Trotzdem beschloss ich, heute Abend zu üben, einfach dazuliegen und nichts zu tun. Als ich den Rand der Decke bis unters Kinn zog, stieg ein leiser Geruch nach trockener Sonne auf. Ich wusste nicht mehr, wie lange ich so etwas nicht gerochen hatte.
 
 **Der Atem des Tages** — Lass das Handy außerhalb des Betts, zieh die Decke bis zum Kinn und atme dreimal langsam aus.

@@ -9,13 +9,14 @@ keywords: Feierabend, Abend, Erschöpfung, Oktober
 bible_version: Lutherbibel 1912
 translation_of: ko
 publish_at: 2026-10-27 16:32
+updated: 2026-10-31
 ---
 
-Um halb sieben verließ ich das Bürogebäude, und draußen war es schon dunkel. Noch vor ein paar Wochen war der Himmel um diese Zeit orange, doch jetzt, ganz am Ende des Oktobers, geht die Sonne früher als ich. Der Wind war kalt, also zog ich den Reißverschluss meiner Jacke bis ganz nach oben.
+Um halb sieben verließ ich das Bürogebäude, und draußen war es schon dunkel. Noch vor ein paar Wochen war der Himmel um diese Zeit orange, doch jetzt, ganz am Ende des Oktobers, geht die Sonne früher als ich. Der Wind war kalt, also zog ich den Reißverschluss meiner Jacke bis ganz nach oben. Die Straßenlaternen brannten schon alle, und nur das Schild des kleinen Supermarkts stach ungewöhnlich hell ins Auge.
 
-Kaum saß ich im Bus, schien mein Körper in den Sitz zu sinken. Den ganzen Tag hatte ich nur gesessen, und trotzdem waren meine Beine schwer und mein Nacken steif. Eine Freundin hatte geschrieben, ob wir diese Woche zusammen zu Abend essen. Ich wollte antworten, schaltete den Bildschirm dann aber einfach aus. Ich hätte sie gern gesehen, doch für eine Verabredung fehlte mir die Kraft.
+Kaum saß ich im Bus, schien mein Körper in den Sitz zu sinken. Den ganzen Tag hatte ich nur gesessen, und trotzdem waren meine Beine schwer und mein Nacken steif. Eine Freundin hatte geschrieben, ob wir diese Woche zusammen zu Abend essen. Ich wollte antworten, schaltete den Bildschirm dann aber einfach aus. Ich hätte sie gern gesehen, doch für eine Verabredung fehlte mir die Kraft. Wer sich an den Haltegriffen festhielt, sah schweigend aufs Handy oder hatte die Augen geschlossen. Die Heizungsluft wärmte nur meine Knöchel.
 
-Als ich mein Gesicht in der Scheibe sah, kamen mir ein paar Tränen. Nichts besonders Trauriges war passiert, niemand hatte etwas zu mir gesagt. Der Tag war einfach lang gewesen, und mein Körper war müde. Ohne Grund zu weinen war mir peinlich, deshalb zog ich die Maske bis zur Nasenspitze hoch.
+Als ich mein Gesicht in der Scheibe sah, kamen mir ein paar Tränen. Nichts besonders Trauriges war passiert, niemand hatte etwas zu mir gesagt. Der Tag war einfach lang gewesen, und mein Körper war müde. Ohne Grund zu weinen war mir peinlich, deshalb zog ich die Maske bis zur Nasenspitze hoch. Die Lichter draußen verschwammen vor meinen Augen und wurden wieder scharf. Jedes Mal, wenn an einer Haltestelle die Türen aufgingen, wehte ein Streifen kalter Luft herein.
 
 ## Nahe, auch ohne Grund
 
@@ -27,6 +28,6 @@ Drei Haltestellen vor meiner öffnete ich still().
 
 „ist nahe“. Dieser Satz fragte nicht zuerst, warum mein Herz zerbrochen war. Er sagte auch nicht, dass ich es erst erklären können muss, bevor jemand nahe kommt. Trotzdem wäre es gelogen zu sagen, die Müdigkeit sei beim Lesen verschwunden. Meine Beine waren so schwer wie vorher. Aber ich konnte ihn so annehmen: Ein Abend, an dem ich ohne Grund erschöpft bin, ist nichts, was ich allein verstecken muss.
 
-Zu Hause machte ich nur ein Licht an und wusch mir lange die Hände mit warmem Wasser. Meiner Freundin schrieb ich kurz: „Diese Woche bin ich ziemlich erschöpft, lass uns nächste Woche treffen.“ Nachdem ich es abgeschickt hatte, war mir ein wenig leichter. Und ich dachte: Wenn sich solche Abende über Wochen hinziehen, behalte ich es dann nicht für mich, sondern sage es auf jeden Fall jemandem. Heute wollte ich früh ins Bett.
+Zu Hause machte ich nur ein Licht an und wusch mir lange die Hände mit warmem Wasser. Meiner Freundin schrieb ich kurz: „Diese Woche bin ich ziemlich erschöpft, lass uns nächste Woche treffen.“ Nachdem ich es abgeschickt hatte, war mir ein wenig leichter. Und ich dachte: Wenn sich solche Abende über Wochen hinziehen, behalte ich es dann nicht für mich, sondern sage es auf jeden Fall jemandem. Heute wollte ich früh ins Bett. Schon das Aufbinden der Schuhe im Flur dauerte lange. Erst als ich die Jacke aufgehängt hatte, merkte ich, dass meine Schultern die ganze Zeit angespannt gewesen waren. Ich schenkte ein Glas Wasser ein, stellte es auf den Tisch und sah es eine Weile an.
 
 **Der Atemzug für heute** — Zu Hause nur ein Licht anmachen, die Hände in warmes Wasser legen und dreimal ausatmen.

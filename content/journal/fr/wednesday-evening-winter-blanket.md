@@ -9,13 +9,14 @@ keywords: mercredi, soir, couette, octobre
 bible_version: Louis Segond 1910
 translation_of: ko
 publish_at: 2026-10-28 17:47
+updated: 2026-10-31
 ---
 
-Cette nuit, le froid a interrompu mon sommeil une première fois. Je tenais avec une couverture posée sur la couette d’été, mais mes orteils étaient glacés et cela ne pouvait plus durer. Alors aujourd’hui, dès mon retour, j’ai avalé un dîner vite fait et j’ai sorti en premier la couette d’hiver, rangée sur l’étagère du haut de l’armoire.
+Cette nuit, le froid a interrompu mon sommeil une première fois. Je tenais avec une couverture posée sur la couette d’été, mais mes orteils étaient glacés et cela ne pouvait plus durer. Alors aujourd’hui, dès mon retour, j’ai avalé un dîner vite fait et j’ai sorti en premier la couette d’hiver, rangée sur l’étagère du haut de l’armoire. En ouvrant l’armoire, c’est d’abord l’odeur d’un tissu rangé depuis longtemps qui est sortie. C’était sur l’étagère du haut ; il a fallu me dresser sur la pointe des pieds pour l’atteindre à peine.
 
-La couette était plus lourde que prévu. En tendant les bras pour la faire descendre, elle a failli me tomber sur la tête avec la poussière. Mettre la housse est toujours un travail maladroit. J’ai plongé dans la couette pour faire correspondre les coins, en me débattant, et j’ai fini le front en sueur. Cela m’a fait rire de faire ça un mercredi soir.
+La couette était plus lourde que prévu. En tendant les bras pour la faire descendre, elle a failli me tomber sur la tête avec la poussière. Mettre la housse est toujours un travail maladroit. J’ai plongé dans la couette pour faire correspondre les coins, en me débattant, et j’ai fini le front en sueur. Cela m’a fait rire de faire ça un mercredi soir. Une fois la housse mise, j’ai secoué la couette deux ou trois fois, et la poussière a flotté un instant dans la lumière venue de la fenêtre avant de retomber.
 
-Quand j’ai enfin fini de la housser, que je l’ai posée sur le lit et que je me suis laissé tomber au bord, je me suis demandé tout à coup si j’avais pris du repos une seule fois cette semaine. Je m’étendais en rentrant, oui. Mais j’avais le téléphone à la main et les yeux parcouraient l’agenda de demain. Je restais seulement là, sur le lit ; ni le corps ni l’esprit ne se reposaient. C’était comme ça depuis lundi.
+Quand j’ai enfin fini de la housser, que je l’ai posée sur le lit et que je me suis laissé tomber au bord, je me suis demandé tout à coup si j’avais pris du repos une seule fois cette semaine. Je m’étendais en rentrant, oui. Mais j’avais le téléphone à la main et les yeux parcouraient l’agenda de demain. Je restais seulement là, sur le lit ; ni le corps ni l’esprit ne se reposaient. C’était comme ça depuis lundi. En redressant l’oreiller, j’ai remarqué sur la table de chevet un livre laissé à moitié lu. Il me semblait ne pas l’avoir ouvert depuis plus d’une semaine.
 
 ## Si se reposer s’apprend aussi
 
@@ -27,6 +28,6 @@ Sur la couette, j’ai ouvert still().
 
 Au début, j’ai buté sur « Prenez mon joug sur vous ». Dire à quelqu’un qui veut se reposer de se charger de quelque chose ? Mais venait ensuite « recevez mes instructions ». Je l’ai lu comme une façon de dire que le repos ne vient pas tout seul, qu’il s’apprend. Je croyais qu’il suffisait de s’allonger pour se reposer, mais il semble que je n’aie jamais vraiment appris à le faire. Lire cette phrase n’a pas donné tout de suite du repos à mon cœur. Seulement, un tout petit exercice que je peux essayer ce soir m’est venu à l’esprit.
 
-J’ai branché le téléphone sur le chargeur et je l’ai posé sur le bureau, loin du lit. Quand j’ai éteint la lumière et que j’ai plongé sous la couette, mes pieds se sont vite réchauffés. Le travail de demain sera encore là demain. Malgré tout, ce soir, j’ai décidé de m’exercer à rester là, sans rien faire.
+J’ai branché le téléphone sur le chargeur et je l’ai posé sur le bureau, loin du lit. Quand j’ai éteint la lumière et que j’ai plongé sous la couette, mes pieds se sont vite réchauffés. Le travail de demain sera encore là demain. Malgré tout, ce soir, j’ai décidé de m’exercer à rester là, sans rien faire. Quand j’ai remonté le bord de la couette sous mon menton, une légère odeur de soleil sec s’en est dégagée. Je ne sais plus depuis combien de temps je n’avais pas senti une odeur pareille.
 
 **Le souffle du jour** — Laisse le téléphone hors du lit, remonte la couette jusqu’au menton et expire lentement trois fois.

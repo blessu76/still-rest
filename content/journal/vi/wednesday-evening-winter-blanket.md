@@ -9,14 +9,15 @@ keywords: thứ Tư, buổi tối, chăn, tháng Mười
 bible_version: Kinh Thánh 1925
 translation_of: ko
 publish_at: 2026-10-28 17:47
+updated: 2026-10-31
 draft: true
 ---
 
-Đêm qua tôi tỉnh dậy một lần vì lạnh. Tôi đã cố chịu bằng cách đắp thêm một chiếc mền lên chăn mùa hè, nhưng đầu ngón chân giờ đã buốt, không thể tiếp tục nữa. Vì thế hôm nay vừa về đến nhà, tôi ăn qua loa bữa tối rồi việc đầu tiên là lấy chiếc chăn mùa đông ở ngăn trên cùng của tủ xuống.
+Đêm qua tôi tỉnh dậy một lần vì lạnh. Tôi đã cố chịu bằng cách đắp thêm một chiếc mền lên chăn mùa hè, nhưng đầu ngón chân giờ đã buốt, không thể tiếp tục nữa. Vì thế hôm nay vừa về đến nhà, tôi ăn qua loa bữa tối rồi việc đầu tiên là lấy chiếc chăn mùa đông ở ngăn trên cùng của tủ xuống. Mở tủ ra, thứ đầu tiên tỏa ra là mùi vải cất lâu ngày. Nó nằm ở ngăn trên, nên tôi phải kiễng chân mới với tới được.
 
-Chiếc chăn nặng hơn tôi nghĩ. Khi tôi vươn tay kéo xuống, nó suýt đổ lên đầu tôi cùng một đám bụi. Việc lồng vỏ chăn lúc nào cũng vụng về. Để khớp bốn góc, tôi chui vào trong chăn, loay hoay, và cuối cùng trán đẫm mồ hôi. Tôi thấy buồn cười vì tối thứ Tư lại làm chuyện này.
+Chiếc chăn nặng hơn tôi nghĩ. Khi tôi vươn tay kéo xuống, nó suýt đổ lên đầu tôi cùng một đám bụi. Việc lồng vỏ chăn lúc nào cũng vụng về. Để khớp bốn góc, tôi chui vào trong chăn, loay hoay, và cuối cùng trán đẫm mồ hôi. Tôi thấy buồn cười vì tối thứ Tư lại làm chuyện này. Lồng vỏ xong, tôi giũ chăn vài cái, bụi bay lơ lửng một lúc trong ánh sáng lọt qua cửa sổ rồi lắng xuống.
 
-Cuối cùng lồng xong, đặt chăn lên giường và ngồi xuống mép giường, tôi chợt tự hỏi tuần này mình đã nghỉ ngơi lần nào chưa. Đúng là sau giờ làm tôi có nằm xuống. Nhưng tay cầm điện thoại, mắt lướt qua lịch ngày mai. Tôi chỉ nằm đó; cả cơ thể lẫn tâm trí đều không nghỉ. Từ thứ Hai đã như vậy.
+Cuối cùng lồng xong, đặt chăn lên giường và ngồi xuống mép giường, tôi chợt tự hỏi tuần này mình đã nghỉ ngơi lần nào chưa. Đúng là sau giờ làm tôi có nằm xuống. Nhưng tay cầm điện thoại, mắt lướt qua lịch ngày mai. Tôi chỉ nằm đó; cả cơ thể lẫn tâm trí đều không nghỉ. Từ thứ Hai đã như vậy. Lúc chỉnh lại cái gối, tôi thấy trên tủ đầu giường có một cuốn sách đọc dở. Có vẻ đã hơn một tuần tôi chưa mở nó ra.
 
 ## Nếu nghỉ ngơi cũng là điều phải học
 
@@ -28,6 +29,6 @@ Ngồi trên chiếc chăn, tôi mở still().
 
 Lúc đầu tôi vướng ở câu “hãy gánh lấy ách của ta”. Nói với người đang muốn nghỉ ngơi là hãy gánh lấy một thứ gì sao? Nhưng ngay sau đó là “học theo ta”. Tôi đọc nó như lời nói rằng sự nghỉ ngơi không tự đến mà phải học. Tôi vẫn tưởng chỉ cần nằm xuống là nghỉ được, nhưng hình như tôi chưa bao giờ học cách nghỉ cho đàng hoàng. Đọc câu này không có nghĩa lòng tôi lập tức được yên nghỉ. Chỉ là tôi nghĩ ra một bài tập rất nhỏ có thể thử tối nay.
 
-Tôi cắm điện thoại vào sạc và để trên bàn, xa giường. Khi tắt đèn và chui vào chăn, đôi chân nhanh chóng ấm lên. Công việc ngày mai vẫn sẽ ở đó vào ngày mai. Dù vậy, tối nay tôi quyết định tập nằm đó mà không làm gì cả.
+Tôi cắm điện thoại vào sạc và để trên bàn, xa giường. Khi tắt đèn và chui vào chăn, đôi chân nhanh chóng ấm lên. Công việc ngày mai vẫn sẽ ở đó vào ngày mai. Dù vậy, tối nay tôi quyết định tập nằm đó mà không làm gì cả. Khi kéo mép chăn lên đến cằm, có một mùi nắng khô thoang thoảng bay ra. Tôi không nhớ lần cuối mình ngửi thấy mùi như thế là khi nào.
 
 **Hơi thở hôm nay** — Để điện thoại ngoài giường, kéo chăn lên tới cằm và thở ra chậm ba lần.
