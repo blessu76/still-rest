@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Build the still.ipe.rest home page as 11 static language pages — stdlib only (Python 3.8+).
+"""Build the still.ipe.rest home page as 13 static language pages — stdlib only (Python 3.8+).
 
 Source   content/home/template.html   English markup with data-i18n / data-i18n-ph hooks and {{PLACEHOLDERS}}
          content/home/i18n.json       strings per language (a missing key falls back to English)
-Writes   /<lang>/index.html           en ko ja zh es pt id ru vi fr de — html lang/dir, own title·description·og:locale,
-                                      canonical = itself, hreflang 11 + x-default
+Writes   /<lang>/index.html           en ko ja zh es pt id ru vi fr de ar hi — html lang/dir, own title·description·og:locale,
+                                      canonical = itself, hreflang 13 + x-default
          /index.html                  x-default: English content, canonical "/". Its head script applies the common language rule
                                       (?lang=xx -> stored choice -> browser language -> English): a visitor whose language is not
                                       English is sent to /xx/; English stays here. /xx/ pages never move the visitor.

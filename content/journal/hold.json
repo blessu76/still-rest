@@ -1,4 +1,6 @@
 {
  "_note": "Journal languages on hold (see scripts/build_journal.py HELD). Only `draft: true` posts may exist in them. Remove the entry to lift the hold.",
- "id": "no free Indonesian Bible translation that covers the Old Testament has been found yet (decision 2026-10-23, Matt·ops)"
+ "id": "no free Indonesian Bible translation that covers the Old Testament has been found yet (decision 2026-10-23, Matt·ops)",
+ "ar": "journal posts not translated yet - home/about/faq only, like id (decision 2026-11-01, matches ipe.rest 12 languages; needs native review and a verified crisis-line list first)",
+ "hi": "journal posts not translated yet - home/about/faq only, like id (decision 2026-11-01, matches ipe.rest 12 languages; needs native review and Tele-MANAS 14416 verified first)"
 }

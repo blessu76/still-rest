@@ -1,4 +1,4 @@
-"""Tests for scripts/build_info.py (FAQ + about pages, 11 languages) — run: python3 -m unittest discover -s tests"""
+"""Tests for scripts/build_info.py (FAQ + about pages, 13 languages) — run: python3 -m unittest discover -s tests"""
 import html
 import json
 import re
@@ -7,7 +7,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-LANGS = "en ko ja zh es pt id ru vi fr de".split()
+LANGS = "en ko ja zh es pt id ru vi fr de ar hi".split()
 PAGES = ("faq", "about")
 NS = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9", "x": "http://www.w3.org/1999/xhtml"}
 
@@ -38,7 +38,7 @@ class InfoPages(unittest.TestCase):
         for l in LANGS:
             for p in PAGES:
                 h = page(l, p)
-                self.assertIn('<html lang="%s" dir="ltr">' % l, h, (l, p))
+                self.assertIn('<html lang="%s" dir="%s">' % (l, "rtl" if l == "ar" else "ltr"), h, (l, p))
                 self.assertIn('<link rel="canonical" href="https://still.ipe.rest/%s/%s/">' % (l, p), h, (l, p))
                 got = dict(re.findall(r'<link rel="alternate" hreflang="([\w-]+)" href="([^"]+)"', h))
                 self.assertEqual(set(got), set(LANGS) | {"x-default"}, (l, p))
@@ -102,7 +102,7 @@ class InfoPages(unittest.TestCase):
         self.assertNotIn("Frequently asked questions", faq_ko)
         self.assertIn("Frequently asked questions", faq_en)
         titles = {re.search(r"<title>(.*?)</title>", page(l, p)).group(1) for l in LANGS for p in PAGES}
-        self.assertEqual(len(titles), 22)
+        self.assertEqual(len(titles), 26)
 
     def test_footer_links_reach_the_pages_from_home_and_info(self):
         for l in LANGS:
@@ -120,13 +120,13 @@ class InfoPages(unittest.TestCase):
                 h = h[h.index("<body>"):]  # (the <head> may still advertise the feed)
                 self.assertEqual("/journal/" in h, has_posts, (l, p))
 
-    def test_sitemap_and_llms_list_all_22(self):
+    def test_sitemap_and_llms_list_all_26(self):
         root = ET.parse(REPO / "sitemap.xml").getroot()
         rows = {u.find("s:loc", NS).text: u for u in root.findall("s:url", NS)}
         for p in PAGES:
             for l in LANGS:
                 u = rows["https://still.ipe.rest/%s/%s/" % (l, p)]
-                self.assertEqual(len(u.findall("x:link", NS)), 12, (l, p))  # 11 languages + x-default
+                self.assertEqual(len(u.findall("x:link", NS)), 14, (l, p))  # 13 languages + x-default
                 self.assertIsNotNone(u.find("s:lastmod", NS))
         llms = (REPO / "llms.txt").read_text(encoding="utf-8")
         for p in PAGES:
@@ -134,7 +134,7 @@ class InfoPages(unittest.TestCase):
                 self.assertIn("(https://still.ipe.rest/%s/%s/)" % (l, p), llms)
 
     def test_privacy_stays_one_canonical_page(self):
-        # decision: the privacy policy is legal text (en + ko toggle inside) — not machine translated into 11 languages
+        # decision: the privacy policy is legal text (en + ko toggle inside) — not machine translated into 13 languages
         for l in LANGS:
             self.assertFalse((REPO / l / "privacy").exists(), l)
         self.assertTrue((REPO / "privacy/index.html").is_file())

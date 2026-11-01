@@ -107,6 +107,24 @@
    "help_intro": "Du musst das nicht allein tragen. Wenn du daran denkst, dir etwas anzutun, oder in akuter Gefahr bist, wähle jetzt den Notruf deines Landes oder eine Krisenhotline – oder sprich mit einem Menschen, dem du vertraust.",
    "fallback": "In einem anderen Land? Finde eine kostenlose Hilfe-Hotline in deinem Land:",
    "bible_label": "Bibelzitate:"
+  },
+  "ar": {
+   "fiction": "هذه قصة منسوجة من تجارب كثيرين. ليست عن شخص حقيقي بعينه ولا عن حدث بعينه.",
+   "disclaimer": "هذا المقال ليس نصيحة طبية ولا يغني عن زيارة الطبيب أو التشخيص أو العلاج.",
+   "jump": "هل تحتاج إلى دعم الآن؟",
+   "help_title": "إذا كنت تمرّ بوقت عصيب الآن",
+   "help_intro": "لست مضطرًا إلى حمل هذا وحدك. إذا كنت تفكّر في إيذاء نفسك أو كنت في خطر وشيك، فاتصل الآن برقم الطوارئ المحلي أو بخط مساعدة للأزمات، أو تواصل مع شخص تثق به.",
+   "fallback": "في مكان آخر؟ ابحث عن خط مساعدة مجّاني في بلدك:",
+   "bible_label": "اقتباسات من الكتاب المقدّس:"
+  },
+  "hi": {
+   "fiction": "यह कई लोगों के अनुभवों से बुनी गई कहानी है। यह किसी एक वास्तविक व्यक्ति या घटना के बारे में नहीं है।",
+   "disclaimer": "यह लेख चिकित्सकीय सलाह नहीं है और डॉक्टर के पास जाने, निदान या इलाज का विकल्प नहीं है।",
+   "jump": "क्या अभी सहारे की ज़रूरत है?",
+   "help_title": "अगर आप अभी बहुत मुश्किल में हैं",
+   "help_intro": "आपको यह अकेले नहीं उठाना है। अगर आप ख़ुद को नुक़सान पहुँचाने के बारे में सोच रहे हैं या तुरंत ख़तरे में हैं, तो अभी अपने स्थानीय आपातकालीन नंबर या किसी संकट हेल्पलाइन से संपर्क करें, या किसी भरोसेमंद व्यक्ति तक पहुँचें।",
+   "fallback": "कहीं और हैं? अपने देश की मुफ़्त हेल्पलाइन खोजें:",
+   "bible_label": "बाइबल के उद्धरण:"
   }
  },
  "lines": {
@@ -585,6 +603,28 @@
        "status": "verified",
        "checked_on": "2026-10-22",
        "source": "https://www.143.ch/"
+      }
+     ]
+    }
+   ]
+  },
+  "ar": {
+   "status": "draft",
+   "regions": []
+  },
+  "hi": {
+   "status": "draft",
+   "regions": [
+    {
+     "country": "भारत",
+     "items": [
+      {
+       "name": "Tele-MANAS",
+       "number": "14416",
+       "tel": "14416",
+       "hours": "24/7",
+       "status": "draft",
+       "note": "[미검증] 2026-11-01: 정부 24시간 정신건강 상담(Tele-MANAS)으로 알고 있으나 공식 사이트(telemanas.mohfw.gov.in) 조회가 인증서 오류로 실패해 출처 확인 못 함. 첫 글 전에 공식 출처로 확인 후 verified 로 올릴 것. 지금은 어떤 페이지에도 출력되지 않음."
       }
      ]
     }

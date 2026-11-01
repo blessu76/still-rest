@@ -11,7 +11,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-LANGS = "en ko ja zh es pt id ru vi fr de".split()
+LANGS = "en ko ja zh es pt id ru vi fr de ar hi".split()
 NS = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9", "x": "http://www.w3.org/1999/xhtml"}
 
 
@@ -39,7 +39,7 @@ class BuildHome(unittest.TestCase):
     def test_every_language_is_a_static_page(self):
         for l in LANGS:
             h = self.page(l)
-            self.assertIn('<html lang="%s" dir="ltr">' % l, h, l)
+            self.assertIn('<html lang="%s" dir="%s">' % (l, "rtl" if l == "ar" else "ltr"), h, l)
             self.assertIn('<link rel="canonical" href="https://still.ipe.rest/%s/">' % l, h, l)
             got = dict(re.findall(r'<link rel="alternate" hreflang="([\w-]+)" href="([^"]+)"', h))
             self.assertEqual(set(got), set(LANGS) | {"x-default"}, l)
@@ -142,13 +142,51 @@ class BuildHome(unittest.TestCase):
             {"langs": ["ko"], "search": "?lang=zz"},                         # 12 unknown ?lang is ignored -> browser -> /ko/
             {"langs": ["ko"], "search": "?utm_source=a&lang=es", "hash": "#faq"},  # 13 other query and hash survive; lang is dropped
             {"langs": ["vi"]},                                               # 14 vi has a home page -> /vi/
+            {"langs": ["ar-EG", "en"]},                                      # 15 ar has a home page -> /ar/
+            {"langs": ["hi-IN"]},                                            # 16 hi has a home page -> /hi/
         ]
         r = subprocess.run([node, "-e", harness, json.dumps(cases)], input=self.root_script(), capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stderr)
         got = [c["to"] for c in json.loads(r.stdout)]
         self.assertEqual(got, ["/ko/", None, "/fr/", None, "/de/", "/zh/", "/pt/", None, "/ja/", "/ko/", "/de/", "/en/", "/ko/",
-                               "/es/?utm_source=a#faq", "/vi/"])
+                               "/es/?utm_source=a#faq", "/vi/", "/ar/", "/hi/"])
         self.assertEqual(json.loads(r.stdout)[10]["store"]["still_lang"], "de")
+
+    def test_arabic_is_right_to_left_and_hindi_is_not(self):
+        # ar is the only RTL page (home, FAQ, about); its CSS mirrors via logical properties + a [dir=rtl] block, LTR pages stay unchanged
+        for p in ("", "faq/", "about/"):
+            self.assertIn('<html lang="ar" dir="rtl">', (REPO / "ar" / p / "index.html").read_text(encoding="utf-8"), p)
+            self.assertIn('<html lang="hi" dir="ltr">', (REPO / "hi" / p / "index.html").read_text(encoding="utf-8"), p)
+        self.assertIn("[dir=rtl]", self.page("ar"))
+        self.assertIn("[dir=rtl]", (REPO / "assets/journal.css").read_text(encoding="utf-8"))
+        for l in LANGS:
+            if l != "ar":
+                self.assertIn('dir="ltr"', self.page(l)[:200], l)
+
+    def test_arabic_and_hindi_link_each_other_and_every_language_in_the_sitemap(self):
+        root = ET.parse(self.tmp / "sitemap.xml").getroot()
+        rows = {u.find("s:loc", NS).text: u for u in root.findall("s:url", NS)}
+        for l in ("ar", "hi"):
+            for p in ("", "faq/", "about/"):
+                u = rows["https://still.ipe.rest/%s/%s" % (l, p)]
+                got = {x.get("hreflang"): x.get("href") for x in u.findall("x:link", NS)}
+                self.assertEqual(set(got), set(LANGS) | {"x-default"}, (l, p))
+                self.assertEqual(got["ar"], "https://still.ipe.rest/ar/" + p)
+                self.assertEqual(got["hi"], "https://still.ipe.rest/hi/" + p)
+        # and every other language page points back at them (home pages are checked in test_every_language_is_a_static_page)
+        for l in LANGS:
+            h = self.page(l)
+            self.assertIn('hreflang="ar" href="https://still.ipe.rest/ar/"', h, l)
+            self.assertIn('hreflang="hi" href="https://still.ipe.rest/hi/"', h, l)
+
+    def test_ar_and_hi_pages_carry_ga4_and_the_ipe_rest_link_keeps_the_language(self):
+        for l in ("ar", "hi"):
+            h = self.page(l)
+            self.assertIn("G-XG4BH800J0", h, l)
+            for p in ("faq", "about"):  # the FAQ/about "(https://ipe.rest)" links go to the studio hub in the page's own language (ipe.rest has /ar/ and /hi/)
+                info = (REPO / l / p / "index.html").read_text(encoding="utf-8")
+                self.assertIn('href="https://ipe.rest/%s/"' % l, info, (l, p))
+                self.assertNotIn('href="https://ipe.rest"', info, (l, p))
 
     def test_accessibility_labels_and_structured_data_follow_the_language(self):
         strings = json.loads((REPO / "content/home/i18n.json").read_text(encoding="utf-8"))
@@ -183,9 +221,9 @@ class BuildHome(unittest.TestCase):
     def test_sitemap_has_home_in_every_language(self):
         root = ET.parse(self.tmp / "sitemap.xml").getroot()
         rows = {u.find("s:loc", NS).text: u for u in root.findall("s:url", NS) if "/journal/" not in u.find("s:loc", NS).text and u.find("x:link", NS) is not None and u.find("{http://www.google.com/schemas/sitemap-image/1.1}image") is not None}  # home rows (info pages have alternates but no image, legal pages neither)
-        self.assertEqual(len(rows), 12)  # "/" + 11 languages
+        self.assertEqual(len(rows), 14)  # "/" + 13 languages
         for loc, u in rows.items():
-            self.assertEqual(len(u.findall("x:link", NS)), 12, loc)  # 11 languages + x-default
+            self.assertEqual(len(u.findall("x:link", NS)), 14, loc)  # 13 languages + x-default
             self.assertIsNotNone(u.find("s:lastmod", NS))
             self.assertEqual(len(u.findall("{http://www.google.com/schemas/sitemap-image/1.1}image"), ), 1)
         for l in LANGS:
@@ -226,7 +264,7 @@ class BuildHome(unittest.TestCase):
     def test_sitemap_lists_legal_pages(self):
         root = ET.parse(self.tmp / "sitemap.xml").getroot()
         locs = {u.find("s:loc", NS).text for u in root.findall("s:url", NS) if "/journal/" not in u.find("s:loc", NS).text}
-        self.assertEqual(len(locs), 36)  # 12 home + 22 faq/about + privacy + terms
+        self.assertEqual(len(locs), 42)  # 14 home + 26 faq/about + privacy + terms
         self.assertLessEqual({"https://still.ipe.rest/privacy/", "https://still.ipe.rest/terms/"}, locs)
         self.assertFalse({"https://still.ipe.rest/privacy", "https://still.ipe.rest/terms"} & locs)
 

@@ -13,7 +13,7 @@ ORG_ID = "https://ipe.rest/#organization"
 ORG_LOGO = {"@type": "ImageObject", "url": "https://ipe.rest/icon-512.png", "width": 512, "height": 512}
 ORG = {"@type": "Organization", "@id": ORG_ID, "name": "ipe()", "url": "https://ipe.rest/", "logo": ORG_LOGO}
 
-# The 11 languages of the still() app (decision 0087). name = the language's own name (language select), og = og:locale.
+# The 13 languages of the still() site (the app's 11, decision 0087, plus ar·hi, which match ipe.rest). name = the language's own name (language select), og = og:locale.
 # Order = order of the language select, hreflang lists and the sitemap.
 LANGS = {
     "en": {"name": "English", "og": "en_US", "dir": "ltr"},
@@ -27,6 +27,8 @@ LANGS = {
     "vi": {"name": "Tiếng Việt", "og": "vi_VN", "dir": "ltr"},
     "fr": {"name": "Français", "og": "fr_FR", "dir": "ltr"},
     "de": {"name": "Deutsch", "og": "de_DE", "dir": "ltr"},
+    "ar": {"name": "العربية", "og": "ar_AR", "dir": "rtl"},
+    "hi": {"name": "हिन्दी", "og": "hi_IN", "dir": "ltr"},
 }
 # Google Fonts CSS. A plain <link rel="stylesheet"> blocks rendering until fonts.googleapis.com answers (~0.9 s on mobile, Lighthouse FCP 3.4 s),
 # so every page loads it the non-blocking way: media="print" (fetched at low priority, never blocks paint) flipped to "all" on load, with a
@@ -155,7 +157,7 @@ def auto_lang_script(prefix, targets):
 
 # ipe.rest (the studio hub) has a page for these languages at /<lang>/; the other still() languages go to its root with ?lang=<lang> (the hub
 # reads that query). Links from here to another ipe site carry the page's language - never a bare https://ipe.rest in a translated page.
-IPE_REST_LANG_PATHS = ("en", "ko", "ja", "zh", "es", "pt", "id", "ru", "fr", "de")
+IPE_REST_LANG_PATHS = ("en", "ko", "ja", "zh", "es", "pt", "id", "ru", "fr", "de", "ar", "hi")
 
 
 def ipe_rest_url(lang):

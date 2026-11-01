@@ -2,18 +2,18 @@
 """Build the still.ipe.rest Journal — no dependencies (Python 3.8+ stdlib only).
 
 Reads   content/journal/<lang>/<slug>.md   (front matter + Markdown; one folder per language, ko and en included)
-        content/journal/safety.json        the fixed safety block of every article (disclaimer, crisis lines, ...) — 11 languages
-        content/journal/ui.json            list/hub/UI strings — 11 languages
+        content/journal/safety.json        the fixed safety block of every article (disclaimer, crisis lines, ...) — 13 languages
+        content/journal/ui.json            list/hub/UI strings — 13 languages
 Writes  journal/index.html                 x-default hub (language links + the originals)
         journal/<lang>/index.html          one list page per language that has posts
         journal/page/<n>/index.html        page 2, 3, ... of the hub and of every language list (journal/<lang>/page/<n>/): 10 posts a page,
                                            newest first; page 1 keeps the plain address (there is no .../page/1/)
-        journal/<lang>/<slug>/index.html   one page per post and language  (11 languages: en ko ja zh es pt id ru vi fr de)
+        journal/<lang>/<slug>/index.html   one page per post and language  (13 languages: en ko ja zh es pt id ru vi fr de ar hi)
         <old alias path>/index.html        static redirect stubs (front matter `aliases`) — not in the sitemap
         journal/feed.xml                   RSS 2.0 (originals = posts without translation_of)
         sitemap.xml                        between <!-- journal:start --> / <!-- journal:end -->
         llms.txt                           "Journal" section between <!-- journal:llms:start --> / <!-- journal:llms:end -->
-        index.html + <lang>/index.html     home page, 11 static language pages (scripts/build_home.py)
+        index.html + <lang>/index.html     home page, 13 static language pages (scripts/build_home.py)
 
 All language versions of a post share ONE slug (that is what groups them for hreflang / translationOfWork).
 
@@ -26,7 +26,7 @@ Front matter (between two `---` lines):
     title:       required
     date:        required, YYYY-MM-DD (publication date, KST)
     slug:        required, [a-z0-9-]+ (= file name), same in every language; not a language code, not "feed"
-    lang:        required, one of en ko ja zh es pt id ru vi fr de (= folder name)
+    lang:        required, one of en ko ja zh es pt id ru vi fr de ar hi (= folder name)
     description: required, one sentence (meta description, cards, RSS)
     category:    required, free text in the post's language (e.g. 우울 · panic · work)
     verse:       optional, `책 장:절` as written in the post's language (e.g. `시편 121:2`) — the verse chip on the home card. Without it the chip is read
@@ -449,11 +449,14 @@ MONTHS = {
     "ru": "января февраля марта апреля мая июня июля августа сентября октября ноября декабря",  # genitive, as after a day number
     "fr": "janvier février mars avril mai juin juillet août septembre octobre novembre décembre",
     "de": "Januar Februar März April Mai Juni Juli August September Oktober November Dezember",
+    "ar": "يناير فبراير مارس أبريل مايو يونيو يوليو أغسطس سبتمبر أكتوبر نوفمبر ديسمبر",
+    "hi": "जनवरी फ़रवरी मार्च अप्रैल मई जून जुलाई अगस्त सितंबर अक्टूबर नवंबर दिसंबर",
 }
 DATE_FORMATS = {
     "en": "{month} {d}, {y}", "ko": "{y}년 {m}월 {d}일", "ja": "{y}年{m}月{d}日", "zh": "{y}年{m}月{d}日",
     "es": "{d} de {month} de {y}", "pt": "{d} de {month} de {y}", "id": "{d} {month} {y}", "ru": "{d} {month} {y} г.",
     "vi": "{d} tháng {m}, {y}", "fr": "{d} {month} {y}", "de": "{d}. {month} {y}",
+    "ar": "{d} {month} {y}", "hi": "{d} {month} {y}",
 }
 
 
@@ -493,7 +496,7 @@ def time_tag(p):
 
 
 def lang_path(lang):
-    """site path of a language's journal list: /journal/<lang>/ (all 11 languages; /journal/ itself is the x-default hub)."""
+    """site path of a language's journal list: /journal/<lang>/ (all 13 languages; /journal/ itself is the x-default hub)."""
     return "/journal/%s/" % lang
 
 
@@ -1200,7 +1203,8 @@ def render_home_cards(posts, lang=None):
         verse = verse_ref(p)
         top = '<span class="j-cat">%s</span>' % esc(p["category"]) + ('<span class="j-verse">%s</span>' % esc(verse) if verse else "")
         badge = '<span class="j-lang">%s</span>' % esc(LANGS[p["lang"]]["name"]) if lang and p["lang"] != lang else ""
-        return f"""      <a class="j-card" href="{post_path(p)}" lang="{esc(p['lang'])}">
+        d = ' dir="%s"' % LANGS[p["lang"]]["dir"] if lang and LANGS[lang]["dir"] != LANGS[p["lang"]]["dir"] else ""  # a fallback card in the other direction (en card on the RTL ar page)
+        return f"""      <a class="j-card" href="{post_path(p)}" lang="{esc(p['lang'])}"{d}>
         <div class="j-top">{top}</div>
         <p class="j-date">{with_no(p, time_tag(p))}</p>
         <h3 class="j-title">{esc(p['title'])}</h3>
@@ -1537,10 +1541,10 @@ def build(root, drafts=False, strict_safety=False, check_only=False, now=None, l
     llms = root / "llms.txt"
     llms.write_text(replace_between(llms.read_text(encoding="utf-8"), r"<!-- journal:llms:start[^>]*-->",
                                     "<!-- journal:llms:end -->", render_llms_block(posts), "llms.txt"), encoding="utf-8")
-    import build_home  # home page: 11 static language pages + their sitemap/llms blocks
+    import build_home  # home page: 13 static language pages + their sitemap/llms blocks
     build_home.build(root, {l: render_home_cards(card_posts(l, posts), l) for l in LANGS}, {l: jhome(l) for l in LANGS},
                      max([p.get("updated") or p["_date"].isoformat() for p in posts], default=None))
-    import build_info  # FAQ + "how still() is different" pages, 11 languages (uses this module's header/footer/head)
+    import build_info  # FAQ + "how still() is different" pages, 13 languages (uses this module's header/footer/head)
     build_info.build(root, sys.modules[__name__], bool(posts))
     return 0, "journal: built %d post(s)%s → %s" % (len(posts), " (incl. drafts)" if drafts else "", out) + warning_text(warnings)
 

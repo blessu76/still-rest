@@ -12,7 +12,7 @@ from site_common import LANGS  # noqa: E402
 import build_journal as bj  # noqa: E402
 from test_build_journal import POST, VERSES, Base, run, write_post  # noqa: E402  (VERSES: the app's verse file, see find_verses())
 
-PAGES = [("en", REPO / "index.html")] + [(l, REPO / l / "index.html") for l in LANGS]  # root (x-default, English) + 11 languages
+PAGES = [("en", REPO / "index.html")] + [(l, REPO / l / "index.html") for l in LANGS]  # root (x-default, English) + 13 languages
 SECTION = re.compile(r'<section class="journal"[^>]*>.*?</section>', re.S)
 CARD = re.compile(r'<a class="j-card"[^>]*>.*?</a>', re.S)
 # slug -> the reference its verse chip must show. Written by hand from the articles' quotation blocks and checked against the app's verse file.
@@ -148,7 +148,7 @@ def list_exists(lang):
 
 class CommittedPages(unittest.TestCase):
     def pages(self):
-        self.assertEqual(len(PAGES), 12)
+        self.assertEqual(len(PAGES), 14)
         for lang, f in PAGES:
             yield lang, f, f.read_text(encoding="utf-8")
 

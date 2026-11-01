@@ -139,7 +139,8 @@ class AllLanguages(Base):
     def test_dates_are_written_in_the_pages_language(self):
         want = {"en": "October 22, 2026", "ko": "2026년 10월 22일", "ja": "2026年10月22日", "zh": "2026年10月22日",
                 "es": "22 de octubre de 2026", "pt": "22 de outubro de 2026", "id": "22 Oktober 2026", "ru": "22 октября 2026 г.",
-                "vi": "22 tháng 10, 2026", "fr": "22 octobre 2026", "de": "22. Oktober 2026"}
+                "vi": "22 tháng 10, 2026", "fr": "22 octobre 2026", "de": "22. Oktober 2026",
+                "ar": "22 أكتوبر 2026", "hi": "22 अक्टूबर 2026"}
         self.assertEqual(sorted(want), sorted(LANGS))
         for l in LANGS:
             h = self.page("journal/%s/hello/index.html" % l)
@@ -202,7 +203,7 @@ class AllLanguages(Base):
         for l in LANGS:
             self.assertIn("https://still.ipe.rest/journal/%s/" % l, locs)
             self.assertIn("https://still.ipe.rest/journal/%s/hello/" % l, locs)
-        self.assertEqual(len(locs), 12 + 22 + 2 + 1 + 11 + 11)  # home + faq/about + privacy/terms + hub + lists + posts
+        self.assertEqual(len(locs), 14 + 26 + 2 + 1 + 13 + 13)  # home + faq/about + privacy/terms + hub + lists + posts
 
     def test_llms_and_feed(self):
         self.assertIn("https://still.ipe.rest/journal/ko/hello/", self.page("llms.txt"))
@@ -563,6 +564,8 @@ class RepoState(unittest.TestCase):
         "ru": ["8-800-2000-122", "+7 (495) 989-50-50"],
         "vi": [],
         "id": ["119 ext. 8"],
+        "ar": [],  # no country numbers are invented for Arabic: the page points at findahelpline-style worldwide guidance (draft)
+        "hi": [],  # Tele-MANAS 14416 is stored as a draft ([미검증]: the official site could not be fetched on 2026-11-01), so nothing prints
     }
 
     def test_each_language_prints_exactly_the_confirmed_numbers(self):
@@ -582,6 +585,8 @@ class RepoState(unittest.TestCase):
         # vi stays draft: no official adult crisis line was found (Dane, 2026-10-25) -> its posts stay `draft: true`
         self.assertEqual(d["vi"]["status"], "draft")
         self.assertEqual(d["id"]["status"], "draft")
+        self.assertEqual(d["ar"]["status"], "draft")
+        self.assertEqual(d["hi"]["status"], "draft")
 
     def test_safety_data_covers_all_languages(self):
         d = json.loads((REPO / "content/journal/safety.json").read_text(encoding="utf-8"))

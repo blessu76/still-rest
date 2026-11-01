@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build the still.ipe.rest info pages — FAQ and "how still() is different from other apps called Still" — stdlib only (Python 3.8+).
 
-Source   content/info/pages.json    one entry per language (11): questions/answers, the about paragraph, titles, meta descriptions
+Source   content/info/pages.json    one entry per language (13): questions/answers, the about paragraph, titles, meta descriptions
          content/home/i18n.json     verse_text / hero_tag (the {verse} / {psalm} placeholders) and footer labels
 Writes   /<lang>/faq/index.html     FAQPage JSON-LD (the same questions and answers that are visible on the page)
          /<lang>/about/index.html   AboutPage JSON-LD (the app as mainEntity; no sameAs / downloadUrl until a store page exists)
@@ -11,7 +11,7 @@ Writes   /<lang>/faq/index.html     FAQPage JSON-LD (the same questions and answ
 
 It is called by scripts/build_journal.py (one command builds journal + home + info) and borrows its head/header/footer, so the
 pages look like the journal pages. The privacy policy stays ONE page (/privacy/, en + ko toggle): legal text is not machine
-translated into 11 languages; the FAQ answers it in every language and links to it.
+translated into 13 languages; the FAQ answers it in every language and links to it.
 
     python3 scripts/build_journal.py         # builds these pages too (they need its journal list state for the footer links)
 """
@@ -117,7 +117,7 @@ def sitemap_block(date):
 
 
 def llms_block(pages):
-    lines = ["## Questions and answers about still() (FAQ) and how it differs from other apps called Still — 11 languages"]
+    lines = ["## Questions and answers about still() (FAQ) and how it differs from other apps called Still — 13 languages"]
     for page, key in (("faq", "faq_title"), ("about", "about_title")):
         lines += ["- [%s](%s) — %s" % (pages[l][key], page_url(l, page), LANGS[l]["name"]) for l in LANGS]
     return "\n".join(lines) + "\n"

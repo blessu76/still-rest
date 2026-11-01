@@ -17,7 +17,7 @@ class CheckSitemap(unittest.TestCase):
         shutil.copy(REPO / "sitemap.xml", self.tmp / "sitemap.xml")
         shutil.copy(REPO / "robots.txt", self.tmp / "robots.txt")
         pages = ["index.html", "privacy/index.html", "terms/index.html"] + [
-            "%s/%s" % (l, f) for l in ["en", "ko", "ja", "zh", "es", "pt", "id", "ru", "vi", "fr", "de"] for f in ("index.html", "faq/index.html", "about/index.html")]
+            "%s/%s" % (l, f) for l in ["en", "ko", "ja", "zh", "es", "pt", "id", "ru", "vi", "fr", "de", "ar", "hi"] for f in ("index.html", "faq/index.html", "about/index.html")]
         for rel in pages:  # the real pages: check() compares each one's head with its sitemap row
             (self.tmp / rel).parent.mkdir(parents=True, exist_ok=True)
             shutil.copy(REPO / rel, self.tmp / rel)

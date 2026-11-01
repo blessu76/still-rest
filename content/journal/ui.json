@@ -1,5 +1,5 @@
 {
- "_note": "Journal list/hub strings, 11 languages. AI-drafted in the brand voice — pending native review (same status as content/home/i18n.json).",
+ "_note": "Journal list/hub strings, 13 languages. AI-drafted in the brand voice — pending native review (same status as content/home/i18n.json).",
  "en": {
   "journal": "Journal",
   "sub": "Quiet stories for hard days — about depression, panic, burnout and the long road of getting help. Written to keep you company, not to treat you.",
@@ -241,5 +241,49 @@
   "prev_post": "Vorherige Geschichte",
   "next_post": "Nächste Geschichte",
   "related": "Weitere Geschichten"
+ },
+ "ar": {
+  "journal": "المدوّنة",
+  "sub": "قصص هادئة للأيام الصعبة — عن الاكتئاب والهلع والإرهاق والطريق الطويل لطلب المساعدة. كُتبت لتؤنسك، لا لتعالجك.",
+  "empty": "القصة الأولى في الطريق.",
+  "back": "كل القصص",
+  "read_more": "اقرأ",
+  "view_all": "كل القصص",
+  "skip": "انتقل إلى المحتوى",
+  "rss": "خلاصة RSS",
+  "ai_note": "تُرجم هذا المقال بالذكاء الاصطناعي.",
+  "ai_orig": "اقرأ الأصل",
+  "other_langs": "اللغة",
+  "aria_home": "الصفحة الرئيسية لـ still()‎",
+  "aria_primary": "التنقل الرئيسي",
+  "page": "الصفحة {n}",
+  "prev_page": "الصفحة السابقة",
+  "next_page": "الصفحة التالية",
+  "page_word": "الصفحة",
+  "prev_post": "القصة السابقة",
+  "next_post": "القصة التالية",
+  "related": "قصص أخرى"
+ },
+ "hi": {
+  "journal": "जर्नल",
+  "sub": "कठिन दिनों के लिए शांत कहानियाँ — अवसाद, घबराहट, थकावट और मदद पाने की लंबी राह के बारे में। आपका साथ देने के लिए लिखी गई हैं, इलाज के लिए नहीं।",
+  "empty": "पहली कहानी रास्ते में है।",
+  "back": "सभी कहानियाँ",
+  "read_more": "पढ़ें",
+  "view_all": "सभी कहानियाँ",
+  "skip": "सामग्री पर जाएँ",
+  "rss": "RSS फ़ीड",
+  "ai_note": "यह लेख AI द्वारा अनूदित है।",
+  "ai_orig": "मूल पढ़ें",
+  "other_langs": "भाषा",
+  "aria_home": "still() होम",
+  "aria_primary": "मुख्य",
+  "page": "पृष्ठ {n}",
+  "prev_page": "पिछला पृष्ठ",
+  "next_page": "अगला पृष्ठ",
+  "page_word": "पृष्ठ",
+  "prev_post": "पिछली कहानी",
+  "next_post": "अगली कहानी",
+  "related": "और कहानियाँ"
  }
 }

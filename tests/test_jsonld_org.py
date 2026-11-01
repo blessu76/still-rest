@@ -126,7 +126,7 @@ class OrgHub(unittest.TestCase):
 
     def test_home_pages_define_the_hub_and_refer_to_it(self):
         pages = [REPO / "index.html"] + [REPO / l / "index.html" for l in LANGS]
-        self.assertEqual(len(pages), 12)
+        self.assertEqual(len(pages), 14)
         for f in pages:
             docs = lds(f)
             orgs = [n for d in docs for n in nodes(d) if n.get("@type") == "Organization"]

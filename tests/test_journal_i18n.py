@@ -59,6 +59,16 @@ class Coverage(unittest.TestCase):
                 self.assertTrue(bj.parse_post(f)["draft"], f)
             self.assertFalse((REPO / "journal" / l).exists(), l)
 
+    def test_arabic_and_hindi_are_home_about_faq_only_like_indonesian(self):
+        # decision 2026-11-01: ar and hi have the static pages (home / FAQ / about) but no journal posts yet -> held, no /journal/ar|hi/, not in the hub's OK list
+        for l in ("ar", "hi"):
+            self.assertIn(l, HELD, l)
+            self.assertFalse((REPO / "journal" / l).exists(), l)
+            self.assertTrue((REPO / l / "index.html").is_file(), l)
+            self.assertNotIn("/journal/%s/" % l, (REPO / "sitemap.xml").read_text(encoding="utf-8"), l)
+            for page in (REPO / "journal").rglob("index.html"):
+                self.assertNotIn("/journal/%s/" % l, page.read_text(encoding="utf-8"), (str(page), l))
+
     def test_vi_stays_private_until_its_crisis_lines_are_verified(self):
         self.assertEqual(SAFETY_DRAFT, {"vi"})  # every other translated language was verified 2026-10-25
         for l in SAFETY_DRAFT:

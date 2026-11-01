@@ -25,6 +25,8 @@
 <link rel="alternate" hreflang="vi" href="https://still.ipe.rest/vi/">
 <link rel="alternate" hreflang="fr" href="https://still.ipe.rest/fr/">
 <link rel="alternate" hreflang="de" href="https://still.ipe.rest/de/">
+<link rel="alternate" hreflang="ar" href="https://still.ipe.rest/ar/">
+<link rel="alternate" hreflang="hi" href="https://still.ipe.rest/hi/">
 <link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/">
 
 <!-- Open Graph -->
@@ -48,6 +50,8 @@
 <meta property="og:locale:alternate" content="ru_RU">
 <meta property="og:locale:alternate" content="fr_FR">
 <meta property="og:locale:alternate" content="de_DE">
+<meta property="og:locale:alternate" content="ar_AR">
+<meta property="og:locale:alternate" content="hi_IN">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
@@ -216,7 +220,7 @@
   .verse-card{
     background:var(--surface);
     max-width:520px;margin:0 auto;
-    padding:0;text-align:left;
+    padding:0;text-align:start;
     border-radius:14px;
     box-shadow:0 1px 2px rgba(35,42,54,.05),0 12px 40px rgba(35,42,54,.09);
     overflow:hidden;
@@ -292,7 +296,7 @@
   }
   .privacy-seal svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;}
   .privacy-points{
-    max-width:480px;margin:0 auto;text-align:left;
+    max-width:480px;margin:0 auto;text-align:start;
     display:flex;flex-direction:column;gap:20px;
   }
   .ppoint{display:flex;gap:16px;align-items:baseline;font-size:15.5px;color:#c6ccd6;}
@@ -302,7 +306,7 @@
   .pricing{padding:110px 0;background:var(--parchment);text-align:center;}
   .plans{
     display:grid;grid-template-columns:1fr 1fr;gap:20px;
-    max-width:640px;margin:56px auto 0;text-align:left;
+    max-width:640px;margin:56px auto 0;text-align:start;
   }
   .plan{
     background:var(--surface);border-radius:14px;padding:36px 32px;
@@ -311,7 +315,7 @@
   }
   .plan-name{font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;}
   .plan-price{font-family:var(--serif);font-size:32px;color:var(--ink);}
-  .plan-price span{font-family:var(--sans);font-size:13px;color:var(--muted);margin-left:4px;}
+  .plan-price span{font-family:var(--sans);font-size:13px;color:var(--muted);margin-inline-start:4px;}
   .plan ul{list-style:none;margin:22px 0 0;flex:1;}
   .plan li{font-size:14.5px;color:var(--muted);padding:7px 0;display:flex;gap:10px;}
   .plan li::before{content:"·";color:var(--sage);font-weight:700;}
@@ -421,7 +425,7 @@
 
   /* ---------- journal link (calm, top-left — mirrors the language selector; removed while there is no post) ---------- */
   .topnav{
-    position:fixed;top:18px;left:18px;z-index:50;
+    position:fixed;top:18px;inset-inline-start:18px;z-index:50;
     display:inline-flex;align-items:center;min-height:40px;
     background:rgba(15,18,24,.55);backdrop-filter:blur(8px);
     border:1px solid rgba(245,240,232,.16);border-radius:999px;
@@ -433,11 +437,11 @@
 
   /* ---------- language selector (calm, top-right) ---------- */
   .langsel{
-    position:fixed;top:18px;right:18px;z-index:50;
+    position:fixed;top:18px;inset-inline-end:18px;z-index:50;
     display:inline-flex;align-items:center;gap:7px;
     background:rgba(15,18,24,.55);backdrop-filter:blur(8px);
     border:1px solid rgba(245,240,232,.16);border-radius:999px;
-    padding:7px 12px 7px 13px;color:var(--cream);
+    padding:7px 12px;padding-inline-start:13px;color:var(--cream);
     transition:border-color .3s ease,background .3s ease;
   }
   .langsel:hover{border-color:rgba(201,168,76,.5);}
@@ -445,7 +449,7 @@
   .langsel select{
     appearance:none;-webkit-appearance:none;background:transparent;border:0;
     color:var(--cream);font-family:var(--sans);font-size:12.5px;font-weight:500;
-    letter-spacing:.02em;cursor:pointer;padding-right:2px;outline:none;
+    letter-spacing:.02em;cursor:pointer;padding-inline-end:2px;outline:none;
   }
   .langsel select option{color:#1a1f28;background:#fff;}
   @media (max-width:640px){
@@ -453,9 +457,20 @@
     .verse-card-body{padding:36px 28px 30px;}
     .verse-actions{padding:0 28px 22px;}
     .step{grid-template-columns:48px 1fr;gap:18px;}
-    .langsel{top:12px;right:12px;padding:6px 10px;}
-    .topnav{top:12px;left:12px;min-height:36px;padding:0 13px;font-size:13px;}
+    .langsel{top:12px;inset-inline-end:12px;padding:6px 10px;}
+    .topnav{top:12px;inset-inline-start:12px;min-height:36px;padding:0 13px;font-size:13px;}
   }
+
+  /* ---------- RTL (ar) + scripts without Inter coverage ----------
+     LTR output is unchanged: the rules above use logical properties (start/end); only direction-specific bits are overridden here.
+     The Latin brand "still()" stays left-to-right (isolated) so its brackets are not mirrored; letter-spacing breaks Arabic joining, so it is zeroed. */
+  [dir=rtl] .hairline{transform-origin:right center;}
+  [dir=rtl] .wordmark,[dir=rtl] .foot-mark{direction:ltr;unicode-bidi:isolate;}
+  [dir=rtl] *{letter-spacing:0 !important;}
+  [dir=rtl] .more-link>span[aria-hidden],[dir=rtl] .btn-ghost span[aria-hidden],[dir=rtl] .pg-step span[aria-hidden],[dir=rtl] .j-more span[aria-hidden]{display:inline-block;transform:scaleX(-1);}
+  [dir=rtl] .hero-tag,[dir=rtl] .verse-ref,[dir=rtl] .foot-verse,[dir=rtl] .pricing-honest,[dir=rtl] .j-verse{font-style:normal;}
+  :lang(ar){--sans:'Inter','Noto Sans Arabic','Noto Sans',system-ui,sans-serif;--serif:'Gentium Book Plus','Noto Naskh Arabic','Geeza Pro',Georgia,serif;}
+  :lang(hi){--sans:'Inter','Noto Sans Devanagari','Noto Sans',system-ui,sans-serif;--serif:'Gentium Book Plus','Noto Serif Devanagari','Kohinoor Devanagari',Georgia,serif;}
   @media (prefers-reduced-motion:reduce){
     .reveal,.reveal-line{opacity:1;transform:none;transition:none;}
     .dawn-point{animation:none;}
@@ -490,6 +505,8 @@
     <option value="vi" selected>Tiếng Việt</option>
     <option value="fr">Français</option>
     <option value="de">Deutsch</option>
+    <option value="ar">العربية</option>
+    <option value="hi">हिन्दी</option>
   </select>
 </label>
 
@@ -735,6 +752,8 @@
       <a href="/vi/" hreflang="vi" lang="vi" aria-current="true">Tiếng Việt</a>
       <a href="/fr/" hreflang="fr" lang="fr">Français</a>
       <a href="/de/" hreflang="de" lang="de">Deutsch</a>
+      <a href="/ar/" hreflang="ar" lang="ar">العربية</a>
+      <a href="/hi/" hreflang="hi" lang="hi">हिन्दी</a>
     </nav>
     <div class="foot-studio" data-i18n="foot_studio">an ipe studio app</div>
   </div>

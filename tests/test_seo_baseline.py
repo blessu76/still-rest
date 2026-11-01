@@ -143,7 +143,7 @@ class Committed(Checks, unittest.TestCase):
         self.assertIn('href="/"', p)
         self.assertIn('href="/journal/"', p)
         for l in LANGS:  # a line (home link) per language
-            self.assertIn('<li lang="%s">' % l, p)
+            self.assertIn('<li lang="%s"%s>' % (l, ' dir="rtl"' if l == "ar" else ""), p)  # ar's row is right-to-left
             self.assertIn('href="/%s/"' % l, p)
         self.assertEqual(len(re.findall(r"<h1[ >]", p)), 1)
         self.assertEqual(blocking_font_links(p), [])

@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-LANGS = "en ko ja zh es pt id ru vi fr de".split()
+LANGS = "en ko ja zh es pt id ru vi fr de ar hi".split()
 UI = json.loads((REPO / "content/journal/ui.json").read_text(encoding="utf-8"))
 HOME = json.loads((REPO / "content/home/i18n.json").read_text(encoding="utf-8"))
 HAS_JOURNAL = (REPO / "journal/index.html").is_file()

@@ -4,7 +4,7 @@
 
 ## 파일 구조와 URL
 
-원고는 **`content/journal/<lang>/<slug>.md`** (폴더 = 언어, 파일명 = slug). 한 글의 모든 언어판은 **같은 slug**. 언어: `en ko ja zh es pt id ru vi fr de`.
+원고는 **`content/journal/<lang>/<slug>.md`** (폴더 = 언어, 파일명 = slug). 한 글의 모든 언어판은 **같은 slug**. 언어: `en ko ja zh es pt id ru vi fr de ar hi` (ar·hi 는 id 처럼 홈·FAQ·소개만 — 글 없음, `hold.json`).
 
 | 구분 | 파일 | URL |
 |---|---|---|
@@ -43,7 +43,7 @@ published_at: 2026-10-23 18:18  # 선택: 이미 공개된 글이 실제로 올�
 
 ## 번역 (ko 원고 → 나머지 언어) — 다음 글부터 이 순서
 
-ko 원문이 공개·예약되면 **보류 언어(`hold.json`, 지금 `id`)를 뺀 모든 언어**로 번역판을 같이 낸다(`journal_i18n.py status --strict` 가 빠진 것을 잡는다, 테스트도 같다).
+ko 원문이 공개·예약되면 **보류 언어(`hold.json`, 지금 `id`·`ar`·`hi`)를 뺀 모든 언어**로 번역판을 같이 낸다(`journal_i18n.py status --strict` 가 빠진 것을 잡는다, 테스트도 같다).
 번역은 새 유료 API 없이 **우리가 쓰는 Claude Code 세션**(Paul/Quill)이 한다 — 스크립트는 번역 지시서(브리프)를 만들고, 구절을 원문에서 넣고, 검사만 한다.
 
 1. Quill: `content/journal/ko/<slug>.md` 작성(구절 인용은 `> 구절` / `>` / `> 시편 46:10 (개역한글)` 3줄 형식).
@@ -83,7 +83,7 @@ ko 원문이 공개·예약되면 **보류 언어(`hold.json`, 지금 `id`)를 �
    **제시간 발행은 맥미니 디스패처가 맡는다**: `scripts/dispatch_due.py` 가 5분마다(launchd, 창 안에서만) 시각이 지난 예약 글의 라이브 URL 을 확인해 404 가 있으면 `gh workflow run deploy.yml` 을 한 번 건다(이미 진행 중이거나 10분 안에 돈 run 이 있으면 걸지 않음). 설치·운영은 `scripts/launchd/README.md`. GitHub 의 schedule cron(09:45~12:45·16:45~18:45 KST 매시 :45)은 **늦을 수 있는 백업**일 뿐이다. 배포 워크플로는 push·수동 실행·cron 어느 쪽이든 러너에서 `build_journal.py --now <지금 KST> --strict-safety` 로 한 번 더 빌드해 시각이 지난 글만 Pages 에 올린다.
    그 빌드는 **커밋하지 않는다**: 커밋된 산출물(평소 `build_journal.py`·`--check`)은 시계와 무관하게 예약 글을 뺀 상태라 시간이 지나도 낡지 않는다. 예약 글을 레포 산출물에도 넣고 싶으면 `publish_at` 줄을 `published_at`(같은 값, date 유지)으로 바꿔 다시 빌드·커밋 — 날짜 옆 시각(HH:MM)이 유지된다. `draft: true` 가 있으면 `publish_at` 이 있어도 나가지 않는다. 로컬 확인: `python3 scripts/build_journal.py --now "2026-10-24 11:00"`(커밋하지 말 것 — `git checkout -- .` 로 되돌린다).
    ko 첫 발행 전: `safety.json` 의 `lines.ko.status` 를 원어민(Davy) 검수 뒤 `verified` 로 — 아니면 `--strict-safety` 가 막는다. 구절 인용(`>` 블록)은 앱 `daily_verses.json` 의 글자 그대로(테스트가 대조).
-   보류 언어: `content/journal/hold.json`(지금 `id`) 에 적힌 언어는 `draft: true` 글만 둘 수 있다 — 공개 글이 있으면 빌드가 실패한다.
+   보류 언어: `content/journal/hold.json`(지금 `id`·`ar`·`hi`) 에 적힌 언어는 `draft: true` 글만 둘 수 있다 — 공개 글이 있으면 빌드가 실패한다.
 4. 커밋·push → 배포 후 `python3 scripts/check_sitemap.py --live` (모든 URL HTTP 200) → `python3 scripts/indexnow.py <새 URL…>`.
 
 빌드가 대신 잡아 주는 것: 필수 칸 누락 · 폴더/`lang`/파일명 불일치 · 번역에 `translation_of` 없음/원문 없음/원문이 draft · 인용 블록인데 `bible_version` 없음 · 예약 slug · alias 중복 · 이미지 파일 없음 · 안전 데이터 누락(11개 언어 전부). `draft: true` 는 sitemap·llms·목록·hreflang 어디에도 나오지 않는다(테스트로 보장).

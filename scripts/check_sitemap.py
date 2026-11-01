@@ -6,8 +6,8 @@
 
 Offline checks:
   1. sitemap.xml is valid XML.
-  2. Home: / (x-default) and /<lang>/ for all 11 languages are listed (static pages, no ?lang=), plus /<lang>/faq/ and
-     /<lang>/about/ for all 11 languages, plus /privacy/ and /terms/.
+  2. Home: / (x-default) and /<lang>/ for all 13 languages are listed (static pages, no ?lang=), plus /<lang>/faq/ and
+     /<lang>/about/ for all 13 languages, plus /privacy/ and /terms/.
   3. Every listed URL has a built page in this repo (<path>/index.html), and no listed URL carries a query string.
   4. hreflang (every <url> that has alternates): lists itself (the root only is the x-default) + x-default; every hreflang
      target is itself a <loc> in the sitemap; references are reciprocal (if A lists B under lang L, B lists A under A's lang).
