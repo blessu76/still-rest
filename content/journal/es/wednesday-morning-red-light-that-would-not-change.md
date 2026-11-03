@@ -11,9 +11,9 @@ translation_of: ko
 publish_at: 2026-11-04 09:53
 ---
 
-Miércoles por la mañana, estaba parado en el paso de peatones frente a la oficina. El semáforo estaba en rojo y al otro lado ya se había juntado una fila de gente. Saqué el teléfono, abrí la aplicación de mensajes y la cerré, la abrí otra vez y la volví a cerrar. No tenía nada que enviar, pero la mano no paraba.
+Miércoles por la mañana, estaba parado en el paso de peatones frente a la oficina. El semáforo estaba en rojo y al otro lado ya se había juntado una fila de gente. Saqué el teléfono, encendí la pantalla y la apagué, la encendí otra vez y la volví a apagar. No tenía nada que mirar, pero la mano no paraba.
 
-Quizá porque estábamos justo a mitad de semana, mi mente siempre corría por delante de mí. La última página de la presentación de las diez seguía en blanco, y me imaginaba el trabajo sin terminar de ayer, tal cual, sobre el escritorio. Intentaba contar mis tareas en orden y siempre me enredaba en la segunda. Ni siquiera en los cinco minutos desde la salida del metro hasta aquí había descansado mi cabeza. El rojo parecía no tener intención de cambiar, y la punta de mis pies ya se había adelantado medio paso hacia la calzada. El café que tenía en la mano se había quedado tibio sin que me diera cuenta.
+Quizá porque estábamos justo a mitad de semana, mi mente siempre corría por delante de mí. La última página de la presentación de las diez seguía en blanco, y me imaginaba el trabajo sin terminar de ayer, tal cual, sobre el escritorio. Intentaba contar mis tareas en orden y siempre me enredaba en la segunda. Ni siquiera en los cinco minutos desde la salida del metro hasta aquí había descansado mi cabeza. El rojo parecía no tener intención de cambiar, y la punta de mis pies ya se había adelantado medio paso hacia la calzada. El café que tenía en la mano se había quedado tibio sin que me diera cuenta. El viento frío de la mañana se me colaba por la manga.
 
 ## Un momento quieto antes de cruzar
 
@@ -25,8 +25,8 @@ Así que guardé el teléfono en el bolsillo, abrí still() y decidí leer solo 
 >
 > Salmos 46:10 (Reina-Valera 1909)
 
-Hoy esa frase no me sonó como una orden de dejar el trabajo. Me sonó a que lo pendiente podía quedarse donde estaba y que, por esos pocos segundos, estaba permitido quedarme parado sin agarrar nada. Fue entonces cuando noté que los hombros se me habían subido hasta las orejas. Solté el aire y los fui bajando despacio. A mi lado, un estudiante esperaba con un poco de música escapándose de los auriculares. Solo entonces la oí.
+Hoy esa frase me sonó baja y lenta. Me sonó a que lo pendiente podía quedarse donde estaba y que, durante esas decenas de segundos, estaba permitido quedarme parado sin agarrar nada. Fue entonces cuando noté que apretaba con fuerza el vaso de café. Solté el aire y fui aflojando los dedos despacio. A mi lado, un estudiante esperaba con un poco de música escapándose de los auriculares. Solo entonces la oí.
 
-Cuando se puso verde, la gente echó a andar. Crucé yo también, con un paso algo más lento que de costumbre. La última página de la presentación decidí llenarla diez minutos nada más sentarme. Si no lograba terminarla, entraría con ella a medias, pero eso lo pensaría llegado el momento. Frente a la tienda de enfrente alguien descargaba cajas y un autobús entraba despacio en la parada. Era un paisaje por el que pasaba todos los días, pero hoy me fijé en cada parte. Al pisar la acera de enfrente, tomé un sorbo del café ya frío.
+Cuando se puso verde, la gente echó a andar. Crucé yo también, con un paso algo más lento que de costumbre. La última página de la presentación decidí llenarla diez minutos nada más sentarme. Si no lograba terminarla, entraría con ella a medias, pero eso lo pensaría llegado el momento. En la tienda de enfrente alguien descargaba cajas y una bicicleta pasaba despacio. Era un paisaje por el que pasaba todos los días, pero hoy me fijé en cada parte. Al pisar la acera de enfrente, tomé un sorbo del café ya frío.
 
-**El respiro de hoy** — Mientras espero, cuento tres respiraciones en vez de mirar el teléfono.
+**El aliento de hoy** — Mientras espero, cuento tres respiraciones en vez de mirar el teléfono.
