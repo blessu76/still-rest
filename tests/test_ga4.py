@@ -39,6 +39,31 @@ def check_snippet(case, root):
     return pages
 
 
+class Census(unittest.TestCase):
+    """an independent head-count over EVERY .html in the tree (no skip list beyond .git): the measurement id appears exactly once in each,
+    the only .html without it is the build-only home template (it carries the {{GA_SNIPPET}} placeholder), and no other property / tag tool exists"""
+    BUILD_ONLY = {"content/home/template.html"}
+    OTHER_TAGS = re.compile(r"G-[A-Z0-9]{8,12}|UA-\d{4,}-\d+|GTM-[A-Z0-9]+|AW-\d{6,}|fbq\(|connect\.facebook\.net|hotjar|clarity\.ms")
+
+    def test_every_html_has_the_measurement_id_exactly_once(self):
+        counts = {}
+        for p in REPO.rglob("*.html"):
+            if ".git" in p.relative_to(REPO).parts:
+                continue
+            counts[str(p.relative_to(REPO))] = p.read_text(encoding="utf-8").count(GA_ID)
+        self.assertGreater(len(counts), 60)
+        self.assertEqual({r for r, n in counts.items() if n == 0}, self.BUILD_ONLY)
+        self.assertEqual({r: n for r, n in counts.items() if n > 1}, {})
+
+    def test_no_other_property_or_tracker(self):
+        for p in REPO.rglob("*.html"):
+            rel = str(p.relative_to(REPO))
+            if ".git" in p.relative_to(REPO).parts:
+                continue
+            with self.subTest(rel):
+                self.assertEqual(set(self.OTHER_TAGS.findall(p.read_text(encoding="utf-8"))) - {GA_ID}, set())
+
+
 class Constant(unittest.TestCase):
     def test_constant_is_the_ipe_rest_property(self):
         self.assertEqual(sc.GA_MEASUREMENT_ID, GA_ID)
