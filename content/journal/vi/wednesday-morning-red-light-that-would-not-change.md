@@ -12,7 +12,7 @@ publish_at: 2026-11-04 09:53
 draft: true
 ---
 
-Sáng thứ Tư, tôi đứng ở vạch qua đường trước công ty. Đèn đang đỏ, bên kia đường đã có một hàng người tụ lại. Tôi lấy điện thoại ra, bật màn hình rồi tắt, bật lại rồi tắt. Chẳng có gì để xem, vậy mà tay cứ động đậy mãi.
+Sáng thứ Tư, tôi đứng ở vạch qua đường trước công ty. Đèn đang đỏ, bên kia đường đã có một hàng người tụ lại. Tôi lấy điện thoại ra, cất vào túi rồi lại lấy ra. Chẳng có gì để xem, vậy mà tay cứ động đậy mãi.
 
 Có lẽ vì đang giữa tuần, tâm trí tôi lúc nào cũng chạy trước. Trang cuối của tài liệu họp lúc mười giờ vẫn còn trống, và tôi hình dung việc dang dở hôm qua vẫn nằm nguyên trên bàn. Tôi thử đếm các việc cần làm theo thứ tự, và lần nào cũng rối ở việc thứ hai. Ngay cả năm phút đi từ ga tàu điện ngầm đến đây, đầu óc tôi cũng chẳng nghỉ chút nào. Đèn đỏ như chẳng có ý định đổi màu, mũi chân tôi đã nhích nửa bước ra phía lòng đường. Ly cà phê trên tay nguội dần lúc nào không hay. Cơn gió lạnh buổi sáng luồn vào tay áo.
 

@@ -11,7 +11,7 @@ translation_of: ko
 publish_at: 2026-11-04 09:53
 ---
 
-On Wednesday morning I was standing at the crosswalk in front of my office. The light was red, and across the street a line of people had already gathered. I took out my phone, lit the screen and turned it off, then lit it again and turned it off again. There was nothing to check, but my hand kept moving.
+On Wednesday morning I was standing at the crosswalk in front of my office. The light was red, and across the street a line of people had already gathered. I took out my phone, put it back in my pocket, then took it out again. There was nothing to check, but my hand kept moving.
 
 Maybe it was because we were in the middle of the week, but my mind was always running ahead of me. The last page of the ten o'clock meeting slides was still empty, and I imagined yesterday's unfinished work sitting on my desk exactly as I had left it. I tried to count my tasks in order, and every time I got tangled at the second one. Even during the five minutes from the subway exit to here, my head had not rested. The red light felt as if it had no intention of changing, and my toes were already half a step out toward the road. The coffee in my hand had gone lukewarm without my noticing. A cold morning wind slipped in at my sleeve.
 

@@ -15,7 +15,7 @@ Depuis quelques jours, une des lampes du salon clignotait, et ce soir elle ne s'
 
 L'appartement où je suis rentré après le travail était à moitié dans l'ombre. J'ai posé mon sac, je suis monté sur la chaise, puis redescendu. Je suis resté un moment à regarder la boîte, en me demandant s'il fallait vraiment demander de l'aide à quelqu'un pour une chose pareille. Ces derniers temps, l'idée que je devais me débrouiller seul même pour les petites choses pesait sur moi. Seule la lumière de la cuisine s'étirait sur le sol, et le ronronnement du réfrigérateur me semblait plus fort que d'habitude. Autrefois, j'aurais sans doute choisi de m'habituer à l'obscurité. Supporter la gêne m'avait toujours semblé moins lourd que demander.
 
-## Demander, c'était moins que je ne pensais
+## Demander, c'était bien peu de chose
 
 Après être resté assis longtemps, j'ai ouvert still() et lu le verset du jour.
 
@@ -23,9 +23,9 @@ Après être resté assis longtemps, j'ai ouvert still() et lu le verset du jour
 >
 > Psaume 121:2 (Louis Segond 1910)
 
-Je suis resté longtemps devant le mot « secours ». Une hauteur que la main n'atteint pas n'a rien de honteux ; ce n'est qu'une hauteur. D'où que vienne l'aide, il faut parfois frapper soi-même à une porte pour la recevoir. En y pensant, emprunter un escabeau m'est soudain apparu comme une toute petite chose.
+Je suis resté longtemps devant le mot « secours ». Une hauteur que la main n'atteint pas n'a rien de honteux ; ce n'est qu'une hauteur. D'où que vienne l'aide, il faut parfois frapper soi-même à une porte pour la recevoir. À cette pensée, emprunter un escabeau m'est soudain apparu comme une toute petite chose.
 
-Il m'a fallu un peu de temps pour sonner chez le voisin. La porte s'est ouverte, et le monsieur d'à côté a dit : « Ah, un escabeau ? Un instant », puis il a sorti de son balcon un escabeau pliant. Demander ne m'a pas pris trente secondes. Je l'ai porté au salon et, une fois monté, l'ampoule était vraiment à portée de main. J'ai dévissé l'ancienne, vissé la neuve, et le salon s'est rempli de lumière. Pendant un moment, j'ai plissé les yeux, tant c'était clair. Une fois descendu de l'escabeau, même les cartons de colis empilés dans un coin et l'étendoir sont apparus en pleine lumière. Peut-être m'étais-je habitué à vivre dans la pénombre, car la pièce éclairée me semblait un peu étrange et agréable à la fois. Ce n'est qu'alors que j'ai compris combien ces quelques jours sans autant de lumière avaient été gênants.
+Il m'a fallu un peu de temps pour sonner chez le voisin. La porte s'est ouverte, et le monsieur d'à côté a dit : « Ah, un escabeau ? Un instant », puis il a sorti de son balcon un escabeau pliant. Demander ne m'a pas pris trente secondes. Je l'ai porté au salon et, une fois monté, l'ampoule était vraiment à portée de main. J'ai dévissé l'ancienne, vissé la neuve, et le salon s'est rempli de lumière. Pendant un moment, j'ai plissé les yeux, tant c'était clair. Une fois redescendu de l'escabeau, j'ai vu en pleine lumière même les cartons de colis empilés dans un coin et l'étendoir. Peut-être m'étais-je habitué à vivre dans la pénombre, car la pièce éclairée me semblait un peu étrange et agréable à la fois. Ce n'est qu'alors que j'ai compris combien ces quelques jours sans autant de lumière avaient été gênants.
 
 En rendant l'escabeau, je lui ai laissé quelques mandarines. Il m'a dit : « Redemandez quand vous voulez. » J'ai refermé la porte et, en me retournant, l'appartement m'a semblé un peu plus chaud qu'avant. Un peu de l'odeur des mandarines restait au bout de mes doigts. Ce soir, je compte dîner lentement dans le salon éclairé.
 

@@ -11,7 +11,7 @@ translation_of: ko
 publish_at: 2026-11-04 09:53
 ---
 
-Miércoles por la mañana, estaba parado en el paso de peatones frente a la oficina. El semáforo estaba en rojo y al otro lado ya se había juntado una fila de gente. Saqué el teléfono, encendí la pantalla y la apagué, la encendí otra vez y la volví a apagar. No tenía nada que mirar, pero la mano no paraba.
+Miércoles por la mañana, estaba parado en el paso de peatones frente a la oficina. El semáforo estaba en rojo y al otro lado ya se había juntado una fila de gente. Saqué el teléfono, lo guardé en el bolsillo y volví a sacarlo. No tenía nada que mirar, pero la mano no paraba.
 
 Quizá porque estábamos justo a mitad de semana, mi mente siempre corría por delante de mí. La última página de la presentación de las diez seguía en blanco, y me imaginaba el trabajo sin terminar de ayer, tal cual, sobre el escritorio. Intentaba contar mis tareas en orden y siempre me enredaba en la segunda. Ni siquiera en los cinco minutos desde la salida del metro hasta aquí había descansado mi cabeza. El rojo parecía no tener intención de cambiar, y la punta de mis pies ya se había adelantado medio paso hacia la calzada. El café que tenía en la mano se había quedado tibio sin que me diera cuenta. El viento frío de la mañana se me colaba por la manga.
 

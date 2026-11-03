@@ -11,7 +11,7 @@ translation_of: ko
 publish_at: 2026-11-04 09:53
 ---
 
-Mittwochmorgen stand ich am Zebrastreifen vor dem Büro. Die Ampel war rot, und auf der anderen Seite hatte sich schon eine Reihe von Leuten gesammelt. Ich zog mein Handy heraus, schaltete das Display an und wieder aus, an und wieder aus. Ich hatte nichts nachzusehen, und trotzdem kam meine Hand nicht zur Ruhe.
+Mittwochmorgen stand ich am Zebrastreifen vor dem Büro. Die Ampel war rot, und auf der anderen Seite hatte sich schon eine Reihe von Leuten gesammelt. Ich zog mein Handy heraus, steckte es wieder ein und zog es erneut heraus. Ich hatte nichts nachzusehen, und trotzdem kam meine Hand nicht zur Ruhe.
 
 Vielleicht lag es daran, dass wir mitten in der Woche waren, aber mein Kopf lief mir immer voraus. Die letzte Seite der Unterlagen für die Besprechung um zehn war noch leer, und ich stellte mir die gestern liegengebliebene Arbeit genau so auf meinem Schreibtisch vor. Ich versuchte, meine Aufgaben der Reihe nach zu zählen, und verhedderte mich jedes Mal bei der zweiten. Selbst in den fünf Minuten vom U-Bahn-Ausgang bis hierher hatte mein Kopf keine Pause gemacht. Das Rot schien gar nicht wechseln zu wollen, und meine Fußspitzen waren schon einen halben Schritt zur Fahrbahn hin vorgerückt. Der Kaffee in meiner Hand war unbemerkt lauwarm geworden. Der kalte Morgenwind kroch mir in den Ärmel.
 

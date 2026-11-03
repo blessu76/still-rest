@@ -13,7 +13,7 @@ publish_at: 2026-11-04 16:13
 
 Seit ein paar Tagen flackerte eine der Lampen im Wohnzimmer, und heute Abend ging sie gar nicht mehr an. In einem Karton neben der Wohnungstür lag schon lange eine neue Glühbirne. Man musste sie nur austauschen, aber selbst auf dem Stuhl reichte meine Hand nicht bis zur Decke.
 
-Die Wohnung, in die ich nach der Arbeit zurückkam, war halb dunkel. Ich stellte die Tasche ab, stieg auf den Stuhl und wieder herunter. Eine Weile stand ich da und sah den Karton an und fragte mich, ob ich wirklich für so etwas jemanden um Hilfe bitten musste. In letzter Zeit lag mir der Gedanke im Kopf, dass ich selbst kleine Dinge allein erledigen sollte. Nur das Licht aus der Küche lag lang auf dem Boden, und das Brummen des Kühlschranks klang lauter als sonst. Früher hätte ich mich wohl einfach an die Dunkelheit gewöhnt. Die Unbequemlichkeit auszuhalten war mir immer leichter vorgekommen als zu bitten.
+Die Wohnung, in die ich nach der Arbeit zurückkam, war halb dunkel. Ich stellte die Tasche ab, stieg auf den Stuhl und wieder herunter. Eine Weile stand ich da und sah den Karton an und fragte mich, ob ich wirklich für so etwas jemanden um Hilfe bitten musste. In letzter Zeit lastete der Gedanke auf mir, dass ich selbst kleine Dinge allein erledigen sollte. Nur das Licht aus der Küche lag lang auf dem Boden, und das Brummen des Kühlschranks klang lauter als sonst. Früher hätte ich mich wohl einfach an die Dunkelheit gewöhnt. Die Unbequemlichkeit auszuhalten war mir immer leichter vorgekommen als zu bitten.
 
 ## Das Bitten war kleiner, als ich dachte
 
