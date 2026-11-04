@@ -1,5 +1,5 @@
 ---
-title: Mittwochmorgen stand ich lange da, nachdem die Tasse im Spülbecken zerbrochen war
+title: Mittwochmorgen stand ich lange da, nachdem die Tasse am Spülbecken zerbrochen war
 date: 2026-11-11
 slug: wednesday-morning-mug-slipped-in-the-sink
 lang: de
@@ -25,8 +25,8 @@ Ich lehnte den Besen an die Wand und öffnete still().
 >
 > Josua 1:9 (Lutherbibel 1912)
 
-»Laß dir nicht grauen und entsetze dich nicht.« Erst jetzt fiel mir auf, dass zwei Dinge nebeneinanderstehen. Sich grauen und sich entsetzen sind nicht dasselbe, und wenn beides mit Absicht aufgeschrieben wurde, dann verdiente wohl auch das Entsetzen, eigens genannt zu werden. Ein Erschrecken ist etwas, das der Körper tut, ehe ich etwas entschieden habe. Darum klangen diese Worte für mich nicht wie ein Vorwurf an ein erschrockenes Herz. Stattdessen blieb mein Blick ganz am Anfang hängen: »Siehe, ich habe dir geboten.« Es klang nicht nach etwas, das zum ersten Mal gesagt wird, sondern nach einer Erinnerung an das, was schon gesagt wurde. Vom Lesen des Verses beruhigte sich meine Brust nicht sofort. Trotzdem beschloss ich, mich nicht noch einmal zu fragen: »Warum erschrecke ich so?« Was erschrocken war, ließ ich erschrocken sein, und las leise noch einmal die Worte am Ende: »ist mit dir«.
+»Laß dir nicht grauen und entsetze dich nicht.« Erst jetzt fiel mir auf, dass zwei Dinge nebeneinanderstehen. Grauen und Entsetzen sind nicht dasselbe, und wenn beides mit Absicht aufgeschrieben wurde, dann verdiente wohl auch das Entsetzen, eigens genannt zu werden. Ein Erschrecken ist etwas, das der Körper tut, ehe ich etwas entschieden habe. Darum klangen diese Worte für mich nicht wie ein Vorwurf an ein erschrockenes Herz. Stattdessen blieb mein Blick ganz am Anfang hängen: »Siehe, ich habe dir geboten.« Es klang nicht nach etwas, das zum ersten Mal gesagt wird, sondern nach einer Erinnerung an das, was schon gesagt wurde. Vom Lesen des Verses beruhigte sich meine Brust nicht sofort. Trotzdem beschloss ich, mich nicht noch einmal zu fragen: »Warum erschrecke ich so?« Was erschrocken war, ließ ich erschrocken sein, und las leise noch einmal die Worte am Ende: »ist mit dir«.
 
 Ich breitete eine Zeitung aus und hob die großen Scherben nacheinander auf. Die kleinen nahm ich mit einem feuchten Küchentuch auf, indem ich darauf drückte, und die in den Fliesenfugen saugte ich mit dem Staubsauger ab. Mit jeder aufgehobenen Scherbe wurde das Pochen in meinen Fingerspitzen etwas langsamer. Auf das Zeitungspaket schrieb ich »kaputte Tasse« und stellte es an die Wohnungstür. Aus dem Schrank holte ich eine andere Tasse mit niedrigerem Henkel und goss sie halb mit Wasser voll. Ich trank einen Schluck, und das Geräusch, mit dem ich die Tasse abstellte, war ganz leise.
 
-**Der Atem für heute** — Wenn man plötzlich erschrickt, kurz innehalten, die Handfläche auf die Brust legen und einmal lang ausatmen.
+**Der Atem für heute** — Wenn du plötzlich erschrickst, halte kurz inne, leg die Handfläche auf die Brust und atme einmal lang aus.

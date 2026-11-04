@@ -1,5 +1,5 @@
 ---
-title: Quarta de manhã, fiquei um bom tempo no mesmo lugar depois que a caneca quebrou na pia
+title: Quarta de manhã, fiquei um bom tempo no mesmo lugar depois que a caneca quebrou junto à pia
 date: 2026-11-11
 slug: wednesday-morning-mug-slipped-in-the-sink
 lang: pt
@@ -28,4 +28,4 @@ Aqui havia duas coisas postas lado a lado, o medo e o susto, e foi a primeira ve
 
 Abri um jornal e fui pegando os cacos grandes, um por um. Os pequenos, apertei com papel-toalha úmido para tirá-los, e os que ficaram entre os rejuntes passei com o aspirador. A cada caco recolhido, a batida que restava na ponta dos dedos ia ficando mais lenta. Do lado de fora do embrulho de jornal escrevi «caneca quebrada» e deixei perto da porta de entrada. Do armário tirei outra caneca, de alça mais baixa, e enchi de água até a metade. Tomei um gole, e o barulho de apoiar a caneca foi bem pequeno.
 
-**O respiro de hoje** — Se levar um susto de repente, interrompo por um instante o que estiver fazendo, apoio a palma da mão no peito e solto o ar uma vez, longamente.
+**O respiro de hoje** — Se levar um susto de repente, pare por um instante o que estiver fazendo, apoie a palma da mão no peito e solte o ar uma vez, longamente.

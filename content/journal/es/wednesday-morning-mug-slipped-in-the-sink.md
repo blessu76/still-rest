@@ -1,5 +1,5 @@
 ---
-title: Miércoles por la mañana, me quedé un buen rato de pie tras oír romperse la taza en el fregadero
+title: Miércoles por la mañana, me quedé un buen rato de pie tras oír romperse la taza junto al fregadero
 date: 2026-11-11
 slug: wednesday-morning-mug-slipped-in-the-sink
 lang: es

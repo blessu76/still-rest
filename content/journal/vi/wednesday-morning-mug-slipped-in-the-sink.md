@@ -1,5 +1,5 @@
 ---
-title: Sáng thứ Tư, tôi đứng lặng một lúc lâu sau tiếng chiếc cốc vỡ trong bồn rửa
+title: Sáng thứ Tư, tôi đứng lặng một lúc lâu sau tiếng chiếc cốc vỡ bên bồn rửa
 date: 2026-11-11
 slug: wednesday-morning-mug-slipped-in-the-sink
 lang: vi
@@ -26,7 +26,7 @@ Tôi dựa chiếc chổi vào tường rồi mở still().
 >
 > Giô-suê 1:9 (Kinh Thánh 1925)
 
-«Chớ run sợ, chớ kinh khủng». Lần đầu tiên tôi nhận ra có hai điều được đặt cạnh nhau. Run sợ và kinh khủng không phải là một, mà đã viết cả hai thì có lẽ nỗi kinh hãi cũng đáng được gọi riêng. Giật mình là việc cơ thể làm trước khi tôi kịp quyết định điều gì. Vì thế những lời này không đọc lên như lời trách một trái tim đang giật mình. Thay vào đó, mắt tôi dừng lại ở ngay phần đầu: «Ta há không có phán dặn ngươi sao?». Nghe như không phải lời nói lần đầu, mà là câu hỏi nhắc lại điều đã được nói rồi. Đọc câu này không làm lồng ngực yên ngay. Dù vậy, tôi quyết định thôi không tự hỏi thêm lần nữa «sao mình giật mình dữ vậy». Điều giật mình cứ để nó giật mình, và tôi lặng lẽ đọc thêm một lần nữa lời ở cuối: «vẫn ở cùng ngươi».
+«Chớ run sợ, chớ kinh khủng». Lần đầu tiên tôi nhận ra có hai điều được đặt cạnh nhau. Run sợ và kinh khủng không phải là một, mà đã viết cả hai thì có lẽ nỗi kinh khủng cũng đáng được gọi riêng. Giật mình là việc cơ thể làm trước khi tôi kịp quyết định điều gì. Vì thế những lời này không đọc lên như lời trách một trái tim đang giật mình. Thay vào đó, mắt tôi dừng lại ở ngay phần đầu: «Ta há không có phán dặn ngươi sao?». Nghe như không phải lời nói lần đầu, mà là câu hỏi nhắc lại điều đã được nói rồi. Đọc câu này không làm lồng ngực yên ngay. Dù vậy, tôi quyết định thôi không tự hỏi thêm lần nữa «sao mình giật mình dữ vậy». Điều giật mình cứ để nó giật mình, và tôi lặng lẽ đọc thêm một lần nữa lời ở cuối: «vẫn ở cùng ngươi».
 
 Tôi trải tờ báo ra và nhặt từng mảnh lớn một. Mảnh nhỏ thì tôi ấn khăn giấy ẩm để dính lên, còn mảnh kẹt trong khe gạch thì hút bằng máy hút bụi. Mỗi mảnh nhặt lên, nhịp đập còn lại nơi đầu ngón tay chậm đi đôi chút. Bên ngoài gói báo, tôi viết «cốc vỡ» rồi để ở cạnh cửa ra vào. Tôi lấy một chiếc cốc khác có quai thấp hơn từ trong tủ, rót nước đến nửa cốc. Tôi uống một ngụm, và tiếng đặt cốc xuống thật khẽ.
 

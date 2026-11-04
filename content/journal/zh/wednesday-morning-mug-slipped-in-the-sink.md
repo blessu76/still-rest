@@ -1,5 +1,5 @@
 ---
-title: 周三早晨，马克杯在水槽里摔碎的声音让我愣了好一会儿
+title: 周三早晨，马克杯在水槽边摔碎的声音让我愣了好一会儿
 date: 2026-11-11
 slug: wednesday-morning-mug-slipped-in-the-sink
 lang: zh
