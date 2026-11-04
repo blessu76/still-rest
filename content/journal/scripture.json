@@ -4,7 +4,7 @@
   "verses.<USFM ref, Korean/English numbering>.<lang>: ref = how the reference is written in that language (chapter:verse OF ITS SOURCE), text = the verse. A language with mode 'reference' has no text: its posts give the reference only.",
   "A translated post's quotation block must be exactly `> {text}` / `>` / `> {ref} ({version})` (build_journal.py checks it)."
  ],
- "fetched_on": "2026-10-30",
+ "fetched_on": "2026-11-04",
  "versions": {
   "en": {
    "mode": "text",
@@ -12,7 +12,7 @@
    "name": "World English Bible",
    "copyright": "https://ebible.org/engwebp/copyright.htm",
    "source": "https://ebible.org/Scriptures/engwebp_usfm.zip",
-   "sha256": "004bb01afd94a3dbecc0d5cbd0cfbb75f0339592512f18a796160d816f86d746"
+   "sha256": "a93df5571009fed56f77e3ac1d3ce71c9a3a3df1486f7570cc7a8f823192fdba"
   },
   "zh": {
    "mode": "text",
@@ -20,7 +20,7 @@
    "name": "和合本（新标点，简体）",
    "copyright": "https://ebible.org/cmn-cu89s/copyright.htm",
    "source": "https://ebible.org/Scriptures/cmn-cu89s_usfm.zip",
-   "sha256": "76de022a41830225c715d1d0b61f29dc26915942f36ae0f20442e67a896686d4"
+   "sha256": "496f17f4daa62ab125968e9e55118bd3a9c5086a6835a2846da4dc529d470ba0"
   },
   "es": {
    "mode": "text",
@@ -28,7 +28,7 @@
    "name": "Santa Biblia — Reina Valera 1909",
    "copyright": "https://ebible.org/spaRV1909/copyright.htm",
    "source": "https://ebible.org/Scriptures/spaRV1909_usfm.zip",
-   "sha256": "b8c5f45ef19a6d26faa0844dedbb2c8aceefd8698f5ed1e070878f41715b1869"
+   "sha256": "56937c2be9ad278aed91370d6a15a98fe976f275d0cbaa6e26910291d949c7a5"
   },
   "ru": {
    "mode": "text",
@@ -36,7 +36,7 @@
    "name": "Синодальный перевод",
    "copyright": "https://ebible.org/russyn/copyright.htm",
    "source": "https://ebible.org/Scriptures/russyn_usfm.zip",
-   "sha256": "25a4a49e51691a271bdb2b7effa4e58760dae2852bff66cc9900fd9dc9355776"
+   "sha256": "9af20fe73fff9370acc8fd03cc0ffa718e1cf107d83fc401d41dcadc6c4e4a88"
   },
   "vi": {
    "mode": "text",
@@ -44,7 +44,7 @@
    "name": "Kinh Thánh (Cadman; Tân Ước 1923, Cựu Ước 1925)",
    "copyright": "https://ebible.org/vie1934/copyright.htm",
    "source": "https://ebible.org/Scriptures/vie1934_usfm.zip",
-   "sha256": "92a6422eed383d0c6806b4f338d4c9a395f0b7b75d8f85f3d0f1b3064d228684"
+   "sha256": "c4f34e28d0612776a53272f0ef735b9b0d3b7d47f584cfd2fbcb9cdd8386908b"
   },
   "fr": {
    "mode": "text",
@@ -52,7 +52,7 @@
    "name": "Louis Segond 1910",
    "copyright": "https://ebible.org/fraLSG/copyright.htm",
    "source": "https://ebible.org/Scriptures/fraLSG_usfm.zip",
-   "sha256": "95dcf4a7ca9992bc829baddbc6f5ee8e1d96e34dac099e53cbfac5adb60ef250"
+   "sha256": "64c4fe2a84d92f958deb0d1add4247d126a21c8a51e5b3058338f661a42d4900"
   },
   "de": {
    "mode": "text",
@@ -60,7 +60,7 @@
    "name": "Lutherbibel 1912",
    "copyright": "https://ebible.org/deu1912/copyright.htm",
    "source": "https://ebible.org/Scriptures/deu1912_usfm.zip",
-   "sha256": "535478bf63ac7b163cb1e79d828cf12df7d76fbc11e56ee05f32a5421e173efc"
+   "sha256": "76fb83f108dd9029e2ec63c582b5a7e2acc46736d7b1659f802dff27f5563af7"
   },
   "ja": {
    "mode": "reference",
