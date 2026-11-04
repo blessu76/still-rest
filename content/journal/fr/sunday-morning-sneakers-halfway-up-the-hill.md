@@ -1,9 +1,9 @@
 ---
-title: Dimanche matin, je me suis arrêté au pied de la côte dans mes vieilles baskets
+title: Dimanche matin, je me suis arrêté à mi-côte dans mes vieilles baskets
 date: 2026-11-08
-slug: sunday-morning-sneakers-at-the-foot-of-the-hill
+slug: sunday-morning-sneakers-halfway-up-the-hill
 lang: fr
-description: Récit à la première personne de quelqu'un qui a ressorti ses baskets après des mois et a dû s'arrêter, essoufflé, au pied d'une côte un dimanche matin, apprenant à accepter un corps qui n'est plus celui d'avant, avec Ésaïe 40:31 (Louis Segond 1910).
+description: Récit à la première personne de quelqu'un qui a ressorti ses baskets après des mois et a dû s'arrêter, essoufflé, à mi-côte un dimanche matin, apprenant à accepter un corps qui n'est plus celui d'avant, avec Ésaïe 40:31 (Louis Segond 1910).
 category: Fatigue
 keywords: dimanche, matin, promenade, endurance, novembre
 bible_version: Louis Segond 1910
@@ -25,7 +25,7 @@ Sur le banc, j'ai ouvert still().
 >
 > Ésaïe 40:31 (Louis Segond 1910)
 
-J'ai remarqué que ce qui est dit de la marche m'a sauté aux yeux avant ce qui est dit de la course ou des aigles. Aujourd'hui, je n'ai pas pu courir, et encore moins voler, mais étrangement, cela m'a consolé que marcher soit écrit comme une part à part entière. Lire une ligne ne me rend pas mon endurance. Mais mes pensées ont penché vers ceci : je n'ai pas à avoir honte de marcher maintenant.
+« Renouvellent leur force ». Ces mots m'ont sauté aux yeux avant ceux de la course ou des aigles. Il ne s'agit pas de retrouver la force d'avant, mais de la renouveler, et cela m'a paru étrange. Je me suis demandé si ce corps, essoufflé aujourd'hui à mi-côte, avait encore besoin d'être comparé à l'ancien. Lire une ligne ne me rend pas mon endurance. Mais mes pensées ont penché vers ceci : je n'ai pas à avoir honte d'être arrivé jusque-là avec le corps que j'ai maintenant.
 
 Je suis resté sur le banc jusqu'à ce que mon souffle se calme. La personne qui m'avait dépassé est redescendue de l'autre côté et m'a fait un petit signe de tête, et je lui ai répondu de même. J'ai décidé de ne pas aller jusqu'en haut de la côte. J'ai décidé que, pour aujourd'hui, j'étais arrivé jusque-là.
 

@@ -24,10 +24,10 @@ Troquei de tela e abri o still().
 
 > João 14:27
 
-Se me medir e me dar nota com números é o jeito de dar do mundo, a frase me pareceu dizer que a paz de que ela fala vem de outro lugar. Ler este versículo não faz o tempo de uso diminuir. Mas tentei me lembrar daquelas seis horas. Um vídeo que passei distraído no caminho de casa, o tempo gasto respondendo a uma foto de um amigo, a tela que acendi à meia-noite por não conseguir dormir, tudo estava ali misturado. Foi difícil dizer que tudo tinha sido desperdício. Era também um jeito de aguentar um dia cansativo.
+Os olhos pararam na última parte do versículo, a que fala de não ter medo. O que subiu em mim ao ver o número era menos autocrítica do que medo de que assim não estivesse certo. Era por causa desse medo que eu me dava nota por conta própria e empilhava promessas. Ler este versículo não faz o tempo de uso diminuir. Mas tentei me lembrar daquelas seis horas. Um vídeo que passei distraído no caminho de casa, o tempo gasto respondendo a uma foto de um amigo, a tela que acendi à meia-noite por não conseguir dormir, tudo estava ali misturado. Foi difícil dizer que tudo tinha sido desperdício. Era também um jeito de aguentar um dia cansativo.
 
 O arroz ficou pronto e a panela apitou. Simplesmente fechei a notificação. Não fiz nenhuma resolução nova.
 
 Esquentei a sopa e me sentei à mesa. Deixei o celular virado para baixo e assim o mantive enquanto tomava a primeira colherada.
 
-**O fôlego de hoje** — Deixar o celular virado para baixo por um momento, fechar os olhos e soltar o ar devagar três vezes.
+**O fôlego de hoje** — Deixar o celular virado para baixo e, antes da primeira garfada, soltar o ar devagar uma vez.

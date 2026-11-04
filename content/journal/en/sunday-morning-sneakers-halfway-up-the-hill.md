@@ -1,9 +1,9 @@
 ---
-title: Sunday morning, I stopped at the foot of the hill in my old sneakers
+title: Sunday morning, I stopped halfway up the hill in my old sneakers
 date: 2026-11-08
-slug: sunday-morning-sneakers-at-the-foot-of-the-hill
+slug: sunday-morning-sneakers-halfway-up-the-hill
 lang: en
-description: A first-person story of someone who took their sneakers out after months and had to stop, out of breath, at the foot of a hill one Sunday morning, learning to accept a body that is not what it was, with Isaiah 40:31 (WEB).
+description: A first-person story of someone who took their sneakers out after months and had to stop, out of breath, halfway up a hill one Sunday morning, learning to accept a body that is not what it was, with Isaiah 40:31 (WEB).
 category: Fatigue
 keywords: Sunday, morning, walk, stamina, November
 bible_version: WEB
@@ -25,7 +25,7 @@ On the bench I opened still().
 >
 > Isaiah 40:31 (WEB)
 
-I noticed that the part about walking caught my eye before the running or the eagles. Today I couldn't run, and I certainly couldn't fly, yet strangely it comforted me that walking was written down as a share of its own. Reading one line doesn't bring my stamina back. But my thoughts leaned toward this: I don't have to be ashamed that I am walking now.
+"Renew their strength." Those words caught my eye before the running or the eagles. It struck me as odd that it says renew, not give back what was there before. I wondered whether this body, out of breath halfway up the hill today, might not need to be measured against the old one. Reading one line doesn't bring my stamina back. But my thoughts leaned toward this: I don't have to be ashamed of having come this far with the body I have now.
 
 I sat on the bench until my breathing settled. The person who had passed me came down from the other side and gave a small nod, and I nodded back. I decided not to go all the way to the top of the hill. I decided that today I had come this far.
 

@@ -25,10 +25,10 @@ Ich wischte weiter und öffnete still().
 >
 > Johannes 14:27 (Lutherbibel 1912)
 
-„Nicht wie die Welt gibt.“ Wenn es die Art der Welt ist, mich mit Zahlen zu messen und zu benoten, dann schien dieser Satz zu sagen, dass der Friede, von dem er spricht, von einem anderen Ort kommt. Dieses Wort zu lesen verringert meine Nutzungszeit nicht. Aber ich versuchte, mich an diese sechs Stunden zu erinnern. Ein Video, das ich auf dem Heimweg gedankenverloren durchgewischt hatte, die Zeit, in der ich ein Foto von einer Freundin beantwortet hatte, der Bildschirm, den ich um Mitternacht einschaltete, weil ich nicht schlafen konnte, alles war dort vermischt. Ich fand es schwer, alles Verschwendung zu nennen. Es war auch eine Weise, einen müden Tag durchzustehen.
+„Und fürchte sich nicht.“ An dieser letzten Zeile blieb mein Blick hängen. Was beim Anblick der Zahl in mir aufgestiegen war, war weniger Selbstvorwurf als Angst, ob das so noch in Ordnung sei. Aus dieser Angst heraus hatte ich mich allein benotet und Vorsätze aufgetürmt. Dieses Wort zu lesen verringert meine Nutzungszeit nicht. Aber ich versuchte, mich an diese sechs Stunden zu erinnern. Ein Video, das ich auf dem Heimweg gedankenverloren durchgewischt hatte, die Zeit, in der ich ein Foto von einer Freundin beantwortet hatte, der Bildschirm, den ich um Mitternacht einschaltete, weil ich nicht schlafen konnte, alles war dort vermischt. Ich fand es schwer, alles Verschwendung zu nennen. Es war auch eine Weise, einen müden Tag durchzustehen.
 
 Es ertönte, dass der Reis fertig war. Ich schloss die Benachrichtigung einfach. Neue Vorsätze fasste ich keine.
 
 Ich wärmte die Suppe auf und setzte mich an den Tisch. Das Handy legte ich mit dem Bildschirm nach unten hin und ließ es so, während ich den ersten Löffel nahm.
 
-**Der Atem von heute** — Lege dein Handy einen Moment mit dem Bildschirm nach unten hin, schließe die Augen und atme dreimal lang aus.
+**Der Atem von heute** — Lege dein Handy mit dem Bildschirm nach unten und atme vor dem ersten Bissen einmal lang aus.

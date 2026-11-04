@@ -28,6 +28,6 @@ Lembrei de ter ouvido em algum lugar que esse versículo foi dito a pessoas para
 
 Voltei para a água. Segurei a borda, respirei fundo, levantei o queixo e soltei as mãos. Senti as pernas querendo descer, mas desta vez, em vez de balançar os braços, só pensei em empurrar a barriga para cima. Por alguns segundos, uns poucos segundos mesmo, o corpo ficou parado sobre a superfície. Dentro dos ouvidos a água zumbia, e a luz do teto, dessa vez, não tremeu. Logo me deu medo e baixei as pernas, mas o fato de ter boiado uma vez ficou.
 
-Em pé, segurando a borda, comecei a rir. Da beira da piscina, vi quem dava a aula assentir com a cabeça.
+Em pé, segurando a borda, comecei a rir. Da beira da piscina, vi quem dava a aula assentir com a cabeça; soltei o ar e larguei a borda de novo.
 
 **O fôlego de hoje** — Deite na cama, solte a tensão do queixo e dos braços e expire longamente.

@@ -30,6 +30,6 @@ Tôi nhớ đã nghe ở đâu đó rằng đây là lời nói với những ng
 
 Tôi lại xuống nước. Bám thành hồ, hít một hơi thật sâu, nâng cằm lên, rồi buông tay. Tôi thấy hai chân muốn chìm xuống, nhưng lần này tôi không quơ tay mà chỉ để tâm vào việc đẩy bụng lên. Vài giây, thật sự chỉ vài giây thôi, cơ thể nằm yên trên mặt nước. Bên trong tai tiếng nước ù ù, còn đèn trần lần này không lung lay. Chẳng bao lâu tôi sợ quá nên hạ chân xuống, nhưng việc đã nổi được một lần thì vẫn còn đó.
 
-Đứng bám thành hồ, tôi bật cười. Ở mép hồ, tôi thấy huấn luyện viên gật đầu.
+Đứng bám thành hồ, tôi bật cười. Ở mép hồ, tôi thấy huấn luyện viên gật đầu; tôi thở ra một hơi rồi lại buông tay khỏi thành hồ.
 
 **Hơi thở hôm nay** — Nằm trên giường, thả lỏng cằm và hai tay, rồi thở ra thật dài.

@@ -22,7 +22,7 @@ Faltavam vinte minutos para sair. Enquanto escrevia a última linha, abri o stil
 
 > Salmos 55:22
 
-O que o versículo diz sobre entregar o peso a Deus soou meio constrangedor diante de duas folhas de recados. Eu dizia que estava confiando, mas não soltava aquele assunto nem por uma letra. Eu queria passar adiante tudo o que sei para só então sossegar, e isso não era confiar, era uma passagem de plantão. Bastava que, mesmo com um canto sem anotação, houvesse outra mão naquele lugar. O gato ainda vai miar de madrugada, imagino. Ainda assim, por causa dessa parte do versículo, meu coração se inclinou a pensar que existe alguém que me segura mesmo onde a minha mão não alcança.
+O que o versículo diz sobre entregar o peso a Deus soou meio constrangedor diante de duas folhas de recados. Eu dizia que estava confiando, mas não soltava aquele assunto nem por uma letra. Eu queria passar adiante tudo o que sei para só então sossegar, e isso não era confiar, era uma passagem de plantão. Bastava que, mesmo com um canto sem anotação, houvesse outra mão naquele lugar. O gato ainda vai miar de madrugada, imagino. Ainda assim, ao reler essa parte do versículo, pensei que quem está sendo segurado não é só o gato: também a pessoa que vai cuidar dele onde a minha mão não alcança, e eu, que deixo a chave e saio.
 
 Dobrei a segunda folha e guardei na gaveta. Se for mesmo preciso, a pessoa amiga liga para perguntar, e aí eu respondo. No pé da primeira folha acrescentei uma linha: “Se não souber, faça do jeito que achar melhor.” Depois de escrever, a letra me pareceu mais folgada do que no começo.
 

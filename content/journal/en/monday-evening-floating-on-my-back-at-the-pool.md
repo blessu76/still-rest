@@ -29,6 +29,6 @@ I remembered hearing somewhere that these words were spoken to people standing b
 
 I got back in the water. I held the wall, took a deep breath, lifted my chin, and let go. I could feel my legs wanting to sink, but this time I didn't flail. I kept my mind only on pushing my belly up. For a few seconds, really only a few, my body stayed still on the surface. The sound of water hummed inside my ears, and this time the lights on the ceiling didn't wobble. Soon I got scared and dropped my legs, but the fact that I had floated once stayed with me.
 
-Standing there holding the wall, I laughed. At the edge of the pool, I saw the instructor nodding.
+Standing there holding the wall, I laughed. At the edge of the pool I saw the instructor nodding, and I let out a breath and let go of the wall again.
 
 **Today's breath** — Lying in bed, loosen your chin and arms, and let out a long breath.

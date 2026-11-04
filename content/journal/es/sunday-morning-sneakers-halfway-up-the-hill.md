@@ -1,9 +1,9 @@
 ---
-title: Domingo por la mañana, me detuve al pie de la cuesta con mis viejas zapatillas
+title: Domingo por la mañana, me detuve a media cuesta con mis viejas zapatillas
 date: 2026-11-08
-slug: sunday-morning-sneakers-at-the-foot-of-the-hill
+slug: sunday-morning-sneakers-halfway-up-the-hill
 lang: es
-description: Relato en primera persona de alguien que sacó las zapatillas después de meses y tuvo que pararse sin aliento al pie de una cuesta un domingo por la mañana, aprendiendo a aceptar un cuerpo que ya no es el de antes, con Isaías 40:31 (Reina-Valera 1909).
+description: Relato en primera persona de alguien que sacó las zapatillas después de meses y tuvo que pararse sin aliento a media cuesta un domingo por la mañana, aprendiendo a aceptar un cuerpo que ya no es el de antes, con Isaías 40:31 (Reina-Valera 1909).
 category: Cansancio
 keywords: domingo, mañana, paseo, resistencia, noviembre
 bible_version: Reina-Valera 1909
@@ -25,7 +25,7 @@ En el banco abrí still().
 >
 > Isaías 40:31 (Reina-Valera 1909)
 
-Noté que lo que se dice de caminar me llamó la atención antes que lo de correr o lo de las águilas. Hoy no pude correr, y mucho menos volar, pero extrañamente me consoló que caminar estuviera escrito como una parte con su propio lugar. Leer una línea no me devuelve la resistencia. Pero mis pensamientos se inclinaron hacia esto: no tengo por qué avergonzarme de estar caminando ahora.
+«Nuevas fuerzas». Esas palabras me llamaron la atención antes que lo de correr o lo de las águilas. Me pareció raro que dijera nuevas y no que me devolviera las de antes. Me pregunté si este cuerpo, sin aliento hoy a media cuesta, podía dejar de compararse con el de antes. Leer una línea no me devuelve la resistencia. Pero mis pensamientos se inclinaron hacia esto: no tengo por qué avergonzarme de haber llegado hasta aquí con el cuerpo que tengo ahora.
 
 Me quedé en el banco hasta que la respiración se calmó. La persona que me había adelantado bajó por el otro lado y me hizo un pequeño gesto con la cabeza, y yo le respondí igual. Decidí no llegar hasta lo alto de la cuesta. Decidí que hoy había llegado hasta aquí.
 

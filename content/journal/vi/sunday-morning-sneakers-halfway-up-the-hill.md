@@ -1,9 +1,9 @@
 ---
-title: Sáng Chủ nhật, tôi dừng lại dưới chân dốc trong đôi giày thể thao lâu ngày mới đi
+title: Sáng Chủ nhật, tôi dừng lại giữa dốc trong đôi giày thể thao lâu ngày mới đi
 date: 2026-11-08
-slug: sunday-morning-sneakers-at-the-foot-of-the-hill
+slug: sunday-morning-sneakers-halfway-up-the-hill
 lang: vi
-description: Câu chuyện ngôi thứ nhất về một người sau nhiều tháng mới lấy giày thể thao ra đi dạo và phải dừng lại thở dốc dưới chân dốc vào một sáng Chủ nhật, thử chấp nhận một cơ thể không còn như trước, kèm Ê-sai 40:31 (Kinh Thánh 1925).
+description: Câu chuyện ngôi thứ nhất về một người sau nhiều tháng mới lấy giày thể thao ra đi dạo và phải dừng lại thở dốc giữa dốc vào một sáng Chủ nhật, thử chấp nhận một cơ thể không còn như trước, kèm Ê-sai 40:31 (Kinh Thánh 1925).
 category: Mệt mỏi
 keywords: Chủ nhật, buổi sáng, đi dạo, thể lực, tháng Mười Một
 bible_version: Kinh Thánh 1925
@@ -26,7 +26,7 @@ Trên ghế dài, tôi mở still().
 >
 > Ê-sai 40:31 (Kinh Thánh 1925)
 
-Tôi nhận ra phần nói về việc bước đi đập vào mắt tôi trước phần nói về chạy hay về chim ưng. Hôm nay tôi không chạy nổi, càng không bay được, vậy mà lạ thay, việc bước đi được viết thành một phần riêng lại làm tôi thấy được an ủi. Đọc một dòng không đem sức lực trở lại. Nhưng suy nghĩ của tôi nghiêng về điều này: tôi không cần xấu hổ vì bây giờ mình đang bước đi.
+“Sức mới”. Những chữ ấy đập vào mắt tôi trước phần nói về chạy hay về chim ưng. Tôi thấy lạ là câu không nói trả lại sức ngày xưa mà nói sức mới. Tôi tự hỏi liệu cơ thể này, hôm nay thở dốc giữa dốc, có phải không cần đem ra so với cơ thể trước kia nữa. Đọc một dòng không đem sức lực trở lại. Nhưng suy nghĩ của tôi nghiêng về điều này: tôi không cần xấu hổ vì đã đi tới đây với cơ thể hiện tại.
 
 Tôi ngồi trên ghế cho đến khi hơi thở lắng lại. Người vừa vượt qua tôi đi xuống từ phía bên kia và khẽ gật đầu chào, tôi cũng gật đầu đáp lại. Tôi quyết định không lên tới đỉnh dốc. Tôi quyết định coi như hôm nay mình đã đi tới đây.
 

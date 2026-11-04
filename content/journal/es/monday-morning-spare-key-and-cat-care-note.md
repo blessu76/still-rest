@@ -23,7 +23,7 @@ Faltaban veinte minutos para salir. Mientras escribía la última línea, abrí 
 >
 > Salmos 55:22 (Reina-Valera 1909)
 
-«Echa sobre Jehová tu carga» me dio un poco de vergüenza leerlo delante de mis dos hojas de notas. Yo decía que confiaba el asunto a otras manos, pero creo que no soltaba ni una letra. Había querido pasarlo todo, hasta el último dato, para solo entonces quedarme en paz, y eso no era confiar, era un traspaso de tareas. Me habría bastado con que, incluso con un rincón sin escribir, hubiera otras manos en ese lugar. El gato seguirá maullando de madrugada, supongo. Aun así, por las palabras «él te sustentará», mi ánimo se inclinó hacia la idea de que hay alguien que me sostiene también allí donde mi mano no llega.
+«Echa sobre Jehová tu carga» me dio un poco de vergüenza leerlo delante de mis dos hojas de notas. Yo decía que confiaba el asunto a otras manos, pero creo que no soltaba ni una letra. Había querido pasarlo todo, hasta el último dato, para solo entonces quedarme en paz, y eso no era confiar, era un traspaso de tareas. Me habría bastado con que, incluso con un rincón sin escribir, hubiera otras manos en ese lugar. El gato seguirá maullando de madrugada, supongo. Aun así, al releer «él te sustentará», pensé que quien está sostenido no es solo el gato: también lo está quien lo cuidará donde mi mano no llega, y también yo, que dejo la llave y me voy.
 
 Doblé la segunda hoja y la guardé en un cajón. Si de verdad hace falta, llamarán para preguntar y entonces lo diré. Al final de la primera hoja añadí una línea: «Si tienes dudas, haz lo que te resulte más cómodo». Al verla escrita, la letra se notaba más relajada que al principio.
 

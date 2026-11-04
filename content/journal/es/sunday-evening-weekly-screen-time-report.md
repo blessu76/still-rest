@@ -25,10 +25,10 @@ Cambié de pantalla y abrí still().
 >
 > Juan 14:27 (Reina-Valera 1909)
 
-«No como el mundo la da». Si medirme y puntuarme con números es la manera de dar del mundo, esta frase me pareció decir que la paz de la que habla viene de otro lugar. Leer este versículo no hace que se reduzca el tiempo de uso. Pero intenté recordar esas seis horas. Un vídeo que pasé distraído de camino a casa, el rato que dediqué a contestar una foto de un amigo, la pantalla que encendí a medianoche porque no podía dormir, todo eso estaba mezclado ahí. Me costó decir que todo había sido un desperdicio. También era una manera de aguantar un día cansado.
+«Ni tenga miedo». Me quedé en esa última línea. Lo que me subió al ver la cifra era menos un reproche que el miedo a que así no estuviera bien. Por ese miedo me estaba puntuando a solas y apilando propósitos. Leer este versículo no hace que se reduzca el tiempo de uso. Pero intenté recordar esas seis horas. Un vídeo que pasé distraído de camino a casa, el rato que dediqué a contestar una foto de un amigo, la pantalla que encendí a medianoche porque no podía dormir, todo eso estaba mezclado ahí. Me costó decir que todo había sido un desperdicio. También era una manera de aguantar un día cansado.
 
 Sonó que el arroz estaba listo. Simplemente cerré la notificación. No tomé ninguna decisión nueva.
 
 Calenté la sopa y me senté a la mesa. Dejé el móvil boca abajo y lo mantuve así mientras tomaba la primera cucharada.
 
-**El aliento de hoy** — Deja el móvil boca abajo un momento, cierra los ojos y suelta el aire despacio tres veces.
+**El aliento de hoy** — Deja el móvil boca abajo y, antes del primer bocado, suelta el aire despacio una vez.

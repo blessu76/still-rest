@@ -25,10 +25,10 @@ J'ai changé d'écran et ouvert still().
 >
 > Jean 14:27 (Louis Segond 1910)
 
-« Non pas comme le monde donne. » Si me mesurer et me noter avec des chiffres est la manière de donner du monde, cette phrase semblait dire que la paix dont elle parle vient d'un autre endroit. Lire ce verset ne fait pas diminuer le temps d'usage. Mais j'ai essayé de me rappeler ces six heures. Une vidéo que j'avais fait défiler distraitement sur le chemin du retour, le temps passé à répondre à une photo envoyée par un ami, l'écran allumé à minuit parce que je ne dormais pas, tout cela s'y mélangeait. J'ai eu du mal à dire que tout avait été du gâchis. C'était aussi une façon de tenir une journée fatigante.
+« Et ne s'alarme point. » Mes yeux se sont arrêtés sur cette dernière ligne. Ce qui était monté en voyant le chiffre tenait moins du reproche que de la peur : et si ça n'allait pas ? C'est cette peur qui me faisait me noter à moi seul et empiler les résolutions. Lire ce verset ne fait pas diminuer le temps d'usage. Mais j'ai essayé de me rappeler ces six heures. Une vidéo que j'avais fait défiler distraitement sur le chemin du retour, le temps passé à répondre à une photo envoyée par un ami, l'écran allumé à minuit parce que je ne dormais pas, tout cela s'y mélangeait. J'ai eu du mal à dire que tout avait été du gâchis. C'était aussi une façon de tenir une journée fatigante.
 
 On a entendu que le riz était prêt. J'ai simplement fermé la notification. Je n'ai pris aucune nouvelle résolution.
 
 J'ai réchauffé la soupe et je me suis assis à table. J'ai posé le téléphone face contre la table et je l'ai laissé ainsi pendant la première cuillerée.
 
-**Le souffle d'aujourd'hui** — Pose ton téléphone face contre la table un instant, ferme les yeux et expire lentement trois fois.
+**Le souffle d'aujourd'hui** — Pose ton téléphone face contre la table et, avant la première bouchée, expire lentement une fois.

@@ -29,6 +29,6 @@ Mir fiel ein, dass ich irgendwo gehört hatte, das sei zu Menschen gesagt worden
 
 Ich ging wieder ins Wasser. Ich hielt mich an der Wand fest, atmete tief durch, hob das Kinn und ließ los. Die Beine wollten wieder sinken, aber diesmal ruderte ich nicht mit den Armen, sondern konzentrierte mich nur darauf, den Bauch nach oben zu schieben. Einige Sekunden, wirklich nur einige Sekunden, blieb mein Körper ruhig auf der Oberfläche. In meinen Ohren summte das Wasser, und das Deckenlicht wackelte diesmal nicht. Gleich bekam ich Angst und setzte die Beine ab, aber dass ich einmal oben geblieben war, das nahm ich mit.
 
-An der Wand stehend musste ich lachen. Am Beckenrand sah ich, wie die Kursleitung nickte.
+An der Wand stehend musste ich lachen. Am Beckenrand sah ich, wie die Kursleitung nickte; ich atmete aus und ließ die Wand wieder los.
 
 **Der Atem von heute** — Ich lege mich ins Bett, lasse Kinn und Arme locker und atme lange aus.

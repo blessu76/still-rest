@@ -23,7 +23,7 @@ Twenty minutes were left before I had to leave. While I was writing the last lin
 >
 > Psalm 55:22 (WEB)
 
-"Cast your burden" felt a little embarrassing to read, sitting in front of two sheets of notes. I had said I was handing something over, and yet I hadn't let go of it by even a single word. I had wanted to give away everything I knew before I could feel safe, and that wasn't entrusting, it was a handover. It would have been enough that someone else's hands were there, even where a corner stayed unwritten. The cat will still cry at dawn, I suppose. Even so, because of the words "he will sustain you," my mind leaned toward the thought that someone is holding me even where my own hands can't reach.
+"Cast your burden" felt a little embarrassing to read, sitting in front of two sheets of notes. I had said I was handing something over, and yet I hadn't let go of it by even a single word. I had wanted to give away everything I knew before I could feel safe, and that wasn't entrusting, it was a handover. It would have been enough that someone else's hands were there, even where a corner stayed unwritten. The cat will still cry at dawn, I suppose. Even so, reading "he will sustain you" again, I thought the one being held wasn't only the cat. The friend who would look after it where my hands couldn't reach was held too, and so was I, handing over a key on my way out.
 
 I folded the second sheet and put it in a drawer. If my friend really needs to know something, they can call and ask, and I can tell them then. At the bottom of the first sheet I added one line: "If you're not sure, do whatever feels easiest." When I looked at it, the handwriting seemed more relaxed than it had at the start.
 

@@ -29,6 +29,6 @@ Je me suis rappelé avoir entendu quelque part que ces paroles s’adressaient �
 
 Retour dans l’eau. J’ai tenu le mur, pris une grande inspiration, levé le menton, lâché la main. Mes jambes ont eu envie de descendre, mais cette fois je n’ai pas battu des bras et je n’ai pensé qu’à pousser le ventre vers le haut. Pendant quelques secondes, vraiment quelques secondes, mon corps est resté immobile à la surface. Au fond de mes oreilles, l’eau bourdonnait, et cette fois, les lumières du plafond ne tremblaient pas. J’ai vite eu peur et j’ai baissé les jambes, mais il restait le fait d’avoir flotté une fois.
 
-Le mur sous la main, un rire m’est venu. Au bord du bassin, j’ai vu la personne qui encadrait le cours hocher la tête.
+Le mur sous la main, un rire m’est venu. Au bord du bassin, j’ai vu la personne qui encadrait le cours hocher la tête ; j’ai expiré et j’ai de nouveau lâché le mur.
 
 **Le souffle du jour** — Je m’allonge dans mon lit, je relâche le menton et les bras, et j’expire longuement.

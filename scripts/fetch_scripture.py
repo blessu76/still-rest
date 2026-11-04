@@ -81,6 +81,11 @@ VERSIFICATION = {
     "fr": {"PSA 4:8": "PSA 4:9", "PSA 23:2": "PSA 23:2", "PSA 34:18": "PSA 34:19", "PSA 46:10": "PSA 46:11", "PSA 55:22": "PSA 55:23", "PSA 121:2": "PSA 121:2", "PSA 147:3": "PSA 147:3"},
 }
 HAND_MAPPED = {"ru": ("PSA",), "fr": ("PSA",)}  # books whose numbering differs in that language: every reference needs an entry above
+# a typo in the source file itself, corrected after the copy (language, source ref) -> (as printed, as meant). The old text must be present,
+# so a fixed upstream file fails loudly here and the entry is removed. vie1934 prints the old-orthography "Ấy" as "Aáy" (2026-11-04, Paul).
+SOURCE_FIXES = {
+    ("vi", "LAM 3:22"): ("Aáy là", "Ấy là"),
+}
 NO_SPACE = ("zh", "ja")  # scripts without spaces between words: the line breaks of poetry are joined without a space
 
 
@@ -177,6 +182,11 @@ def build(root, cache):
                 ch, v = (int(x) for x in scv.split(":"))
                 ent["src"] = skey
                 ent["text"] = usfm_verse(arc.read(member[0]).decode("utf-8-sig"), ch, v, lang)
+                fix = SOURCE_FIXES.get((lang, skey))
+                if fix:
+                    if fix[0] not in ent["text"]:
+                        raise SystemExit("fetch_scripture: SOURCE_FIXES %s %s: %r not in the source any more — remove the entry" % (lang, skey, fix[0]))
+                    ent["text"] = ent["text"].replace(fix[0], fix[1], 1)
             verses[key][lang] = ent
     return {
         "_readme": [

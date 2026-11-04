@@ -29,6 +29,6 @@ Recordé haber oído en algún sitio que esto se les dijo a unas personas que es
 
 Volví al agua. Me agarré a la pared, respiré hondo, levanté la barbilla y solté la mano. Sentí que las piernas querían bajar, pero esta vez no agité los brazos y puse la atención solo en empujar la barriga hacia arriba. Unos segundos, de verdad unos pocos segundos, el cuerpo se quedó quieto sobre la superficie. Dentro de los oídos el agua zumbaba, y esta vez las luces del techo no temblaron. Enseguida me dio miedo y bajé las piernas, pero quedó el hecho de haber flotado una vez.
 
-Ya de pie junto a la pared, me salió la risa. Junto al borde de la piscina vi que la persona que daba la clase asentía con la cabeza.
+Ya de pie junto a la pared, me salió la risa. Junto al borde de la piscina vi que la persona que daba la clase asentía con la cabeza, y yo solté el aire y volví a soltar la pared.
 
 **El aliento de hoy** — Me tumbo en la cama, suelto la fuerza de la barbilla y de los brazos, y dejo salir el aire en una exhalación larga.

@@ -1,9 +1,9 @@
 ---
-title: Domingo de manhã, parei ao pé da ladeira com os meus velhos tênis
+title: Domingo de manhã, parei no meio da ladeira com os meus velhos tênis
 date: 2026-11-08
-slug: sunday-morning-sneakers-at-the-foot-of-the-hill
+slug: sunday-morning-sneakers-halfway-up-the-hill
 lang: pt
-description: Relato em primeira pessoa de alguém que tirou os tênis do canto depois de meses e teve de parar sem fôlego ao pé de uma ladeira num domingo de manhã, aprendendo a aceitar um corpo que já não é o de antes, com Isaías 40:31.
+description: Relato em primeira pessoa de alguém que tirou os tênis do canto depois de meses e teve de parar sem fôlego no meio de uma ladeira num domingo de manhã, aprendendo a aceitar um corpo que já não é o de antes, com Isaías 40:31.
 category: Cansaço
 keywords: domingo, manhã, caminhada, resistência, novembro
 verse: Isaías 40:31
@@ -24,7 +24,7 @@ No banco, abri o still().
 
 > Isaías 40:31
 
-Reparei que o que se diz sobre caminhar chamou minha atenção antes do que se diz sobre correr ou sobre as águias. Hoje não consegui correr, e muito menos voar, mas, estranhamente, me consolou que caminhar estivesse escrito como uma parte com lugar próprio. Ler uma linha não me devolve o fôlego. Mas meus pensamentos se inclinaram para isto: não preciso ter vergonha de estar caminhando agora.
+O que se diz sobre forças novas chamou minha atenção antes do que se diz sobre correr ou sobre as águias. Achei estranho que não fale em devolver a força de antes, mas em força nova. Fiquei pensando se este corpo, sem fôlego hoje no meio da ladeira, precisa mesmo ser comparado com o de antes. Ler uma linha não me devolve o fôlego. Mas meus pensamentos se inclinaram para isto: não preciso ter vergonha de ter chegado até aqui com o corpo que tenho agora.
 
 Fiquei no banco até a respiração acalmar. A pessoa que tinha me ultrapassado desceu pelo outro lado e me fez um pequeno aceno de cabeça, e eu respondi do mesmo jeito. Decidi não ir até o alto da ladeira. Decidi que hoje eu tinha chegado até ali.
 

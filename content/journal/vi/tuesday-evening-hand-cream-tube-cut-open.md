@@ -20,7 +20,7 @@ Cả ngày hôm nay đúng là như vậy. Trong buổi họp tôi nói vấp ha
 
 Tôi mở still().
 
-> Aáy là nhờ sự nhân từ Đức Giê-hô-va mà chúng ta chưa tuyệt. Vì sự thương xót của Ngài chẳng dứt.
+> Ấy là nhờ sự nhân từ Đức Giê-hô-va mà chúng ta chưa tuyệt. Vì sự thương xót của Ngài chẳng dứt.
 >
 > Ca Thương 3:22 (Kinh Thánh 1925)
 

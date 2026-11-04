@@ -24,7 +24,7 @@ Hồi nhỏ, chiều thứ Bảy là lúc tôi thích nhất, tôi nghĩ. Vì ma
 
 Tôi mở still().
 
-> Aáy là nhờ sự nhân từ Đức Giê-hô-va mà chúng ta chưa tuyệt. Vì sự thương xót của Ngài chẳng dứt.
+> Ấy là nhờ sự nhân từ Đức Giê-hô-va mà chúng ta chưa tuyệt. Vì sự thương xót của Ngài chẳng dứt.
 >
 > Ca Thương 3:22 (Kinh Thánh 1925)
 

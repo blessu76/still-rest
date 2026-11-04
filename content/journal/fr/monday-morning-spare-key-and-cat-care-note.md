@@ -23,7 +23,7 @@ Il restait vingt minutes avant de partir. En écrivant la dernière ligne, j’a
 >
 > Psaume 55:23 (Louis Segond 1910)
 
-« Remets ton sort à l’Éternel » m’a paru un peu gênant à lire devant mes deux feuilles de notes. Je disais confier, mais je n’avais pas lâché une seule lettre de cette affaire, il me semble. J’avais voulu tout transmettre de ce que je sais pour pouvoir enfin être tranquille : ce n’était pas confier, c’était une passation de consignes. Il aurait suffi que, même avec un coin non écrit, d’autres mains soient là. Le chat miaulera encore au petit matin, sans doute. Pourtant, à cause des mots « il te soutiendra », mon cœur a penché vers l’idée que quelqu’un me tient aussi là où ma main n’arrive pas.
+« Remets ton sort à l’Éternel » m’a paru un peu gênant à lire devant mes deux feuilles de notes. Je disais confier, mais je n’avais pas lâché une seule lettre de cette affaire, il me semble. J’avais voulu tout transmettre de ce que je sais pour pouvoir enfin être tranquille : ce n’était pas confier, c’était une passation de consignes. Il aurait suffi que, même avec un coin non écrit, d’autres mains soient là. Le chat miaulera encore au petit matin, sans doute. Pourtant, en relisant « il te soutiendra », je me suis dit que le chat n’était pas le seul à être tenu : la personne qui veillera sur lui là où ma main n’arrive pas l’était aussi, et moi, qui laisse la clé avant de partir.
 
 J’ai plié la deuxième feuille et je l’ai rangée dans un tiroir. Si c’est vraiment nécessaire, on m’appellera pour me poser la question et je répondrai alors. Tout en bas de la première feuille, j’ai ajouté une ligne : « Si tu hésites, fais comme ça te va. » En la relisant, mon écriture me paraissait plus détendue qu’au début.
 

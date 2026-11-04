@@ -1,9 +1,9 @@
 ---
-title: Sonntagmorgen blieb ich in den alten Turnschuhen am Fuß des Hügels stehen
+title: Sonntagmorgen blieb ich in den alten Turnschuhen auf halber Höhe des Hügels stehen
 date: 2026-11-08
-slug: sunday-morning-sneakers-at-the-foot-of-the-hill
+slug: sunday-morning-sneakers-halfway-up-the-hill
 lang: de
-description: Eine Erzählung in der ersten Person über jemanden, der nach Monaten die Turnschuhe hervorholte und an einem Sonntagmorgen außer Atem am Fuß eines Hügels stehen blieb und einen Körper annehmen lernte, der nicht mehr der von früher ist, mit Jesaja 40:31 (Lutherbibel 1912).
+description: Eine Erzählung in der ersten Person über jemanden, der nach Monaten die Turnschuhe hervorholte und an einem Sonntagmorgen außer Atem auf halber Höhe eines Hügels stehen blieb und einen Körper annehmen lernte, der nicht mehr der von früher ist, mit Jesaja 40:31 (Lutherbibel 1912).
 category: Erschöpfung
 keywords: Sonntag, Morgen, Spaziergang, Kondition, November
 bible_version: Lutherbibel 1912
@@ -25,7 +25,7 @@ Auf der Bank öffnete ich still().
 >
 > Jesaja 40:31 (Lutherbibel 1912)
 
-Mir fiel auf, dass mir das, was vom Gehen gesagt wird, früher ins Auge sprang als das vom Laufen oder von den Adlern. Heute konnte ich nicht laufen, erst recht nicht fliegen, und doch tröstete es mich merkwürdig, dass das Gehen als eigener Teil dasteht. Eine Zeile zu lesen bringt meine Kondition nicht zurück. Aber meine Gedanken neigten sich dahin: Ich muss mich nicht schämen, dass ich jetzt gehe.
+„Neue Kraft“. Diese Worte fielen mir eher ins Auge als das Laufen oder die Adler. Merkwürdig, dass dort nicht steht, die alte Kraft komme zurück, sondern neue. Ich fragte mich, ob dieser Körper, der heute auf halber Höhe des Hügels außer Atem war, sich gar nicht mit dem früheren messen muss. Eine Zeile zu lesen bringt meine Kondition nicht zurück. Aber meine Gedanken neigten sich dahin: Ich muss mich nicht schämen, dass ich mit dem Körper von jetzt bis hierher gekommen bin.
 
 Ich saß auf der Bank, bis sich mein Atem beruhigt hatte. Wer mich vorhin überholt hatte, kam von der anderen Seite herunter und nickte mir leicht zu, und ich nickte zurück. Ich beschloss, nicht bis ganz nach oben zu gehen. Ich beschloss, dass ich heute bis hierher gekommen war.
 

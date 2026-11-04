@@ -24,7 +24,7 @@ Còn hai mươi phút nữa là đến giờ ra khỏi nhà. Đang viết dòng 
 >
 > Thi Thiên 55:22 (Kinh Thánh 1925)
 
-Hai chữ “Hãy trao” đọc lên trước hai tờ ghi chú thấy hơi ngượng. Tôi nói là nhờ cậy, nhưng lại không buông ra một chữ nào của việc ấy. Tôi đã muốn đưa hết mọi điều mình biết rồi mới yên tâm, mà vậy thì không phải nhờ cậy, chỉ là bàn giao. Dù còn một góc chưa kịp viết, chỉ cần ở chỗ ấy có một bàn tay khác là được. Rạng sáng con mèo chắc vẫn sẽ kêu. Nhưng vì có “Ngài sẽ nâng đỡ ngươi”, lòng tôi nghiêng về phía nghĩ rằng có một Đấng đang giữ lấy tôi cả ở nơi tay mình không với tới.
+Hai chữ “Hãy trao” đọc lên trước hai tờ ghi chú thấy hơi ngượng. Tôi nói là nhờ cậy, nhưng lại không buông ra một chữ nào của việc ấy. Tôi đã muốn đưa hết mọi điều mình biết rồi mới yên tâm, mà vậy thì không phải nhờ cậy, chỉ là bàn giao. Dù còn một góc chưa kịp viết, chỉ cần ở chỗ ấy có một bàn tay khác là được. Rạng sáng con mèo chắc vẫn sẽ kêu. Nhưng đọc lại “Ngài sẽ nâng đỡ ngươi”, tôi nghĩ người được nâng đỡ không chỉ có con mèo: người sẽ trông nó ở nơi tay tôi không với tới, và cả tôi, người đặt chìa khóa lại rồi đi, cũng vậy.
 
 Tôi gấp tờ thứ hai lại, cất vào ngăn kéo. Nếu thật sự cần thì bạn sẽ gọi điện hỏi, lúc đó nói cũng được. Ở cuối tờ đầu, tôi thêm một dòng: “Nếu không biết thì cứ làm theo cách nào tiện cho bạn nhé.” Viết xong, nhìn nét chữ thấy thong thả hơn lúc đầu.
 
