@@ -17,7 +17,7 @@ Me quedé sin aire allí mismo. La taza ya estaba rota, pero el cuerpo se sobres
 
 No era nada, en realidad. Se rompió una taza que llevaba años usando y no me hice daño. Pero pasaron diez minutos y el pecho seguía sin calmarse. Hasta mientras iba a buscar la escoba, aquel ruido volvía a sonarme dentro del oído. Me extrañó ver que algo que normalmente habría despachado con un «ay» me sacudiera tanto. Me pregunté si últimamente tendría algo por dentro tirante, estirado al máximo.
 
-## Un sobresalto escrito aparte, junto al miedo
+## Un desmayo escrito aparte, junto al miedo
 
 Dejé la escoba apoyada en la pared y abrí still().
 
@@ -25,7 +25,7 @@ Dejé la escoba apoyada en la pared y abrí still().
 >
 > Josué 1:9 (Reina-Valera 1909)
 
-«No temas ni desmayes». Fue la primera vez que me di cuenta de que hay dos cosas puestas una al lado de la otra. Temer y desmayar no son lo mismo, y si se escribieron las dos a propósito, quizá el desmayo también merecía nombrarse por separado. Un sobresalto es algo que el cuerpo hace antes de que yo decida nada. Por eso estas palabras no me sonaron a reproche contra un corazón sobresaltado. En cambio, mis ojos se detuvieron en el principio: «Mira que te mando». No me sonó a algo dicho por primera vez, sino a un aviso que recuerda lo que ya se había dicho. Leer el versículo no me calmó el pecho al instante. Aun así, decidí dejar de preguntarme una vez más «¿por qué me asusto tanto?». Dejé lo sobresaltado como estaba, sobresaltado, y volví a leer en silencio la frase del final, «será contigo».
+«No temas ni desmayes». Fue la primera vez que me di cuenta de que hay dos cosas puestas una al lado de la otra. Temer y desmayar no son lo mismo, y si se escribieron las dos a propósito, quizá el desmayo, ese ánimo que se viene abajo de golpe, también merecía nombrarse por separado. Un sobresalto es algo que el cuerpo hace antes de que yo decida nada. Por eso estas palabras no me sonaron a reproche contra un corazón sobresaltado. En cambio, mis ojos se detuvieron en el principio: «Mira que te mando». No me sonó a algo dicho por primera vez, sino a un aviso que recuerda lo que ya se había dicho. Leer el versículo no me calmó el pecho al instante. Aun así, decidí dejar de preguntarme una vez más «¿por qué me asusto tanto?». Dejé lo sobresaltado como estaba, sobresaltado, y volví a leer en silencio la frase del final, «será contigo».
 
 Extendí un periódico y fui recogiendo los trozos grandes, uno por uno. Los pequeños los levanté pegándoles un papel de cocina húmedo, y los que se habían metido en las juntas de las baldosas los pasé con la aspiradora. Con cada trozo que recogía, el latido que me quedaba en la punta de los dedos iba más despacio. En el exterior del paquete envuelto en periódico escribí «taza rota» y lo dejé junto a la puerta de la calle. Del armario saqué otra taza, con el asa más baja, y la llené de agua hasta la mitad. Di un sorbo, y el ruido de dejar la taza fue muy pequeño.
 

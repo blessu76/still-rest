@@ -17,7 +17,7 @@ My breath stopped on the spot. The mug was already broken, but my body startled 
 
 It was nothing, really. A mug I had used for years broke, and I wasn't hurt. But ten minutes later my chest still hadn't settled. Even on the way to get the broom, that sound kept ringing again in my ears. I felt like a stranger to myself, being this shaken by something I would normally have waved off with a "whoops." I wondered whether something deep inside had been pulled taut lately.
 
-## A startle written down apart from fear
+## Dismay, written down apart from fear
 
 I leaned the broom against the wall and opened still().
 
@@ -25,7 +25,7 @@ I leaned the broom against the wall and opened still().
 >
 > Joshua 1:9 (WEB)
 
-"Don't be afraid. Don't be dismayed." It was the first time I noticed that two things are set side by side there. Being afraid and being startled are different things, and since both were written down on purpose, I guess being startled was worth naming on its own. A startle is something the body does before I have decided anything. So these words didn't read to me like a scolding for a startled heart. Instead my eyes stopped at the very beginning, "Haven't I commanded you?" It sounded less like something said for the first time and more like a question that reminds me of something already said. Reading the verse didn't settle my chest right away. Still, I decided to stop asking myself one more time, "Why am I this shaken?" I let the startled part stay startled, and quietly read once more the line near the end, "is with you."
+"Don't be afraid. Don't be dismayed." It was the first time I noticed that two things are set side by side there. Being afraid and being dismayed are different things, and since both were written down on purpose, I guess dismay, the heart giving way all at once, was worth naming on its own. A startle is something the body does before I have decided anything. So these words didn't read to me like a scolding for a startled heart. Instead my eyes stopped at the very beginning, "Haven't I commanded you?" It sounded less like something said for the first time and more like a question that reminds me of something already said. Reading the verse didn't settle my chest right away. Still, I decided to stop asking myself one more time, "Why am I this shaken?" I let the startled part stay startled, and quietly read once more the line near the end, "is with you."
 
 I spread out newspaper and picked up the big pieces one by one. The small ones I pressed up with a damp paper towel, and the ones wedged between the tiles I ran the vacuum over. With every piece I picked up, the pounding left in my fingertips slowed a little. On the outside of the newspaper bundle I wrote "broken mug" and set it by the front door. From the cupboard I took out a different cup with a lower handle and poured water halfway. I took a sip, and the sound of setting the cup down was very small.
 

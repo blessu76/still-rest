@@ -17,7 +17,7 @@ Mir stockte an Ort und Stelle der Atem. Die Tasse war schon zerbrochen, aber mei
 
 Es war nichts Schlimmes. Eine Tasse, die ich seit Jahren benutzte, war zerbrochen, und verletzt hatte ich mich nicht. Aber nach zehn Minuten hatte sich meine Brust noch immer nicht beruhigt. Selbst auf dem Weg zum Besen hallte dieses Geräusch noch einmal im Ohr nach. Es kam mir fremd vor, so zu erschrecken über etwas, das ich sonst mit einem »Na so was« abgetan hätte. Ich fragte mich, ob in letzter Zeit irgendetwas in meinem Inneren zum Zerreißen gespannt war.
 
-## Ein Erschrecken, eigens neben der Furcht notiert
+## Ein Entsetzen, eigens neben der Furcht notiert
 
 Ich lehnte den Besen an die Wand und öffnete still().
 
@@ -25,7 +25,7 @@ Ich lehnte den Besen an die Wand und öffnete still().
 >
 > Josua 1:9 (Lutherbibel 1912)
 
-»Laß dir nicht grauen und entsetze dich nicht.« Erst jetzt fiel mir auf, dass zwei Dinge nebeneinanderstehen. Grauen und Entsetzen sind nicht dasselbe, und wenn beides mit Absicht aufgeschrieben wurde, dann verdiente wohl auch das Entsetzen, eigens genannt zu werden. Ein Erschrecken ist etwas, das der Körper tut, ehe ich etwas entschieden habe. Darum klangen diese Worte für mich nicht wie ein Vorwurf an ein erschrockenes Herz. Stattdessen blieb mein Blick ganz am Anfang hängen: »Siehe, ich habe dir geboten.« Es klang nicht nach etwas, das zum ersten Mal gesagt wird, sondern nach einer Erinnerung an das, was schon gesagt wurde. Vom Lesen des Verses beruhigte sich meine Brust nicht sofort. Trotzdem beschloss ich, mich nicht noch einmal zu fragen: »Warum erschrecke ich so?« Was erschrocken war, ließ ich erschrocken sein, und las leise noch einmal die Worte am Ende: »ist mit dir«.
+»Laß dir nicht grauen und entsetze dich nicht.« Erst jetzt fiel mir auf, dass zwei Dinge nebeneinanderstehen. Grauen und Entsetzen sind nicht dasselbe, und wenn beides mit Absicht aufgeschrieben wurde, dann verdiente wohl auch das Entsetzen, dieses plötzliche Außer-sich-Geraten, eigens genannt zu werden. Ein Erschrecken ist etwas, das der Körper tut, ehe ich etwas entschieden habe. Darum klangen diese Worte für mich nicht wie ein Vorwurf an ein erschrockenes Herz. Stattdessen blieb mein Blick ganz am Anfang hängen: »Siehe, ich habe dir geboten.« Es klang nicht nach etwas, das zum ersten Mal gesagt wird, sondern nach einer Erinnerung an das, was schon gesagt wurde. Das Lesen des Verses beruhigte meine Brust nicht sofort. Trotzdem beschloss ich, mich nicht noch einmal zu fragen: »Warum erschrecke ich so?« Was erschrocken war, ließ ich erschrocken sein, und las leise noch einmal die Worte am Ende: »ist mit dir«.
 
 Ich breitete eine Zeitung aus und hob die großen Scherben nacheinander auf. Die kleinen nahm ich mit einem feuchten Küchentuch auf, indem ich darauf drückte, und die in den Fliesenfugen saugte ich mit dem Staubsauger ab. Mit jeder aufgehobenen Scherbe wurde das Pochen in meinen Fingerspitzen etwas langsamer. Auf das Zeitungspaket schrieb ich »kaputte Tasse« und stellte es an die Wohnungstür. Aus dem Schrank holte ich eine andere Tasse mit niedrigerem Henkel und goss sie halb mit Wasser voll. Ich trank einen Schluck, und das Geräusch, mit dem ich die Tasse abstellte, war ganz leise.
 
