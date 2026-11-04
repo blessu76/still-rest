@@ -98,6 +98,12 @@ class Coverage(unittest.TestCase):
 
 
 class Scripture(unittest.TestCase):
+    def test_vi_lam_3_22_keeps_the_documented_source_typo_fix(self):
+        # ebible vie1934 prints "Aáy là"; fetch_scripture.SOURCE_FIXES corrects it, so a re-fetch must not bring it back
+        text = SCRIPTURE["verses"]["LAM 3:22"]["vi"]["text"]
+        self.assertTrue(text.startswith("Ấy là"), text[:12])
+        self.assertNotIn("Aáy", text)
+
     def test_scripture_json_covers_every_quoted_verse_and_language(self):
         self.assertEqual(set(SCRIPTURE["versions"]), set(TARGETS))
         keys = {bj.verse_key(p) for p in originals().values()}

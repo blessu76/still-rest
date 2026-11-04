@@ -25,7 +25,7 @@ Auf der Bank öffnete ich still().
 >
 > Jesaja 40:31 (Lutherbibel 1912)
 
-„Neue Kraft“. Diese Worte fielen mir eher ins Auge als das Laufen oder die Adler. Merkwürdig, dass dort nicht steht, die alte Kraft komme zurück, sondern neue. Ich fragte mich, ob dieser Körper, der heute auf halber Höhe des Hügels außer Atem war, sich gar nicht mit dem früheren messen muss. Eine Zeile zu lesen bringt meine Kondition nicht zurück. Aber meine Gedanken neigten sich dahin: Ich muss mich nicht schämen, dass ich mit dem Körper von jetzt bis hierher gekommen bin.
+„Neue Kraft“. Diese Worte fielen mir eher ins Auge als das Laufen oder die Adler. Merkwürdig, dass dort nicht steht, die alte Kraft komme zurück, sondern neue. Ich fragte mich, ob dieser Körper, der heute auf halber Höhe des Hügels außer Atem war, sich gar nicht mit dem früheren messen muss. Eine Zeile zu lesen bringt meine Kondition nicht zurück. Aber meine Gedanken neigten sich dahin: Ich muss mich nicht schämen, dass ich mit dem Körper, den ich jetzt habe bis hierher gekommen bin.
 
 Ich saß auf der Bank, bis sich mein Atem beruhigt hatte. Wer mich vorhin überholt hatte, kam von der anderen Seite herunter und nickte mir leicht zu, und ich nickte zurück. Ich beschloss, nicht bis ganz nach oben zu gehen. Ich beschloss, dass ich heute bis hierher gekommen war.
 

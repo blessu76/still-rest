@@ -195,6 +195,7 @@ def build(root, cache):
             "verses.<USFM ref, Korean/English numbering>.<lang>: ref = how the reference is written in that language (chapter:verse OF ITS SOURCE), "
             "text = the verse. A language with mode 'reference' has no text: its posts give the reference only.",
             "A translated post's quotation block must be exactly `> {text}` / `>` / `> {ref} ({version})` (build_journal.py checks it).",
+            "The only departures from the source are the typo corrections listed in SOURCE_FIXES in scripts/fetch_scripture.py.",
         ],
         "fetched_on": dt.date.today().isoformat(),
         "versions": versions,

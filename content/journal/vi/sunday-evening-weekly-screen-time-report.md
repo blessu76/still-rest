@@ -26,7 +26,7 @@ Tôi vuốt sang và mở still().
 >
 > Giăng 14:27 (Kinh Thánh 1925)
 
-"đừng sợ hãi". Mắt tôi dừng lại ở dòng cuối ấy. Điều dâng lên khi nhìn con số ấy không hẳn là tự trách mà giống nỗi sợ hơn: liệu cứ thế này có ổn không. Vì nỗi sợ đó mà tôi tự chấm điểm mình và chất thêm hết quyết tâm này đến quyết tâm khác. Đọc câu này không làm thời gian dùng giảm đi. Nhưng tôi thử nhớ lại sáu tiếng ấy. Đoạn video tôi lướt đờ đẫn trên đường về, quãng thời gian trả lời tấm ảnh bạn gửi, màn hình tôi bật lên lúc mười hai giờ đêm vì không ngủ được, tất cả đều trộn lẫn ở đó. Tôi thấy khó nói rằng tất cả đều là lãng phí. Đó cũng là một cách để vượt qua một ngày mệt mỏi.
+"đừng sợ hãi". Mắt tôi dừng lại ở phần cuối của câu ấy. Điều dâng lên khi nhìn con số ấy không hẳn là tự trách mà giống nỗi sợ hơn: liệu cứ thế này có ổn không. Vì nỗi sợ đó mà tôi tự chấm điểm mình và chất thêm hết quyết tâm này đến quyết tâm khác. Đọc câu này không làm thời gian dùng giảm đi. Nhưng tôi thử nhớ lại sáu tiếng ấy. Đoạn video tôi lướt đờ đẫn trên đường về, quãng thời gian trả lời tấm ảnh bạn gửi, màn hình tôi bật lên lúc mười hai giờ đêm vì không ngủ được, tất cả đều trộn lẫn ở đó. Tôi thấy khó nói rằng tất cả đều là lãng phí. Đó cũng là một cách để vượt qua một ngày mệt mỏi.
 
 Có tiếng báo cơm đã chín. Tôi chỉ đóng thông báo lại. Tôi không đặt thêm quyết tâm mới nào cả.
 

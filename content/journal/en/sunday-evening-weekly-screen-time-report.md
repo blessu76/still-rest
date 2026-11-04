@@ -25,10 +25,10 @@ I swiped away and opened still().
 >
 > John 14:27 (WEB)
 
-"Neither let it be fearful." My eyes stopped on that last line. What had risen in me at the sight of the number was less self-reproach than fear, a feeling of "is this really okay?" Out of that fear I had been scoring myself alone and piling up resolutions. Reading this verse doesn't make my screen time shrink. But I tried recalling those six hours. A video I had flicked through absently on the way home, the time spent answering a photo a friend sent, the screen I switched on at midnight when I couldn't sleep, all of it was mixed in there. It was hard to call it all a waste. It was also a way of getting through a tiring day.
+"Neither let it be fearful." I paused for a while on the last part of the verse. What had risen in me at the sight of the number was less self-reproach than fear, a feeling of "is this really okay?" Out of that fear I had been scoring myself alone and piling up resolutions. Reading this verse doesn't make my screen time shrink. But I tried recalling those six hours. A video I had flicked through absently on the way home, the time spent answering a photo a friend sent, the screen I switched on at midnight when I couldn't sleep, all of it was mixed in there. It was hard to call it all a waste. It was also a way of getting through a tiring day.
 
 The sound came that the rice was done. I simply closed the notification. I made no new resolution at all.
 
 I warmed the soup and sat at the table. I laid the phone face down, and left it that way while I took the first spoonful.
 
-**Today's Breath** — Lay your phone face down, and breathe out slowly once before the first bite of your meal.
+**Today's Breath** — Lay your phone face down and breathe out slowly once before the first bite of your meal.

@@ -30,4 +30,4 @@ O arroz ficou pronto e a panela apitou. Simplesmente fechei a notificação. Nã
 
 Esquentei a sopa e me sentei à mesa. Deixei o celular virado para baixo e assim o mantive enquanto tomava a primeira colherada.
 
-**O fôlego de hoje** — Deixar o celular virado para baixo e, antes da primeira garfada, soltar o ar devagar uma vez.
+**O fôlego de hoje** — Deixar o celular virado para baixo e, antes da primeira colherada, soltar o ar devagar uma vez.

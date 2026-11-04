@@ -1,5 +1,5 @@
 ---
-title: 周日早晨，穿着许久未穿的运动鞋，在坡中途停了下来
+title: 周日早晨，穿着许久未穿的运动鞋，走到半坡就停了下来
 date: 2026-11-08
 slug: sunday-morning-sneakers-halfway-up-the-hill
 lang: zh
