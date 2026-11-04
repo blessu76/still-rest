@@ -13,7 +13,7 @@ publish_at: 2026-11-08 09:14
 
 Am Sonntagmorgen holte ich die Turnschuhe aus der Ecke neben der Haustür. Zwischen den Schnürsenkeln hatte sich Staub gesammelt. Ich wusste nicht mehr, ob ich sie zuletzt im Sommer oder im frühen Herbst getragen hatte. Gestern vor dem Einschlafen hatte ich beschlossen, morgen ein Stück zu gehen, und kaum war ich aufgewacht, zog ich sie an, bevor der Gedanke sich ändern konnte.
 
-Die Luft draußen war ruhig. Die Gassen des Viertels und der Weg bis zur Hauptstraße gingen gut. Das Problem war der sanfte Hügel danach. Früher war ich ihn mit Ohrstöpseln und im Gespräch hinaufgegangen, aber auf halber Höhe spannten sich meine Waden und der Atem stieg mir bis zum Hals. Schließlich stand ich da, eine Hand an einem Laternenpfahl. Jemand, der viel älter war als ich, überholte mich leichtfüßig nach oben, und als ich ihm hinterhersah, setzte sich etwas in mir.
+Die Luft draußen war ruhig. Die Gassen des Viertels und der Weg bis zur Hauptstraße gingen gut. Das Problem war der sanfte Hügel danach. Früher war ich ihn mit Ohrstöpseln und im Gespräch hinaufgegangen, aber auf halber Höhe spannten sich meine Waden und der Atem stieg mir bis zum Hals. Schließlich stand ich da, eine Hand an einem Laternenpfahl. Jemand, der viel älter war als ich, überholte mich leichtfüßig nach oben, und als ich ihm hinterhersah, wurde mir das Herz etwas schwer.
 
 Es schmeckte bitter, als wäre ich nur hinausgegangen, um festzustellen, wie sehr sich mein Körper verändert hat. Ich dachte daran umzukehren, setzte mich aber auf eine Bank.
 

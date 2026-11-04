@@ -13,7 +13,7 @@ publish_at: 2026-11-08 09:14
 
 On Sunday morning I took my sneakers out of the corner by the front door. There was dust between the laces. I couldn't remember whether I had last worn them in summer or early autumn. Last night before falling asleep I had decided to go out and walk a bit tomorrow, and the moment I woke up I put the shoes on, before the thought could change.
 
-The air outside was calm. The lanes of the neighborhood and the walk to the main road were fine. The trouble was the gentle hill after that. I used to walk up it with earbuds in, talking, but halfway my calves tightened and my breath rose all the way to my throat. I ended up standing with one hand on a lamppost. Someone much older than me passed me lightly on the way up, and watching their back, something in me settled.
+The air outside was calm. The lanes of the neighborhood and the walk to the main road were fine. The trouble was the gentle hill after that. I used to walk up it with earbuds in, talking, but halfway my calves tightened and my breath rose all the way to my throat. I ended up standing with one hand on a lamppost. Someone much older than me passed me lightly on the way up, and watching their back, my heart grew a little heavy.
 
 It felt bitter, as if I had come out only to confirm how much my body had changed. I thought about turning back, but I sat down on a bench instead.
 

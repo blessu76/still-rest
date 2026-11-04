@@ -26,7 +26,7 @@ Tôi vuốt sang và mở still().
 >
 > Giăng 14:27 (Kinh Thánh 1925)
 
-"Không phải như thế gian cho". Nếu đo mình và chấm điểm mình bằng con số là cách cho của thế gian, thì câu này có vẻ nói rằng sự bình an nó nhắc tới đến từ một nơi khác. Đọc câu này không làm thời gian dùng giảm đi. Nhưng tôi thử nhớ lại sáu tiếng ấy. Đoạn video tôi lướt đờ đẫn trên đường về, quãng thời gian trả lời tấm ảnh bạn gửi, màn hình tôi bật lên lúc mười hai giờ đêm vì không ngủ được, tất cả đều trộn lẫn ở đó. Tôi thấy khó nói rằng tất cả đều là lãng phí. Đó cũng là một cách để vượt qua một ngày mệt mỏi.
+"chẳng phải như thế gian cho". Nếu đo mình và chấm điểm mình bằng con số là cách cho của thế gian, thì câu này có vẻ nói rằng sự bình an nó nhắc tới đến từ một nơi khác. Đọc câu này không làm thời gian dùng giảm đi. Nhưng tôi thử nhớ lại sáu tiếng ấy. Đoạn video tôi lướt đờ đẫn trên đường về, quãng thời gian trả lời tấm ảnh bạn gửi, màn hình tôi bật lên lúc mười hai giờ đêm vì không ngủ được, tất cả đều trộn lẫn ở đó. Tôi thấy khó nói rằng tất cả đều là lãng phí. Đó cũng là một cách để vượt qua một ngày mệt mỏi.
 
 Có tiếng báo cơm đã chín. Tôi chỉ đóng thông báo lại. Tôi không đặt thêm quyết tâm mới nào cả.
 

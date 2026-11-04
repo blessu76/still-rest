@@ -13,7 +13,7 @@ publish_at: 2026-11-08 09:14
 
 El domingo por la mañana saqué las zapatillas del rincón junto a la puerta. Había polvo entre los cordones. No recordaba si la última vez que me las puse fue en verano o a principios de otoño. Anoche, antes de dormirme, decidí que hoy saldría a caminar un rato, y apenas abrí los ojos me las puse, antes de que cambiara de idea.
 
-El aire de fuera estaba tranquilo. Las callejuelas del barrio y el trecho hasta la avenida fueron bien. El problema fue la cuesta suave que venía después. Antes la subía con los auriculares puestos, charlando, pero a la mitad las pantorrillas se me tensaron y el aire me subió hasta la garganta. Terminé parado con una mano apoyada en una farola. Alguien mucho mayor que yo me adelantó con ligereza cuesta arriba, y al mirarle la espalda algo en mí se asentó.
+El aire de fuera estaba tranquilo. Las callejuelas del barrio y el trecho hasta la avenida fueron bien. El problema fue la cuesta suave que venía después. Antes la subía con los auriculares puestos, charlando, pero a la mitad las pantorrillas se me tensaron y el aire me subió hasta la garganta. Terminé parado con una mano apoyada en una farola. Alguien mucho mayor que yo me adelantó con ligereza cuesta arriba, y al mirarle la espalda se me encogió un poco el ánimo.
 
 Me supo amargo, como si hubiera salido solo para comprobar cuánto había cambiado mi cuerpo. Pensé en volver, pero me senté en un banco.
 

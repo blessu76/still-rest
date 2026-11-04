@@ -14,7 +14,7 @@ draft: true
 
 Sáng Chủ nhật, tôi lấy đôi giày thể thao ra từ góc cửa ra vào. Giữa các sợi dây giày có bụi bám. Tôi không nhớ lần cuối mình mang chúng là mùa hè hay đầu thu. Tối qua trước khi ngủ tôi đã quyết định ngày mai sẽ ra ngoài đi bộ một chút, và vừa mở mắt, tôi xỏ giày ngay, trước khi ý nghĩ kịp đổi.
 
-Không khí bên ngoài thật yên ả. Những con hẻm trong khu phố và đoạn ra đường lớn đều ổn. Rắc rối là con dốc thoai thoải phía sau. Trước đây tôi vừa đeo tai nghe vừa nói chuyện mà đi lên, nhưng đến giữa dốc thì bắp chân căng cứng, hơi thở dâng lên tận cổ. Tôi đứng lại, một tay vịn cột đèn. Một người lớn tuổi hơn tôi nhiều nhẹ nhàng vượt qua tôi đi lên, và nhìn theo bóng lưng ấy, lòng tôi lắng xuống.
+Không khí bên ngoài thật yên ả. Những con hẻm trong khu phố và đoạn ra đường lớn đều ổn. Rắc rối là con dốc thoai thoải phía sau. Trước đây tôi vừa đeo tai nghe vừa nói chuyện mà đi lên, nhưng đến giữa dốc thì bắp chân căng cứng, hơi thở dâng lên tận cổ. Tôi đứng lại, một tay vịn cột đèn. Một người lớn tuổi hơn tôi nhiều nhẹ nhàng vượt qua tôi đi lên, và nhìn theo bóng lưng ấy, lòng tôi hơi chùng xuống.
 
 Tôi thấy hơi cay đắng, như thể mình ra đây chỉ để xác nhận cơ thể đã đổi thay nhường nào. Tôi định quay về, nhưng rồi ngồi xuống một chiếc ghế dài.
 
