@@ -1,12 +1,17 @@
 """Journal translations: every published original exists in every journal language (held ones excepted), and a translation quotes
 Scripture ONLY as copied from its language's public-domain source (content/journal/scripture.json, scripts/fetch_scripture.py)."""
+import io
 import json
 import re
 import shutil
 import subprocess
 import sys
+import tempfile
 import unittest
+import urllib.error
+import zipfile
 from pathlib import Path
+from unittest import mock
 
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "scripts"))
@@ -246,6 +251,43 @@ class BuildChecksTheQuote(Base):
         self.assertEqual(r.returncode, 0, r.stderr)
         self.assertEqual(run(self.tmp).returncode, 0)
         self.assertIn(bj.esc(SCRIPTURE["verses"]["PSA 46:10"]["en"]["text"]), self.page("journal/en/s/index.html"))
+
+
+class FetchRetry(unittest.TestCase):
+    """--verify used to die with a raw traceback (exit 1) on one transient ebible.org failure."""
+
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, self.tmp, True)
+        buf = io.BytesIO()
+        with zipfile.ZipFile(buf, "w") as z:
+            z.writestr("x.usfm", "x")
+        self.zip = buf.getvalue()
+        patch = mock.patch.object(fs.time, "sleep")
+        patch.start()
+        self.addCleanup(patch.stop)
+
+    def run_fetch(self, replies):
+        calls = iter(replies)
+
+        def fake(req, timeout):
+            r = next(calls)
+            if isinstance(r, Exception):
+                raise r
+            return io.BytesIO(r)
+
+        with mock.patch.object(fs.urllib.request, "urlopen", fake):
+            return fs.fetch("eng-web", self.tmp)
+
+    def test_transient_error_and_bad_body_are_retried(self):
+        path = self.run_fetch([urllib.error.URLError("reset"), b"<html>502</html>", self.zip])
+        self.assertEqual(path.read_bytes(), self.zip)
+
+    def test_gives_up_with_a_clear_message_not_a_traceback(self):
+        with self.assertRaises(SystemExit) as cm:
+            self.run_fetch([urllib.error.URLError("down")] * fs.FETCH_TRIES)
+        self.assertIn("cannot download", str(cm.exception))
+        self.assertFalse((self.tmp / "eng-web_usfm.zip").exists())
 
 
 if __name__ == "__main__":

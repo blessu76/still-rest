@@ -21,10 +21,12 @@ stdlib only (Python 3.8+).
 import argparse
 import datetime as dt
 import hashlib
+import io
 import json
 import re
 import sys
 import tempfile
+import time
 import urllib.request
 import zipfile
 from pathlib import Path
@@ -35,6 +37,8 @@ from build_journal import BOOKS_KO, USFM  # noqa: E402
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "content" / "journal" / "scripture.json"
 EBIBLE = "https://ebible.org/Scriptures/%s_usfm.zip"
+FETCH_TRIES = 3   # ebible.org is a free host: ride out a transient failure instead of dying with a traceback (exit 1)
+FETCH_WAIT = 5     # seconds, times the attempt number
 
 # lang -> source. version = the short name printed in the post (`> Psalm 46:10 (WEB)`) and its `bible_version`.
 SOURCES = {
@@ -148,8 +152,17 @@ def fetch(eid, cache):
     path = Path(cache) / ("%s_usfm.zip" % eid)
     if not path.is_file():
         req = urllib.request.Request(EBIBLE % eid, headers={"User-Agent": "still.ipe.rest journal build (scripts/fetch_scripture.py)"})
-        with urllib.request.urlopen(req, timeout=120) as r:
-            path.write_bytes(r.read())
+        for attempt in range(1, FETCH_TRIES + 1):
+            try:
+                with urllib.request.urlopen(req, timeout=120) as r:
+                    data = r.read()
+                zipfile.ZipFile(io.BytesIO(data)).close()  # a truncated or HTML error body is not a zip: retry instead of caching it
+                path.write_bytes(data)
+                break
+            except (OSError, zipfile.BadZipFile) as e:  # URLError, timeouts and resets are OSError
+                if attempt == FETCH_TRIES:
+                    raise SystemExit("fetch_scripture: cannot download %s after %d tries: %s" % (EBIBLE % eid, FETCH_TRIES, e))
+                time.sleep(FETCH_WAIT * attempt)
     return path
 
 
