@@ -486,12 +486,14 @@ def iso_when(p):
     return w.isoformat() if w else p["_date"].isoformat()
 
 
-def time_tag(p):
+def time_tag(p, localize=True):
     """<time> of a post. With a known time of day it is marked data-ipe-time and reads `<date>&nbsp;HH:MM KST`: scripts/ipe-localtime.js
     (inlined by site_common.with_localtime) then shows it in the reader's own time zone; without JS the static KST text stays.
-    Date only (time unknown) -> plain <time>, nothing to convert."""
-    if not post_when(p):
-        return '<time datetime="%s">%s</time>' % (iso_when(p), fmt_when(p))
+    Date only (time unknown) -> plain <time>, nothing to convert. localize=False -> plain <time> too: ipe-localtime formats with the
+    *page* language (a byte-identical shared script), so a card in another language (en card on the ar/hi/id home) would get that
+    page's month names; the static `<date> HH:MM KST` text in the card's own language is kept instead."""
+    if not post_when(p) or not localize:
+        return '<time datetime="%s">%s%s</time>' % (iso_when(p), fmt_when(p), " KST" if post_when(p) else "")
     return '<time datetime="%s" data-ipe-time>%s KST</time>' % (iso_when(p), fmt_when(p))
 
 
@@ -1206,7 +1208,7 @@ def render_home_cards(posts, lang=None):
         d = ' dir="%s"' % LANGS[p["lang"]]["dir"] if lang and LANGS[lang]["dir"] != LANGS[p["lang"]]["dir"] else ""  # a fallback card in the other direction (en card on the RTL ar page)
         return f"""      <a class="j-card" href="{post_path(p)}" lang="{esc(p['lang'])}"{d}>
         <div class="j-top">{top}</div>
-        <p class="j-date">{with_no(p, time_tag(p))}</p>
+        <p class="j-date">{with_no(p, time_tag(p, localize=not (lang and p["lang"] != lang)))}</p>
         <h3 class="j-title">{esc(p['title'])}</h3>
         <p class="j-desc">{esc(p['description'])}</p>
         <div class="j-foot"><span class="j-more"><span>{esc(ui(p['lang'])['read_more'])}</span> <span aria-hidden="true">→</span></span>{badge}</div>

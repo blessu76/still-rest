@@ -354,7 +354,8 @@ class Generated(Base):
             cards = CARD.findall(section(self.page(f)))
             self.assertEqual(len(cards), 2, f)
             self.assertIn('href="/journal/ko/sched/"', cards[0], f)  # newest first
-            self.assertIn('data-ipe-time>2026년 10월 26일&nbsp;09:08 KST</time>', cards[0], f)
+            # only the ko home converts to the reader's time zone; a fallback card in another language keeps its static KST text (see test_localtime)
+            self.assertIn('%s>2026년 10월 26일&nbsp;09:08 KST</time>' % (" data-ipe-time" if f == "ko/index.html" else ""), cards[0], f)
 
     def test_own_language_posts_win_over_the_originals(self):
         self.post("orig", "2026-10-20")

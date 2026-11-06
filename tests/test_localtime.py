@@ -57,7 +57,7 @@ class Pages(Base):
         self.assertNotRegex(h, r"<script[^>]+ipe-localtime", rel)  # inline, never an external src
 
     def test_timed_post_list_and_home_carry_the_script_once(self):
-        for rel in ("journal/ko/timed/index.html", "journal/ko/index.html", "journal/index.html", "ko/index.html", "index.html"):
+        for rel in ("journal/ko/timed/index.html", "journal/ko/index.html", "journal/index.html", "ko/index.html"):  # not the en/root home: its card is the ko fallback
             self.script_once_before_body_end(rel)
 
     def test_time_markup(self):
@@ -67,6 +67,18 @@ class Pages(Base):
             for m in times:
                 self.assertEqual(m.group(1), 'datetime="2026-10-24T09:09:00+09:00" data-ipe-time', rel)
                 self.assertEqual(m.group(2), "2026년 10월 24일&nbsp;09:09 KST", rel)
+
+    def test_a_fallback_card_in_another_language_is_not_localized(self):
+        # the script formats with the page language: an en/ko card on the ar/hi/id/vi home would get that page's month names, so it keeps its static text
+        for rel in ("en/index.html", "ar/index.html", "hi/index.html", "index.html"):
+            h = self.page(rel)
+            self.assertIn('lang="ko"', h, rel)
+            m = [m for m in TIME.finditer(h) if m.group(1).startswith('datetime="2026-10-24T09:09')]
+            self.assertTrue(m, rel)
+            for t in m:
+                self.assertEqual(t.group(1), 'datetime="2026-10-24T09:09:00+09:00"', rel)
+                self.assertEqual(t.group(2), "2026년 10월 24일&nbsp;09:09 KST", rel)
+            self.assertNotIn("ipe-localtime", h, rel)
 
     def test_date_only_post_has_a_plain_time_and_no_script(self):
         h = self.page("journal/ko/dated/index.html")
