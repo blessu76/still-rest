@@ -36,6 +36,20 @@ class BuildHome(unittest.TestCase):
     def page(self, lang=None):
         return (self.tmp / (lang + "/index.html" if lang else "index.html")).read_text(encoding="utf-8")
 
+    def test_the_home_verse_reference_is_written_in_the_page_language(self):
+        # Psalm 46:10 is the home card's verse; its reference follows the language like the verse text (and the journal's scripture.json: ru/fr
+        # number the Psalm by their source text, ru 45:11, fr 46:11)
+        want = {"en": "Psalm 46:10", "ko": "시편 46:10", "ja": "詩篇 46:10", "zh": "诗篇 46:10", "es": "Salmos 46:10", "pt": "Salmos 46:10",
+                "id": "Mazmur 46:10", "ru": "Псалом 45:11", "vi": "Thi Thiên 46:10", "fr": "Psaume 46:11", "de": "Psalm 46:10",
+                "ar": "مزمور 46:10", "hi": "भजन संहिता 46:10"}
+        self.assertEqual(set(want), set(LANGS))
+        for l in LANGS:
+            self.assertEqual(re.findall(r'<div class="verse-ref"[^>]*>([^<]*)</div>', self.page(l)), [want[l]], l)
+        self.assertEqual(re.findall(r'<div class="verse-ref"[^>]*>([^<]*)</div>', self.page()), ["Psalm 46:10"])  # root = x-default = English
+        scripture = json.loads((REPO / "content/journal/scripture.json").read_text(encoding="utf-8"))["verses"]["PSA 46:10"]
+        for l, e in scripture.items():
+            self.assertEqual(e["ref"], want[l], l)  # the home and the journal never write the same verse two ways
+
     def test_every_language_is_a_static_page(self):
         for l in LANGS:
             h = self.page(l)
