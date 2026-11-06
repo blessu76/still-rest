@@ -145,6 +145,17 @@ def usfm_verse(text, ch, v, lang):
     s = re.sub(r"[ \t\r\n]+", " ", s).strip()            # ASCII whitespace only (keeps the CUV's ideographic space before 神)
     if lang in NO_SPACE:
         s = s.replace(" ", "")
+    return drop_orphan_closing_quotes(s)
+
+
+CLOSING_QUOTES = {"”": "“", "」": "「", "』": "『"}
+
+
+def drop_orphan_closing_quotes(s):
+    """a verse that ends a quotation which began in an earlier verse (Ex 14:14, Josh 1:9) carries its closing mark in the source
+    (”  」) with no opening mark in the verse — a dangling quote when shown alone. Drop trailing closers that nothing opens."""
+    while s and s[-1] in CLOSING_QUOTES and s.count(s[-1]) > s.count(CLOSING_QUOTES[s[-1]]):
+        s = s[:-1].rstrip()
     return s
 
 

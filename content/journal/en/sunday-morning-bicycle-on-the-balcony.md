@@ -19,7 +19,7 @@ I hadn't decided to ride it. I only picked up a rag to wipe off the dust, and so
 
 I stood the bicycle by the front door and opened still().
 
-> Haven’t I commanded you? Be strong and courageous. Don’t be afraid. Don’t be dismayed, for the LORD your God is with you wherever you go.”
+> Haven’t I commanded you? Be strong and courageous. Don’t be afraid. Don’t be dismayed, for the LORD your God is with you wherever you go.
 >
 > Joshua 1:9 (WEB)
 

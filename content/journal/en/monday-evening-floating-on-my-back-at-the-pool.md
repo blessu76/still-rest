@@ -21,7 +21,7 @@ Lying back in the water was scarier than I expected. With my ears under, every s
 
 There were ten minutes left of free swim, so I sat on a bench with my hair still wet and opened still().
 
-> The LORD will fight for you, and you shall be still.”
+> The LORD will fight for you, and you shall be still.
 >
 > Exodus 14:14 (WEB)
 

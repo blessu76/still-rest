@@ -5,7 +5,7 @@
   "A translated post's quotation block must be exactly `> {text}` / `>` / `> {ref} ({version})` (build_journal.py checks it).",
   "The only departures from the source are the typo corrections listed in SOURCE_FIXES in scripts/fetch_scripture.py."
  ],
- "fetched_on": "2026-11-04",
+ "fetched_on": "2026-11-07",
  "versions": {
   "en": {
    "mode": "text",
@@ -82,12 +82,12 @@
    "en": {
     "ref": "Exodus 14:14",
     "src": "EXO 14:14",
-    "text": "The LORD will fight for you, and you shall be still.”"
+    "text": "The LORD will fight for you, and you shall be still."
    },
    "zh": {
     "ref": "出埃及记 14:14",
     "src": "EXO 14:14",
-    "text": "耶和华必为你们争战；你们只管静默，不要作声。」"
+    "text": "耶和华必为你们争战；你们只管静默，不要作声。"
    },
    "es": {
     "ref": "Éxodo 14:14",
@@ -128,12 +128,12 @@
    "en": {
     "ref": "Joshua 1:9",
     "src": "JOS 1:9",
-    "text": "Haven’t I commanded you? Be strong and courageous. Don’t be afraid. Don’t be dismayed, for the LORD your God is with you wherever you go.”"
+    "text": "Haven’t I commanded you? Be strong and courageous. Don’t be afraid. Don’t be dismayed, for the LORD your God is with you wherever you go."
    },
    "zh": {
     "ref": "约书亚记 1:9",
     "src": "JOS 1:9",
-    "text": "我岂没有吩咐你吗？你当刚强壮胆！不要惧怕，也不要惊惶；因为你无论往哪里去，耶和华—你的　神必与你同在。」"
+    "text": "我岂没有吩咐你吗？你当刚强壮胆！不要惧怕，也不要惊惶；因为你无论往哪里去，耶和华—你的　神必与你同在。"
    },
    "es": {
     "ref": "Josué 1:9",

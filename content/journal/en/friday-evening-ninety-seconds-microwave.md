@@ -21,7 +21,7 @@ Watching the rice go around in the orange light felt strange. With each turn of 
 
 Watching the plate turn, I opened still().
 
-> The LORD will fight for you, and you shall be still.”
+> The LORD will fight for you, and you shall be still.
 >
 > Exodus 14:14 (WEB)
 

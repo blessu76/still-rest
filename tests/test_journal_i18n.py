@@ -191,6 +191,25 @@ class FetchParser(unittest.TestCase):
         u = "\\c 4\n\\v 8 我必安然躺下睡觉，\n\\q1 因为独有你　神。\n\\v 9 x\n"
         self.assertEqual(fs.usfm_verse(u, 4, 8, "zh"), "我必安然躺下睡觉，因为独有你　神。")
 
+    def test_a_closing_quote_whose_opener_is_in_an_earlier_verse_is_dropped(self):
+        en = "\\c 14\n\\v 14 \\wj The LORD will fight for you, and you shall be still.”\\wj*\n\\v 15 x\n"
+        self.assertEqual(fs.usfm_verse(en, 14, 14, "en"), "The LORD will fight for you, and you shall be still.")
+        zh = "\\c 1\n\\v 9 我岂没有吩咐你吗？\n\\q1 耶和华—你的　神必与你同在。」\n\\v 10 x\n"
+        self.assertEqual(fs.usfm_verse(zh, 1, 9, "zh"), "我岂没有吩咐你吗？耶和华—你的　神必与你同在。")
+
+    def test_a_quote_that_opens_and_closes_inside_the_verse_is_kept(self):
+        self.assertEqual(fs.drop_orphan_closing_quotes("He said, “Be still.”"), "He said, “Be still.”")
+        self.assertEqual(fs.drop_orphan_closing_quotes("他说：「静默。」"), "他说：「静默。」")
+        self.assertEqual(fs.drop_orphan_closing_quotes("Don’t be afraid."), "Don’t be afraid.")  # an apostrophe is not a quote
+        self.assertEqual(fs.drop_orphan_closing_quotes("“Come to me, and I will give you rest."), "“Come to me, and I will give you rest.")
+
+    def test_scripture_json_has_no_dangling_closing_quote(self):
+        for key, langs in SCRIPTURE["verses"].items():
+            for lang, e in langs.items():
+                t = e.get("text", "")
+                for close, opener in fs.CLOSING_QUOTES.items():
+                    self.assertLessEqual(t.count(close), t.count(opener), (key, lang))
+
     def test_numbering_differences_need_a_hand_checked_entry(self):
         self.assertEqual(fs.source_key("ru", "PSA 46:10"), "PSA 45:11")
         self.assertEqual(fs.source_key("fr", "PSA 46:10"), "PSA 46:11")

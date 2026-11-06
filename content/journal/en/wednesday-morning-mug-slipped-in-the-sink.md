@@ -21,7 +21,7 @@ It was nothing, really. A mug I had used for years broke, and I wasn't hurt. But
 
 I leaned the broom against the wall and opened still().
 
-> Haven’t I commanded you? Be strong and courageous. Don’t be afraid. Don’t be dismayed, for the LORD your God is with you wherever you go.”
+> Haven’t I commanded you? Be strong and courageous. Don’t be afraid. Don’t be dismayed, for the LORD your God is with you wherever you go.
 >
 > Joshua 1:9 (WEB)
 
