@@ -29,6 +29,10 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # Job level on purpose: a step's `if` cannot see that step's own `env`, so the Slack steps' `env.SLACK_BOT_TOKEN != ''` was always false
+    # (both notifications were skipped on every run). No secret = still skipped; the value is never printed.
+    env:
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -86,7 +90,6 @@ jobs:
       - name: Notify Slack — success
         if: success() && env.SLACK_BOT_TOKEN != ''
         env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           HEAD_COMMIT_MSG: ${{ github.event.head_commit.message }}
           RUN_ID: ${{ github.run_id }}
           INDEXNOW: ${{ steps.indexnow.outcome }}
@@ -107,7 +110,6 @@ jobs:
       - name: Notify Slack — failure
         if: failure() && env.SLACK_BOT_TOKEN != ''
         env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           HEAD_COMMIT_MSG: ${{ github.event.head_commit.message }}
           RUN_ID: ${{ github.run_id }}
         run: |
