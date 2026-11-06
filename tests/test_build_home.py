@@ -349,7 +349,7 @@ class DeployWorkflow(unittest.TestCase):
 
     def test_excludes_are_anchored_to_the_root(self):
         ex = re.findall(r"--exclude='([^']+)'", self.rsync_cmd())
-        self.assertEqual(set(ex), {"/.git", "/.github", "/content", "/scripts", "/tests"})
+        self.assertEqual(set(ex), {"/.git", "/.github", "/content", "/scripts", "/tests", "/vendor"})
 
     @unittest.skipUnless(shutil.which("rsync"), "rsync not installed")
     def test_nested_dirs_with_the_same_name_survive(self):

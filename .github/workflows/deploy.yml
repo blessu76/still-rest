@@ -59,7 +59,7 @@ jobs:
         # content/ (home template + strings, journal .md sources), scripts/ and tests/ are build-time only — never public raw URLs.
         run: |
           mkdir -p "$RUNNER_TEMP/site"
-          rsync -a --exclude='/.git' --exclude='/.github' --exclude='/content' --exclude='/scripts' --exclude='/tests' ./ "$RUNNER_TEMP/site/"
+          rsync -a --exclude='/.git' --exclude='/.github' --exclude='/content' --exclude='/scripts' --exclude='/tests' --exclude='/vendor' ./ "$RUNNER_TEMP/site/"
 
       - name: Remember the sitemap that is live right now (IndexNow sends only what is new)
         # Taken BEFORE the deploy replaces it. A failed download is fine: IndexNow then sends all of today's URLs.
@@ -93,7 +93,8 @@ jobs:
         run: |
           COMMIT_MSG=$(printf '%s' "$HEAD_COMMIT_MSG" | head -1)
           [ -n "$COMMIT_MSG" ] || COMMIT_MSG="${{ github.event_name }} ${GITHUB_SHA::7}"  # cron / manual runs have no head commit
-          TEXT=$(printf '🕊️ *still.ipe.rest 배포 완료*\n_보고: Paul (Head of Reach) → #release-note_\n\n• 커밋: `%s`\n• URL: https://still.ipe.rest\n• IndexNow: %s' "$COMMIT_MSG" "$INDEXNOW")
+          WHEN="<!date^$(date +%s)^{date_short_pretty} {time}|$(TZ=Asia/Seoul date '+%F %H:%M') KST>"
+          TEXT=$(printf '🕊️ *still.ipe.rest 배포 완료*\n_보고: Paul (Head of Reach) → #release-note_\n\n• 커밋: `%s`\n• 시각: %s\n• URL: https://still.ipe.rest\n• IndexNow: %s' "$COMMIT_MSG" "$WHEN" "$INDEXNOW")
           PAYLOAD=$(jq -nc \
             --arg channel "C0BJ1EF5PC0" \
             --arg text "$TEXT" \
@@ -112,7 +113,8 @@ jobs:
         run: |
           COMMIT_MSG=$(printf '%s' "$HEAD_COMMIT_MSG" | head -1)
           [ -n "$COMMIT_MSG" ] || COMMIT_MSG="${{ github.event_name }} ${GITHUB_SHA::7}"  # cron / manual runs have no head commit
-          TEXT=$(printf '❌ *still.ipe.rest 배포 실패 — 즉시 확인 필요*\n_보고: Paul (Head of Reach) → #release-note_\n\n• 커밋: `%s`\n• Actions: https://github.com/blessu76/still-rest/actions/runs/%s' "$COMMIT_MSG" "$RUN_ID")
+          WHEN="<!date^$(date +%s)^{date_short_pretty} {time}|$(TZ=Asia/Seoul date '+%F %H:%M') KST>"
+          TEXT=$(printf '❌ *still.ipe.rest 배포 실패 — 즉시 확인 필요*\n_보고: Paul (Head of Reach) → #release-note_\n\n• 커밋: `%s`\n• 시각: %s\n• Actions: https://github.com/blessu76/still-rest/actions/runs/%s' "$COMMIT_MSG" "$WHEN" "$RUN_ID")
           PAYLOAD=$(jq -nc \
             --arg channel "C0BJ1EF5PC0" \
             --arg text "$TEXT" \
