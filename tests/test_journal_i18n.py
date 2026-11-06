@@ -210,6 +210,44 @@ class FetchParser(unittest.TestCase):
                 for close, opener in fs.CLOSING_QUOTES.items():
                     self.assertLessEqual(t.count(close), t.count(opener), (key, lang))
 
+    ROM = ("\\c 8\n\\v 37 x\n\\v 38 \\w For|strong=\"G1\"\\w* I am persuaded that neither death, nor life,\n\\q1 nor angels,\n"
+           "\\v 39 nor height, nor depth, \\f + \\fr 8:39 \\ft note\\f*will be able to separate us.\n\\v 40 y\n")
+
+    def test_a_verse_range_is_one_line_of_its_verses_in_order(self):
+        self.assertEqual(fs.usfm_verse(self.ROM, 8, 38, "en", 39),
+                         "For I am persuaded that neither death, nor life, nor angels, nor height, nor depth, will be able to separate us.")
+        self.assertEqual(fs.usfm_verse(self.ROM, 8, 38, "en"), "For I am persuaded that neither death, nor life, nor angels,")
+        zh = "\\c 8\n\\v 38 因为我深信，\n\\v 39 都不能隔绝。\n\\v 40 y\n"
+        self.assertEqual(fs.usfm_verse(zh, 8, 38, "zh", 39), "因为我深信，都不能隔绝。")  # no space between CJK verses
+
+    def test_a_range_runs_to_its_last_verse_and_never_past_it(self):
+        self.assertTrue(fs.usfm_verse(self.ROM, 8, 38, "en", 39).endswith("separate us."))  # verse 40 is left out
+        with self.assertRaises(ValueError):
+            fs.usfm_verse(self.ROM, 8, 39, "en", 41)  # verse 41 is not in the source: refuse, never guess
+
+    def test_the_chapter_verse_part_of_a_reference(self):
+        self.assertEqual(fs.split_cv("46:10"), (46, 10, None))
+        self.assertEqual(fs.split_cv("8:38-39"), (8, 38, 39))
+        with self.assertRaises(ValueError):
+            fs.split_cv("8:38-")
+        self.assertLess(fs.ref_order("ROM 8:28"), fs.ref_order("ROM 8:38-39"))
+        self.assertLess(fs.ref_order("ROM 8:38"), fs.ref_order("ROM 8:38-39"))
+        self.assertLess(fs.ref_order("PSA 46:10"), fs.ref_order("ROM 8:38-39"))
+
+    def test_a_korean_original_quoting_a_range_is_collected_as_a_range(self):
+        root = Path(tempfile.mkdtemp())
+        try:
+            (root / "content/journal/ko").mkdir(parents=True)
+            (root / "content/journal/ko/a.md").write_text("---\n---\n> 증거\n>\n> 로마서 8:38-39 (개역한글)\n", encoding="utf-8")
+            self.assertEqual(fs.ko_refs(root), {"ROM 8:38-39": "로마서 8:38-39"})
+        finally:
+            shutil.rmtree(root)
+
+    def test_the_post_builder_reads_a_range_as_the_key_of_scripture_json(self):
+        p = {"lang": "ko", "verse": "", "_bible": "개역한글(1961)", "_body": "본문\n\n> 증거\n>\n> 로마서 8:38-39 (개역한글)\n"}
+        self.assertEqual(bj.verse_ref(p), "로마서 8:38-39")
+        self.assertEqual(bj.verse_key(p), "ROM 8:38-39")
+
     def test_numbering_differences_need_a_hand_checked_entry(self):
         self.assertEqual(fs.source_key("ru", "PSA 46:10"), "PSA 45:11")
         self.assertEqual(fs.source_key("fr", "PSA 46:10"), "PSA 46:11")

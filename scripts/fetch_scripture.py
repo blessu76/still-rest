@@ -97,7 +97,16 @@ def ko_books():
     return dict(zip(BOOKS_KO, USFM))
 
 
-REF_RE = re.compile(r"^> (?P<book>.+?) (?P<ch>\d+):(?P<v>\d+) \((?P<ver>[^()]+)\)\s*$")
+REF_RE = re.compile(r"^> (?P<book>.+?) (?P<ch>\d+):(?P<v>\d+(?:[-\u2013]\d+)?) \((?P<ver>[^()]+)\)\s*$")  # `시편 46:10` or a range `로마서 8:38-39`
+CV_RE = re.compile(r"^(\d+):(\d+)(?:-(\d+))?$")
+
+
+def split_cv(cv):
+    """"8:38-39" -> (8, 38, 39); a single verse "46:10" -> (46, 10, None)."""
+    m = CV_RE.match(cv)
+    if not m:
+        raise ValueError("not chapter:verse[-verse]: %r" % cv)
+    return int(m.group(1)), int(m.group(2)), int(m.group(3)) if m.group(3) else None
 
 
 def ko_refs(root):
@@ -107,13 +116,15 @@ def ko_refs(root):
         for line in f.read_text(encoding="utf-8").split("\n"):
             m = REF_RE.match(line.strip())
             if m and m.group("book") in books:
-                out["%s %s:%s" % (books[m.group("book")], m.group("ch"), m.group("v"))] = "%s %s:%s" % (m.group("book"), m.group("ch"), m.group("v"))
+                v = m.group("v").replace("\u2013", "-")
+                out["%s %s:%s" % (books[m.group("book")], m.group("ch"), v)] = "%s %s:%s" % (m.group("book"), m.group("ch"), v)
     return out
 
 
 def ref_order(key):
     book, cv = key.split()
-    return (USFM.index(book),) + tuple(int(x) for x in cv.split(":"))
+    ch, v, v2 = split_cv(cv)
+    return USFM.index(book), ch, v, v2 or v
 
 
 def source_key(lang, key):
@@ -126,12 +137,19 @@ def source_key(lang, key):
     return VERSIFICATION.get(lang, {}).get(key, key)
 
 
-def usfm_verse(text, ch, v, lang):
-    """the plain text of verse ch:v of a USFM book: footnotes, cross references, headings and word markup removed."""
+def usfm_verse(text, ch, v, lang, v2=None):
+    """the plain text of verse ch:v (or the run ch:v..v2) of a USFM book: footnotes, cross references, headings and word markup removed.
+    A run is its verses joined by one space (none in NO_SPACE scripts), so a range quotes as a single line."""
     m = re.search(r"\\c %d\s(.*?)(?=\\c \d+\s|\Z)" % ch, text, re.S)
     if not m:
         raise ValueError("chapter %d not found" % ch)
-    m = re.search(r"\\v %d\s(.*?)(?=\\v \d+[\s-]|\Z)" % v, m.group(1), re.S)
+    chapter = m.group(1)
+    parts = [usfm_one_verse(chapter, ch, n, lang) for n in range(v, (v2 or v) + 1)]
+    return drop_orphan_closing_quotes(("" if lang in NO_SPACE else " ").join(parts))
+
+
+def usfm_one_verse(chapter, ch, v, lang):
+    m = re.search(r"\\v %d\s(.*?)(?=\\v \d+[\s-]|\Z)" % v, chapter, re.S)
     if not m:
         raise ValueError("verse %d:%d not found" % (ch, v))
     s = m.group(1)
@@ -145,7 +163,7 @@ def usfm_verse(text, ch, v, lang):
     s = re.sub(r"[ \t\r\n]+", " ", s).strip()            # ASCII whitespace only (keeps the CUV's ideographic space before 神)
     if lang in NO_SPACE:
         s = s.replace(" ", "")
-    return drop_orphan_closing_quotes(s)
+    return s
 
 
 CLOSING_QUOTES = {"”": "“", "」": "「", "』": "『"}
@@ -203,9 +221,9 @@ def build(root, cache):
                 member = [n for n in arc.namelist() if re.search(r"-%s%s\.usfm$" % (re.escape(sbook), re.escape(src["ebible"])), n)]
                 if len(member) != 1:
                     raise SystemExit("fetch_scripture: %s: book file %s not found in %s" % (lang, sbook, z.name))
-                ch, v = (int(x) for x in scv.split(":"))
+                ch, v, v2 = split_cv(scv)
                 ent["src"] = skey
-                ent["text"] = usfm_verse(arc.read(member[0]).decode("utf-8-sig"), ch, v, lang)
+                ent["text"] = usfm_verse(arc.read(member[0]).decode("utf-8-sig"), ch, v, lang, v2)
                 fix = SOURCE_FIXES.get((lang, skey))
                 if fix:
                     if fix[0] not in ent["text"]:
