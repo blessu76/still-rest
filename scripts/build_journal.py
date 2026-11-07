@@ -576,6 +576,7 @@ def og_image_alt(lang):
 
 def head(title, desc, canonical, lang, noindex, extra="", hint="edit content/journal/*.md and rebuild", image=None, alternates="", locales=(), image_alt=None):
     image_alt = image_alt if image else og_image_alt(lang)  # the default card has a description in the page's language
+    image_size = "" if image else '<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">\n'  # og-image.png is 1200x630; a hero image's size is unknown
     image = image or SITE + "/og-image.png"
     desc = meta_desc(desc)  # meta / og / twitter descriptions stay within 160 characters (the visible text, JSON-LD and RSS keep the full text)
     robots = "noindex, follow" if noindex else "index, follow, max-image-preview:large"
@@ -600,7 +601,7 @@ def head(title, desc, canonical, lang, noindex, extra="", hint="edit content/jou
 <meta property="og:url" content="{esc(canonical)}">
 <meta property="og:locale" content="{LANGS[lang]["og"]}">
 {alts}<meta property="og:image" content="{esc(image)}">
-{'<meta property="og:image:alt" content="%s">' % esc(image_alt) + chr(10) if image_alt else ''}<meta name="twitter:card" content="summary_large_image">
+{image_size}{'<meta property="og:image:alt" content="%s">' % esc(image_alt) + chr(10) if image_alt else ''}<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{esc(title)}">
 <meta name="twitter:description" content="{esc(desc)}">
 <meta name="twitter:image" content="{esc(image)}">

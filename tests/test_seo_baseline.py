@@ -88,6 +88,17 @@ class Checks:
             self.assertRegex(p, r'<meta property="og:type" content="(website|article)">', rel)
             self.assertEqual(len(re.findall(r"<h1[ >]", p)), 1, rel)
 
+    def test_the_shared_og_image_carries_its_size(self):
+        """og-image.png is 1200x630: every page that points og:image at it says so (a hero image's size is unknown, so it is left out)"""
+        shared = '<meta property="og:image" content="%s/og-image.png">' % SITE
+        n = 0
+        for rel, p in self.pages.items():
+            if shared in p:
+                n += 1
+                self.assertIn('<meta property="og:image:width" content="1200">', p, rel)
+                self.assertIn('<meta property="og:image:height" content="630">', p, rel)
+        self.assertGreater(n, 0)
+
     def test_no_title_or_description_repeats_between_pages(self):
         titles, descs = defaultdict(list), defaultdict(list)
         for rel, p in self.pages.items():
