@@ -5,7 +5,7 @@
   "A translated post's quotation block must be exactly `> {text}` / `>` / `> {ref} ({version})` (build_journal.py checks it).",
   "The only departures from the source are the typo corrections listed in SOURCE_FIXES in scripts/fetch_scripture.py."
  ],
- "fetched_on": "2026-11-07",
+ "fetched_on": "2026-11-11",
  "versions": {
   "en": {
    "mode": "text",
@@ -13,7 +13,7 @@
    "name": "World English Bible",
    "copyright": "https://ebible.org/engwebp/copyright.htm",
    "source": "https://ebible.org/Scriptures/engwebp_usfm.zip",
-   "sha256": "a93df5571009fed56f77e3ac1d3ce71c9a3a3df1486f7570cc7a8f823192fdba"
+   "sha256": "a155940bdba087cdbccb0f6737c036de9884bc5a3b8da2e82c2970d8ed26c1ba"
   },
   "zh": {
    "mode": "text",
@@ -21,7 +21,7 @@
    "name": "和合本（新标点，简体）",
    "copyright": "https://ebible.org/cmn-cu89s/copyright.htm",
    "source": "https://ebible.org/Scriptures/cmn-cu89s_usfm.zip",
-   "sha256": "496f17f4daa62ab125968e9e55118bd3a9c5086a6835a2846da4dc529d470ba0"
+   "sha256": "28a26d8503e9622d96260557eb77e4751de57f542098e4c2df0b20e5a96fd92f"
   },
   "es": {
    "mode": "text",
