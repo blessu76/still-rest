@@ -40,6 +40,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install the private ipe_web_kit (pinned by vendor/ipe_web_kit.lock)
+        uses: ./.github/actions/ipe-web-kit
+        with:
+          ssh-key: ${{ secrets.IPE_WEB_KIT_DEPLOY_KEY }}
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
