@@ -11,7 +11,7 @@ Writes   /<lang>/faq/index.html     FAQPage JSON-LD (the same questions and answ
 
 It is called by scripts/build_journal.py (one command builds journal + home + info) and borrows its head/header/footer, so the
 pages look like the journal pages. The privacy policy stays ONE page (/privacy/, en + ko toggle): legal text is not machine
-translated into 13 languages; the FAQ answers it in every language and links to it.
+translated into 12 languages; the FAQ answers it in every language and links to it.
 
     python3 scripts/build_journal.py         # builds these pages too (they need its journal list state for the footer links)
 """
@@ -21,7 +21,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from site_common import LANGS, ORG, SITE, esc, ipe_rest_url, lang_url, replace_between, stamped_date, sync_static_ga  # noqa: E402
+from site_common import LANGS, MOVED, hreflang_links, sitemap_links, redirect_stub, ORG, SITE, esc, ipe_rest_url, lang_url, replace_between, stamped_date, sync_static_ga  # noqa: E402
 
 PAGES = ("faq", "about")
 SOURCE = Path("content") / "info" / "pages.json"
@@ -51,8 +51,7 @@ def plain(text):
 
 
 def alternates(page):
-    rows = ['<link rel="alternate" hreflang="%s" href="%s">' % (l, page_url(l, page)) for l in LANGS]
-    rows.append('<link rel="alternate" hreflang="x-default" href="%s">' % page_url("en", page))
+    rows = [hreflang_links({l: page_url(l, page) for l in LANGS}, page_url("en", page))]
     return "\n".join(rows) + "\n"
 
 
@@ -108,8 +107,7 @@ def render(bj, lang, page, T, home, has_posts):
 def sitemap_block(date):
     rows = []
     for page in PAGES:
-        links = "".join('    <xhtml:link rel="alternate" hreflang="%s" href="%s"/>\n' % (l, page_url(l, page)) for l in LANGS)
-        links += '    <xhtml:link rel="alternate" hreflang="x-default" href="%s"/>\n' % page_url("en", page)
+        links = sitemap_links({l: page_url(l, page) for l in LANGS}, page_url("en", page))
         for l in LANGS:
             rows.append("  <url>\n    <loc>%s</loc>\n    <lastmod>%s</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.7</priority>\n%s  </url>"
                         % (page_url(l, page), date, links))
@@ -117,7 +115,7 @@ def sitemap_block(date):
 
 
 def llms_block(pages):
-    lines = ["## Questions and answers about still() (FAQ) and how it differs from other apps called Still — 13 languages"]
+    lines = ["## Questions and answers about still() (FAQ) and how it differs from other apps called Still — 12 languages"]
     for page, key in (("faq", "faq_title"), ("about", "about_title")):
         lines += ["- [%s](%s) — %s" % (pages[l][key], page_url(l, page), LANGS[l]["name"]) for l in LANGS]
     return "\n".join(lines) + "\n"
@@ -142,5 +140,11 @@ def build(root, bj, has_posts=False):
     llms = root / "llms.txt"
     llms.write_text(replace_between(llms.read_text(encoding="utf-8"), r"<!-- info:llms:start[^>]*-->", "<!-- info:llms:end -->",
                                     llms_block(pages), "llms.txt"), encoding="utf-8")
+    for old, new in MOVED.items():  # moved language folder (pt -> pt-BR): old FAQ/about addresses stay as static redirect stubs
+        for page in PAGES:
+            path = root / old / page / "index.html"
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(redirect_stub(page_url(new, page)), encoding="utf-8")
+            written.append(path)
     sync_static_ga(root)  # the hand-written pages (privacy, terms, 404) get the same GA4 block from the same constant
     return written

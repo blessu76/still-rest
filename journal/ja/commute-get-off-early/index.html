@@ -11,15 +11,13 @@
 <meta name="theme-color" content="#F7F2E9">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230F1218'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='18' fill='%23C9A84C' text-anchor='middle'%3E()%3C/text%3E%3Ccircle cx='16' cy='15.5' r='1.6' fill='%23F5F0E8'/%3E%3C/svg%3E">
 <link rel="canonical" href="https://still.ipe.rest/journal/ja/commute-get-off-early/">
-<link rel="alternate" hreflang="de" href="https://still.ipe.rest/journal/de/commute-get-off-early/">
 <link rel="alternate" hreflang="en" href="https://still.ipe.rest/journal/en/commute-get-off-early/">
-<link rel="alternate" hreflang="es" href="https://still.ipe.rest/journal/es/commute-get-off-early/">
-<link rel="alternate" hreflang="fr" href="https://still.ipe.rest/journal/fr/commute-get-off-early/">
-<link rel="alternate" hreflang="ja" href="https://still.ipe.rest/journal/ja/commute-get-off-early/">
 <link rel="alternate" hreflang="ko" href="https://still.ipe.rest/journal/ko/commute-get-off-early/">
-<link rel="alternate" hreflang="pt" href="https://still.ipe.rest/journal/pt/commute-get-off-early/">
-<link rel="alternate" hreflang="ru" href="https://still.ipe.rest/journal/ru/commute-get-off-early/">
-<link rel="alternate" hreflang="zh" href="https://still.ipe.rest/journal/zh/commute-get-off-early/">
+<link rel="alternate" hreflang="ja" href="https://still.ipe.rest/journal/ja/commute-get-off-early/">
+<link rel="alternate" hreflang="es" href="https://still.ipe.rest/journal/es/commute-get-off-early/">
+<link rel="alternate" hreflang="pt-BR" href="https://still.ipe.rest/journal/pt-BR/commute-get-off-early/">
+<link rel="alternate" hreflang="fr" href="https://still.ipe.rest/journal/fr/commute-get-off-early/">
+<link rel="alternate" hreflang="de" href="https://still.ipe.rest/journal/de/commute-get-off-early/">
 <link rel="alternate" hreflang="x-default" href="https://still.ipe.rest/journal/en/commute-get-off-early/">
 <link rel="alternate" type="application/rss+xml" title="still() Journal" href="https://still.ipe.rest/journal/feed.xml">
 <meta property="og:site_name" content="still()">
@@ -27,8 +25,6 @@
 <meta property="og:description" content="出勤途中の地下鉄で突然胸が締めつけられ、指先が冷たくなった日の一人称の物語で、その後に病院へ行ってみようと決めた経緯と、イザヤ書 41:10を読んだ夜をつづっています。">
 <meta property="og:url" content="https://still.ipe.rest/journal/ja/commute-get-off-early/">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:locale:alternate" content="zh_CN">
-<meta property="og:locale:alternate" content="ru_RU">
 <meta property="og:locale:alternate" content="pt_BR">
 <meta property="og:locale:alternate" content="ko_KR">
 <meta property="og:locale:alternate" content="fr_FR">
@@ -172,10 +168,8 @@
       <option value="/journal/en/commute-get-off-early/">English</option>
       <option value="/journal/ko/commute-get-off-early/">한국어</option>
       <option value="/journal/ja/commute-get-off-early/" selected>日本語</option>
-      <option value="/journal/zh/commute-get-off-early/">中文</option>
       <option value="/journal/es/commute-get-off-early/">Español</option>
-      <option value="/journal/pt/commute-get-off-early/">Português</option>
-      <option value="/journal/ru/commute-get-off-early/">Русский</option>
+      <option value="/journal/pt-BR/commute-get-off-early/">Português (Brasil)</option>
       <option value="/journal/fr/commute-get-off-early/">Français</option>
       <option value="/journal/de/commute-get-off-early/">Deutsch</option>
     </select>
@@ -253,10 +247,8 @@
       <a href="/journal/en/commute-get-off-early/" hreflang="en" lang="en">English</a>
       <a href="/journal/ko/commute-get-off-early/" hreflang="ko" lang="ko">한국어</a>
       <a href="/journal/ja/commute-get-off-early/" hreflang="ja" lang="ja" aria-current="true">日本語</a>
-      <a href="/journal/zh/commute-get-off-early/" hreflang="zh" lang="zh">中文</a>
       <a href="/journal/es/commute-get-off-early/" hreflang="es" lang="es">Español</a>
-      <a href="/journal/pt/commute-get-off-early/" hreflang="pt" lang="pt">Português</a>
-      <a href="/journal/ru/commute-get-off-early/" hreflang="ru" lang="ru">Русский</a>
+      <a href="/journal/pt-BR/commute-get-off-early/" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a>
       <a href="/journal/fr/commute-get-off-early/" hreflang="fr" lang="fr">Français</a>
       <a href="/journal/de/commute-get-off-early/" hreflang="de" lang="de">Deutsch</a>
     </nav>
@@ -267,7 +259,7 @@
 (function () {
   var sel = document.getElementById('lang');
   if (sel) sel.addEventListener('change', function () {
-    var m = String(this.value).match(/^\/(?:journal\/)?([a-z]{2})\//);
+    var m = String(this.value).match(/^\/(?:journal\/)?([A-Za-z]{2}(?:-[A-Za-z]{4}|-[A-Za-z]{2})?)\//);
     try { if (m) localStorage.setItem('still_lang', m[1]); } catch (e) {}
     location.href = this.value;
   });

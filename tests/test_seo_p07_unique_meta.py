@@ -8,7 +8,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
-from seo_crawl import REPO, Page, committed_site, full_site  # noqa: E402
+from seo_crawl import REPO, Page, committed_site, full_site, live  # noqa: E402
 from site_common import LANGS, SITE  # noqa: E402
 
 
@@ -28,7 +28,7 @@ class Checks:
     def each(self):
         for name, (root, pages) in self.sites:
             self.assertGreater(len(pages), 30, name)
-            for url, p in pages.items():
+            for url, p in live(pages).items():  # frozen ended-language pages / pt redirect stubs are outside the index (see seo_crawl.live)
                 yield name, pages, url, p
 
     def test_title_and_description_exist(self):
@@ -40,7 +40,7 @@ class Checks:
         for key in ("title", "description"):
             for name, (root, pages) in self.sites:
                 seen = defaultdict(list)
-                for url, p in pages.items():
+                for url, p in live(pages).items():
                     if p.indexable:
                         seen[(p.lang, (p.title if key == "title" else p.description).strip())].append(url)
                 self.assertEqual({k[0] + ": " + k[1][:50]: v for k, v in seen.items() if len(v) > 1}, {}, (name, key))
@@ -48,6 +48,14 @@ class Checks:
     def test_exactly_one_h1(self):
         for name, pages, url, p in self.each():
             self.assertEqual(p.h1, 1, (name, url))
+
+    def test_the_pt_stubs_and_the_frozen_pages_are_what_live_leaves_out(self):
+        for name, (root, pages) in self.sites:
+            left_out = set(pages) - set(live(pages))
+            self.assertIn(SITE + "/pt/", left_out, name)
+            self.assertIn(SITE + "/zh/", left_out, name)
+            self.assertFalse({u for u in left_out if u.split("/")[3] not in ("pt", "zh", "ru", "ar", "hi", "journal")}, name)
+            self.assertTrue(all(expected_lang(u) in ("en", "zh", "ru", "ar", "hi", "pt") or "/journal/" in u for u in left_out))
 
     def test_the_404_page_has_one_h1_and_its_own_title(self):
         p = Page(SITE + "/404.html", (REPO / "404.html").read_text(encoding="utf-8"))
@@ -75,7 +83,7 @@ class Checks:
                 self.assertTrue(p.title.startswith(post["headline"]), (name, url))
                 self.assertEqual(p.h1_text.strip(), post["headline"], (name, url))
         if self.sites[0][0] == "full":
-            self.assertGreater(n, 100)
+            self.assertGreaterEqual(n, 98)  # 14 posts x 7 live journal languages (zh ru frozen, pt = stubs)
 
 
 class CommittedPages(Checks, unittest.TestCase):

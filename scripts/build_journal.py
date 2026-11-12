@@ -2,18 +2,18 @@
 """Build the still.ipe.rest Journal — no dependencies (Python 3.8+ stdlib only).
 
 Reads   content/journal/<lang>/<slug>.md   (front matter + Markdown; one folder per language, ko and en included)
-        content/journal/safety.json        the fixed safety block of every article (disclaimer, crisis lines, ...) — 13 languages
-        content/journal/ui.json            list/hub/UI strings — 13 languages
+        content/journal/safety.json        the fixed safety block of every article (disclaimer, crisis lines, ...) — 12 languages
+        content/journal/ui.json            list/hub/UI strings — 12 languages
 Writes  journal/index.html                 x-default hub (language links + the originals)
         journal/<lang>/index.html          one list page per language that has posts
         journal/page/<n>/index.html        page 2, 3, ... of the hub and of every language list (journal/<lang>/page/<n>/): 10 posts a page,
                                            newest first; page 1 keeps the plain address (there is no .../page/1/)
-        journal/<lang>/<slug>/index.html   one page per post and language  (13 languages: en ko ja zh es pt id ru vi fr de ar hi)
+        journal/<lang>/<slug>/index.html   one page per post and language  (12 languages: en ko ja zh-Hant es pt-BR fr de id th vi tr; zh ru ar hi are ended and frozen; /pt/ = redirect stubs to /pt-BR/)
         <old alias path>/index.html        static redirect stubs (front matter `aliases`) — not in the sitemap
         journal/feed.xml                   RSS 2.0 (originals = posts without translation_of)
         sitemap.xml                        between <!-- journal:start --> / <!-- journal:end -->
         llms.txt                           "Journal" section between <!-- journal:llms:start --> / <!-- journal:llms:end -->
-        index.html + <lang>/index.html     home page, 13 static language pages (scripts/build_home.py)
+        index.html + <lang>/index.html     home page, 12 static language pages (scripts/build_home.py)
 
 All language versions of a post share ONE slug (that is what groups them for hreflang / translationOfWork).
 
@@ -90,7 +90,7 @@ import urllib.parse
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from site_common import GA_SNIPPET, GEN_MARK, KST, LANGS, ORG, SITE, auto_lang_script, check_fresh, esc, font_links, lang_url, meta_desc, parse_when, replace_between, with_localtime  # noqa: E402
+from site_common import GA_SNIPPET, GEN_MARK, KST, LANGS, MOVED, ENDED_DIRS, ORG, SITE, hreflang_links, redirect_stub, auto_lang_script, check_fresh, esc, font_links, lang_url, meta_desc, parse_when, replace_between, with_localtime  # noqa: E402
 
 ASSET_V = "20261120a"  # ?v= of assets/journal.css — bump when the file changes
 CF_TOKEN = "eab6249a56894cb084b7bcc8f1a860a6"  # Cloudflare Web Analytics (cookieless), same as the home page
@@ -444,8 +444,10 @@ def markdown(src):
 MONTHS = {
     "en": "January February March April May June July August September October November December",
     "es": "enero febrero marzo abril mayo junio julio agosto septiembre octubre noviembre diciembre",
-    "pt": "janeiro fevereiro março abril maio junho julho agosto setembro outubro novembro dezembro",
+    "pt-BR": "janeiro fevereiro março abril maio junho julho agosto setembro outubro novembro dezembro",
     "id": "Januari Februari Maret April Mei Juni Juli Agustus September Oktober November Desember",
+    "th": "มกราคม กุมภาพันธ์ มีนาคม เมษายน พฤษภาคม มิถุนายน กรกฎาคม สิงหาคม กันยายน ตุลาคม พฤศจิกายน ธันวาคม",
+    "tr": "Ocak Şubat Mart Nisan Mayıs Haziran Temmuz Ağustos Eylül Ekim Kasım Aralık",
     "ru": "января февраля марта апреля мая июня июля августа сентября октября ноября декабря",  # genitive, as after a day number
     "fr": "janvier février mars avril mai juin juillet août septembre octobre novembre décembre",
     "de": "Januar Februar März April Mai Juni Juli August September Oktober November Dezember",
@@ -453,8 +455,8 @@ MONTHS = {
     "hi": "जनवरी फ़रवरी मार्च अप्रैल मई जून जुलाई अगस्त सितंबर अक्टूबर नवंबर दिसंबर",
 }
 DATE_FORMATS = {
-    "en": "{month} {d}, {y}", "ko": "{y}년 {m}월 {d}일", "ja": "{y}年{m}月{d}日", "zh": "{y}年{m}月{d}日",
-    "es": "{d} de {month} de {y}", "pt": "{d} de {month} de {y}", "id": "{d} {month} {y}", "ru": "{d} {month} {y} г.",
+    "en": "{month} {d}, {y}", "ko": "{y}년 {m}월 {d}일", "ja": "{y}年{m}月{d}日", "zh-Hant": "{y}年{m}月{d}日", "th": "{d} {month} {y}", "tr": "{d} {month} {y}",
+    "es": "{d} de {month} de {y}", "pt-BR": "{d} de {month} de {y}", "id": "{d} {month} {y}", "ru": "{d} {month} {y} г.",
     "vi": "{d} tháng {m}, {y}", "fr": "{d} {month} {y}", "de": "{d}. {month} {y}",
     "ar": "{d} {month} {y}", "hi": "{d} {month} {y}",
 }
@@ -498,7 +500,7 @@ def time_tag(p, localize=True):
 
 
 def lang_path(lang):
-    """site path of a language's journal list: /journal/<lang>/ (all 13 languages; /journal/ itself is the x-default hub)."""
+    """site path of a language's journal list: /journal/<lang>/ (all 12 languages; /journal/ itself is the x-default hub)."""
     return "/journal/%s/" % lang
 
 
@@ -679,7 +681,7 @@ def footer(lang, targets=None, current=None, journal=True):
 (function () {{
   var sel = document.getElementById('lang');
   if (sel) sel.addEventListener('change', function () {{
-    var m = String(this.value).match(/^\\/(?:journal\\/)?([a-z]{{2}})\\//);
+    var m = String(this.value).match(/^\\/(?:journal\\/)?([A-Za-z]{{2}}(?:-[A-Za-z]{{4}}|-[A-Za-z]{{2}})?)\\//);
     try {{ if (m) localStorage.setItem('still_lang', m[1]); }} catch (e) {{}}
     location.href = this.value;
   }});
@@ -806,7 +808,7 @@ def check_translations(posts, all_posts, drafts_ok):
     seen = {}
     for p in posts:
         for al in p["_aliases"]:
-            if al in pages or re.match(r"^/journal/(?:[a-z]{2}/)?page/", al):
+            if al in pages or re.match(r"^/journal/(?:[A-Za-z]{2}(?:-[A-Za-z]{2,4})?/)?page/", al):
                 errs.append("%s: alias %s is a real page" % (p["_src"], al))
             elif al in seen:
                 errs.append("%s: alias %s already used by %s" % (p["_src"], al, seen[al]))
@@ -827,7 +829,7 @@ def image_obj(rel, caption=None):
 
 def word_count(text, lang):
     """words; ja/zh have no spaces between words -> count characters (excluding whitespace/punctuation) instead."""
-    if lang in ("ja", "zh"):
+    if lang in ("ja", "zh-Hant"):
         return len(re.findall(r"\w", text))
     return len(text.split())
 
@@ -870,9 +872,7 @@ def pair_urls(p, grp):
 def alternates(p, grp):
     """hreflang <link>s: every language of the group (incl. self) + x-default. Same set on every member -> always mutual."""
     pair, default = pair_urls(p, grp)
-    rows = ['<link rel="alternate" hreflang="%s" href="%s">' % (esc(l), esc(u)) for l, u in sorted(pair.items())]
-    rows.append('<link rel="alternate" hreflang="x-default" href="%s">' % esc(default))
-    return "\n".join(rows) + "\n"
+    return hreflang_links(pair, default) + "\n"  # kit seo.alternate_links, languages in the site's order
 
 
 def post_neighbours(p, same_lang):
@@ -1049,9 +1049,8 @@ def render_list(posts, lang=None, list_langs=("en",), page=1, counts=None):
         body = '    <ol class="j-list">\n%s\n    </ol>' % items + ("\n" + render_pager(lang, page, total) if total > 1 else "")
     else:
         body = f'    <div class="empty-note"><strong>{esc(t["empty"])}</strong></div>'
-    alts = "".join('<link rel="alternate" hreflang="%s" href="%s">\n' % (l, u) for l, u in sorted(pages.items()))
     xdef = SITE + list_path(None, page if page <= counts.get(None, 1) else 1)  # x-default = the hub's same page (its first page when it has no such page)
-    alts += '<link rel="alternate" hreflang="x-default" href="%s">\n' % xdef
+    alts = hreflang_links(pages, xdef) + "\n"
     if page > 1:
         alts += '<link rel="prev" href="%s">\n' % (SITE + list_path(lang, page - 1))
     if page < total:
@@ -1217,25 +1216,7 @@ def render_home_cards(posts, lang=None):
     return '    <div class="journal-grid j-n%d">\n%s\n    </div>' % (len(posts), "\n".join(card(p) for p in posts))
 
 
-def render_redirect(new_url):
-    """static redirect stub for a moved URL: canonical + meta refresh + visible link (no JS, no ?lang=)."""
-    u = esc(new_url)
-    return f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<!-- {GEN_MARK} — redirect stub for a moved page -->
-<title>Moved — still()</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="canonical" href="{u}">
-<meta http-equiv="refresh" content="0; url={u}">
-<meta name="robots" content="noindex, follow">
-</head>
-<body>
-<p><a href="{u}">{u}</a></p>
-</body>
-</html>
-"""
+render_redirect = redirect_stub  # moved to site_common (build_home / build_info write the /pt/ stubs too)
 
 
 def sweep_generated(root, written):
@@ -1244,6 +1225,8 @@ def sweep_generated(root, written):
     if not base.is_dir():
         return
     for idx in sorted(base.rglob("index.html")):
+        if idx.relative_to(base).parts[0] in ENDED_DIRS:
+            continue  # ended language (zh ru ar hi): frozen, never rewritten or deleted
         if idx not in written and GEN_MARK in idx.read_text(encoding="utf-8"):
             idx.unlink()
     for d in sorted((x for x in base.rglob("*") if x.is_dir()), key=lambda x: len(x.parts), reverse=True):
@@ -1285,7 +1268,7 @@ def render_feed(posts):
 def render_sitemap_block(posts, grp, list_langs):
     if not posts:
         return ""
-    xl = lambda pairs, default: "".join('    <xhtml:link rel="alternate" hreflang="%s" href="%s"/>\n' % (l, u) for l, u in sorted(pairs.items())) \
+    xl = lambda pairs, default: "".join('    <xhtml:link rel="alternate" hreflang="%s" href="%s"/>\n' % (l, u) for l, u in sorted(pairs.items(), key=lambda kv: list(LANGS).index(kv[0]) if kv[0] in LANGS else 99)) \
         + '    <xhtml:link rel="alternate" hreflang="x-default" href="%s"/>\n' % default
     scopes = list_scopes(posts, list_langs)
     counts = page_counts(scopes)
@@ -1322,7 +1305,7 @@ def render_llms_block(posts):
 
 
 # ---------------------------------------------------------------- publishing lint (SEO guide v1, pipeline A + B)
-CJK_LANGS = ("ko", "ja", "zh")  # measured in characters, not words
+CJK_LANGS = ("ko", "ja", "zh-Hant")  # measured in characters, not words
 PLACEHOLDER_RE = re.compile(r"\bTODO\b|\bTBD\b|YYYY-MM-DD|(?i:lorem ipsum)")  # TODO/TBD only in capitals: "todo" is a Portuguese/Spanish word
 # body length of an original (Davy 2026-10-29): AIM_* is the target (a shorter original only warns), MIN_* is the floor that is an ERROR for a
 # new post (front matter date >= LENGTH_ERROR_FROM). CJK is counted in characters (guide v1: 400 words = 800 chars, 300 words = 600 chars).
@@ -1412,7 +1395,7 @@ def read_posts(root, drafts, now=None):
     A scheduled post (`publish_at`) counts as published only when `now` (aware datetime) is given and has reached it."""
     src = root / "content" / "journal"
     posts, errors, all_posts = [], [], {}
-    files = sorted(src.glob("*/*.md")) if src.is_dir() else []
+    files = [f for f in (sorted(src.glob("*/*.md")) if src.is_dir() else []) if f.parent.name not in ENDED_DIRS]  # ended languages stay frozen: not read, not rebuilt
     for f in (sorted(src.glob("*.md")) if src.is_dir() else []):
         if f.name.lower() != "readme.md":
             errors.append("%s: move to content/journal/<lang>/%s (one folder per language, ko and en included)" % (f.name, f.name))
@@ -1532,6 +1515,10 @@ def build(root, drafts=False, strict_safety=False, check_only=False, now=None, l
     for key, scope in scopes.items():  # hub + every language list: page 1 at the plain address, pages 2+ at <list>page/<n>/
         for n in range(1, counts[key] + 1):
             write(root / list_path(key, n).strip("/") / "index.html", render_list(scope, key, list_langs, n, counts))
+    for old, new in MOVED.items():  # moved language folder (pt -> pt-BR): every page gets a static redirect stub at its old address
+        pre = (out / new)
+        for path in [w for w in written if pre in w.parents]:
+            write(out / old / path.relative_to(pre), render_redirect(SITE + "/journal/" + new + "/" + path.relative_to(pre).parent.as_posix() + "/" if path.parent != pre else SITE + "/journal/" + new + "/"))
     write(out / "feed.xml", render_feed(originals))
     sweep_generated(root, written)
 
@@ -1544,10 +1531,10 @@ def build(root, drafts=False, strict_safety=False, check_only=False, now=None, l
     llms = root / "llms.txt"
     llms.write_text(replace_between(llms.read_text(encoding="utf-8"), r"<!-- journal:llms:start[^>]*-->",
                                     "<!-- journal:llms:end -->", render_llms_block(posts), "llms.txt"), encoding="utf-8")
-    import build_home  # home page: 13 static language pages + their sitemap/llms blocks
+    import build_home  # home page: 12 static language pages + their sitemap/llms blocks
     build_home.build(root, {l: render_home_cards(card_posts(l, posts), l) for l in LANGS}, {l: jhome(l) for l in LANGS},
                      max([p.get("updated") or p["_date"].isoformat() for p in posts], default=None))
-    import build_info  # FAQ + "how still() is different" pages, 13 languages (uses this module's header/footer/head)
+    import build_info  # FAQ + "how still() is different" pages, 12 languages (uses this module's header/footer/head)
     build_info.build(root, sys.modules[__name__], bool(posts))
     return 0, "journal: built %d post(s)%s → %s" % (len(posts), " (incl. drafts)" if drafts else "", out) + warning_text(warnings)
 

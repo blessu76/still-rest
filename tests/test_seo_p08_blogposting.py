@@ -11,10 +11,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import build_journal as bj  # noqa: E402
-from seo_crawl import CLOCK, committed_site, full_site  # noqa: E402
+from seo_crawl import CLOCK, committed_site, full_site, live, stubs  # noqa: E402
 from site_common import KST, ORG, ORG_ID, SITE  # noqa: E402
 
-POST_URL = re.compile(r"^https://still\.ipe\.rest/journal/([a-z]{2})/([a-z0-9-]+)/$")
+POST_URL = re.compile(r"^https://still\.ipe\.rest/journal/([A-Za-z-]+)/([a-z0-9-]+)/$")
 EXPECTED_ORG = {"@type": "Organization", "@id": "https://ipe.rest/#organization", "name": "ipe()", "url": "https://ipe.rest/",
                 "logo": {"@type": "ImageObject", "url": "https://ipe.rest/icon-512.png", "width": 512, "height": 512}}
 NOW = bj.parse_when(CLOCK)
@@ -33,7 +33,7 @@ class Checks:
     def posts(self):
         n = 0
         for name, (root, pages) in self.sites:
-            for url, p in pages.items():
+            for url, p in live(pages).items():  # frozen zh/ru posts and the /journal/pt/ stubs are not part of the live index
                 if POST_URL.match(url) and not url.startswith(SITE + "/journal/page/"):
                     n += 1
                     yield name, pages, url, p, p.blog_posting()
@@ -124,12 +124,22 @@ class Checks:
                 self.assertIn(tr["url"], pages, (name, url))
                 self.assertEqual(pages[tr["url"]].blog_posting()["translationOfWork"]["url"], url, (name, url))
 
+    def test_portuguese_posts_live_under_pt_br_and_the_old_pt_urls_carry_no_article_markup(self):
+        for name, (root, pages) in self.sites:
+            pt_br = [(u, p) for u, p in pages.items() if u.startswith(SITE + "/journal/pt-BR/") and POST_URL.match(u)]
+            self.assertTrue(pt_br, name)
+            for u, p in pt_br:
+                self.assertEqual(p.blog_posting()["inLanguage"], "pt-BR", (name, u))
+                self.assertEqual(p.lang, "pt-BR", (name, u))
+            for u, p in stubs(pages).items():
+                self.assertEqual(p.docs(), [], (name, u))  # a redirect stub is not an article
+
     def test_a_group_has_one_original_that_every_translation_points_at(self):
         for name, (root, pages) in self.sites:
             groups = {}
-            for url, p in pages.items():
+            for url, p in live(pages).items():
                 m = POST_URL.match(url)
-                if m and m.group(2) != "page":
+                if m and m.group(1) != "page" and m.group(2) != "page":
                     groups.setdefault(m.group(2), []).append(p.blog_posting())
             for slug, posts in groups.items():
                 originals = [x for x in posts if "translationOfWork" not in x]
@@ -152,7 +162,7 @@ class FullSitePages(Checks, unittest.TestCase):
 
     def test_every_published_post_of_every_live_language_is_covered(self):
         n = sum(1 for _ in self.posts())
-        self.assertGreaterEqual(n, 126)
+        self.assertGreaterEqual(n, 98)  # 14 posts x 7 live journal languages (en ko ja es pt-BR fr de)
 
 
 class ImageObjectHelper(unittest.TestCase):

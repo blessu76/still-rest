@@ -14,7 +14,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "scripts"))
-from site_common import LANGS, ORG_ID, SITE, font_links, meta_desc  # noqa: E402
+from site_common import ENDED_DIRS, LANGS, MOVED, ORG_ID, SITE, font_links, meta_desc  # noqa: E402
 from test_build_journal import Base, run  # noqa: E402
 from test_journal_paging import series  # noqa: E402
 
@@ -109,9 +109,11 @@ class Checks:
         self.assertEqual({k: v for k, v in descs.items() if len(v) > 1}, {})
 
     def test_lists_are_websites(self):
-        lists = [r for r in self.pages if re.fullmatch(r"journal/(([a-z]{2}/)?(page/\d+/)?)index\.html", r)]
+        lists = [r for r in self.pages if re.fullmatch(r"journal/(([A-Za-z-]+/)?(page/\d+/)?)index\.html", r)]
         self.assertTrue(lists)
         for rel in lists:
+            if rel.split("/")[1] in MOVED:  # /journal/pt/ is a redirect stub (noindex, no og tags): checked in test_moved_pt_lists_are_redirect_stubs
+                continue
             self.assertIn('<meta property="og:type" content="website">', self.pages[rel], rel)
 
 
@@ -153,12 +155,26 @@ class Committed(Checks, unittest.TestCase):
         self.assertNotIn("<link rel=\"canonical\"", p)
         self.assertIn('href="/"', p)
         self.assertIn('href="/journal/"', p)
-        for l in LANGS:  # a line (home link) per language
-            self.assertIn('<li lang="%s"%s>' % (l, ' dir="rtl"' if l == "ar" else ""), p)  # ar's row is right-to-left
+        self.assertEqual(len(LANGS), 12)
+        for l in LANGS:  # a line (home link) per active language (no language of the site is right-to-left any more)
+            self.assertIn('<li lang="%s">' % l, p)
             self.assertIn('href="/%s/"' % l, p)
+        for l in (*ENDED_DIRS, *MOVED):  # ended languages and the moved /pt/ are not offered
+            self.assertNotIn('<li lang="%s"' % l, p)
+            self.assertNotIn('href="/%s/"' % l, p)
+            self.assertNotIn('href="/journal/%s/"' % l, p)
         self.assertEqual(len(re.findall(r"<h1[ >]", p)), 1)
         self.assertEqual(blocking_font_links(p), [])
         self.assertNotIn("/404.html", (REPO / "sitemap.xml").read_text(encoding="utf-8"))  # a 404 is never submitted
+
+    def test_moved_pt_lists_are_redirect_stubs(self):
+        for rel, target in (("journal/pt/index.html", SITE + "/journal/pt-BR/"), ("pt/index.html", SITE + "/pt-BR/")):
+            p = self.pages[rel]
+            self.assertFalse(indexable(p), rel)
+            self.assertIn('<link rel="canonical" href="%s">' % target, p, rel)
+            self.assertIn('<meta http-equiv="refresh" content="0; url=%s">' % target, p, rel)
+        self.assertTrue(indexable(self.pages["journal/pt-BR/index.html"]))
+        self.assertIn('<meta property="og:type" content="website">', self.pages["journal/pt-BR/index.html"])
 
     def test_font_helper_is_the_markup_the_pages_use(self):
         links = font_links()

@@ -1,4 +1,4 @@
-"""Tests for scripts/build_info.py (FAQ + about pages, 13 languages) — run: python3 -m unittest discover -s tests"""
+"""Tests for scripts/build_info.py (FAQ + about pages, 12 languages) — run: python3 -m unittest discover -s tests"""
 import html
 import json
 import re
@@ -7,7 +7,8 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-LANGS = "en ko ja zh es pt id ru vi fr de ar hi".split()
+LANGS = "en ko ja zh-Hant es pt-BR fr de id th vi tr".split()  # the kit's 12 (scripts/site_common.LANGS)
+ENDED = "zh ru ar hi".split()  # ended: frozen folders stay but are in no list / hreflang / sitemap
 PAGES = ("faq", "about")
 NS = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9", "x": "http://www.w3.org/1999/xhtml"}
 
@@ -18,7 +19,9 @@ def page(lang, name):
 
 def hub(lang):
     """common language rule: a link to another ipe site carries the page's language - the path when the site has one, else root ?lang=xx."""
-    return "https://ipe.rest/%s/" % lang if lang != "vi" else "https://ipe.rest/?lang=vi"  # ipe.rest has no /vi/ page
+    if lang == "pt-BR":
+        return "https://ipe.rest/pt/"  # the hub's folder for Brazilian Portuguese is /pt/
+    return "https://ipe.rest/%s/" % lang if lang in ("en", "ko", "ja", "es", "id", "fr", "de") else "https://ipe.rest/?lang=%s" % lang  # no hub page for zh-Hant th vi tr
 
 
 def ld(h, kind):
@@ -38,10 +41,10 @@ class InfoPages(unittest.TestCase):
         for l in LANGS:
             for p in PAGES:
                 h = page(l, p)
-                self.assertIn('<html lang="%s" dir="%s">' % (l, "rtl" if l == "ar" else "ltr"), h, (l, p))
+                self.assertIn('<html lang="%s" dir="%s">' % (l, "ltr"), h, (l, p))  # no RTL language is left (ar ended)
                 self.assertIn('<link rel="canonical" href="https://still.ipe.rest/%s/%s/">' % (l, p), h, (l, p))
                 got = dict(re.findall(r'<link rel="alternate" hreflang="([\w-]+)" href="([^"]+)"', h))
-                self.assertEqual(set(got), set(LANGS) | {"x-default"}, (l, p))
+                self.assertEqual(set(got), set(LANGS) | {"x-default"}, (l, p))  # 12 + x-default, no ended language, no old /pt/
                 self.assertTrue(all(got[x] == "https://still.ipe.rest/%s/%s/" % (x, p) for x in LANGS), (l, p))
                 self.assertEqual(got["x-default"], "https://still.ipe.rest/en/%s/" % p)
                 self.assertNotRegex(h, r"\{(L|psalm|verse)\}", (l, p))  # every placeholder was filled
@@ -94,7 +97,7 @@ class InfoPages(unittest.TestCase):
                 visible = [u for u in hrefs if not u.startswith("https://still.ipe.rest")]
                 self.assertTrue(visible, (l, p))
                 for u in visible:
-                    self.assertIn(u, ("https://ipe.rest/%s/" % l, "https://ipe.rest/?lang=%s" % l), (l, p))  # never a bare https://ipe.rest
+                    self.assertEqual(u, hub(l), (l, p))  # never a bare https://ipe.rest
 
     def test_text_is_in_the_pages_language(self):
         faq_ko, faq_en = page("ko", "faq"), page("en", "faq")
@@ -102,7 +105,7 @@ class InfoPages(unittest.TestCase):
         self.assertNotIn("Frequently asked questions", faq_ko)
         self.assertIn("Frequently asked questions", faq_en)
         titles = {re.search(r"<title>(.*?)</title>", page(l, p)).group(1) for l in LANGS for p in PAGES}
-        self.assertEqual(len(titles), 26)
+        self.assertEqual(len(titles), 24)
 
     def test_footer_links_reach_the_pages_from_home_and_info(self):
         for l in LANGS:
@@ -120,28 +123,54 @@ class InfoPages(unittest.TestCase):
                 h = h[h.index("<body>"):]  # (the <head> may still advertise the feed)
                 self.assertEqual("/journal/" in h, has_posts, (l, p))
 
-    def test_sitemap_and_llms_list_all_26(self):
+    def test_sitemap_and_llms_list_all_24(self):
         root = ET.parse(REPO / "sitemap.xml").getroot()
         rows = {u.find("s:loc", NS).text: u for u in root.findall("s:url", NS)}
         for p in PAGES:
             for l in LANGS:
                 u = rows["https://still.ipe.rest/%s/%s/" % (l, p)]
-                self.assertEqual(len(u.findall("x:link", NS)), 14, (l, p))  # 13 languages + x-default
+                self.assertEqual(len(u.findall("x:link", NS)), 13, (l, p))  # 12 languages + x-default
                 self.assertIsNotNone(u.find("s:lastmod", NS))
         llms = (REPO / "llms.txt").read_text(encoding="utf-8")
         for p in PAGES:
             for l in LANGS:
                 self.assertIn("(https://still.ipe.rest/%s/%s/)" % (l, p), llms)
+        for e in ENDED + ["pt"]:  # ended languages and the moved pt are in neither list
+            for p in PAGES:
+                self.assertNotIn("https://still.ipe.rest/%s/%s/" % (e, p), llms)
+                self.assertNotIn("https://still.ipe.rest/%s/%s/" % (e, p), rows)
 
     def test_privacy_stays_one_canonical_page(self):
-        # decision: the privacy policy is legal text (en + ko toggle inside) — not machine translated into 13 languages
+        # decision: the privacy policy is legal text (en + ko toggle inside) — not machine translated into 12 languages
         for l in LANGS:
             self.assertFalse((REPO / l / "privacy").exists(), l)
         self.assertTrue((REPO / "privacy/index.html").is_file())
 
     def test_pages_json_covers_every_language(self):
         d = json.loads((REPO / "content/info/pages.json").read_text(encoding="utf-8"))
-        self.assertEqual([k for k in d if not k.startswith("_")], LANGS)
+        keys = [k for k in d if not k.startswith("_")]
+        self.assertTrue(set(LANGS) <= set(keys))
+        self.assertNotIn("pt", keys)  # the data key moved pt -> pt-BR
         for l in LANGS:
             self.assertEqual(len(d[l]["faq"]), 8, l)
             self.assertEqual(len(d[l]["about"]), 2, l)
+
+    def test_new_languages_have_pages_and_ended_languages_are_not_listed(self):
+        for l in ("th", "tr", "zh-Hant", "pt-BR"):
+            for p in PAGES:
+                self.assertIn('<html lang="%s" dir="ltr">' % l, page(l, p), (l, p))
+        for e in ENDED:  # frozen folders may exist, but no live page advertises them
+            for l in LANGS:
+                for p in PAGES:
+                    self.assertNotIn('hreflang="%s"' % e, page(l, p), (l, p, e))
+                    self.assertNotIn('href="/%s/"' % e, page(l, p), (l, p, e))
+
+    def test_old_pt_info_pages_are_redirect_stubs(self):
+        for p in PAGES:
+            h = page("pt", p)
+            self.assertIn("generated by scripts/build_journal.py", h, p)
+            self.assertIn('<link rel="canonical" href="https://still.ipe.rest/pt-BR/%s/">' % p, h, p)
+            self.assertIn('http-equiv="refresh" content="0; url=https://still.ipe.rest/pt-BR/%s/"' % p, h, p)
+            self.assertIn("noindex", h, p)
+            self.assertNotIn("hreflang", h, p)
+            self.assertNotIn("<h1>", h, p)

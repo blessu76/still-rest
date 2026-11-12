@@ -10,10 +10,11 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import check_sitemap  # noqa: E402
-from seo_crawl import committed_site, full_site  # noqa: E402
+from seo_crawl import ACTIVE_LANGS, FROZEN_DIRS, STUB_DIRS, committed_site, full_site, live  # noqa: E402
 
 # the journal languages that are live (decision 2026-10-29): changing this set is a deliberate act, not a side effect of a build
-LIVE_JOURNAL_LANGS = {"ko", "en", "ja", "zh", "es", "fr", "de", "pt", "ru"}
+# (zh ru: ended and frozen; pt: moved to pt-BR; vi: draft only; id: on hold; th tr zh-Hant: no journal posts yet)
+LIVE_JOURNAL_LANGS = {"ko", "en", "ja", "es", "fr", "de", "pt-BR"}
 PRIVATE_JOURNAL_LANGS = ("vi", "id")
 SITE = "https://still.ipe.rest"
 
@@ -24,9 +25,9 @@ class Checks:
     def each(self):
         for name, (root, pages) in self.sites:
             self.assertGreater(len(pages), 30, name)
-            for url, p in pages.items():
+            for url, p in live(pages).items():  # frozen ended-language pages and /pt/ redirect stubs are not index pages (see seo_crawl.live)
                 if p.hreflangs:
-                    yield name, pages, url, p
+                    yield name, live(pages), url, p  # targets are looked up among live pages too: a link to a stub or a frozen page is an error
 
     def test_each_page_lists_itself_once_with_one_x_default_and_no_duplicate_language(self):
         n = 0
@@ -84,8 +85,8 @@ class Checks:
 
     def test_x_default_of_a_post_is_english_else_the_original(self):
         for name, pages, url, p in self.each():
-            m = re.fullmatch(SITE + r"/journal/([a-z]{2})/([a-z0-9-]+)/", url)
-            if not m or m.group(2) == "page":
+            m = re.fullmatch(SITE + r"/journal/([A-Za-z-]+)/([a-z0-9-]+)/", url)
+            if not m or m.group(1) == "page" or m.group(2) == "page":
                 continue
             d = dict(p.hreflangs)
             expect = d.get("en") or d.get("ko")
@@ -97,8 +98,8 @@ class Checks:
                 self.assertFalse((root / "journal" / l).exists(), (name, l))
             sm = (root / "sitemap.xml").read_text(encoding="utf-8")
             self.assertEqual(re.findall(r"/journal/(?:vi|id)/", sm), [], name)
-            live = {d.name for d in (root / "journal").iterdir() if d.is_dir() and d.name != "page"}
-            self.assertLessEqual(live, LIVE_JOURNAL_LANGS, name)
+            dirs = {d.name for d in (root / "journal").iterdir() if d.is_dir() and d.name != "page"}
+            self.assertLessEqual(dirs - set(FROZEN_DIRS) - set(STUB_DIRS), LIVE_JOURNAL_LANGS, name)  # frozen zh/ru and the pt stubs are left on disk
 
     def test_html_hreflang_and_sitemap_carry_the_same_set(self):
         for name, (root, pages) in self.sites:
@@ -120,12 +121,46 @@ class FullSitePages(Checks, unittest.TestCase):
     def setUpClass(cls):
         cls.sites = (("full", full_site()),)
 
-    def test_the_full_site_has_exactly_the_nine_live_journal_languages(self):
+    def test_the_full_site_has_exactly_the_seven_live_journal_languages(self):
         root, pages = self.sites[0][1]
-        self.assertEqual({d.name for d in (root / "journal").iterdir() if d.is_dir() and d.name != "page"}, LIVE_JOURNAL_LANGS)
-        # a 9-way cluster per post: nine language alternates + x-default
+        self.assertEqual({d.name for d in (root / "journal").iterdir() if d.is_dir() and d.name != "page"} - set(FROZEN_DIRS) - set(STUB_DIRS), LIVE_JOURNAL_LANGS)
+        # a 7-way cluster per post: seven language alternates + x-default
         post = pages[SITE + "/journal/ko/thursday-evening-earbuds-ran-out/"]
         self.assertEqual(sorted(l for l, _ in post.hreflangs), sorted(LIVE_JOURNAL_LANGS | {"x-default"}))
+
+    def test_ended_languages_and_the_old_pt_are_in_no_live_cluster(self):
+        root, pages = self.sites[0][1]
+        for url, p in live(pages).items():
+            for lang, href in p.hreflangs:
+                self.assertNotIn(lang, ("zh", "ru", "ar", "hi", "pt"), (url, lang))
+                self.assertNotRegex(href, r"^https://still\.ipe\.rest/(journal/)?(zh|ru|ar|hi|pt)/", (url, href))
+
+
+class Home(unittest.TestCase):
+    """home / FAQ / about: the 12 active languages + x-default (en), complete and reciprocal; hub pages (/, /journal/) are not a language cluster."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.pages = live(committed_site()[1])
+
+    def test_every_home_faq_about_page_has_all_twelve_languages_and_x_default_en(self):
+        self.assertEqual(len(ACTIVE_LANGS), 12)
+        for sub in ("", "faq/", "about/"):
+            urls = {l: "%s/%s/%s" % (SITE, l, sub) for l in ACTIVE_LANGS}
+            expect = sorted(list(ACTIVE_LANGS) + ["x-default"])
+            for l, url in urls.items():
+                p = self.pages[url]
+                self.assertEqual(sorted(h for h, _ in p.hreflangs), expect, url)
+                d = dict(p.hreflangs)
+                self.assertEqual({k: d[k] for k in ACTIVE_LANGS}, urls, url)  # complete and the same set on every member = reciprocal
+                # x-default = the English version; the home's is the site root (the English entry page that serves /en/'s content)
+                self.assertEqual(d["x-default"], SITE + "/" if sub == "" else urls["en"], url)
+                self.assertEqual(p.lang, l, url)
+                self.assertEqual(p.canonicals, [url], url)
+
+    def test_the_new_languages_are_in_the_clusters(self):
+        for l in ("zh-Hant", "pt-BR", "th", "tr"):
+            self.assertIn(("%s" % l, "%s/%s/" % (SITE, l)), self.pages[SITE + "/en/"].hreflangs)
 
 
 if __name__ == "__main__":

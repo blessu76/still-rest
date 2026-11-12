@@ -25,7 +25,11 @@ from test_home_journal import CARD, PAGES, PINNED, PINNED_I18N, section  # noqa:
 J = REPO / "content/journal"
 SCRIPTURE = json.loads((J / "scripture.json").read_text(encoding="utf-8"))
 HELD = {k for k in json.loads((J / "hold.json").read_text(encoding="utf-8")) if not k.startswith("_")}
-TARGETS = [l for l in LANGS if l != "ko" and l not in HELD]
+# new languages (2026-11): home / FAQ / about / ui / safety data only, no journal posts yet -> not translated, no /journal/<lang>/
+NO_POSTS_YET = {"zh-Hant", "th", "tr"}
+# ended languages: their files are frozen (not built, not read); they are in no list
+ENDED = {"zh", "ru", "ar", "hi"}
+TARGETS = [l for l in LANGS if l != "ko" and l not in HELD and l not in NO_POSTS_YET]
 SAFETY = json.loads((J / "safety.json").read_text(encoding="utf-8"))["lines"]
 # a language whose crisis-line list is not verified may not publish: its translations stay `draft: true` (vi: no official adult line yet)
 SAFETY_DRAFT = {l for l in TARGETS if SAFETY[l]["status"] != "verified"}
@@ -37,7 +41,7 @@ PSALM_46_10_STARTS = {"en": "“Be still, and know that I am God.", "zh": "你�
                       "fr": "Arrêtez, et sachez que je suis Dieu", "de": "Seid stille und erkennet, daß ich GOTT bin"}
 VERSIONS = {"en": "WEB", "zh": "和合本", "es": "Reina-Valera 1909", "ru": "Синодальный перевод", "vi": "Kinh Thánh 1925", "fr": "Louis Segond 1910",
             "de": "Lutherbibel 1912"}
-REFERENCE_ONLY = {"ja", "pt"}  # no confirmed public-domain text yet (room note 20261022-221259): the reference only, no verse wording
+REFERENCE_ONLY = {"ja", "pt-BR"}  # no confirmed public-domain text yet (room note 20261022-221259): the reference only, no verse wording
 
 
 def originals():
@@ -55,7 +59,8 @@ class Coverage(unittest.TestCase):
         for l in TARGETS:
             for slug in orig:
                 self.assertTrue((J / l / (slug + ".md")).is_file(), "%s/%s.md missing — python3 scripts/journal_i18n.py status" % (l, slug))
-        self.assertEqual(set(PINNED_I18N), set(TARGETS))
+        self.assertTrue(set(TARGETS) <= set(PINNED_I18N))
+        self.assertEqual(set(TARGETS), {"en", "ja", "es", "pt-BR", "fr", "de", "vi"})
 
     def test_held_languages_stay_held(self):
         self.assertIn("id", HELD)  # decision 2026-10-23 (Matt·ops): no free Indonesian Bible covering the Old Testament yet
@@ -64,18 +69,35 @@ class Coverage(unittest.TestCase):
                 self.assertTrue(bj.parse_post(f)["draft"], f)
             self.assertFalse((REPO / "journal" / l).exists(), l)
 
-    def test_arabic_and_hindi_are_home_about_faq_only_like_indonesian(self):
-        # decision 2026-11-01: ar and hi have the static pages (home / FAQ / about) but no journal posts yet -> held, no /journal/ar|hi/, not in the hub's OK list
-        for l in ("ar", "hi"):
-            self.assertIn(l, HELD, l)
+    def test_new_languages_are_home_about_faq_only_until_they_get_posts(self):
+        # th / tr / zh-Hant: the static pages (home / FAQ / about) exist but no journal posts yet -> no md folder, no /journal/<lang>/, not in the sitemap
+        for l in NO_POSTS_YET:
+            self.assertIn(l, LANGS, l)
+            self.assertFalse((J / l).exists() and any((J / l).glob("*.md")), l)
             self.assertFalse((REPO / "journal" / l).exists(), l)
-            self.assertTrue((REPO / l / "index.html").is_file(), l)
+            for sub in ("", "faq/", "about/"):
+                self.assertTrue((REPO / l / sub / "index.html").is_file(), (l, sub))
             self.assertNotIn("/journal/%s/" % l, (REPO / "sitemap.xml").read_text(encoding="utf-8"), l)
             for page in (REPO / "journal").rglob("index.html"):
                 self.assertNotIn("/journal/%s/" % l, page.read_text(encoding="utf-8"), (str(page), l))
 
+    def test_ended_languages_are_in_no_list(self):
+        sitemap = (REPO / "sitemap.xml").read_text(encoding="utf-8")
+        for l in ENDED | {"pt"}:
+            self.assertNotIn(l, LANGS, l)
+            self.assertNotIn(l, HELD, l)  # the old ar / hi hold entries are gone: the languages ended
+            self.assertNotIn("still.ipe.rest/%s/" % l, sitemap, l)
+            self.assertNotIn("/journal/%s/" % l, sitemap, l)
+        self.assertFalse((J / "pt").exists())  # moved to pt-BR (content/journal/pt-BR)
+        self.assertTrue((J / "pt-BR").is_dir())
+        for f in (J / "pt-BR").glob("*.md"):
+            self.assertEqual(bj.parse_post(f)["lang"], "pt-BR", f.name)
+
     def test_vi_stays_private_until_its_crisis_lines_are_verified(self):
-        self.assertEqual(SAFETY_DRAFT, {"vi"})  # every other translated language was verified 2026-10-25
+        self.assertEqual(SAFETY_DRAFT, {"vi"})  # (zh-Hant / th / tr are draft too but have no posts at all yet)
+        for l in NO_POSTS_YET:
+            self.assertEqual(SAFETY[l]["status"], "draft", l)
+            self.assertEqual(SAFETY[l]["regions"], [], l)  # every other translated language was verified 2026-10-25
         for l in SAFETY_DRAFT:
             self.assertFalse((REPO / "journal" / l).exists(), l)  # no generated pages
             for f in (REPO / "sitemap.xml", REPO / "llms.txt", REPO / "journal/feed.xml"):
@@ -110,7 +132,9 @@ class Scripture(unittest.TestCase):
         self.assertNotIn("Aáy", text)
 
     def test_scripture_json_covers_every_quoted_verse_and_language(self):
-        self.assertEqual(set(SCRIPTURE["versions"]), set(TARGETS))
+        # the data file still carries the frozen zh / ru: only the site's translated languages are required
+        self.assertTrue(set(TARGETS) <= set(SCRIPTURE["versions"]))
+        self.assertTrue(set(SCRIPTURE["versions"]) - set(TARGETS) <= ENDED)
         keys = {bj.verse_key(p) for p in originals().values()}
         self.assertEqual(keys, set(SCRIPTURE["verses"]) & keys)
         for l, v in SCRIPTURE["versions"].items():
@@ -159,7 +183,7 @@ class Scripture(unittest.TestCase):
         seen = 0
         for lang, f in PAGES:
             for c in CARD.findall(section(f.read_text(encoding="utf-8"))):
-                m = re.search(r'href="/journal/([a-z]{2})/([^/"]+)/"', c)
+                m = re.search(r'href="/journal/([A-Za-z-]+)/([^/"]+)/"', c)
                 want = PINNED[m.group(2)] if m.group(1) == "ko" else PINNED_I18N[m.group(1)][m.group(2)]
                 self.assertEqual(re.findall(r'<span class="j-verse">([^<]+)</span>', c), [bj.esc(want)], (f, m.group(0)))
                 seen += 1
@@ -278,11 +302,11 @@ class BuildChecksTheQuote(Base):
     def test_the_fetched_verse_builds(self):
         v = SCRIPTURE["verses"]["PSA 46:10"]
         self.write("en", "> %s\n>\n> Psalm 46:10 (WEB)" % v["en"]["text"], "WEB")
-        self.write("ru", "> %s\n>\n> Псалом 45:11 (Синодальный перевод)" % v["ru"]["text"], "Синодальный перевод")
+        self.write("fr", "> %s\n>\n> Psaume 46:11 (Louis Segond 1910)" % v["fr"]["text"], "Louis Segond 1910")
         self.write("ja", "> 詩篇 46:10", "none", "verse: 詩篇 46:10\n")
         r = run(self.tmp)
         self.assertEqual(r.returncode, 0, r.stderr)
-        self.assertIn("Псалом 45:11", self.page("journal/ru/s/index.html"))
+        self.assertIn("Psaume 46:11", self.page("journal/fr/s/index.html"))
 
     def test_a_retyped_or_translated_verse_fails(self):
         self.write("en", "> Be still, and know that I am God.\n>\n> Psalm 46:10 (WEB)", "WEB")  # the KJV-ish half verse: not the fetched text
@@ -292,7 +316,7 @@ class BuildChecksTheQuote(Base):
 
     def test_the_korean_number_in_a_language_that_numbers_differently_fails(self):
         v = SCRIPTURE["verses"]["PSA 46:10"]
-        self.write("ru", "> %s\n>\n> Псалом 46:10 (Синодальный перевод)" % v["ru"]["text"], "Синодальный перевод")
+        self.write("fr", "> %s\n>\n> Psaume 46:10 (Louis Segond 1910)" % v["fr"]["text"], "Louis Segond 1910")
         self.assertEqual(run(self.tmp).returncode, 1)
 
     def test_reference_only_language_may_not_quote_text(self):

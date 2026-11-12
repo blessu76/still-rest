@@ -12,7 +12,7 @@ from site_common import LANGS  # noqa: E402
 import build_journal as bj  # noqa: E402
 from test_build_journal import POST, VERSES, Base, run, write_post  # noqa: E402  (VERSES: the app's verse file, see find_verses())
 
-PAGES = [("en", REPO / "index.html")] + [(l, REPO / l / "index.html") for l in LANGS]  # root (x-default, English) + 13 languages
+PAGES = [("en", REPO / "index.html")] + [(l, REPO / l / "index.html") for l in LANGS]  # root (x-default, English) + 12 languages (ended zh ru ar hi are frozen: not in this list)
 SECTION = re.compile(r'<section class="journal"[^>]*>.*?</section>', re.S)
 CARD = re.compile(r'<a class="j-card"[^>]*>.*?</a>', re.S)
 # slug -> the reference its verse chip must show. Written by hand from the articles' quotation blocks and checked against the app's verse file.
@@ -86,19 +86,6 @@ PINNED_I18N = {
            "tuesday-morning-bag-heavier-than-it-should-be": "マタイによる福音書 11:28", "tuesday-evening-new-leaf-on-the-windowsill": "哀歌 3:23", "wednesday-morning-red-light-that-would-not-change": "詩篇 46:10",
            "wednesday-evening-borrowed-stepladder": "詩篇 121:2",
            "thursday-morning-card-due-date-alert": "ペテロの第一の手紙 5:7", "thursday-evening-basin-of-warm-water": "詩篇 23:2", "friday-morning-one-sentence-rehearsed": "イザヤ書 26:3", "friday-evening-cancel-message-typed-three-times": "詩篇 34:18", "saturday-morning-three-envelopes-on-the-table": "ピリピ人への手紙 4:6", "saturday-evening-cooking-video-paused-again": "マタイによる福音書 11:29", "sunday-morning-sneakers-halfway-up-the-hill": "イザヤ書 40:31", "sunday-evening-weekly-screen-time-report": "ヨハネによる福音書 14:27", "monday-morning-spare-key-and-cat-care-note": "詩篇 55:22", "monday-evening-floating-on-my-back-at-the-pool": "出エジプト記 14:14", "tuesday-morning-waiting-number-ninety-four": "ピリピ人への手紙 4:13", "tuesday-evening-hand-cream-tube-cut-open": "哀歌 3:22", "wednesday-morning-mug-slipped-in-the-sink": "ヨシュア記 1:9", "wednesday-evening-loose-drawer-handle": "詩篇 147:3", "thursday-morning-dental-waiting-room-bag-strap": "イザヤ書 41:10", "thursday-evening-door-lock-checked-twice": "詩篇 4:8", "friday-morning-said-fine-before-thinking": "マタイによる福音書 11:28", "friday-evening-fresh-pillowcase-no-alarm": "哀歌 3:23", "saturday-morning-rice-cooker-resting-ten-minutes": "詩篇 46:10", "saturday-evening-looked-up-from-phone-sunset": "詩篇 121:2", "sunday-morning-towels-folded-while-waiting-for-results": "ペテロの第一の手紙 5:7", "sunday-evening-walked-the-whole-stream-path": "詩篇 23:2", "monday-morning-unread-messages-over-ninety-nine": "イザヤ書 26:3", "monday-evening-sat-five-minutes-in-the-parked-car": "詩篇 34:18", "tuesday-morning-wrote-a-script-before-the-phone-call": "ピリピ人への手紙 4:6", "tuesday-evening-wrote-down-what-i-had-done": "マタイによる福音書 11:29", "wednesday-morning-counting-days-left-until-friday": "イザヤ書 40:31", "wednesday-evening-reorg-news-rinsed-dishes-twice": "ヨハネによる福音書 14:27", "thursday-morning-asked-friend-to-help-carry-bookshelf": "詩篇 55:22", "thursday-evening-let-go-of-sibling-resume": "出エジプト記 14:14", "friday-morning-opened-one-moving-box": "ピリピ人への手紙 4:13", "friday-evening-replayed-the-wrong-email": "哀歌 3:22"},
-    "zh": {"commute-get-off-early": "以赛亚书 41:10", "evening-after-the-meeting": "马太福音 11:28", "first-day-at-the-clinic": "耶利米哀歌 3:23",
-           "three-am-counting-hours": "诗篇 4:8", "unanswered-message-three-days": "诗篇 46:10", "sunday-afternoon-caring-for-mother": "诗篇 121:2",
-           "monday-morning-list-of-the-week": "彼得前书 5:7", "monday-afternoon-ten-minutes-outside": "诗篇 23:2",
-           "tuesday-morning-one-tab-at-a-time": "以赛亚书 26:3", "tuesday-evening-dark-before-six": "诗篇 34:18",
-           "wednesday-morning-coat-pocket-note": "腓立比书 4:6", "wednesday-evening-winter-blanket": "马太福音 11:29",
-           "thursday-morning-second-alarm": "以赛亚书 40:31", "thursday-evening-earbuds-ran-out": "约翰福音 14:27",
-           "friday-morning-umbrella-in-the-bag": "诗篇 55:22", "friday-evening-ninety-seconds-microwave": "出埃及记 14:14",
-           "saturday-morning-laundry-after-sleeping-in": "腓立比书 4:13", "saturday-evening-grocery-bags-by-the-door": "耶利米哀歌 3:22",
-           "sunday-morning-bicycle-on-the-balcony": "约书亚记 1:9", "sunday-afternoon-words-from-last-week": "诗篇 147:3",
-           "monday-morning-elevator-numbers-counting-down": "以赛亚书 41:10", "monday-evening-shirt-hung-for-tomorrow": "诗篇 4:8",
-           "tuesday-morning-bag-heavier-than-it-should-be": "马太福音 11:28", "tuesday-evening-new-leaf-on-the-windowsill": "耶利米哀歌 3:23", "wednesday-morning-red-light-that-would-not-change": "诗篇 46:10",
-           "wednesday-evening-borrowed-stepladder": "诗篇 121:2",
-           "thursday-morning-card-due-date-alert": "彼得前书 5:7", "thursday-evening-basin-of-warm-water": "诗篇 23:2", "friday-morning-one-sentence-rehearsed": "以赛亚书 26:3", "friday-evening-cancel-message-typed-three-times": "诗篇 34:18", "saturday-morning-three-envelopes-on-the-table": "腓立比书 4:6", "saturday-evening-cooking-video-paused-again": "马太福音 11:29", "sunday-morning-sneakers-halfway-up-the-hill": "以赛亚书 40:31", "sunday-evening-weekly-screen-time-report": "约翰福音 14:27", "monday-morning-spare-key-and-cat-care-note": "诗篇 55:22", "monday-evening-floating-on-my-back-at-the-pool": "出埃及记 14:14", "tuesday-morning-waiting-number-ninety-four": "腓立比书 4:13", "tuesday-evening-hand-cream-tube-cut-open": "耶利米哀歌 3:22", "wednesday-morning-mug-slipped-in-the-sink": "约书亚记 1:9", "wednesday-evening-loose-drawer-handle": "诗篇 147:3", "thursday-morning-dental-waiting-room-bag-strap": "以赛亚书 41:10", "thursday-evening-door-lock-checked-twice": "诗篇 4:8", "friday-morning-said-fine-before-thinking": "马太福音 11:28", "friday-evening-fresh-pillowcase-no-alarm": "耶利米哀歌 3:23", "saturday-morning-rice-cooker-resting-ten-minutes": "诗篇 46:10", "saturday-evening-looked-up-from-phone-sunset": "诗篇 121:2", "sunday-morning-towels-folded-while-waiting-for-results": "彼得前书 5:7", "sunday-evening-walked-the-whole-stream-path": "诗篇 23:2", "monday-morning-unread-messages-over-ninety-nine": "以赛亚书 26:3", "monday-evening-sat-five-minutes-in-the-parked-car": "诗篇 34:18", "tuesday-morning-wrote-a-script-before-the-phone-call": "腓立比书 4:6", "tuesday-evening-wrote-down-what-i-had-done": "马太福音 11:29", "wednesday-morning-counting-days-left-until-friday": "以赛亚书 40:31", "wednesday-evening-reorg-news-rinsed-dishes-twice": "约翰福音 14:27", "thursday-morning-asked-friend-to-help-carry-bookshelf": "诗篇 55:22", "thursday-evening-let-go-of-sibling-resume": "出埃及记 14:14", "friday-morning-opened-one-moving-box": "腓立比书 4:13", "friday-evening-replayed-the-wrong-email": "耶利米哀歌 3:22"},
     "es": {"commute-get-off-early": "Isaías 41:10", "evening-after-the-meeting": "Mateo 11:28", "first-day-at-the-clinic": "Lamentaciones 3:23",
            "three-am-counting-hours": "Salmos 4:8", "unanswered-message-three-days": "Salmos 46:10", "sunday-afternoon-caring-for-mother": "Salmos 121:2",
            "monday-morning-list-of-the-week": "1 Pedro 5:7", "monday-afternoon-ten-minutes-outside": "Salmos 23:2",
@@ -112,7 +99,7 @@ PINNED_I18N = {
            "tuesday-morning-bag-heavier-than-it-should-be": "Mateo 11:28", "tuesday-evening-new-leaf-on-the-windowsill": "Lamentaciones 3:23", "wednesday-morning-red-light-that-would-not-change": "Salmos 46:10",
            "wednesday-evening-borrowed-stepladder": "Salmos 121:2",
            "thursday-morning-card-due-date-alert": "1 Pedro 5:7", "thursday-evening-basin-of-warm-water": "Salmos 23:2", "friday-morning-one-sentence-rehearsed": "Isaías 26:3", "friday-evening-cancel-message-typed-three-times": "Salmos 34:18", "saturday-morning-three-envelopes-on-the-table": "Filipenses 4:6", "saturday-evening-cooking-video-paused-again": "Mateo 11:29", "sunday-morning-sneakers-halfway-up-the-hill": "Isaías 40:31", "sunday-evening-weekly-screen-time-report": "Juan 14:27", "monday-morning-spare-key-and-cat-care-note": "Salmos 55:22", "monday-evening-floating-on-my-back-at-the-pool": "Éxodo 14:14", "tuesday-morning-waiting-number-ninety-four": "Filipenses 4:13", "tuesday-evening-hand-cream-tube-cut-open": "Lamentaciones 3:22", "wednesday-morning-mug-slipped-in-the-sink": "Josué 1:9", "wednesday-evening-loose-drawer-handle": "Salmos 147:3", "thursday-morning-dental-waiting-room-bag-strap": "Isaías 41:10", "thursday-evening-door-lock-checked-twice": "Salmos 4:8", "friday-morning-said-fine-before-thinking": "Mateo 11:28", "friday-evening-fresh-pillowcase-no-alarm": "Lamentaciones 3:23", "saturday-morning-rice-cooker-resting-ten-minutes": "Salmos 46:10", "saturday-evening-looked-up-from-phone-sunset": "Salmos 121:2", "sunday-morning-towels-folded-while-waiting-for-results": "1 Pedro 5:7", "sunday-evening-walked-the-whole-stream-path": "Salmos 23:2", "monday-morning-unread-messages-over-ninety-nine": "Isaías 26:3", "monday-evening-sat-five-minutes-in-the-parked-car": "Salmos 34:18", "tuesday-morning-wrote-a-script-before-the-phone-call": "Filipenses 4:6", "tuesday-evening-wrote-down-what-i-had-done": "Mateo 11:29", "wednesday-morning-counting-days-left-until-friday": "Isaías 40:31", "wednesday-evening-reorg-news-rinsed-dishes-twice": "Juan 14:27", "thursday-morning-asked-friend-to-help-carry-bookshelf": "Salmos 55:22", "thursday-evening-let-go-of-sibling-resume": "Éxodo 14:14", "friday-morning-opened-one-moving-box": "Filipenses 4:13", "friday-evening-replayed-the-wrong-email": "Lamentaciones 3:22"},
-    "pt": {"commute-get-off-early": "Isaías 41:10", "evening-after-the-meeting": "Mateus 11:28", "first-day-at-the-clinic": "Lamentações 3:23",
+    "pt-BR": {"commute-get-off-early": "Isaías 41:10", "evening-after-the-meeting": "Mateus 11:28", "first-day-at-the-clinic": "Lamentações 3:23",
            "three-am-counting-hours": "Salmos 4:8", "unanswered-message-three-days": "Salmos 46:10", "sunday-afternoon-caring-for-mother": "Salmos 121:2",
            "monday-morning-list-of-the-week": "1 Pedro 5:7", "monday-afternoon-ten-minutes-outside": "Salmos 23:2",
            "tuesday-morning-one-tab-at-a-time": "Isaías 26:3", "tuesday-evening-dark-before-six": "Salmos 34:18",
@@ -125,19 +112,6 @@ PINNED_I18N = {
            "tuesday-morning-bag-heavier-than-it-should-be": "Mateus 11:28", "tuesday-evening-new-leaf-on-the-windowsill": "Lamentações 3:23", "wednesday-morning-red-light-that-would-not-change": "Salmos 46:10",
            "wednesday-evening-borrowed-stepladder": "Salmos 121:2",
            "thursday-morning-card-due-date-alert": "1 Pedro 5:7", "thursday-evening-basin-of-warm-water": "Salmos 23:2", "friday-morning-one-sentence-rehearsed": "Isaías 26:3", "friday-evening-cancel-message-typed-three-times": "Salmos 34:18", "saturday-morning-three-envelopes-on-the-table": "Filipenses 4:6", "saturday-evening-cooking-video-paused-again": "Mateus 11:29", "sunday-morning-sneakers-halfway-up-the-hill": "Isaías 40:31", "sunday-evening-weekly-screen-time-report": "João 14:27", "monday-morning-spare-key-and-cat-care-note": "Salmos 55:22", "monday-evening-floating-on-my-back-at-the-pool": "Êxodo 14:14", "tuesday-morning-waiting-number-ninety-four": "Filipenses 4:13", "tuesday-evening-hand-cream-tube-cut-open": "Lamentações 3:22", "wednesday-morning-mug-slipped-in-the-sink": "Josué 1:9", "wednesday-evening-loose-drawer-handle": "Salmos 147:3", "thursday-morning-dental-waiting-room-bag-strap": "Isaías 41:10", "thursday-evening-door-lock-checked-twice": "Salmos 4:8", "friday-morning-said-fine-before-thinking": "Mateus 11:28", "friday-evening-fresh-pillowcase-no-alarm": "Lamentações 3:23", "saturday-morning-rice-cooker-resting-ten-minutes": "Salmos 46:10", "saturday-evening-looked-up-from-phone-sunset": "Salmos 121:2", "sunday-morning-towels-folded-while-waiting-for-results": "1 Pedro 5:7", "sunday-evening-walked-the-whole-stream-path": "Salmos 23:2", "monday-morning-unread-messages-over-ninety-nine": "Isaías 26:3", "monday-evening-sat-five-minutes-in-the-parked-car": "Salmos 34:18", "tuesday-morning-wrote-a-script-before-the-phone-call": "Filipenses 4:6", "tuesday-evening-wrote-down-what-i-had-done": "Mateus 11:29", "wednesday-morning-counting-days-left-until-friday": "Isaías 40:31", "wednesday-evening-reorg-news-rinsed-dishes-twice": "João 14:27", "thursday-morning-asked-friend-to-help-carry-bookshelf": "Salmos 55:22", "thursday-evening-let-go-of-sibling-resume": "Êxodo 14:14", "friday-morning-opened-one-moving-box": "Filipenses 4:13", "friday-evening-replayed-the-wrong-email": "Lamentações 3:22"},
-    "ru": {"commute-get-off-early": "Исаия 41:10", "evening-after-the-meeting": "От Матфея 11:28", "first-day-at-the-clinic": "Плач Иеремии 3:23",
-           "three-am-counting-hours": "Псалом 4:9", "unanswered-message-three-days": "Псалом 45:11", "sunday-afternoon-caring-for-mother": "Псалом 120:2",
-           "monday-morning-list-of-the-week": "1 Петра 5:7", "monday-afternoon-ten-minutes-outside": "Псалом 22:2",
-           "tuesday-morning-one-tab-at-a-time": "Исаия 26:3", "tuesday-evening-dark-before-six": "Псалом 33:19",
-           "wednesday-morning-coat-pocket-note": "К Филиппийцам 4:6", "wednesday-evening-winter-blanket": "От Матфея 11:29",
-           "thursday-morning-second-alarm": "Исаия 40:31", "thursday-evening-earbuds-ran-out": "От Иоанна 14:27",
-           "friday-morning-umbrella-in-the-bag": "Псалом 54:23", "friday-evening-ninety-seconds-microwave": "Исход 14:14",
-           "saturday-morning-laundry-after-sleeping-in": "К Филиппийцам 4:13", "saturday-evening-grocery-bags-by-the-door": "Плач Иеремии 3:22",
-           "sunday-morning-bicycle-on-the-balcony": "Иисус Навин 1:9", "sunday-afternoon-words-from-last-week": "Псалом 146:3",
-           "monday-morning-elevator-numbers-counting-down": "Исаия 41:10", "monday-evening-shirt-hung-for-tomorrow": "Псалом 4:9",
-           "tuesday-morning-bag-heavier-than-it-should-be": "От Матфея 11:28", "tuesday-evening-new-leaf-on-the-windowsill": "Плач Иеремии 3:23", "wednesday-morning-red-light-that-would-not-change": "Псалом 45:11",
-           "wednesday-evening-borrowed-stepladder": "Псалом 120:2",
-           "thursday-morning-card-due-date-alert": "1 Петра 5:7", "thursday-evening-basin-of-warm-water": "Псалом 22:2", "friday-morning-one-sentence-rehearsed": "Исаия 26:3", "friday-evening-cancel-message-typed-three-times": "Псалом 33:19", "saturday-morning-three-envelopes-on-the-table": "К Филиппийцам 4:6", "saturday-evening-cooking-video-paused-again": "От Матфея 11:29", "sunday-morning-sneakers-halfway-up-the-hill": "Исаия 40:31", "sunday-evening-weekly-screen-time-report": "От Иоанна 14:27", "monday-morning-spare-key-and-cat-care-note": "Псалом 54:23", "monday-evening-floating-on-my-back-at-the-pool": "Исход 14:14", "tuesday-morning-waiting-number-ninety-four": "К Филиппийцам 4:13", "tuesday-evening-hand-cream-tube-cut-open": "Плач Иеремии 3:22", "wednesday-morning-mug-slipped-in-the-sink": "Иисус Навин 1:9", "wednesday-evening-loose-drawer-handle": "Псалом 146:3", "thursday-morning-dental-waiting-room-bag-strap": "Исаия 41:10", "thursday-evening-door-lock-checked-twice": "Псалом 4:9", "friday-morning-said-fine-before-thinking": "От Матфея 11:28", "friday-evening-fresh-pillowcase-no-alarm": "Плач Иеремии 3:23", "saturday-morning-rice-cooker-resting-ten-minutes": "Псалом 45:11", "saturday-evening-looked-up-from-phone-sunset": "Псалом 120:2", "sunday-morning-towels-folded-while-waiting-for-results": "1 Петра 5:7", "sunday-evening-walked-the-whole-stream-path": "Псалом 22:2", "monday-morning-unread-messages-over-ninety-nine": "Исаия 26:3", "monday-evening-sat-five-minutes-in-the-parked-car": "Псалом 33:19", "tuesday-morning-wrote-a-script-before-the-phone-call": "К Филиппийцам 4:6", "tuesday-evening-wrote-down-what-i-had-done": "От Матфея 11:29", "wednesday-morning-counting-days-left-until-friday": "Исаия 40:31", "wednesday-evening-reorg-news-rinsed-dishes-twice": "От Иоанна 14:27", "thursday-morning-asked-friend-to-help-carry-bookshelf": "Псалом 54:23", "thursday-evening-let-go-of-sibling-resume": "Исход 14:14", "friday-morning-opened-one-moving-box": "К Филиппийцам 4:13", "friday-evening-replayed-the-wrong-email": "Плач Иеремии 3:22"},
     "vi": {"commute-get-off-early": "Ê-sai 41:10", "evening-after-the-meeting": "Ma-thi-ơ 11:28", "first-day-at-the-clinic": "Ca Thương 3:23",
            "three-am-counting-hours": "Thi Thiên 4:8", "unanswered-message-three-days": "Thi Thiên 46:10", "sunday-afternoon-caring-for-mother": "Thi Thiên 121:2",
            "monday-morning-list-of-the-week": "1 Phi-e-rơ 5:7", "monday-afternoon-ten-minutes-outside": "Thi Thiên 23:2",
@@ -192,7 +166,7 @@ def list_exists(lang):
 
 class CommittedPages(unittest.TestCase):
     def pages(self):
-        self.assertEqual(len(PAGES), 14)
+        self.assertEqual(len(PAGES), 13)  # "/" + 12 languages
         for lang, f in PAGES:
             yield lang, f, f.read_text(encoding="utf-8")
 
@@ -251,7 +225,7 @@ class CommittedPages(unittest.TestCase):
     def test_category_chip_is_the_posts_category_and_a_span(self):
         for lang, f, h in self.pages():
             for c in CARD.findall(section(h)):
-                pl, slug = re.search(r'href="/journal/([a-z]{2})/([^/"]+)/"', c).groups()
+                pl, slug = re.search(r'href="/journal/([\w-]+)/([^/"]+)/"', c).groups()
                 cat = bj.esc(bj.parse_post(REPO / "content/journal" / pl / (slug + ".md"))["category"])
                 self.assertRegex(c, r'<div class="j-top"><span class="j-cat">%s</span>' % re.escape(cat))
                 self.assertLess(c.index('class="j-top"'), c.index('class="j-date"'), f)  # chips sit above the date
@@ -261,7 +235,7 @@ class CommittedPages(unittest.TestCase):
         seen = 0
         for lang, f, h in self.pages():
             for c in CARD.findall(section(h)):
-                pl, slug = re.search(r'href="/journal/([a-z]{2})/([^/"]+)/"', c).groups()
+                pl, slug = re.search(r'href="/journal/([\w-]+)/([^/"]+)/"', c).groups()
                 want = PINNED[slug] if pl == "ko" else PINNED_I18N[pl][slug]  # translations: that language's book name and numbering
                 self.assertEqual(re.findall(r'<span class="j-verse">([^<]+)</span>', c), [bj.esc(want)], (f, slug))
                 seen += 1
@@ -281,12 +255,29 @@ class CommittedPages(unittest.TestCase):
             self.assertNotIn("j-lang", section((REPO / lang / "index.html").read_text(encoding="utf-8")), lang)
         # a held language (id) shows the English versions, badged
         self.assertIn('<span class="j-lang">English</span>', CARD.findall(section((REPO / "id/index.html").read_text(encoding="utf-8")))[0])
+        # th / tr / zh-Hant: home data only, no journal posts yet -> the English fallback, badged
+        for l in ("th", "tr", "zh-Hant"):
+            self.assertFalse(list_exists(l), l)
+            self.assertIn('<span class="j-lang">English</span>', CARD.findall(section((REPO / l / "index.html").read_text(encoding="utf-8")))[0], l)
+        # pt-BR: translated (own posts in journal/pt-BR), no badge
+        self.assertNotIn("j-lang", section((REPO / "pt-BR/index.html").read_text(encoding="utf-8")))
         # vi: its translations are drafts (crisis lines not verified) -> the same English fallback, badged
         self.assertIn('<span class="j-lang">English</span>', CARD.findall(section((REPO / "vi/index.html").read_text(encoding="utf-8")))[0])
 
+    def test_ended_languages_are_not_shown_and_old_pt_has_no_cards(self):
+        self.assertEqual([l for l, _ in PAGES], ["en"] + list(LANGS))
+        self.assertEqual(list(LANGS), "en ko ja zh-Hant es pt-BR fr de id th vi tr".split())
+        for l in ("zh", "ru", "ar", "hi", "pt"):
+            self.assertNotIn(l, LANGS)
+        for lang, f, h in self.pages():
+            for c in CARD.findall(section(h)):
+                self.assertNotRegex(c, r'href="/journal/(zh|ru|ar|hi|pt)/', f)  # a card never points into a frozen/moved journal folder
+        h = (REPO / "pt/index.html").read_text(encoding="utf-8")
+        self.assertNotIn("j-card", h)  # the old /pt/ is a redirect stub
+
     def test_all_button(self):
         for lang, f, h in self.pages():
-            self.assertRegex(section(h), r'<p class="journal-all"><a class="btn-ghost" href="/journal/([a-z]{2}/)?">[^<]*<span data-i18n="journal_all">[^<]+</span> <span aria-hidden="true">→</span></a></p>')
+            self.assertRegex(section(h), r'<p class="journal-all"><a class="btn-ghost" href="/journal/([\w-]+/)?">[^<]*<span data-i18n="journal_all">[^<]+</span> <span aria-hidden="true">→</span></a></p>')
 
     def test_no_script_in_the_section(self):
         for lang, f, h in self.pages():

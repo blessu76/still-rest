@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from seo_crawl import REPO, Page, full_site  # noqa: E402
+from seo_crawl import FROZEN_DIRS, REPO, STUB_DIRS, Page, full_site  # noqa: E402
 
 SITE = "https://still.ipe.rest"
 
@@ -36,8 +36,8 @@ class NotFoundPage(unittest.TestCase):
             self.assertTrue((self.root / href.strip("/") / "index.html").is_file(), "404.html links to a page that does not exist: " + href)
 
     def test_it_offers_a_journal_link_only_for_languages_that_have_a_journal(self):
-        journal_langs = set(re.findall(r'href="/journal/([a-z]{2})/"', (REPO / "404.html").read_text(encoding="utf-8")))
-        built = {d.name for d in (self.root / "journal").iterdir() if d.is_dir() and d.name != "page"}
+        journal_langs = set(re.findall(r'href="/journal/([A-Za-z-]+)/"', (REPO / "404.html").read_text(encoding="utf-8")))
+        built = {d.name for d in (self.root / "journal").iterdir() if d.is_dir() and d.name not in ("page", *FROZEN_DIRS, *STUB_DIRS)}  # ended (frozen) zh/ru and the pt stubs are not offered
         self.assertEqual(journal_langs, built)  # a language added to (or held back from) the journal changes this list on purpose
 
     def test_the_404_is_a_root_file_next_to_the_cname(self):

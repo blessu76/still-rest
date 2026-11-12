@@ -11,7 +11,8 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-LANGS = "en ko ja zh es pt id ru vi fr de ar hi".split()
+LANGS = "en ko ja zh-Hant es pt-BR fr de id th vi tr".split()  # the kit's 12 (scripts/site_common.LANGS)
+ENDED = "zh ru ar hi".split()  # ended languages: folders stay frozen, but they are in no list / hreflang / sitemap and are never rebuilt
 NS = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9", "x": "http://www.w3.org/1999/xhtml"}
 
 
@@ -39,25 +40,28 @@ class BuildHome(unittest.TestCase):
     def test_the_home_verse_reference_is_written_in_the_page_language(self):
         # Psalm 46:10 is the home card's verse; its reference follows the language like the verse text (and the journal's scripture.json: ru/fr
         # number the Psalm by their source text, ru 45:11, fr 46:11)
-        want = {"en": "Psalm 46:10", "ko": "시편 46:10", "ja": "詩篇 46:10", "zh": "诗篇 46:10", "es": "Salmos 46:10", "pt": "Salmos 46:10",
-                "id": "Mazmur 46:10", "ru": "Псалом 45:11", "vi": "Thi Thiên 46:10", "fr": "Psaume 46:11", "de": "Psalm 46:10",
-                "ar": "مزمور 46:10", "hi": "भजन संहिता 46:10"}
+        want = {"en": "Psalm 46:10", "ko": "시편 46:10", "ja": "詩篇 46:10", "zh-Hant": "詩篇 46:10", "es": "Salmos 46:10", "pt-BR": "Salmos 46:10",
+                "fr": "Psaume 46:11", "de": "Psalm 46:10", "id": "Mazmur 46:10", "th": "สดุดี 46:10", "vi": "Thi Thiên 46:10", "tr": "Mezmur 46:10"}
         self.assertEqual(set(want), set(LANGS))
+        frozen = {"zh": "诗篇 46:10", "ru": "Псалом 45:11"}  # ended languages: no home page, but their journal scripture.json entries stay
         for l in LANGS:
             self.assertEqual(re.findall(r'<div class="verse-ref"[^>]*>([^<]*)</div>', self.page(l)), [want[l]], l)
         self.assertEqual(re.findall(r'<div class="verse-ref"[^>]*>([^<]*)</div>', self.page()), ["Psalm 46:10"])  # root = x-default = English
         scripture = json.loads((REPO / "content/journal/scripture.json").read_text(encoding="utf-8"))["verses"]["PSA 46:10"]
         for l, e in scripture.items():
-            self.assertEqual(e["ref"], want[l], l)  # the home and the journal never write the same verse two ways
+            self.assertEqual(e["ref"], {**want, **frozen}[l], l)  # the home and the journal never write the same verse two ways
 
     def test_every_language_is_a_static_page(self):
         for l in LANGS:
             h = self.page(l)
-            self.assertIn('<html lang="%s" dir="%s">' % (l, "rtl" if l == "ar" else "ltr"), h, l)
+            self.assertIn('<html lang="%s" dir="ltr">' % l, h, l)  # all 12 are left-to-right
             self.assertIn('<link rel="canonical" href="https://still.ipe.rest/%s/">' % l, h, l)
             got = dict(re.findall(r'<link rel="alternate" hreflang="([\w-]+)" href="([^"]+)"', h))
             self.assertEqual(set(got), set(LANGS) | {"x-default"}, l)
             self.assertEqual(got["x-default"], "https://still.ipe.rest/")
+            self.assertFalse(set(got) & set(ENDED), l)  # ended languages are not alternates
+            self.assertEqual(len(re.findall(r'<option value="', h)), len(LANGS), l)
+            self.assertFalse([e for e in ENDED if '<option value="%s"' % e in h], l)
             self.assertTrue(all(got[x] == "https://still.ipe.rest/%s/" % x for x in LANGS), l)
             self.assertNotIn("?lang=", h, l)  # no query-parameter language anywhere (not even the legacy redirect: root only)
             self.assertEqual(h.count('rel="canonical"'), 1)
@@ -84,7 +88,9 @@ class BuildHome(unittest.TestCase):
         strings = json.loads((REPO / "content/home/i18n.json").read_text(encoding="utf-8"))
         tpl = (REPO / "content/home/template.html").read_text(encoding="utf-8")
         keys = set(re.findall(r'data-i18n(?:-ph)?="([^"]+)"', tpl)) | {"meta_title", "meta_desc"}
-        self.assertEqual(list(strings), LANGS)
+        self.assertEqual(set(strings) & set(LANGS), set(LANGS))  # file order is not significant (frozen ended-language keys may remain)
+        self.assertNotIn("pt", strings)  # the data key moved pt -> pt-BR
+        self.assertTrue(set(LANGS) <= set(strings))
         for l in LANGS:
             self.assertFalse(keys - set(strings[l]), "%s lacks %s" % (l, sorted(keys - set(strings[l]))))
 
@@ -107,9 +113,18 @@ class BuildHome(unittest.TestCase):
         self.assertEqual(order, sorted(order))  # 1 URL, 2 stored choice, 3 browser; nothing found -> no move = English
         self.assertIn("location.replace(PRE+pick+'/'", js)
         self.assertIn("location.hash", js)
-        self.assertIn(".split('-')[0]", js)  # ko-KR -> ko, zh-TW -> zh, pt-BR -> pt
+        self.assertIn("'zh-Hant'", js)  # zh-TW/HK/MO/Hant -> zh-Hant (kit resolve)
+        self.assertIn("return'pt-BR'", js)  # pt* -> pt-BR
+        self.assertIn("c==='in'", js)  # in -> id
+        for e in ENDED:  # ended languages can never be picked
+            self.assertNotIn('"%s"' % e, js, e)
         self.assertIn('ALL=' + json.dumps(LANGS), js)  # only known language codes are followed
         self.assertIn('PRE="/"', js)
+
+    def test_root_script_never_targets_the_ended_languages_or_old_pt(self):
+        js = self.root_script()
+        self.assertNotIn('"pt"', js)
+        self.assertNotIn("'pt'", js.replace("c===\'pt\'", "").replace("c==='pt'", ""))  # only the pt* -> pt-BR input rule mentions pt
 
     def test_language_pages_never_move_the_visitor(self):
         for l in LANGS:
@@ -146,8 +161,8 @@ class BuildHome(unittest.TestCase):
             {"langs": ["fr"]},                                               # 2 -> /fr/
             {"langs": []},                                                   # 3 no language at all -> English, stays
             {"langs": ["it", "de-AT", "en"]},                                # 4 first SUPPORTED match (it is not) -> /de/
-            {"langs": ["zh-TW"]},                                            # 5 -> /zh/
-            {"langs": ["pt-BR"]},                                            # 6 -> /pt/
+            {"langs": ["zh-TW"]},                                            # 5 -> /zh-Hant/
+            {"langs": ["pt-BR"]},                                            # 6 -> /pt-BR/
             {"langs": ["ko"], "stored": {"still_lang": "en"}},               # 7 stored choice beats the browser: English stays
             {"langs": ["en"], "stored": {"still_lang": "ja"}},               # 8 stored ja beats an English browser -> /ja/
             {"langs": ["ko"], "stored": {"still_lang": "xx"}},               # 9 junk stored value is ignored -> browser -> /ko/
@@ -156,51 +171,94 @@ class BuildHome(unittest.TestCase):
             {"langs": ["ko"], "search": "?lang=zz"},                         # 12 unknown ?lang is ignored -> browser -> /ko/
             {"langs": ["ko"], "search": "?utm_source=a&lang=es", "hash": "#faq"},  # 13 other query and hash survive; lang is dropped
             {"langs": ["vi"]},                                               # 14 vi has a home page -> /vi/
-            {"langs": ["ar-EG", "en"]},                                      # 15 ar has a home page -> /ar/
-            {"langs": ["hi-IN"]},                                            # 16 hi has a home page -> /hi/
+            {"langs": ["ar-EG", "en"]},                                      # 15 ar ended: never matched -> stays
+            {"langs": ["hi-IN"]},                                            # 16 hi ended -> stays
+            {"langs": ["zh-CN", "ko"]},                                      # 17 zh-CN unsupported -> next candidate -> /ko/
+            {"langs": ["zh-Hans-CN"]},                                       # 18 simplified: unsupported -> stays
+            {"langs": ["zh"]},                                               # 19 bare zh: unsupported -> stays
+            {"langs": ["zh-HK"]},                                            # 20 -> /zh-Hant/
+            {"langs": ["zh-Hant-TW"]},                                       # 21 -> /zh-Hant/
+            {"langs": ["pt-PT"]},                                            # 22 pt* -> /pt-BR/
+            {"langs": ["pt"]},                                               # 23 -> /pt-BR/
+            {"langs": ["in"]},                                               # 24 in -> /id/
+            {"langs": ["th-TH"]},                                            # 25 -> /th/
+            {"langs": ["tr"]},                                               # 26 -> /tr/
+            {"langs": ["ru", "de"]},                                         # 27 ru ended -> next -> /de/
+            {"langs": ["en"], "stored": {"still_lang": "pt"}},               # 28 stored old pt -> /pt-BR/
+            {"langs": ["en"], "stored": {"still_lang": "ru"}},               # 29 stored ended language is ignored -> browser en -> stays
+            {"langs": ["ko"], "search": "?lang=zh-TW"},                      # 30 URL zh-TW -> /zh-Hant/
+            {"langs": ["ko"], "search": "?lang=ar"},                         # 31 URL ended language ignored -> browser -> /ko/
+            {"langs": ["ko"], "search": "?lang=pt"},                         # 32 URL pt -> /pt-BR/ (and remembered as pt-BR)
         ]
         r = subprocess.run([node, "-e", harness, json.dumps(cases)], input=self.root_script(), capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stderr)
         got = [c["to"] for c in json.loads(r.stdout)]
-        self.assertEqual(got, ["/ko/", None, "/fr/", None, "/de/", "/zh/", "/pt/", None, "/ja/", "/ko/", "/de/", "/en/", "/ko/",
-                               "/es/?utm_source=a#faq", "/vi/", "/ar/", "/hi/"])
+        self.assertEqual(got, ["/ko/", None, "/fr/", None, "/de/", "/zh-Hant/", "/pt-BR/", None, "/ja/", "/ko/", "/de/", "/en/", "/ko/",
+                               "/es/?utm_source=a#faq", "/vi/", None, None, "/ko/", None, None, "/zh-Hant/", "/zh-Hant/", "/pt-BR/", "/pt-BR/",
+                               "/id/", "/th/", "/tr/", "/de/", "/pt-BR/", None, "/zh-Hant/", "/ko/", "/pt-BR/"])
         self.assertEqual(json.loads(r.stdout)[10]["store"]["still_lang"], "de")
+        self.assertEqual(json.loads(r.stdout)[32]["store"]["still_lang"], "pt-BR")
 
-    def test_arabic_is_right_to_left_and_hindi_is_not(self):
-        # ar is the only RTL page (home, FAQ, about); its CSS mirrors via logical properties + a [dir=rtl] block, LTR pages stay unchanged
-        for p in ("", "faq/", "about/"):
-            self.assertIn('<html lang="ar" dir="rtl">', (REPO / "ar" / p / "index.html").read_text(encoding="utf-8"), p)
-            self.assertIn('<html lang="hi" dir="ltr">', (REPO / "hi" / p / "index.html").read_text(encoding="utf-8"), p)
-        self.assertIn("[dir=rtl]", self.page("ar"))
-        self.assertIn("[dir=rtl]", (REPO / "assets/journal.css").read_text(encoding="utf-8"))
+    def test_no_language_is_right_to_left(self):
+        # ar (the only RTL language) is ended: the 12 languages are all LTR, in the built pages and in the committed home/FAQ/about
         for l in LANGS:
-            if l != "ar":
-                self.assertIn('dir="ltr"', self.page(l)[:200], l)
+            self.assertIn('dir="ltr"', self.page(l)[:200], l)
+            self.assertNotIn('dir="rtl"', self.page(l), l)
+            for p in ("", "faq/", "about/"):
+                self.assertIn('<html lang="%s" dir="ltr">' % l, (REPO / l / p / "index.html").read_text(encoding="utf-8"), (l, p))
 
-    def test_arabic_and_hindi_link_each_other_and_every_language_in_the_sitemap(self):
+    def test_new_languages_link_every_language_in_the_sitemap(self):
         root = ET.parse(self.tmp / "sitemap.xml").getroot()
         rows = {u.find("s:loc", NS).text: u for u in root.findall("s:url", NS)}
-        for l in ("ar", "hi"):
+        for l in ("th", "tr", "zh-Hant", "pt-BR"):
             for p in ("", "faq/", "about/"):
                 u = rows["https://still.ipe.rest/%s/%s" % (l, p)]
                 got = {x.get("hreflang"): x.get("href") for x in u.findall("x:link", NS)}
                 self.assertEqual(set(got), set(LANGS) | {"x-default"}, (l, p))
-                self.assertEqual(got["ar"], "https://still.ipe.rest/ar/" + p)
-                self.assertEqual(got["hi"], "https://still.ipe.rest/hi/" + p)
-        # and every other language page points back at them (home pages are checked in test_every_language_is_a_static_page)
+                for x in LANGS:
+                    self.assertEqual(got[x], "https://still.ipe.rest/%s/%s" % (x, p), (l, p, x))
+        # and every language page points to them (the sitemap rows carry no ended language, no old /pt/)
         for l in LANGS:
             h = self.page(l)
-            self.assertIn('hreflang="ar" href="https://still.ipe.rest/ar/"', h, l)
-            self.assertIn('hreflang="hi" href="https://still.ipe.rest/hi/"', h, l)
+            for x in ("th", "tr", "zh-Hant", "pt-BR"):
+                self.assertIn('hreflang="%s" href="https://still.ipe.rest/%s/"' % (x, x), h, l)
+        for loc in rows:
+            for dead in ENDED + ["pt"]:
+                self.assertFalse(loc.startswith("https://still.ipe.rest/%s/" % dead), loc)
 
-    def test_ar_and_hi_pages_carry_ga4_and_the_ipe_rest_link_keeps_the_language(self):
-        for l in ("ar", "hi"):
+    def test_ended_languages_are_not_rebuilt(self):
+        # the test copy only has content/home: nothing for zh ru ar hi is created (frozen folders are left alone)
+        for e in ENDED:
+            self.assertFalse((self.tmp / e).exists(), e)
+        sm = (self.tmp / "sitemap.xml").read_text(encoding="utf-8")
+        llms = (self.tmp / "llms.txt").read_text(encoding="utf-8")
+        for e in ENDED + ["pt"]:
+            self.assertNotIn("https://still.ipe.rest/%s/" % e, sm, e)
+            self.assertNotIn("https://still.ipe.rest/%s/" % e, llms, e)
+            self.assertNotIn('hreflang="%s"' % e, sm, e)
+
+    def test_old_pt_home_is_a_redirect_stub(self):
+        h = self.page("pt")
+        self.assertIn("generated by scripts/build_journal.py", h)  # GEN_MARK: the generator owns (and may refresh) the stub
+        self.assertIn('<link rel="canonical" href="https://still.ipe.rest/pt-BR/">', h)
+        self.assertIn('http-equiv="refresh" content="0; url=https://still.ipe.rest/pt-BR/"', h)
+        self.assertIn("noindex", h)
+        self.assertNotIn("hreflang", h)
+        self.assertNotIn("<select", h)
+        self.assertNotIn("https://still.ipe.rest/pt/", (self.tmp / "sitemap.xml").read_text(encoding="utf-8"))
+
+    def test_new_pages_carry_ga4_and_the_ipe_rest_link_keeps_the_language(self):
+        sys.path.insert(0, str(REPO / "scripts"))
+        from site_common import ipe_rest_url
+        for l in ("th", "tr", "zh-Hant", "pt-BR"):
             h = self.page(l)
             self.assertIn("G-XG4BH800J0", h, l)
-            for p in ("faq", "about"):  # the FAQ/about "(https://ipe.rest)" links go to the studio hub in the page's own language (ipe.rest has /ar/ and /hi/)
+            for p in ("faq", "about"):  # the FAQ/about "(https://ipe.rest)" links go to the studio hub in the page's own language
                 info = (REPO / l / p / "index.html").read_text(encoding="utf-8")
-                self.assertIn('href="https://ipe.rest/%s/"' % l, info, (l, p))
+                self.assertIn('href="%s"' % ipe_rest_url(l), info, (l, p))
                 self.assertNotIn('href="https://ipe.rest"', info, (l, p))
+        self.assertEqual(ipe_rest_url("pt-BR"), "https://ipe.rest/pt/")  # the hub's folder for Brazilian Portuguese is still /pt/
+        self.assertEqual(ipe_rest_url("th"), "https://ipe.rest/?lang=th")
 
     def test_accessibility_labels_and_structured_data_follow_the_language(self):
         strings = json.loads((REPO / "content/home/i18n.json").read_text(encoding="utf-8"))
@@ -229,15 +287,15 @@ class BuildHome(unittest.TestCase):
         for l in [None] + LANGS:
             h = self.page(l)
             nav = re.search(r'<nav class="foot-langs".*?</nav>', h, re.S).group(0)
-            self.assertEqual(re.findall(r'<a href="/(\w+)/" hreflang="\1" lang="\1"', nav), LANGS, l)
-            self.assertEqual(re.findall(r'<a href="/(\w+)/"[^>]*aria-current', nav), [l] if l else [], l)
+            self.assertEqual(re.findall(r'<a href="/([\w-]+)/" hreflang="\1" lang="\1"', nav), LANGS, l)
+            self.assertEqual(re.findall(r'<a href="/([\w-]+)/"[^>]*aria-current', nav), [l] if l else [], l)
 
     def test_sitemap_has_home_in_every_language(self):
         root = ET.parse(self.tmp / "sitemap.xml").getroot()
         rows = {u.find("s:loc", NS).text: u for u in root.findall("s:url", NS) if "/journal/" not in u.find("s:loc", NS).text and u.find("x:link", NS) is not None and u.find("{http://www.google.com/schemas/sitemap-image/1.1}image") is not None}  # home rows (info pages have alternates but no image, legal pages neither)
-        self.assertEqual(len(rows), 14)  # "/" + 13 languages
+        self.assertEqual(len(rows), 13)  # "/" + 12 languages
         for loc, u in rows.items():
-            self.assertEqual(len(u.findall("x:link", NS)), 14, loc)  # 13 languages + x-default
+            self.assertEqual(len(u.findall("x:link", NS)), 13, loc)  # 12 languages + x-default
             self.assertIsNotNone(u.find("s:lastmod", NS))
             self.assertEqual(len(u.findall("{http://www.google.com/schemas/sitemap-image/1.1}image"), ), 1)
         for l in LANGS:
@@ -278,7 +336,7 @@ class BuildHome(unittest.TestCase):
     def test_sitemap_lists_legal_pages(self):
         root = ET.parse(self.tmp / "sitemap.xml").getroot()
         locs = {u.find("s:loc", NS).text for u in root.findall("s:url", NS) if "/journal/" not in u.find("s:loc", NS).text}
-        self.assertEqual(len(locs), 42)  # 14 home + 26 faq/about + privacy + terms
+        self.assertEqual(len(locs), 39)  # 13 home + 24 faq/about + privacy + terms
         self.assertLessEqual({"https://still.ipe.rest/privacy/", "https://still.ipe.rest/terms/"}, locs)
         self.assertFalse({"https://still.ipe.rest/privacy", "https://still.ipe.rest/terms"} & locs)
 

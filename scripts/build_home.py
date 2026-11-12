@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Build the still.ipe.rest home page as 13 static language pages — stdlib only (Python 3.8+).
+"""Build the still.ipe.rest home page as 12 static language pages — stdlib only (Python 3.8+).
 
 Source   content/home/template.html   English markup with data-i18n / data-i18n-ph hooks and {{PLACEHOLDERS}}
          content/home/i18n.json       strings per language (a missing key falls back to English)
 Writes   /<lang>/index.html           en ko ja zh es pt id ru vi fr de ar hi — html lang/dir, own title·description·og:locale,
-                                      canonical = itself, hreflang 13 + x-default
+                                      canonical = itself, hreflang 12 + x-default
          /index.html                  x-default: English content, canonical "/". Its head script applies the common language rule
                                       (?lang=xx -> stored choice -> browser language -> English): a visitor whose language is not
                                       English is sent to /xx/; English stays here. /xx/ pages never move the visitor.
@@ -25,7 +25,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from site_common import GA_SNIPPET, LANGS, auto_lang_script, SITE, check_fresh, esc, font_links, lang_url, meta_desc, replace_between, stamped_date, with_localtime  # noqa: E402
+from site_common import GA_SNIPPET, LANGS, MOVED, hreflang_links, sitemap_links, redirect_stub, auto_lang_script, SITE, check_fresh, esc, font_links, lang_url, meta_desc, replace_between, stamped_date, with_localtime  # noqa: E402
 
 TEMPLATE = Path("content") / "home" / "template.html"
 STRINGS = Path("content") / "home" / "i18n.json"
@@ -77,8 +77,7 @@ def render_page(tpl, strings, lang, root, cards_html=None, journal_href="/journa
         return tag[:-1] + ' placeholder="%s">' % esc(v)
     out = PH_ATTR.sub(placeholder, out)
 
-    hreflang = "\n".join('<link rel="alternate" hreflang="%s" href="%s">' % (l, lang_url(l)) for l in LANGS)
-    hreflang += '\n<link rel="alternate" hreflang="x-default" href="%s/">' % SITE
+    hreflang = hreflang_links({l: lang_url(l) for l in LANGS}, SITE + "/")
     og = '<meta property="og:locale" content="%s">' % LANGS[lang]["og"] + "".join(
         '\n<meta property="og:locale:alternate" content="%s">' % LANGS[l]["og"] for l in LANGS if l != lang)
     options = "\n".join('    <option value="%s"%s>%s</option>' % (l, " selected" if l == lang else "", LANGS[l]["name"]) for l in LANGS)
@@ -139,8 +138,7 @@ def home_updated(root):
 
 def sitemap_block(home_date, newest_post_date=None):
     last = max(home_date, newest_post_date or "")
-    links = "".join('    <xhtml:link rel="alternate" hreflang="%s" href="%s"/>\n' % (l, lang_url(l)) for l in LANGS)
-    links += '    <xhtml:link rel="alternate" hreflang="x-default" href="%s/"/>\n' % SITE
+    links = sitemap_links({l: lang_url(l) for l in LANGS}, SITE + "/")
     img = "    <image:image>\n      <image:loc>%s/og-image.png</image:loc>\n    </image:image>\n" % SITE
     rows = ["  <url>\n    <loc>%s/</loc>\n    <lastmod>%s</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>1.0</priority>\n%s%s  </url>" % (SITE, last, links, img)]
     for l in LANGS:
@@ -178,6 +176,11 @@ def build(root, cards_by_lang=None, href_by_lang=None, newest_post_date=None):
     llms = root / "llms.txt"
     llms.write_text(replace_between(llms.read_text(encoding="utf-8"), r"<!-- home:llms:start[^>]*-->",
                                     "<!-- home:llms:end -->", llms_block(), "llms.txt"), encoding="utf-8")
+    for old, new in MOVED.items():  # moved language folder (pt -> pt-BR): the old home address stays as a static redirect stub
+        path = root / old / "index.html"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(redirect_stub(lang_url(new)), encoding="utf-8")
+        written.append(path)
     return written
 
 

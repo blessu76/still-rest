@@ -68,7 +68,7 @@
    "version": "口語訳",
    "why": "口語訳(1955) public-domain status is unconfirmed (no statement from the Japan Bible Society; the Japanese Wikisource copy is under a copyright deletion review, checked 2026-10-25). Verse text is left out until it is confirmed."
   },
-  "pt": {
+  "pt-BR": {
    "mode": "reference",
    "version": "Almeida",
    "why": "no confirmed public-domain copy of Almeida Revista e Corrigida (1898) was found (ebible has none; later ARC/ACF editions are copyrighted). Verse text is left out until a source is confirmed."
@@ -117,7 +117,7 @@
    "ja": {
     "ref": "出エジプト記 14:14"
    },
-   "pt": {
+   "pt-BR": {
     "ref": "Êxodo 14:14"
    }
   },
@@ -163,7 +163,7 @@
    "ja": {
     "ref": "ヨシュア記 1:9"
    },
-   "pt": {
+   "pt-BR": {
     "ref": "Josué 1:9"
    }
   },
@@ -209,7 +209,7 @@
    "ja": {
     "ref": "詩篇 4:8"
    },
-   "pt": {
+   "pt-BR": {
     "ref": "Salmos 4:8"
    }
   },
@@ -255,7 +255,7 @@
    "ja": {
     "ref": "詩篇 23:2"
    },
-   "pt": {
+   "pt-BR": {
     "ref": "Salmos 23:2"
    }
   },
@@ -301,7 +301,7 @@
    "ja": {
     "ref": "詩篇 34:18"
    },
-   "pt": {
+   "pt-BR": {
     "ref": "Salmos 34:18"
    }
   },
@@ -347,7 +347,7 @@
    "ja": {
     "ref": "詩篇 46:10"
    },
-   "pt": {
+   "pt-BR": {
     "ref": "Salmos 46:10"
    }
   },
@@ -393,7 +393,7 @@
    "ja": {
     "ref": "詩篇 55:22"
    },
-   "pt": {
+   "pt-BR": {
     "ref": "Salmos 55:22"
    }
   },
@@ -439,7 +439,7 @@
    "ja": {
     "ref": "詩篇 121:2"
    },
-   "pt": {
+   "pt-BR": {
     "ref": "Salmos 121:2"
    }
   },
@@ -485,7 +485,7 @@
    "ja": {
     "ref": "詩篇 147:3"
    },
-   "pt": {
+   "pt-BR": {
     "ref": "Salmos 147:3"
    }
   },
@@ -531,7 +531,7 @@
    "ja": {
     "ref": "イザヤ書 26:3"
    },
-   "pt": {
+   "pt-BR": {
     "ref": "Isaías 26:3"
    }
   },
@@ -577,7 +577,7 @@
    "ja": {
     "ref": "イザヤ書 40:31"
    },
-   "pt": {
+   "pt-BR": {
     "ref": "Isaías 40:31"
    }
   },
@@ -623,7 +623,7 @@
    "ja": {
     "ref": "イザヤ書 41:10"
    },
-   "pt": {
+   "pt-BR": {
     "ref": "Isaías 41:10"
    }
   },
@@ -669,7 +669,7 @@
    "ja": {
     "ref": "哀歌 3:22"
    },
-   "pt": {
+   "pt-BR": {
     "ref": "Lamentações 3:22"
    }
   },
@@ -715,7 +715,7 @@
    "ja": {
     "ref": "哀歌 3:23"
    },
-   "pt": {
+   "pt-BR": {
     "ref": "Lamentações 3:23"
    }
   },
@@ -761,7 +761,7 @@
    "ja": {
     "ref": "マタイによる福音書 11:28"
    },
-   "pt": {
+   "pt-BR": {
     "ref": "Mateus 11:28"
    }
   },
@@ -807,7 +807,7 @@
    "ja": {
     "ref": "マタイによる福音書 11:29"
    },
-   "pt": {
+   "pt-BR": {
     "ref": "Mateus 11:29"
    }
   },
@@ -853,7 +853,7 @@
    "ja": {
     "ref": "ヨハネによる福音書 14:27"
    },
-   "pt": {
+   "pt-BR": {
     "ref": "João 14:27"
    }
   },
@@ -899,7 +899,7 @@
    "ja": {
     "ref": "ピリピ人への手紙 4:6"
    },
-   "pt": {
+   "pt-BR": {
     "ref": "Filipenses 4:6"
    }
   },
@@ -945,7 +945,7 @@
    "ja": {
     "ref": "ピリピ人への手紙 4:13"
    },
-   "pt": {
+   "pt-BR": {
     "ref": "Filipenses 4:13"
    }
   },
@@ -991,7 +991,7 @@
    "ja": {
     "ref": "ペテロの第一の手紙 5:7"
    },
-   "pt": {
+   "pt-BR": {
     "ref": "1 Pedro 5:7"
    }
   }

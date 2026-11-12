@@ -80,12 +80,22 @@ class Constant(unittest.TestCase):
 
     def test_every_hand_written_page_is_listed(self):
         """a new hand-written .html page must be added to STATIC_PAGES (or be generated) — otherwise it would ship without GA4"""
-        generated = re.compile(r"^(index\.html|[a-z]{2}/(index|faq/index|about/index)\.html|journal/.*)$")
+        # the site's languages, plus the ended (frozen, zh ru ar hi) and the moved (pt -> pt-BR redirect stubs) language folders still in the repo
+        folders = "|".join(re.escape(l) for l in list(sc.LANGS) + ["zh", "ru", "ar", "hi", "pt"])
+        generated = re.compile(r"^(index\.html|(%s)/(index|faq/index|about/index)\.html|journal/.*)$" % folders)
         hand_written = {str(p.relative_to(REPO)) for p in served_html(REPO) if not generated.match(str(p.relative_to(REPO)))}
         self.assertEqual(hand_written, set(sc.STATIC_PAGES))
 
 
 class CommittedSite(unittest.TestCase):
+    def test_the_moved_pt_stubs_carry_the_snippet_once(self):
+        for rel in ("pt/index.html", "pt/faq/index.html", "pt/about/index.html"):
+            text = (REPO / rel).read_text(encoding="utf-8")
+            with self.subTest(rel):
+                self.assertEqual(text.count(sc.GA_SNIPPET), 1)
+                self.assertEqual(text.count(GA_ID), 1)
+                self.assertIn('http-equiv="refresh"', text)
+
     def test_every_committed_page_has_the_snippet_once(self):
         pages = check_snippet(self, REPO)
         self.assertGreater(len(pages), 60)

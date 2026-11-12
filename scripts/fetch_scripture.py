@@ -60,7 +60,7 @@ SOURCES = {
     "ja": {"mode": "reference", "version": "口語訳",
            "why": "口語訳(1955) public-domain status is unconfirmed (no statement from the Japan Bible Society; the Japanese Wikisource copy is "
                   "under a copyright deletion review, checked 2026-10-25). Verse text is left out until it is confirmed."},
-    "pt": {"mode": "reference", "version": "Almeida",
+    "pt-BR": {"mode": "reference", "version": "Almeida",
            "why": "no confirmed public-domain copy of Almeida Revista e Corrigida (1898) was found (ebible has none; later ARC/ACF "
                   "editions are copyrighted). Verse text is left out until a source is confirmed."},
 }
@@ -71,7 +71,7 @@ BOOK_NAMES = {
     "ja": {"PSA": "詩篇", "ISA": "イザヤ書", "LAM": "哀歌", "MAT": "マタイによる福音書", "1PE": "ペテロの第一の手紙", "PHP": "ピリピ人への手紙", "JHN": "ヨハネによる福音書", "EXO": "出エジプト記", "JOS": "ヨシュア記"},
     "zh": {"PSA": "诗篇", "ISA": "以赛亚书", "LAM": "耶利米哀歌", "MAT": "马太福音", "1PE": "彼得前书", "PHP": "腓立比书", "JHN": "约翰福音", "EXO": "出埃及记", "JOS": "约书亚记"},
     "es": {"PSA": "Salmos", "ISA": "Isaías", "LAM": "Lamentaciones", "MAT": "Mateo", "1PE": "1 Pedro", "PHP": "Filipenses", "JHN": "Juan", "EXO": "Éxodo", "JOS": "Josué"},
-    "pt": {"PSA": "Salmos", "ISA": "Isaías", "LAM": "Lamentações", "MAT": "Mateus", "1PE": "1 Pedro", "PHP": "Filipenses", "JHN": "João", "EXO": "Êxodo", "JOS": "Josué"},
+    "pt-BR": {"PSA": "Salmos", "ISA": "Isaías", "LAM": "Lamentações", "MAT": "Mateus", "1PE": "1 Pedro", "PHP": "Filipenses", "JHN": "João", "EXO": "Êxodo", "JOS": "Josué"},
     "ru": {"PSA": "Псалом", "ISA": "Исаия", "LAM": "Плач Иеремии", "MAT": "От Матфея", "1PE": "1 Петра", "PHP": "К Филиппийцам", "JHN": "От Иоанна", "EXO": "Исход", "JOS": "Иисус Навин"},
     "vi": {"PSA": "Thi Thiên", "ISA": "Ê-sai", "LAM": "Ca Thương", "MAT": "Ma-thi-ơ", "1PE": "1 Phi-e-rơ", "PHP": "Phi-líp", "JHN": "Giăng", "EXO": "Xuất Ê-díp-tô Ký", "JOS": "Giô-suê"},
     "fr": {"PSA": "Psaume", "ISA": "Ésaïe", "LAM": "Lamentations", "MAT": "Matthieu", "1PE": "1 Pierre", "PHP": "Philippiens", "JHN": "Jean", "EXO": "Exode", "JOS": "Josué"},

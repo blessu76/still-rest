@@ -7,7 +7,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from seo_crawl import REPO, committed_site, full_site  # noqa: E402
+from seo_crawl import REPO, committed_site, full_site, is_frozen, live, stub_target, stubs  # noqa: E402
 
 
 class Checks:
@@ -67,7 +67,32 @@ class Checks:
 
     def test_no_page_of_the_full_site_is_noindex_except_empty_lists(self):
         root, pages = full_site()
-        self.assertEqual([u for u, p in pages.items() if not p.indexable], [])  # with posts in every list there is nothing to hide
+        # with posts in every list there is nothing to hide (the redirect stubs of the moved /pt/ are the only noindex pages, see below)
+        self.assertEqual([u for u, p in live(pages).items() if not p.indexable], [])
+
+    def test_the_pt_redirect_stubs_are_noindex_and_canonical_to_pt_br(self):
+        for name, (root, pages) in self.sites:
+            old = stubs(pages)
+            self.assertIn("https://still.ipe.rest/pt/", old, name)
+            self.assertIn("https://still.ipe.rest/pt/faq/", old, name)
+            self.assertIn("https://still.ipe.rest/pt/about/", old, name)
+            self.assertIn("https://still.ipe.rest/journal/pt/", old, name)
+            for url, p in old.items():
+                new = stub_target(url)
+                self.assertFalse(p.indexable, (name, url))
+                self.assertEqual(p.canonicals, [new], (name, url))
+                self.assertIn(new, pages, (name, url, "the new address does not exist"))
+                self.assertTrue(pages[new].indexable, (name, url))
+                self.assertIn('http-equiv="refresh" content="0; url=%s"' % new, (root / url[len("https://still.ipe.rest/"):] / "index.html").read_text(encoding="utf-8"), (name, url))
+                self.assertEqual(p.hreflangs, [], (name, url))  # a stub is not part of any language cluster
+
+    def test_frozen_ended_language_pages_are_not_noindexed_by_accident(self):
+        # they are left as they were: still indexable pages with their own canonical (they are only absent from sitemap / hreflang of the live pages)
+        for name, (root, pages) in self.sites:
+            frozen = [u for u in pages if is_frozen(u)]
+            self.assertTrue(frozen, name)
+            for u in frozen:
+                self.assertEqual(pages[u].canonicals, [u], (name, u))
 
 
 class CommittedPages(Checks, unittest.TestCase):

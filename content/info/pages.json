@@ -230,7 +230,7 @@
   ],
   "crumb_home": "still()"
  },
- "pt": {
+ "pt-BR": {
   "faq_title": "Perguntas frequentes sobre o still()",
   "faq_meta": "Respostas sobre o still(), o companheiro bíblico privado que funciona no seu dispositivo, da ipe Studio: privacidade, preço, como se diferencia de outros apps chamados Still e o que ele não é.",
   "faq_lede": "Respostas curtas e sinceras sobre o still(): o que é, o que fica no seu telefone e o que ele não é.",
@@ -595,6 +595,144 @@
   "about": [
    "दूसरे ऐप और वेबसाइटें भी “Still” नाम से चलती हैं। still() — कोष्ठकों के साथ लिखा, still.ipe.rest पर ipe Studio का — एक अलग, स्वतंत्र ऐप है, और उनसे इसका कोई संबंध नहीं है। इसे अलग क्या करता है: यह कठिन दिनों के लिए बना है — अवसाद, घबराहट, थकावट, कोई भारी दौर। आप अपने शब्दों में बताते हैं कि आप क्या उठाए हुए हैं, और यह आपकी बात के हिसाब से चुना हुआ बाइबल का एक सांत्वना भरा पद, उस पद के अर्थ पर सरल भाषा में एक शब्द, और विश्राम के लिए शांत ipe लोफ़ाई संगीत ढूँढ़ता है। सब कुछ आपके डिवाइस पर चलता है: कोई खाता नहीं, और आप जो टाइप करते हैं वह आपके फ़ोन से बाहर नहीं जाता। पद मनुष्यों द्वारा जाँचा हुआ पवित्रशास्त्र हैं, AI के लिखे हुए कभी नहीं, और still() सांत्वना देता है, काउंसलिंग नहीं। इसकी जड़ें {psalm}: {verse}",
    "still() ipe Studio के ipe() परिवार का हिस्सा है — देखिए [ipe.rest](https://ipe.rest)। और उत्तर [अक्सर पूछे जाने वाले प्रश्न](/{L}/faq/) में हैं; [होम पेज](/{L}/) पर संक्षिप्त रूप है।"
+  ],
+  "crumb_home": "still()"
+ },
+ "zh-Hant": {
+  "faq_title": "關於 still() 的常見問題",
+  "faq_meta": "關於 still() 的解答。still() 是 ipe Studio 為艱難日子打造、私密且在裝置上運作的聖經陪伴:隱私、價格、與其他名為 Still 的 App 有何不同,以及它不是什麼。",
+  "faq_lede": "簡短而誠實的解答——still() 是什麼、哪些內容會留在你的手機上,以及它不是什麼。",
+  "faq": [
+   [
+    "still() 是什麼?",
+    "still() 是 ipe Studio 為艱難日子打造、私密且在裝置上運作的 iOS 聖經陪伴 App。你告訴它你正背負的重擔——一句話、一聲嘆息、一個字——它會回覆一節安慰的聖經經文、一段簡短的白話說明其意涵,以及讓你安歇的 ipe 平靜 lofi 音樂。它根植於{psalm}:{verse}"
+   ],
+   [
+    "still() 和其他名為 Still 的 App 一樣嗎?",
+    "不一樣。有數款 App 與網站使用「Still」這個名稱。still() ——帶有括號、由 ipe Studio 製作、網址為 still.ipe.rest——是一款獨立、不同的 App。請參閱 [still() 有何不同](/{L}/about/)。"
+   ],
+   [
+    "我輸入的內容會離開我的手機嗎?",
+    "不會。你輸入的內容由裝置上的模型在你的裝置上理解。沒有帳號,也不需登入;你寫下的任何內容都不會傳送到伺服器,不會由我們儲存,也不會被我們看到。App 只會單向下載模型檔案本身。App 本身不會蒐集任何關於你的資料。只有這個網站(不是 App)會統計造訪次數,使用的是會用到 Cookie 的 Google Analytics,以及不使用 Cookie 的 Cloudflare Web Analytics。詳情請見[隱私權政策](/privacy/)。"
+   ],
+   [
+    "still() 免費嗎?",
+    "有免費方案 Still:每天一節經文與一段溫柔的話、收藏找上你的經文,以及精選的平靜音樂。另有選用的訂閱方案 Still & Deep,每月 3.99 美元,增加不限次數的時刻、完整的 ipe 音樂庫,以及更長的省思。你可以隨時在 App Store 取消。沒有倒數計時,也沒有「最後機會」的優惠。"
+   ],
+   [
+    "聖經經文是由 AI 寫的嗎?",
+    "不是。經文是經過人工審閱的聖經原文,絕不是生成的。裝置上的小型模型只負責協助將你的話與經文配對,而危機徵兆則由固定規則處理,而不是由模型處理。"
+   ],
+   [
+    "still() 是心理治療,或可以取代諮商嗎?",
+    "不是。still() 提供的是安慰與聖經經文,不是諮商、醫療照護或緊急服務。如果你有傷害自己的念頭,或身處立即的危險,請立刻聯絡你所在地的緊急電話或危機專線——你可以在 [findahelpline.com](https://findahelpline.com) 找到你所在國家的免費專線——或向你信任的人求助。"
+   ],
+   [
+    "支援哪些裝置與語言?",
+    "still() 是 iOS App。本網站提供 13 種語言:英文、韓文、日文、中文、西班牙文、葡萄牙文、印尼文、俄文、越南文、法文、德文、阿拉伯文與印地文。App 已完整翻譯為英文與韓文;俄文、越南文、法文與德文則僅翻譯了一般畫面。"
+   ],
+   [
+    "still() 是誰製作的?",
+    "still() 由 ipe Studio 製作,這是一個獨立工作室,品牌為 ipe()——「當過程終於安歇」。歡迎造訪 [ipe.rest](https://ipe.rest),或來信 ipe.haven@gmail.com。"
+   ]
+  ],
+  "about_title": "still() 與其他名為 Still 的 App 有何不同",
+  "about_meta": "ipe Studio 的 still() 是一款私密、在裝置上運作、為艱難日子而設的聖經陪伴——與其他名為 Still 的 App 和網站不同。它是什麼,以及它不是什麼。",
+  "about": [
+   "其他 App 與網站也使用「Still」這個名稱。still() ——帶有括號,來自 ipe Studio,網址為 still.ipe.rest——是一款不同的獨立 App,與它們沒有任何關聯。它的不同之處在於:它是為艱難的日子而做的——憂鬱、恐慌、倦怠,或沉重的時期。你用自己的話告訴它你正背負的重擔,它會依你所說的話,找到一節安慰的聖經經文、一段白話說明那節經文的意涵,以及讓你安歇的 ipe 平靜 lofi 音樂。一切都在你的裝置上運作:不需帳號,你輸入的內容也不會離開你的手機。經文是經過人工審閱的聖經原文,絕非 AI 撰寫,而 still() 提供的是安慰,不是諮商。它根植於{psalm}:{verse}",
+   "still() 是 ipe Studio 旗下 ipe() 家族的一員——請見 [ipe.rest](https://ipe.rest)。更多解答請見[常見問題](/{L}/faq/);[首頁](/{L}/)有簡短版本。"
+  ],
+  "crumb_home": "still()"
+ },
+ "th": {
+  "faq_title": "คำถามที่พบบ่อยเกี่ยวกับ still()",
+  "faq_meta": "คำตอบเกี่ยวกับ still() เพื่อนคู่ใจด้านพระคัมภีร์แบบส่วนตัวที่ทำงานในเครื่อง สำหรับวันที่หนักหนา โดย ipe Studio ได้แก่ ความเป็นส่วนตัว ราคา ความแตกต่างจากแอปอื่นที่ชื่อ Still และสิ่งที่แอปนี้ไม่ใช่",
+  "faq_lede": "คำตอบสั้น ๆ ตรงไปตรงมาเกี่ยวกับ still() ว่าคืออะไร อะไรอยู่เฉพาะในโทรศัพท์ของคุณ และอะไรที่แอปนี้ไม่ใช่",
+  "faq": [
+   [
+    "still() คืออะไร",
+    "still() เป็นแอปเพื่อนคู่ใจด้านพระคัมภีร์แบบส่วนตัวที่ทำงานในเครื่องสำหรับ iOS สร้างโดย ipe Studio สำหรับวันที่หนักหนา คุณบอกสิ่งที่คุณแบกอยู่ จะเป็นประโยคเดียว เสียงถอนหายใจ หรือคำเดียวก็ได้ แล้วแอปจะมอบพระคัมภีร์ที่ปลอบประโลมใจ ถ้อยคำสั้น ๆ ภาษาเรียบง่ายที่บอกความหมายของข้อนั้น และดนตรีโลไฟ ipe ที่สงบสำหรับพักใจ ตั้งอยู่บน{psalm}: {verse}"
+   ],
+   [
+    "still() เหมือนกับแอปอื่นที่ชื่อ Still หรือไม่",
+    "ไม่เหมือน มีหลายแอปและเว็บไซต์ที่ใช้ชื่อ “Still” ส่วน still() ซึ่งเขียนพร้อมวงเล็บ สร้างโดย ipe Studio และอยู่ที่ still.ipe.rest เป็นแอปอีกตัวที่เป็นอิสระต่างหาก ดู[still() แตกต่างอย่างไร](/{L}/about/)"
+   ],
+   [
+    "สิ่งที่ฉันพิมพ์ออกจากโทรศัพท์หรือไม่",
+    "ไม่ สิ่งที่คุณพิมพ์จะถูกทำความเข้าใจในเครื่องของคุณโดยโมเดลที่ทำงานในเครื่อง ไม่มีบัญชีและไม่ต้องลงชื่อเข้าใช้ และไม่มีสิ่งที่คุณเขียนถูกส่งไปยังเซิร์ฟเวอร์ ถูกเก็บโดยเรา หรือถูกเห็นโดยเรา แอปเพียงดาวน์โหลดไฟล์โมเดลเองในทางเดียว ตัวแอปไม่เก็บข้อมูลใด ๆ เกี่ยวกับคุณ มีเพียงเว็บไซต์นี้ (ไม่ใช่แอป) ที่วัดจำนวนผู้เข้าชม ด้วย Google Analytics ซึ่งใช้คุกกี้ และด้วย Cloudflare Web Analytics ซึ่งไม่ใช้ ดูรายละเอียดใน[นโยบายความเป็นส่วนตัว](/privacy/)"
+   ],
+   [
+    "still() ใช้ฟรีหรือไม่",
+    "มีระดับใช้ฟรี คือ Still ได้แก่ พระคัมภีร์หนึ่งข้อและถ้อยคำอ่อนโยนทุกวัน การบันทึกข้อพระคัมภีร์ที่มาพบคุณ และดนตรีสงบให้เลือกฟังบางส่วน ส่วนการสมัครสมาชิกแบบไม่บังคับ คือ Still & Deep ราคา 3.99 ดอลลาร์สหรัฐต่อเดือน เพิ่มช่วงเวลาไม่จำกัด คลังดนตรี ipe แบบเต็ม และบทใคร่ครวญที่ยาวขึ้น คุณยกเลิกได้ทุกเมื่อใน App Store ไม่มีการนับถอยหลังและไม่มีข้อเสนอ “โอกาสสุดท้าย”"
+   ],
+   [
+    "AI เขียนข้อพระคัมภีร์หรือไม่",
+    "ไม่ ข้อพระคัมภีร์เป็นพระคัมภีร์ที่ผ่านการตรวจทานโดยมนุษย์ และไม่เคยถูกสร้างขึ้นโดย AI โมเดลขนาดเล็กที่ทำงานในเครื่องเพียงช่วยจับคู่ถ้อยคำของคุณกับข้อพระคัมภีร์ และสัญญาณของภาวะวิกฤตจะถูกจัดการด้วยกฎที่ตายตัว ไม่ใช่โดยโมเดล"
+   ],
+   [
+    "still() เป็นการบำบัด หรือใช้แทนการปรึกษาได้หรือไม่",
+    "ไม่ใช่ still() ให้การปลอบโยนและพระคัมภีร์ ไม่ใช่การให้คำปรึกษา การรักษาทางการแพทย์ หรือบริการฉุกเฉิน หากคุณกำลังคิดทำร้ายตัวเอง หรืออยู่ในอันตรายเฉพาะหน้า โปรดติดต่อหมายเลขฉุกเฉินในพื้นที่ของคุณ หรือสายด่วนช่วยเหลือวิกฤตทันที คุณสามารถค้นหาสายด่วนฟรีของประเทศคุณได้ที่ [findahelpline.com](https://findahelpline.com) หรือติดต่อคนที่คุณไว้วางใจ"
+   ],
+   [
+    "รองรับอุปกรณ์และภาษาใดบ้าง",
+    "still() เป็นแอป iOS เว็บไซต์นี้มี 13 ภาษา ได้แก่ อังกฤษ เกาหลี ญี่ปุ่น จีน สเปน โปรตุเกส อินโดนีเซีย รัสเซีย เวียดนาม ฝรั่งเศส เยอรมัน อาหรับ และฮินดี ตัวแอปแปลครบทั้งหมดเป็นภาษาอังกฤษและเกาหลี ส่วนภาษารัสเซีย เวียดนาม ฝรั่งเศส และเยอรมัน แปลเฉพาะหน้าจอทั่วไป"
+   ],
+   [
+    "ใครเป็นผู้สร้าง still()",
+    "still() สร้างโดย ipe Studio สตูดิโออิสระที่มีแบรนด์คือ ipe() ซึ่งหมายถึง “เมื่อกระบวนการได้พักเสียที” เยี่ยมชมได้ที่ [ipe.rest](https://ipe.rest) หรือเขียนถึง ipe.haven@gmail.com"
+   ]
+  ],
+  "about_title": "still() แตกต่างจากแอปอื่นที่ชื่อ Still อย่างไร",
+  "about_meta": "still() โดย ipe Studio เป็นเพื่อนคู่ใจด้านพระคัมภีร์แบบส่วนตัวที่ทำงานในเครื่อง สำหรับวันที่หนักหนา ต่างจากแอปและเว็บไซต์อื่นที่ชื่อ Still แอปนี้คืออะไร และไม่ใช่อะไร",
+  "about": [
+   "ยังมีแอปและเว็บไซต์อื่นที่ใช้ชื่อ “Still” เช่นกัน ส่วน still() ซึ่งเขียนพร้อมวงเล็บ จาก ipe Studio ที่ still.ipe.rest เป็นแอปอีกตัวที่เป็นอิสระ และไม่มีส่วนเกี่ยวข้องกับแอปเหล่านั้น สิ่งที่ทำให้แตกต่างคือ แอปนี้สร้างขึ้นสำหรับวันที่หนักหนา ไม่ว่าจะเป็นภาวะซึมเศร้า อาการตื่นตระหนก ภาวะหมดไฟ หรือช่วงเวลาที่หนักอึ้ง คุณบอกสิ่งที่คุณแบกอยู่ด้วยคำพูดของคุณเอง แล้วแอปจะหาพระคัมภีร์ที่ปลอบประโลมใจซึ่งเลือกจากสิ่งที่คุณพูด ถ้อยคำภาษาเรียบง่ายที่บอกความหมายของข้อนั้น และดนตรีโลไฟ ipe ที่สงบสำหรับพักใจ ทุกอย่างทำงานในเครื่องของคุณ ไม่มีบัญชี และไม่มีสิ่งที่คุณพิมพ์ออกจากโทรศัพท์ ข้อพระคัมภีร์เป็นพระคัมภีร์ที่ผ่านการตรวจทานโดยมนุษย์ ไม่เคยเขียนโดย AI และ still() ให้การปลอบโยน ไม่ใช่การให้คำปรึกษา ตั้งอยู่บน{psalm}: {verse}",
+   "still() เป็นส่วนหนึ่งของครอบครัว ipe() ของ ipe Studio ดู [ipe.rest](https://ipe.rest) คำตอบเพิ่มเติมอยู่ใน[คำถามที่พบบ่อย](/{L}/faq/) และ[หน้าแรก](/{L}/)มีฉบับสั้น"
+  ],
+  "crumb_home": "still()"
+ },
+ "tr": {
+  "faq_title": "still() hakkında sık sorulan sorular",
+  "faq_meta": "ipe Studio'nun zor günler için geliştirdiği özel, cihaz üzerinde çalışan Kutsal Kitap yol arkadaşı still() hakkında yanıtlar: gizlilik, fiyat, Still adlı diğer uygulamalardan farkı ve ne olmadığı.",
+  "faq_lede": "still() hakkında kısa ve dürüst yanıtlar: ne olduğu, telefonunuzda nelerin kaldığı ve ne olmadığı.",
+  "faq": [
+   [
+    "still() nedir?",
+    "still(), ipe Studio'nun zor günler için yaptığı, iOS için özel, cihaz üzerinde çalışan bir Kutsal Kitap yol arkadaşı uygulamasıdır. Neyi taşıdığınızı anlatırsınız; bir cümle, bir iç çekiş, tek bir sözcük. Size teselli veren bir Kutsal Kitap ayeti, ayetin anlamı üzerine sade dille kısa bir söz ve dinlenmek için sakin ipe lofi müziği sunar. Kökeni {psalm} ayetindedir: {verse}"
+   ],
+   [
+    "still(), Still adını taşıyan diğer uygulamalarla aynı şey mi?",
+    "Hayır. Birçok uygulama ve web sitesi “Still” adını kullanıyor. Parantezli yazılan, ipe Studio'nun yaptığı ve still.ipe.rest adresinde bulunan still() ayrı ve bağımsız bir uygulamadır. [still() nasıl farklı](/{L}/about/) sayfasına bakın."
+   ],
+   [
+    "Yazdıklarım telefonumdan çıkıyor mu?",
+    "Hayır. Yazdıklarınız cihazınızda, cihaz üzerindeki bir model tarafından anlaşılır. Hesap ve oturum açma yoktur; yazdığınız hiçbir şey bir sunucuya gönderilmez, bizim tarafımızdan saklanmaz ya da görülmez. Uygulama yalnızca model dosyasını tek yönlü olarak indirir. Uygulamanın kendisi sizinle ilgili hiçbir şey toplamaz. Yalnızca bu web sitesi (uygulama değil) ziyaretleri ölçer: çerez kullanan Google Analytics ile ve çerez kullanmayan Cloudflare Web Analytics ile. Ayrıntılar [gizlilik politikasında](/privacy/)."
+   ],
+   [
+    "still() ücretsiz mi?",
+    "Ücretsiz bir katman var, Still: her gün bir ayet ve nazik bir söz, sizi bulan ayetleri kaydetme ve sakin müzikten bir seçki. İsteğe bağlı abonelik Still & Deep ayda 3,99 ABD doları tutar; sınırsız an, ipe müziğinin tüm kütüphanesi ve daha uzun düşünceler ekler. İstediğiniz zaman App Store'dan iptal edebilirsiniz. Geri sayım ve “son fırsat” teklifleri yoktur."
+   ],
+   [
+    "Kutsal Kitap ayetlerini yapay zekâ mı yazıyor?",
+    "Hayır. Ayetler insanlar tarafından gözden geçirilmiş Kutsal Kitap metnidir ve asla üretilmez. Cihaz üzerindeki küçük bir model yalnızca sözlerinizi bir ayetle eşleştirmeye yardımcı olur; kriz belirtileri ise modelle değil, sabit kurallarla ele alınır."
+   ],
+   [
+    "still() terapi ya da danışmanlığın yerini tutar mı?",
+    "Hayır. still() teselli ve Kutsal Kitap sunar; danışmanlık, tıbbi bakım ya da acil servis hizmeti sunmaz. Kendinize zarar vermeyi düşünüyorsanız veya acil bir tehlike içindeyseniz hemen bulunduğunuz yerin acil durum numarasını ya da bir kriz hattını arayın; ülkeniz için ücretsiz bir yardım hattını [findahelpline.com](https://findahelpline.com) adresinde bulabilirsiniz. Ya da güvendiğiniz birine ulaşın."
+   ],
+   [
+    "Hangi cihazları ve dilleri destekliyor?",
+    "still() bir iOS uygulamasıdır. Bu web sitesi 13 dilde sunulur: İngilizce, Korece, Japonca, Çince, İspanyolca, Portekizce, Endonezce, Rusça, Vietnamca, Fransızca, Almanca, Arapça ve Hintçe. Uygulama İngilizce ve Korece'ye tam olarak çevrilmiştir; Rusça, Vietnamca, Fransızca ve Almanca'da yalnızca genel ekranlar çevrilmiştir."
+   ],
+   [
+    "still()'i kim yapıyor?",
+    "still(), markası ipe() olan bağımsız bir stüdyo olan ipe Studio tarafından yapılır; “süreç sonunda dinlendiğinde”. [ipe.rest](https://ipe.rest) adresini ziyaret edin veya ipe.haven@gmail.com adresine yazın."
+   ]
+  ],
+  "about_title": "still() Still adlı diğer uygulamalardan nasıl ayrılır",
+  "about_meta": "ipe Studio'nun still() uygulaması, zor günler için özel, cihaz üzerinde çalışan bir Kutsal Kitap yol arkadaşıdır; Still adlı diğer uygulama ve sitelerden farklıdır. Ne olduğu ve ne olmadığı.",
+  "about": [
+   "Başka uygulamalar ve web siteleri de “Still” adını taşıyor. Parantezli yazılan, ipe Studio'dan ve still.ipe.rest adresinde bulunan still() farklı, bağımsız bir uygulamadır ve onlarla bir bağı yoktur. Onu ayıran şey, zor günler için yapılmış olmasıdır: depresyon, panik, tükenmişlik, ağır bir dönem. Neyi taşıdığınızı kendi sözcüklerinizle anlatırsınız; o da söylediklerinize göre seçilmiş teselli veren bir Kutsal Kitap ayeti, o ayetin anlamı üzerine sade dille bir söz ve dinlenmek için sakin ipe lofi müziği bulur. Her şey cihazınızda çalışır: hesap yoktur ve yazdığınız hiçbir şey telefonunuzdan çıkmaz. Ayetler insanlar tarafından gözden geçirilmiş Kutsal Kitap metnidir, asla yapay zekâ tarafından yazılmaz; still() teselli sunar, danışmanlık değil. Kökeni {psalm} ayetindedir: {verse}",
+   "still(), ipe Studio'nun ipe() ailesinin bir parçasıdır; bkz. [ipe.rest](https://ipe.rest). Daha fazla yanıt [SSS](/{L}/faq/) sayfasında; kısa hâli [ana sayfada](/{L}/)."
   ],
   "crumb_home": "still()"
  }

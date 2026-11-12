@@ -8,7 +8,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
-from seo_crawl import REPO, committed_site, full_site  # noqa: E402
+from seo_crawl import REPO, committed_site, full_site, live  # noqa: E402
 from site_common import LANGS  # noqa: E402
 from test_build_journal import Base, run  # noqa: E402
 from test_journal_paging import put, series  # noqa: E402
@@ -20,9 +20,9 @@ def more_of(page):
     rel = re.search(r'<section class="related".*?</section>', page, re.S)
     rel = rel.group(0) if rel else ""
     slug = lambda m: m.group(1) if m else None
-    return (slug(re.search(r'rel="prev" href="/journal/[a-z]{2}/([a-z0-9-]+)/"', nav)),
-            slug(re.search(r'rel="next" href="/journal/[a-z]{2}/([a-z0-9-]+)/"', nav)),
-            re.findall(r'<li><a href="/journal/[a-z]{2}/([a-z0-9-]+)/">', rel))
+    return (slug(re.search(r'rel="prev" href="/journal/[A-Za-z-]+/([a-z0-9-]+)/"', nav)),
+            slug(re.search(r'rel="next" href="/journal/[A-Za-z-]+/([a-z0-9-]+)/"', nav)),
+            re.findall(r'<li><a href="/journal/[A-Za-z-]+/([a-z0-9-]+)/">', rel))
 
 
 class Fixture(Base):
@@ -94,7 +94,7 @@ class Fixture(Base):
         self.assertIn('id="help"', h)
         self.assertEqual(len(re.findall(r"<h1[ >]", h)), 1)
 
-    def test_all_eleven_languages_have_the_strings(self):
+    def test_all_twelve_languages_have_the_strings(self):
         ui = json.loads((REPO / "content/journal/ui.json").read_text(encoding="utf-8"))
         for l in LANGS:
             for k in ("prev_post", "next_post", "related"):
@@ -107,16 +107,16 @@ class Site:
 
     def articles(self):
         for name, (root, pages) in self.sites:
-            for url, p in pages.items():
-                m = re.fullmatch(r"https://still\.ipe\.rest/journal/([a-z]{2})/([a-z0-9-]+)/", url)
-                if m and m.group(2) != "page":
+            for url, p in live(pages).items():  # frozen zh/ru articles and the /journal/pt/ stubs have no related block (see seo_crawl.live)
+                m = re.fullmatch(r"https://still\.ipe\.rest/journal/([A-Za-z-]+)/([a-z0-9-]+)/", url)
+                if m and m.group(1) != "page" and m.group(2) != "page":
                     yield name, pages, url, m.group(1), m.group(2), (root / "journal" / m.group(1) / m.group(2) / "index.html").read_text(encoding="utf-8")
 
     def test_every_article_links_other_articles_of_its_language(self):
         n = 0
         for name, pages, url, lang, slug, html in self.articles():
             n += 1
-            same = [u for u in pages if re.fullmatch(r"https://still\.ipe\.rest/journal/%s/(?!page/)[a-z0-9-]+/" % lang, u)]
+            same = [u for u in live(pages) if re.fullmatch(r"https://still\.ipe\.rest/journal/%s/(?!page/)[a-z0-9-]+/" % lang, u)]
             prev, nxt, rel = more_of(html)
             self.assertEqual(len(rel), min(3, len(same) - 1 - len({prev, nxt} - {None})), (name, url))  # all the rest when fewer than three are left
             self.assertEqual(len(set(rel)), len(rel), (name, url))

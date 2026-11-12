@@ -54,7 +54,7 @@
    "fallback": "¿En otro lugar? Encuentra una línea de ayuda gratuita en tu país:",
    "bible_label": "Citas bíblicas:"
   },
-  "pt": {
+  "pt-BR": {
    "fiction": "É uma história tecida com as experiências de muitas pessoas. Não trata de uma pessoa nem de um fato real específico.",
    "disclaimer": "Este artigo não é aconselhamento médico e não substitui consulta, diagnóstico ou tratamento profissional.",
    "jump": "Precisa de apoio agora?",
@@ -125,6 +125,33 @@
    "help_intro": "आपको यह अकेले नहीं उठाना है। अगर आप ख़ुद को नुक़सान पहुँचाने के बारे में सोच रहे हैं या तुरंत ख़तरे में हैं, तो अभी अपने स्थानीय आपातकालीन नंबर या किसी संकट हेल्पलाइन से संपर्क करें, या किसी भरोसेमंद व्यक्ति तक पहुँचें।",
    "fallback": "कहीं और हैं? अपने देश की मुफ़्त हेल्पलाइन खोजें:",
    "bible_label": "बाइबल के उद्धरण:"
+  },
+  "zh-Hant": {
+   "fiction": "這是一則由許多人的經歷交織而成的故事,並非關於任何真實的人物或事件。",
+   "disclaimer": "本文不構成醫療建議,也不能取代就醫、診斷或治療。",
+   "jump": "現在需要支持嗎?",
+   "help_title": "如果你現在正感到難以承受",
+   "help_intro": "你不必獨自承擔這一切。如果你有傷害自己的念頭,或身處立即的危險,請立刻聯絡你所在地的緊急電話或危機專線,或向你信任的人求助。",
+   "fallback": "在其他地方嗎?請查詢你所在國家的免費專線:",
+   "bible_label": "聖經引文:"
+  },
+  "th": {
+   "fiction": "นี่คือเรื่องราวที่ถักทอจากประสบการณ์ของหลายคน ไม่ได้เกี่ยวกับบุคคลหรือเหตุการณ์จริงใดโดยเฉพาะ",
+   "disclaimer": "บทความนี้ไม่ใช่คำแนะนำทางการแพทย์ และไม่สามารถใช้แทนการพบแพทย์ การวินิจฉัย หรือการรักษา",
+   "jump": "ต้องการความช่วยเหลือตอนนี้หรือไม่",
+   "help_title": "หากคุณกำลังทุกข์ใจอยู่ในตอนนี้",
+   "help_intro": "คุณไม่จำเป็นต้องแบกสิ่งนี้เพียงลำพัง หากคุณกำลังคิดทำร้ายตัวเอง หรืออยู่ในอันตรายเฉพาะหน้า โปรดติดต่อหมายเลขฉุกเฉินในพื้นที่ของคุณ หรือสายด่วนช่วยเหลือวิกฤตทันที หรือติดต่อคนที่คุณไว้วางใจ",
+   "fallback": "อยู่ที่อื่นหรือไม่ ค้นหาสายด่วนฟรีในประเทศของคุณได้ที่:",
+   "bible_label": "ข้อความจากพระคัมภีร์:"
+  },
+  "tr": {
+   "fiction": "Bu, birçok insanın deneyiminden örülmüş bir hikâyedir. Gerçek bir kişiyi ya da olayı anlatmaz.",
+   "disclaimer": "Bu makale tıbbi tavsiye değildir; doktor ziyaretinin, tanının veya tedavinin yerini tutmaz.",
+   "jump": "Şu anda desteğe mi ihtiyacınız var?",
+   "help_title": "Şu anda zorlanıyorsanız",
+   "help_intro": "Bunu tek başınıza taşımak zorunda değilsiniz. Kendinize zarar vermeyi düşünüyorsanız veya acil bir tehlike içindeyseniz hemen bulunduğunuz yerin acil durum numarasını ya da bir kriz hattını arayın veya güvendiğiniz birine ulaşın.",
+   "fallback": "Başka bir yerde misiniz? Ülkenizdeki ücretsiz bir yardım hattını bulun:",
+   "bible_label": "Kutsal Kitap alıntıları:"
   }
  },
  "lines": {
@@ -342,7 +369,7 @@
     }
    ]
   },
-  "pt": {
+  "pt-BR": {
    "status": "verified",
    "reviewed_by": "Matt·still (Davy 위임 · Dane 공식 출처 확인 2026-10-25)",
    "reviewed_on": "2026-10-25",
@@ -629,6 +656,18 @@
      ]
     }
    ]
+  },
+  "zh-Hant": {
+   "status": "draft",
+   "regions": []
+  },
+  "th": {
+   "status": "draft",
+   "regions": []
+  },
+  "tr": {
+   "status": "draft",
+   "regions": []
   }
  }
 }

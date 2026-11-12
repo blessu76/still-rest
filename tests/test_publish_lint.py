@@ -90,8 +90,8 @@ class Errors(Base):
             r = check(self.tmp)
             self.assertEqual(r.returncode, 1, (field_title, field_desc))
             self.assertIn("placeholder text", r.stderr)
-        post(self.tmp, lang="pt", title="Tudo bem", desc="Todo mundo precisa descansar.")
-        post(self.tmp, lang="en", slug="p1")  # the en original so that pt has its source
+        post(self.tmp, lang="pt-BR", title="Tudo bem", desc="Todo mundo precisa descansar.")
+        post(self.tmp, lang="en", slug="p1")  # the en original so that pt-BR has its source
         self.assertEqual(check(self.tmp).returncode, 0)
 
     def test_a_second_file_with_the_same_slug_fails_on_its_file_name(self):

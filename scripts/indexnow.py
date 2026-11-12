@@ -61,7 +61,7 @@ def sitemap_entries(sitemap_path):
     return out
 
 
-ARTICLE_RE = re.compile(r"^/journal/[a-z]{2}/(?!page/)[a-z0-9-]+/$")  # one journal post; the lists, pages 2+, home pages and info pages are not
+ARTICLE_RE = re.compile(r"^/journal/[A-Za-z]{2}(?:-[A-Za-z]{2,4})?/(?!page/)[a-z0-9-]+/$")  # one journal post; the lists, pages 2+, home pages and info pages are not
 
 
 def changed_urls(entries, today, previous=None):

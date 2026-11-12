@@ -137,10 +137,10 @@ class AllLanguages(Base):
         self.assertIn("1577-0199", self.page("journal/ko/hello/index.html"))
 
     def test_dates_are_written_in_the_pages_language(self):
-        want = {"en": "October 22, 2026", "ko": "2026년 10월 22일", "ja": "2026年10月22日", "zh": "2026年10月22日",
-                "es": "22 de octubre de 2026", "pt": "22 de outubro de 2026", "id": "22 Oktober 2026", "ru": "22 октября 2026 г.",
+        want = {"en": "October 22, 2026", "ko": "2026년 10월 22일", "ja": "2026年10月22日", "zh-Hant": "2026年10月22日",
+                "es": "22 de octubre de 2026", "pt-BR": "22 de outubro de 2026", "id": "22 Oktober 2026",
                 "vi": "22 tháng 10, 2026", "fr": "22 octobre 2026", "de": "22. Oktober 2026",
-                "ar": "22 أكتوبر 2026", "hi": "22 अक्टूबर 2026"}
+                "th": "22 ตุลาคม 2026", "tr": "22 Ekim 2026"}
         self.assertEqual(sorted(want), sorted(LANGS))
         for l in LANGS:
             h = self.page("journal/%s/hello/index.html" % l)
@@ -157,7 +157,7 @@ class AllLanguages(Base):
             self.assertIn('<meta property="og:image:alt" content="%s">' % bj.esc(home[l]["og_image_alt"]), h, l)
             # the language switch exists without JS: a link to this post in every language
             nav = re.search(r'<nav class="foot-langs".*?</nav>', h, re.S).group(0)
-            self.assertEqual(sorted(re.findall(r'hreflang="(\w+)"', nav)), sorted(LANGS), l)
+            self.assertEqual(sorted(re.findall(r'hreflang="([\w-]+)"', nav)), sorted(LANGS), l)
             self.assertIn('href="/journal/%s/hello/" hreflang="%s" lang="%s" aria-current="true"' % (l, l, l), nav)
             if l != "en":
                 self.assertNotIn('aria-label="Footer"', h, l)
@@ -203,7 +203,7 @@ class AllLanguages(Base):
         for l in LANGS:
             self.assertIn("https://still.ipe.rest/journal/%s/" % l, locs)
             self.assertIn("https://still.ipe.rest/journal/%s/hello/" % l, locs)
-        self.assertEqual(len(locs), 14 + 26 + 2 + 1 + 13 + 13)  # home + faq/about + privacy/terms + hub + lists + posts
+        self.assertEqual(len(locs), 13 + 24 + 2 + 1 + 12 + 12)  # root home + 12 language homes + 12x2 faq/about + privacy/terms + hub + lists + posts
 
     def test_llms_and_feed(self):
         self.assertIn("https://still.ipe.rest/journal/ko/hello/", self.page("llms.txt"))
@@ -555,22 +555,23 @@ class RepoState(unittest.TestCase):
     CONFIRMED = {
         "ko": ["109"],
         "en": ["988", "9-8-8", "116 123", "13 11 14"],
-        "zh": ["12356"],
+        "zh-Hant": [],  # new language: crisis data is a draft with no regions yet, so nothing prints
         "es": ["024", "988", "800 911 2000"],
-        "pt": ["188", "808 24 24 24"],
+        "pt-BR": ["188", "808 24 24 24"],
         "fr": ["3114", "9-8-8", "143", "0800 32 123"],
         "de": ["0800 111 0 111", "0800 111 0 222", "116 123", "142", "143"],
         "ja": ["0570-064-556", "0120-279-338", "0120-783-556", "0120-061-338"],
-        "ru": ["8-800-2000-122", "+7 (495) 989-50-50"],
         "vi": [],
         "id": ["119 ext. 8"],
-        "ar": [],  # no country numbers are invented for Arabic: the page points at findahelpline-style worldwide guidance (draft)
-        "hi": [],  # Tele-MANAS 14416 is stored as a draft ([미검증]: the official site could not be fetched on 2026-11-01), so nothing prints
+        "th": [],  # new language: draft, no regions yet
+        "tr": [],  # new language: draft, no regions yet
     }
 
     def test_each_language_prints_exactly_the_confirmed_numbers(self):
         d = json.loads((REPO / "content/journal/safety.json").read_text(encoding="utf-8"))["lines"]
-        self.assertEqual(set(self.CONFIRMED), set(d))
+        # the data file may still carry the frozen (ended) languages zh/ru/ar/hi: only the site's languages are asserted
+        self.assertTrue(set(self.CONFIRMED) <= set(d))
+        self.assertEqual(set(self.CONFIRMED), set(LANGS))
         for l, want in self.CONFIRMED.items():
             got = [it["number"] for r in d[l]["regions"] for it in r["items"] if it["status"] == "verified"]
             self.assertEqual(got, want, l)
@@ -579,21 +580,46 @@ class RepoState(unittest.TestCase):
                     if it["status"] == "verified":
                         self.assertRegex(it["checked_on"], r"^2026-10-2[2-9]$", (l, it["number"]))
                         self.assertTrue(it.get("source", "").startswith("https://"), (l, it["number"]))
-        for l in ("en", "zh", "es", "pt", "fr", "de", "ja", "ru"):
+        for l in ("en", "es", "pt-BR", "fr", "de", "ja"):
             self.assertEqual(d[l]["status"], "verified", l)
             self.assertEqual(d[l]["reviewed_on"], "2026-10-25", l)
         # vi stays draft: no official adult crisis line was found (Dane, 2026-10-25) -> its posts stay `draft: true`
         self.assertEqual(d["vi"]["status"], "draft")
         self.assertEqual(d["id"]["status"], "draft")
-        self.assertEqual(d["ar"]["status"], "draft")
-        self.assertEqual(d["hi"]["status"], "draft")
+        for l in ("zh-Hant", "th", "tr"):  # new languages: draft data with no regions
+            self.assertEqual(d[l]["status"], "draft", l)
+            self.assertEqual(d[l]["regions"], [], l)
 
     def test_safety_data_covers_all_languages(self):
         d = json.loads((REPO / "content/journal/safety.json").read_text(encoding="utf-8"))
-        self.assertEqual(list(d["text"]), LANGS)
-        self.assertEqual(list(d["lines"]), LANGS)
+        self.assertTrue(set(LANGS) <= set(d["text"]))  # frozen zh/ru/ar/hi may remain in the data: not asserted either way
+        self.assertTrue(set(LANGS) <= set(d["lines"]))
         ui = json.loads((REPO / "content/journal/ui.json").read_text(encoding="utf-8"))
-        self.assertEqual([l for l in ui if not l.startswith("_")], LANGS)
+        self.assertTrue(set(LANGS) <= {l for l in ui if not l.startswith("_")})
+
+    def test_old_pt_addresses_are_redirect_stubs_to_pt_BR(self):
+        import site_common as sc
+        self.assertEqual(sc.MOVED, {"pt": "pt-BR"})
+        for old, new in (("pt/index.html", "pt-BR/"), ("pt/faq/index.html", "pt-BR/faq/"), ("pt/about/index.html", "pt-BR/about/")):
+            h = (REPO / old).read_text(encoding="utf-8")
+            self.assertIn(sc.GEN_MARK, h, old)
+            self.assertIn('<meta name="robots" content="noindex, follow">', h, old)
+            self.assertIn('<link rel="canonical" href="https://still.ipe.rest/%s">' % new, h, old)
+            self.assertIn('http-equiv="refresh" content="0; url=https://still.ipe.rest/%s"' % new, h, old)
+            self.assertIn("GA_ID", h, old)
+        locs = (REPO / "sitemap.xml").read_text(encoding="utf-8")
+        self.assertNotIn("still.ipe.rest/pt/", locs)
+        self.assertNotIn("/journal/pt/", locs)
+        for l in ("zh", "ru", "ar", "hi"):  # ended languages: frozen files may remain but are not in the sitemap
+            self.assertNotIn("still.ipe.rest/%s/" % l, locs)
+            self.assertNotIn("/journal/%s/" % l, locs)
+
+    def test_ended_languages_are_not_in_the_site_language_list(self):
+        for l in ("zh", "ru", "ar", "hi", "pt"):
+            self.assertNotIn(l, LANGS)
+        self.assertEqual(len(LANGS), 12)
+        for l in ("zh-Hant", "pt-BR", "th", "tr"):
+            self.assertIn(l, LANGS)
 
 
 if __name__ == "__main__":

@@ -11,13 +11,18 @@ sys.path.insert(0, str(REPO / "scripts"))
 import check_sitemap  # noqa: E402
 
 
+LANGS = ["en", "ko", "ja", "zh-Hant", "es", "pt-BR", "fr", "de", "id", "th", "vi", "tr"]  # the kit's 12
+ENDED = ["zh", "ru", "ar", "hi"]  # frozen folders: not listed, not checked
+STUB_DIRS = ["pt"]  # moved pt -> pt-BR: redirect stubs only
+
+
 class CheckSitemap(unittest.TestCase):
     def setUp(self):
         self.tmp = Path(tempfile.mkdtemp())
         shutil.copy(REPO / "sitemap.xml", self.tmp / "sitemap.xml")
         shutil.copy(REPO / "robots.txt", self.tmp / "robots.txt")
         pages = ["index.html", "privacy/index.html", "terms/index.html"] + [
-            "%s/%s" % (l, f) for l in ["en", "ko", "ja", "zh", "es", "pt", "id", "ru", "vi", "fr", "de", "ar", "hi"] for f in ("index.html", "faq/index.html", "about/index.html")]
+            "%s/%s" % (l, f) for l in LANGS for f in ("index.html", "faq/index.html", "about/index.html")]
         for rel in pages:  # the real pages: check() compares each one's head with its sitemap row
             (self.tmp / rel).parent.mkdir(parents=True, exist_ok=True)
             shutil.copy(REPO / rel, self.tmp / rel)
@@ -40,6 +45,45 @@ class CheckSitemap(unittest.TestCase):
 
     def test_committed_sitemap_is_clean(self):
         self.assertEqual(self.errs(), [])
+
+    def test_committed_sitemap_has_exactly_the_twelve_languages(self):
+        root = check_sitemap.ET.parse(REPO / "sitemap.xml").getroot()
+        rows = {u.findtext("s:loc", namespaces=check_sitemap.NS): u for u in root.findall("s:url", check_sitemap.NS)}
+        for loc, u in rows.items():
+            for dead in ENDED + STUB_DIRS:  # no ended language and no old /pt/ stub, as a page or as a journal URL
+                self.assertFalse(loc.startswith("%s/%s/" % (check_sitemap.SITE, dead)), loc)
+                self.assertNotIn("/journal/%s/" % dead, loc)
+            for l in u.findall("x:link", check_sitemap.NS):
+                self.assertNotIn(l.get("hreflang"), ENDED + STUB_DIRS, loc)
+        homes = [l for l in ["", ] + ["%s/" % l for l in LANGS]]
+        self.assertEqual(len([h for h in homes if "%s/%s" % (check_sitemap.SITE, h) in rows]), 13)  # "/" + 12
+        for l in LANGS:
+            for p in ("", "faq/", "about/"):
+                u = rows["%s/%s/%s" % (check_sitemap.SITE, l, p)]
+                self.assertEqual(len(u.findall("x:link", check_sitemap.NS)), 13, (l, p))  # 12 + x-default
+
+    def test_expected_urls_are_the_twelve_languages(self):
+        want = check_sitemap.expected_urls(self.tmp)
+        self.assertEqual(len(want), 1 + 12 + 24 + 2)  # "/" + homes + faq/about + privacy/terms
+        for l in ("th", "tr", "zh-Hant", "pt-BR"):
+            self.assertIn("%s/%s/faq/" % (check_sitemap.SITE, l), want)
+        for dead in ENDED + STUB_DIRS:
+            self.assertFalse([u for u in want if u.startswith("%s/%s/" % (check_sitemap.SITE, dead))], dead)
+
+    def test_ended_languages_and_stubs_need_no_built_page(self):
+        # frozen folders / the pt stub are not part of the check: removing them from the copy changes nothing
+        for d in ENDED + STUB_DIRS:
+            shutil.rmtree(self.tmp / d, ignore_errors=True)
+        self.assertEqual(self.errs(), [])
+
+    def test_a_redirect_stub_listed_in_the_sitemap_is_reported(self):
+        # the old /pt/ is a noindex redirect stub whose canonical is /pt-BR/: listing it in the sitemap is an error (canonical + noindex)
+        (self.tmp / "pt").mkdir()
+        shutil.copy(REPO / "pt/index.html", self.tmp / "pt/index.html")
+        self.edit("</urlset>", "<url><loc>https://still.ipe.rest/pt/</loc><lastmod>2026-11-01</lastmod></url>\n</urlset>")
+        errs = self.errs()
+        self.assertTrue(any(e.startswith("https://still.ipe.rest/pt/: canonical is") for e in errs), errs)
+        self.assertIn("https://still.ipe.rest/pt/: is in the sitemap but noindex", errs)
 
     def test_missing_language_page_is_reported(self):
         s = (self.tmp / "sitemap.xml").read_text(encoding="utf-8")

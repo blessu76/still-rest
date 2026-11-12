@@ -11,11 +11,17 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "scripts"))
-from site_common import LANGS, ORG, ORG_ID  # noqa: E402
+from site_common import ENDED_DIRS, LANGS, MOVED, ORG, ORG_ID  # noqa: E402
 
 LD = re.compile(r'<script type="application/ld\+json">\n(.*?)\n</script>', re.S)
 LOGO = {"@type": "ImageObject", "url": "https://ipe.rest/icon-512.png", "width": 512, "height": 512}  # the hub's square icon (hub declares the same file)
 HUB = {"@type": "Organization", "@id": "https://ipe.rest/#organization", "name": "ipe()", "url": "https://ipe.rest/", "logo": LOGO}  # as published on https://ipe.rest/
+
+
+def journal_dirs(root, depth):
+    """journal/<lang>/(<slug>/)index.html of the LIVE journal languages: the frozen ended languages (zh ru) and the /journal/pt/ redirect stubs (no JSON-LD) are skipped, hub list pages (journal/page/<n>/) too."""
+    skip = ("page", *ENDED_DIRS, *MOVED)
+    return [f for f in sorted(root.glob("journal/" + "*/" * depth + "index.html")) if f.relative_to(root).parts[1] not in skip]
 
 
 def lds(path):
@@ -81,9 +87,9 @@ class OrgHub(unittest.TestCase):
         self.assertTrue(logo_problems(dict(ORG, logo=dict(LOGO, url="http://ipe.rest/icon-512.png"))))
         self.assertTrue(logo_problems(dict(ORG, logo=dict(LOGO, **{"@type": "URL"}))))
 
-    def check_posts(self, root):
-        posts = [f for f in sorted(root.glob("journal/*/*/index.html")) if f.relative_to(root).parts[1] != "page"]  # list pages 2+ of the hub (journal/page/<n>/) are not posts
-        self.assertGreaterEqual(len(posts), 18)
+    def check_posts(self, root, minimum):
+        posts = journal_dirs(root, 2)  # not the list pages 2+ of the hub (journal/page/<n>/)
+        self.assertGreaterEqual(len(posts), minimum)
         n = 0
         for f in posts:
             docs = lds(f)  # also proves every ld+json block parses
@@ -100,15 +106,15 @@ class OrgHub(unittest.TestCase):
         return n
 
     def test_every_post_page_points_at_the_hub(self):
-        # a full build: 8 originals' worth of posts x the published languages
-        self.assertGreaterEqual(self.check_posts(self.built), 63)
+        # a full build: 14 posts x the 7 live journal languages (en ko ja es pt-BR fr de)
+        self.assertGreaterEqual(self.check_posts(self.built, 98), 98)
 
     def test_committed_post_pages_point_at_the_hub(self):
-        self.check_posts(REPO)
+        self.check_posts(REPO, 14)  # the committed pages hold no scheduled posts yet
 
     def test_translated_posts_name_the_translator(self):
         n = 0
-        for f in self.built.glob("journal/*/*/index.html"):
+        for f in journal_dirs(self.built, 2):
             for d in lds(f):
                 if "translationOfWork" in d:
                     n += 1
@@ -117,7 +123,7 @@ class OrgHub(unittest.TestCase):
 
     def test_journal_lists_point_at_the_hub(self):
         for root in (self.built, REPO):
-            lists = [root / "journal/index.html"] + sorted(root.glob("journal/*/index.html"))
+            lists = [root / "journal/index.html"] + journal_dirs(root, 1)
             self.assertGreaterEqual(len(lists), 2)
             for f in lists:
                 blogs = [d for d in lds(f) if d.get("@type") == "Blog"]
@@ -126,7 +132,7 @@ class OrgHub(unittest.TestCase):
 
     def test_home_pages_define_the_hub_and_refer_to_it(self):
         pages = [REPO / "index.html"] + [REPO / l / "index.html" for l in LANGS]
-        self.assertEqual(len(pages), 14)
+        self.assertEqual(len(pages), 1 + 12)  # the root + the 12 active languages (zh ru ar hi are frozen)
         for f in pages:
             docs = lds(f)
             orgs = [n for d in docs for n in nodes(d) if n.get("@type") == "Organization"]

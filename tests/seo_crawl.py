@@ -10,7 +10,54 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 SOURCES = ("content", "scripts", "tests", ".git", ".github")
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+from site_common import ENDED_DIRS, LANGS, MOVED, SITE  # noqa: E402
+
 CLOCK = "2026-10-29 23:59"  # the real "today" of this work: the 10-30 posts are scheduled and must stay out of the build
+
+
+# ---- what a crawl-wide SEO check treats as "the index" (ONE place for the exclusions; every SEO test goes through `live()`).
+# - ACTIVE_LANGS: the 12 languages of the site (kit list: en ko ja zh-Hant es pt-BR fr de id th vi tr). They keep the full strictness.
+# - frozen pages: the ended languages (site_common.ENDED_DIRS = zh ru ar hi, also journal/zh, journal/ru) stay on disk untouched but are no
+#   longer built or listed, so their hreflang / language select still describe the old 13-language site. They are not in the sitemap and
+#   are not part of the current index, so cluster checks (reciprocity, "target exists", language set) must not look at them.
+# - redirect stubs: the old /pt/... and /journal/pt/... (site_common.MOVED) are noindex pages with canonical = the new /pt-BR/... address,
+#   not index targets either; they are checked separately by their own tests (see is_stub / stub_target).
+ACTIVE_LANGS = tuple(LANGS)
+FROZEN_DIRS = tuple(ENDED_DIRS)
+STUB_DIRS = tuple(MOVED)
+
+
+def _lang_dir(url):
+    """first language-like folder of a page address: /<d>/... or /journal/<d>/... (None for /, /journal/, /privacy/ ...)"""
+    parts = url[len(SITE) + 1:].strip("/").split("/")
+    if parts and parts[0] == "journal":
+        return parts[1] if len(parts) > 1 else None
+    return parts[0] if parts else None
+
+
+def is_frozen(url):
+    return _lang_dir(url) in FROZEN_DIRS
+
+
+def is_stub(url):
+    """old-address redirect stub (/pt/, /pt/faq/, /pt/about/, /journal/pt/, /journal/pt/<slug>/ ...)"""
+    return _lang_dir(url) in STUB_DIRS
+
+
+def stub_target(url):
+    """the new address of a moved page: /pt/x/ -> /pt-BR/x/, /journal/pt/x/ -> /journal/pt-BR/x/"""
+    old = _lang_dir(url)
+    return url.replace("/%s/" % old, "/%s/" % MOVED[old], 1) if old in MOVED else None
+
+
+def live(pages):
+    """{url: Page} without the frozen ended-language pages and the redirect stubs = the pages that take part in the current index."""
+    return {u: p for u, p in pages.items() if not is_frozen(u) and not is_stub(u)}
+
+
+def stubs(pages):
+    return {u: p for u, p in pages.items() if is_stub(u)}
 
 
 class Page(HTMLParser):

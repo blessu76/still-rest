@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-LANGS = "en ko ja zh es pt id ru vi fr de ar hi".split()
+LANGS = "en ko ja zh-Hant es pt-BR fr de id th vi tr".split()  # the 12 site languages (ended zh ru ar hi are frozen; pt moved to pt-BR)
 UI = json.loads((REPO / "content/journal/ui.json").read_text(encoding="utf-8"))
 HOME = json.loads((REPO / "content/home/i18n.json").read_text(encoding="utf-8"))
 HAS_JOURNAL = (REPO / "journal/index.html").is_file()
@@ -57,6 +57,14 @@ class TopJournalLink(unittest.TestCase):
             h = (REPO / l / "index.html").read_text(encoding="utf-8")
             self.assertRegex(h, r'<a class="topnav" href="/journal/(%s/)?" data-i18n="foot_journal">' % l)
             self.assertNotIn("data-journal-top", h)
+
+    def test_moved_and_ended_languages_are_not_checked_and_pt_is_a_stub(self):
+        for l in ("zh", "ru", "ar", "hi", "pt"):
+            self.assertNotIn(l, LANGS)
+        h = (REPO / "pt" / "index.html").read_text(encoding="utf-8")  # the old address only redirects: no page chrome, so no Journal link
+        self.assertIn("http-equiv=\"refresh\"", h)
+        self.assertNotIn('class="topnav"', h)
+        self.assertIn("pt-BR", LIST_LANGS)  # the Portuguese list moved with the language
 
     def test_legal_pages_link_the_journal_in_their_top_bar(self):
         for name in ("privacy", "terms"):

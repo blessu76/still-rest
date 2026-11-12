@@ -69,8 +69,8 @@ class Pages(Base):
                 self.assertEqual(m.group(2), "2026년 10월 24일&nbsp;09:09 KST", rel)
 
     def test_a_fallback_card_in_another_language_is_not_localized(self):
-        # the script formats with the page language: an en/ko card on the ar/hi/id/vi home would get that page's month names, so it keeps its static text
-        for rel in ("en/index.html", "ar/index.html", "hi/index.html", "index.html"):
+        # the script formats with the page language: an en/ko card on the id/th/vi/tr home would get that page's month names, so it keeps its static text
+        for rel in ("en/index.html", "id/index.html", "th/index.html", "index.html"):
             h = self.page(rel)
             self.assertIn('lang="ko"', h, rel)
             m = [m for m in TIME.finditer(h) if m.group(1).startswith('datetime="2026-10-24T09:09')]

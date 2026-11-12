@@ -21,8 +21,8 @@ import check_sitemap  # noqa: E402
 from test_build_journal import Base, run  # noqa: E402
 
 # Languages whose pager aria-label (ui.json page_word) is deliberately NOT the word inside their "· <Page> N" title template (`page`).
-# Why: web-room common decision (2026-10-27 08:31) — zh's nav aria-label is 「分页」 while its title stays 「第 {n} 页」. Every other language: page_word ⊂ page.
-PAGER_LABEL_NOT_IN_TITLE = {"zh": "分页"}
+# (the old zh exception — 「分页」 vs 「第 {n} 页」 — went away with the ended zh; zh-Hant's 「頁」 is inside 「第 {n} 頁」.) Empty now: every language page_word ⊂ page.
+PAGER_LABEL_NOT_IN_TITLE = {}
 FIRST_DAY = dt.date(2026, 9, 1)
 NO = re.compile(r'<span class="j-no">No\.&nbsp;(\d+)</span>')
 LD = re.compile(r'<script type="application/ld\+json">\n(.*?)\n</script>', re.S)
@@ -351,9 +351,9 @@ class Paging(Base):
             else:
                 self.assertIn(ui[l]["page_word"], ui[l]["page"], l)  # one word: the pager's aria-label is the word inside the "· <Page> N" title
             self.assertNotIn("aria_pager", ui[l], l)
-        series(self.tmp, 11, langs=("ko", "ja", "de", "fr", "ru"))
+        series(self.tmp, 11, langs=("ko", "ja", "de", "fr", "es", "zh-Hant", "th", "tr"))
         self.assertEqual(run(self.tmp).returncode, 0)
-        for l, label in (("ja", "2ページ"), ("de", "Seite 2"), ("fr", "Page 2"), ("ru", "Страница 2")):
+        for l, label in (("ja", "2ページ"), ("de", "Seite 2"), ("fr", "Page 2"), ("es", "Página 2"), ("zh-Hant", "第 2 頁"), ("th", "หน้า 2"), ("tr", "Sayfa 2")):
             h = self.list_html(l, 2)
             self.assertIn(label, re.search(r"<title>(.*?)</title>", h).group(1), l)
 
@@ -373,10 +373,12 @@ class Paging(Base):
             if l not in ("en", "fr"):  # French's own word happens to be "Page" too
                 self.assertNotIn('aria-label="Page"', h, l)
         self.assertIn('<nav class="pager" aria-label="Page">', self.list_html(None, 1))
-        # zh exception: aria-label 「分页」, while its title template stays 「第 {n} 页」
-        zh1 = self.list_html("zh", 1)
-        self.assertIn('<nav class="pager" aria-label="分页">', zh1)
-        self.assertTrue(re.search(r"<title>(.*?)</title>", self.list_html("zh", 2)).group(1).endswith(" · 第 2 页"))
+        zh1 = self.list_html("zh-Hant", 1)
+        self.assertIn('<nav class="pager" aria-label="頁">', zh1)
+        self.assertTrue(re.search(r"<title>(.*?)</title>", self.list_html("zh-Hant", 2)).group(1).endswith(" · 第 2 頁"))
+        # ended languages get no list pages at all
+        for l in ("zh", "ru", "ar", "hi"):
+            self.assertFalse((self.tmp / "journal" / l).exists(), l)
 
     def test_every_page_has_one_pager_one_list_and_is_indexable(self):
         self.build(21, langs=("ko", "en"))
