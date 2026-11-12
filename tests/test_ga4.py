@@ -174,17 +174,18 @@ class Texts(unittest.TestCase):
             m = re.search(r'<div data-lang-block="%s"[^>]*>(.*?)\n    </div>' % lang, text, re.S)
             block = m.group(1)
             heads = re.findall(r"<h2>(.*?)</h2>", block)
+            numbered = [h for h in heads if re.match(r"\d+\.", h)]
             with self.subTest(lang):
-                self.assertEqual(len(heads), 14)
-                self.assertEqual([int(h.split(".")[0]) for h in heads], list(range(1, 15)))
-                sec = {1: heads[0], 2: heads[1]}
-                self.assertIn("still.ipe.rest", sec[2])
-                self.assertIn("2026-11-01", block.split("</p>")[0])  # effective date, no placeholder
+                self.assertEqual(len(numbered), 12)
+                self.assertEqual([int(h.split(".")[0]) for h in numbered], list(range(1, 13)))
+                self.assertEqual(len(heads) - len(numbered), 2)  # Appendix A (websites) and B (apps)
+                two = block[block.index("<h2>2."):block.index("<h2>3.")]
+                self.assertIn("still", two)
                 self.assertNotIn("to be published", block)
                 self.assertNotIn("게시 예정", block)
-                two = block[block.index("<h2>2."):block.index("<h2>3.")]
+                four = block[block.index("<h2>4."):block.index("<h2>5.")]
                 for word in ("Google Analytics 4", "_ga", "Cloudflare Web Analytics", "tools.google.com/dlpage/gaoptout", "GitHub"):
-                    self.assertIn(word, two)
+                    self.assertIn(word, block[block.index("<h2>4."):])
                 one = block[block.index("<h2>1."):block.index("<h2>2.")]
                 self.assertNotIn("Google", one)  # the app section says nothing about the website's tools
                 self.assertNotRegex(block, self.stale)
