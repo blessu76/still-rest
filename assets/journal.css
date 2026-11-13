@@ -58,7 +58,7 @@ h1,h2,h3{font-weight:500;letter-spacing:-.01em;}
 .lede{font-size:17px;color:var(--muted);}
 .more-link{display:inline-flex;align-items:center;gap:8px;min-height:44px;font-size:14px;font-weight:500;color:var(--gold-deep);text-decoration:none;}
 .more-link:hover{color:var(--ink);}
-.draft-flag{display:inline-block;margin-inline-start:8px;padding:1px 8px;border-radius:999px;background:var(--gold);color:var(--navy);font-size:11px;letter-spacing:.08em;font-weight:600;}
+.draft-flag{display:inline-block;margin-inline-start:8px;padding:1px 8px;border-radius:999px;background:var(--gold);color:var(--navy);font-size:12px;letter-spacing:.08em;font-weight:600;}
 
 /* ---------- hub / list ---------- */
 .page-head{padding:72px 0 36px;}
@@ -95,7 +95,7 @@ h1,h2,h3{font-weight:500;letter-spacing:-.01em;}
 .notice p + p{margin-top:6px;}
 .notice a{color:var(--gold-deep);font-weight:600;white-space:nowrap;}
 .ai-note{font-size:13.5px;color:var(--muted);margin:0 0 24px;}
-.ai-badge{display:inline-block;padding:0 7px;border-radius:5px;background:var(--ink);color:var(--cream);font-size:11px;font-weight:600;letter-spacing:.06em;margin-inline-end:4px;}
+.ai-badge{display:inline-block;padding:1px 7px;border-radius:5px;background:var(--ink);color:var(--cream);font-size:12px;font-weight:600;letter-spacing:.06em;margin-inline-end:4px;}
 .prose{font-size:17.5px;line-height:1.95;overflow-wrap:anywhere;}
 .prose p{margin:0 0 1.35em;}
 .prose h2{font-family:var(--serif);font-weight:400;font-size:clamp(23px,4.4vw,28px);line-height:1.4;margin:2em 0 .7em;}
@@ -163,6 +163,7 @@ a.help-num{text-decoration:underline;text-underline-offset:3px;min-height:44px;d
   .prose blockquote{padding:24px 22px 14px;}
   .j-list li{padding:24px 22px 16px;}
   .help{padding:22px 18px 16px;}
+  .draft-flag,.ai-badge{font-size:13px;}
 }
 @media (max-width:360px){
   .bar{gap:8px;}
