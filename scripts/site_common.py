@@ -77,23 +77,15 @@ def font_links(css=FONT_CSS):
             '<noscript><link rel="stylesheet" href="%s"></noscript>' % (css, css))
 
 
-# GA4 — the same property as ipe.rest (a sub-domain of it, so no cross-domain setup). ONE snippet, inserted into the <head> of every page:
+# GA4 — the same property as ipe.rest (a sub-domain of it, so no cross-domain setup). Pages carry only GA_SNIPPET in <head>;
+# the measurement ID lives in assets/consent.js and gtag loads only after the visitor accepts.
 # generated pages through head() / the home template ({{GA_SNIPPET}}), the hand-written pages (privacy, terms, 404) through sync_static_ga().
 # The privacy policy (section 2), the FAQ answer (content/info/pages.json), llms.txt and README say so -> change them together with this.
 GA_MEASUREMENT_ID = "G-XG4BH800J0"
+CONSENT_V = "20261203a"  # ?v= of assets/consent.js and consent.css — bump when either file changes
 GA_SNIPPET = (
-    "<script>(function(){var GA_ID='%s';"
-    "window.dataLayer=window.dataLayer||[];window.gtag=function(){window.dataLayer.push(arguments)};"
-    # a local preview (python -m http.server, a test render) must not count as a visit
-    "if(/^(localhost|127\\.0\\.0\\.1|\\[::1\\])$/.test(location.hostname))return;"
-    "var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+GA_ID;document.head.appendChild(s);"
-    "window.gtag('js',new Date());window.gtag('config',GA_ID);"
-    # clicks on links that leave the site (link address only); *.ipe.rest is the same studio, not an exit
-    "function out(e){if(e.type==='auxclick'&&e.button!==1)return;"
-    "var a=e.target.closest&&e.target.closest('a[href^=\"http\"]');if(!a)return;"
-    "var h=a.hostname;if(h===location.hostname||h==='ipe.rest'||/\\.ipe\\.rest$/.test(h))return;"
-    "window.gtag('event','outbound_click',{link_url:a.href,link_domain:h,transport_type:'beacon'})}"
-    "document.addEventListener('click',out);document.addEventListener('auxclick',out)})();</script>") % GA_MEASUREMENT_ID
+    '<link rel="stylesheet" href="/assets/consent.css?v=%s">'
+    '<script src="/assets/consent.js?v=%s" defer></script>') % (CONSENT_V, CONSENT_V)
 GA_START, GA_END = "<!-- ga4:start — scripts/site_common.py GA_SNIPPET -->", "<!-- ga4:end -->"
 STATIC_PAGES = ("privacy/index.html", "terms/index.html", "404.html")  # hand-written, not generated: they only get the GA4 block
 

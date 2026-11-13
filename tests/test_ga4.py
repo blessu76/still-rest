@@ -1,6 +1,7 @@
-"""GA4 (G-XG4BH800J0, the ipe.rest property): the snippet comes from ONE constant and lands in the <head> of every page — generated pages
-(home x11, faq/about x11, journal hub/lists/posts incl. posts that publish later) and the hand-written ones (privacy, terms, 404) — and the privacy
-policy / FAQ / llms.txt say what the site really does, the app and the website kept apart. Run: python3 -m unittest discover -s tests"""
+"""GA4 (G-XG4BH800J0, the ipe.rest property): every page gets the same consent loader (assets/consent.css + consent.js) in its <head>; the
+measurement id lives only in assets/consent.js and GA4 loads only after the visitor accepts. The generated pages (home, faq/about, journal
+hub/lists/posts) and the hand-written ones (privacy, terms, 404) — and the privacy policy / FAQ / llms.txt say what the site really does.
+Run: python3 -m unittest discover -s tests"""
 import json
 import re
 import sys
@@ -33,27 +34,27 @@ def check_snippet(case, root):
     for p in pages:
         text = p.read_text(encoding="utf-8")
         with case.subTest(str(p.relative_to(root))):
-            case.assertEqual(text.count("googletagmanager.com/gtag/js"), 1)
-            case.assertEqual(text.count(GA_ID), 1)
+            case.assertEqual(text.count(sc.GA_SNIPPET), 1)
             case.assertIn(sc.GA_SNIPPET, head_of(text))  # in <head>, byte for byte the constant
+            case.assertNotIn(GA_ID, text)  # the id lives in assets/consent.js only
+            case.assertNotIn("googletagmanager", text)
     return pages
 
 
 class Census(unittest.TestCase):
-    """an independent head-count over EVERY .html in the tree (no skip list beyond .git): the measurement id appears exactly once in each,
-    the only .html without it is the build-only home template (it carries the {{GA_SNIPPET}} placeholder), and no other property / tag tool exists"""
-    BUILD_ONLY = {"content/home/template.html"}
+    """an independent head-count over EVERY .html in the tree (no skip list beyond .git): no page names the measurement id or a tag manager
+    any more (only assets/consent.js does), and no other property / tag tool exists"""
     OTHER_TAGS = re.compile(r"G-[A-Z0-9]{8,12}|UA-\d{4,}-\d+|GTM-[A-Z0-9]+|AW-\d{6,}|fbq\(|connect\.facebook\.net|hotjar|clarity\.ms")
 
-    def test_every_html_has_the_measurement_id_exactly_once(self):
+    def test_no_html_carries_the_measurement_id(self):
         counts = {}
         for p in REPO.rglob("*.html"):
             if ".git" in p.relative_to(REPO).parts:
                 continue
             counts[str(p.relative_to(REPO))] = p.read_text(encoding="utf-8").count(GA_ID)
         self.assertGreater(len(counts), 60)
-        self.assertEqual({r for r, n in counts.items() if n == 0}, self.BUILD_ONLY)
-        self.assertEqual({r: n for r, n in counts.items() if n > 1}, {})
+        self.assertEqual({r: n for r, n in counts.items() if n}, {})
+        self.assertEqual((REPO / "assets/consent.js").read_text(encoding="utf-8").count(GA_ID), 1)
 
     def test_no_other_property_or_tracker(self):
         for p in REPO.rglob("*.html"):
@@ -67,16 +68,34 @@ class Census(unittest.TestCase):
 class Constant(unittest.TestCase):
     def test_constant_is_the_ipe_rest_property(self):
         self.assertEqual(sc.GA_MEASUREMENT_ID, GA_ID)
-        self.assertEqual(sc.GA_SNIPPET.count(GA_ID), 1)
+        self.assertEqual(sc.GA_SNIPPET.count(GA_ID), 0)
 
-    def test_snippet_is_inline_async_and_idle_on_localhost(self):
+    def test_snippet_loads_the_consent_files_deferred(self):
         s = sc.GA_SNIPPET
-        self.assertTrue(s.startswith("<script>") and s.endswith("</script>"))
-        self.assertEqual(s.count("<script"), 1)
-        self.assertIn("s.async=true", s)
-        self.assertIn("'outbound_click'", s)
-        self.assertIn("127", s)  # a local preview does not count as a visit
-        self.assertNotIn("select_game", s)  # play.ipe.rest only
+        self.assertIn('href="/assets/consent.css?v=%s"' % sc.CONSENT_V, s)
+        self.assertIn('src="/assets/consent.js?v=%s" defer></script>' % sc.CONSENT_V, s)
+        self.assertNotIn("googletagmanager", s)
+
+    def test_consent_script_holds_the_id_and_the_gates(self):
+        js = (REPO / "assets/consent.js").read_text(encoding="utf-8")
+        self.assertEqual(js.count("googletagmanager.com/gtag/js"), 1)
+        self.assertIn("GA_ID = '%s'" % GA_ID, js)
+        self.assertIn("'consent', 'default'", js)
+        self.assertIn("analytics_storage: 'denied'", js)
+        self.assertIn("127", js)  # a local preview does not count as a visit
+        self.assertIn("'outbound_click'", js)
+        self.assertNotIn("select_game", js)  # play.ipe.rest only
+        self.assertIn("if (saved === 'granted') load();", js)  # the id is never loaded without a stored yes
+        self.assertIn("else if (saved !== 'denied') banner();", js)
+
+    def test_banner_text_for_every_kit_language_and_english_fallback(self):
+        js = (REPO / "assets/consent.js").read_text(encoding="utf-8")
+        for l in list(sc.LANGS) + ["en"]:
+            with self.subTest(l):
+                self.assertRegex(js, r"\n    '?%s'?: \[" % re.escape(l))
+        self.assertIn("var t = T[lang] || T.en;", js)
+        self.assertIn("https://ipe.rest/ko/legal/privacy/", js)
+        self.assertIn("https://ipe.rest/en/legal/privacy/", js)
 
     def test_every_hand_written_page_is_listed(self):
         """a new hand-written .html page must be added to STATIC_PAGES (or be generated) — otherwise it would ship without GA4"""
@@ -93,7 +112,7 @@ class CommittedSite(unittest.TestCase):
             text = (REPO / rel).read_text(encoding="utf-8")
             with self.subTest(rel):
                 self.assertEqual(text.count(sc.GA_SNIPPET), 1)
-                self.assertEqual(text.count(GA_ID), 1)
+                self.assertEqual(text.count(GA_ID), 0)
                 self.assertIn('http-equiv="refresh"', text)
 
     def test_every_committed_page_has_the_snippet_once(self):
@@ -158,8 +177,8 @@ class GeneratorOutput(Base):
         write_post(self.tmp, "en")
         self.assertEqual(run(self.tmp).returncode, 0)
         h = self.page("journal/en/hello/index.html")
-        self.assertLess(h.index("journal.css"), h.index(GA_ID))
-        self.assertLess(h.index(GA_ID), h.index("<body"))
+        self.assertLess(h.index("journal.css"), h.index("consent.css"))
+        self.assertLess(h.index("consent.js"), h.index("<body"))
 
 
 class Texts(unittest.TestCase):

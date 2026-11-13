@@ -249,10 +249,10 @@ class BuildHome(unittest.TestCase):
 
     def test_new_pages_carry_ga4_and_the_ipe_rest_link_keeps_the_language(self):
         sys.path.insert(0, str(REPO / "scripts"))
-        from site_common import ipe_rest_url
+        from site_common import GA_SNIPPET, ipe_rest_url
         for l in ("th", "tr", "zh-Hant", "pt-BR"):
             h = self.page(l)
-            self.assertIn("G-XG4BH800J0", h, l)
+            self.assertIn(GA_SNIPPET, h, l)
             for p in ("faq", "about"):  # the FAQ/about "(https://ipe.rest)" links go to the studio hub in the page's own language
                 info = (REPO / l / p / "index.html").read_text(encoding="utf-8")
                 self.assertIn('href="%s"' % ipe_rest_url(l), info, (l, p))

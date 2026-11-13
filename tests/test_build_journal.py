@@ -606,7 +606,7 @@ class RepoState(unittest.TestCase):
             self.assertIn('<meta name="robots" content="noindex, follow">', h, old)
             self.assertIn('<link rel="canonical" href="https://still.ipe.rest/%s">' % new, h, old)
             self.assertIn('http-equiv="refresh" content="0; url=https://still.ipe.rest/%s"' % new, h, old)
-            self.assertIn("GA_ID", h, old)
+            self.assertIn(sc.GA_SNIPPET, h, old)
         locs = (REPO / "sitemap.xml").read_text(encoding="utf-8")
         self.assertNotIn("still.ipe.rest/pt/", locs)
         self.assertNotIn("/journal/pt/", locs)
