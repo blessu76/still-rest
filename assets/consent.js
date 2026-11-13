@@ -17,7 +17,7 @@
     tr: ['Bu sitenin nasıl kullanıldığını anlamak için Google Analytics (GA4) kullanıyoruz. Yalnızca kabul ederseniz yüklenir.', 'Kabul et', 'Reddet', 'Gizlilik politikası']
   };
   var lang = document.documentElement.getAttribute('lang') || 'en';
-  var t = T[lang] || T.en;
+  var t = T[lang] || (/^zh(-|$)/.test(lang) ? T['zh-Hant'] : T.en);
   var privacy = lang === 'ko' ? 'https://ipe.rest/ko/legal/privacy/' : 'https://ipe.rest/en/legal/privacy/';
   // a local preview must not count as a visit: the banner still shows there, GA4 never loads
   var LOCAL = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);

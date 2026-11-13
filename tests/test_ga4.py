@@ -93,7 +93,7 @@ class Constant(unittest.TestCase):
         for l in list(sc.LANGS) + ["en"]:
             with self.subTest(l):
                 self.assertRegex(js, r"\n    '?%s'?: \[" % re.escape(l))
-        self.assertIn("var t = T[lang] || T.en;", js)
+        self.assertIn("var t = T[lang] || (/^zh(-|$)/.test(lang) ? T['zh-Hant'] : T.en);", js)
         self.assertIn("https://ipe.rest/ko/legal/privacy/", js)
         self.assertIn("https://ipe.rest/en/legal/privacy/", js)
 

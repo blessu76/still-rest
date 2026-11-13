@@ -82,7 +82,7 @@ def font_links(css=FONT_CSS):
 # generated pages through head() / the home template ({{GA_SNIPPET}}), the hand-written pages (privacy, terms, 404) through sync_static_ga().
 # The privacy policy (section 2), the FAQ answer (content/info/pages.json), llms.txt and README say so -> change them together with this.
 GA_MEASUREMENT_ID = "G-XG4BH800J0"
-CONSENT_V = "20261203a"  # ?v= of assets/consent.js and consent.css — bump when either file changes
+CONSENT_V = "20261113a"  # ?v= of assets/consent.js and consent.css — bump when either file changes
 GA_SNIPPET = (
     '<link rel="stylesheet" href="/assets/consent.css?v=%s">'
     '<script src="/assets/consent.js?v=%s" defer></script>') % (CONSENT_V, CONSENT_V)

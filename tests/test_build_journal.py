@@ -107,7 +107,7 @@ class AllLanguages(Base):
             for r in data["lines"][l]["regions"]:
                 for it in r["items"]:
                     if it["status"] != "verified":  # an unconfirmed number is never printed (neither number nor tap-to-call link)
-                        self.assertNotIn(bj.esc(it["number"]), h, "%s: draft number %s is shown" % (l, it["number"]))
+                        self.assertIsNone(re.search(r"(?<![\w.])%s(?![\w])" % re.escape(bj.esc(it["number"])), h), "%s: draft number %s is shown" % (l, it["number"]))  # not inside ?v=20261113a
                         continue
                     self.assertIn(bj.esc(it["number"]), h, l)
                     if it.get("tel"):
