@@ -60,7 +60,9 @@ class BuildHome(unittest.TestCase):
             self.assertEqual(set(got), set(LANGS) | {"x-default"}, l)
             self.assertEqual(got["x-default"], "https://still.ipe.rest/")
             self.assertFalse(set(got) & set(ENDED), l)  # ended languages are not alternates
-            self.assertEqual(len(re.findall(r'<option value="', h)), len(LANGS), l)
+            for sid in ("lang", "foot-lang"):
+                block = re.search(r'<select id="%s".*?</select>' % sid, h, re.S).group(0)
+                self.assertEqual(len(re.findall(r'<option value="', block)), len(LANGS), (l, sid))
             self.assertFalse([e for e in ENDED if '<option value="%s"' % e in h], l)
             self.assertTrue(all(got[x] == "https://still.ipe.rest/%s/" % x for x in LANGS), l)
             self.assertNotIn("?lang=", h, l)  # no query-parameter language anywhere (not even the legacy redirect: root only)
@@ -138,7 +140,7 @@ class BuildHome(unittest.TestCase):
         for l in [None] + LANGS:
             h = self.page(l)
             self.assertIn("localStorage.setItem('still_lang', this.value)", h, l)  # the <select>
-            self.assertIn("localStorage.setItem('still_lang', a.getAttribute('hreflang'))", h, l)  # footer language links
+            self.assertIn("localStorage.setItem('still_lang', m[1])", h, l)  # footer <select id="foot-lang">
 
     def test_root_script_behavior(self):
         """run the real root script in node with a fake window: ?lang / stored / browser order, English stays, links keep query and hash."""
@@ -287,7 +289,9 @@ class BuildHome(unittest.TestCase):
     def test_language_switch_is_plain_links_too(self):
         for l in [None] + LANGS:
             h = self.page(l)
-            nav = re.search(r'<nav class="foot-langs".*?</nav>', h, re.S).group(0)
+            self.assertEqual(len(re.findall(r'<select id="foot-lang"', h)), 1, l)
+            self.assertIn('<label class="foot-langsel">', h, l)
+            nav = re.search(r'<noscript><nav class="foot-langs".*?</nav></noscript>', h, re.S).group(0)
             self.assertEqual(re.findall(r'<a href="/([\w-]+)/" hreflang="\1" lang="\1"', nav), LANGS, l)
             self.assertEqual(re.findall(r'<a href="/([\w-]+)/"[^>]*aria-current', nav), [l] if l else [], l)
 

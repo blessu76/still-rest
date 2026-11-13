@@ -166,7 +166,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gentium+Book+Plus:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gentium+Book+Plus:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap"></noscript>
-<link rel="stylesheet" href="/assets/journal.css?v=20261120a">
+<link rel="stylesheet" href="/assets/journal.css?v=20261120b">
 <link rel="stylesheet" href="/assets/consent.css?v=20261113a"><script src="/assets/consent.js?v=20261113a" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "eab6249a56894cb084b7bcc8f1a860a6"}'></script>
 </head>
@@ -238,20 +238,39 @@
       <a href="/terms/">Conditions d&#x27;utilisation</a>
       <a href="mailto:ipe.haven@gmail.com">Assistance</a>
     </nav>
-    <nav class="foot-langs" aria-label="Langue">
-      <a href="/en/faq/" hreflang="en" lang="en">English</a>
-      <a href="/ko/faq/" hreflang="ko" lang="ko">한국어</a>
-      <a href="/ja/faq/" hreflang="ja" lang="ja">日本語</a>
-      <a href="/zh-Hant/faq/" hreflang="zh-Hant" lang="zh-Hant">繁體中文</a>
-      <a href="/es/faq/" hreflang="es" lang="es">Español</a>
-      <a href="/pt-BR/faq/" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a>
-      <a href="/fr/faq/" hreflang="fr" lang="fr" aria-current="true">Français</a>
-      <a href="/de/faq/" hreflang="de" lang="de">Deutsch</a>
-      <a href="/id/faq/" hreflang="id" lang="id">Bahasa Indonesia</a>
-      <a href="/th/faq/" hreflang="th" lang="th">ไทย</a>
-      <a href="/vi/faq/" hreflang="vi" lang="vi">Tiếng Việt</a>
-      <a href="/tr/faq/" hreflang="tr" lang="tr">Türkçe</a>
-    </nav>
+<div class="foot-lang">
+    <label class="foot-langsel">
+      <span class="foot-langsel-text">Langue</span>
+      <select id="foot-lang">
+        <option value="/en/faq/">English</option>
+        <option value="/ko/faq/">한국어</option>
+        <option value="/ja/faq/">日本語</option>
+        <option value="/zh-Hant/faq/">繁體中文</option>
+        <option value="/es/faq/">Español</option>
+        <option value="/pt-BR/faq/">Português (Brasil)</option>
+        <option value="/fr/faq/" selected>Français</option>
+        <option value="/de/faq/">Deutsch</option>
+        <option value="/id/faq/">Bahasa Indonesia</option>
+        <option value="/th/faq/">ไทย</option>
+        <option value="/vi/faq/">Tiếng Việt</option>
+        <option value="/tr/faq/">Türkçe</option>
+      </select>
+    </label>
+    <noscript><nav class="foot-langs" aria-label="Langue">
+        <a href="/en/faq/" hreflang="en" lang="en">English</a>
+        <a href="/ko/faq/" hreflang="ko" lang="ko">한국어</a>
+        <a href="/ja/faq/" hreflang="ja" lang="ja">日本語</a>
+        <a href="/zh-Hant/faq/" hreflang="zh-Hant" lang="zh-Hant">繁體中文</a>
+        <a href="/es/faq/" hreflang="es" lang="es">Español</a>
+        <a href="/pt-BR/faq/" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a>
+        <a href="/fr/faq/" hreflang="fr" lang="fr" aria-current="true">Français</a>
+        <a href="/de/faq/" hreflang="de" lang="de">Deutsch</a>
+        <a href="/id/faq/" hreflang="id" lang="id">Bahasa Indonesia</a>
+        <a href="/th/faq/" hreflang="th" lang="th">ไทย</a>
+        <a href="/vi/faq/" hreflang="vi" lang="vi">Tiếng Việt</a>
+        <a href="/tr/faq/" hreflang="tr" lang="tr">Türkçe</a>
+    </nav></noscript>
+  </div>
     <div class="foot-studio">an ipe studio app</div>
   </div>
 </footer>
@@ -263,10 +282,15 @@
     try { if (m) localStorage.setItem('still_lang', m[1]); } catch (e) {}
     location.href = this.value;
   });
-  var foot = document.querySelector('.foot-langs');
-  if (foot) foot.addEventListener('click', function (e) {
-    var a = e.target.closest && e.target.closest('a[hreflang]');
-    if (a) { try { localStorage.setItem('still_lang', a.getAttribute('hreflang')); } catch (e2) {} }
+})();
+</script>
+<script>
+(function () {
+  var sel = document.getElementById('foot-lang');
+  if (sel) sel.addEventListener('change', function () {
+    var m = String(this.value).match(/^\/(?:journal\/)?([A-Za-z]{2}(?:-[A-Za-z]{4}|-[A-Za-z]{2})?)\//);
+    try { if (m) localStorage.setItem('still_lang', m[1]); } catch (e) {}
+    location.href = this.value;
   });
 })();
 </script>

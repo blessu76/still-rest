@@ -226,8 +226,8 @@ class AllLanguages(Base):
             for p in ("journal/%s/index.html" % l, "journal/%s/hello/index.html" % l):
                 h = self.page(p)
                 self.assertNotIn("location.replace", h, p)
-        # a footer language link stores the choice
-        self.assertIn(".foot-langs", self.page("journal/ko/hello/index.html"))
+        # the footer language select stores the choice
+        self.assertIn('<select id="foot-lang"', self.page("journal/ko/hello/index.html"))
 
     def test_idempotent_and_fresh(self):
         before = {p: p.read_bytes() for p in self.tmp.rglob("*") if p.is_file()}

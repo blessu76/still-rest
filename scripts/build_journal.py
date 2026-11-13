@@ -90,9 +90,9 @@ import urllib.parse
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from site_common import GA_SNIPPET, GEN_MARK, KST, LANGS, MOVED, ENDED_DIRS, ORG, SITE, hreflang_links, redirect_stub, auto_lang_script, check_fresh, esc, font_links, lang_url, meta_desc, parse_when, replace_between, with_localtime  # noqa: E402
+from site_common import GA_SNIPPET, FOOT_LANG_JS, GEN_MARK, KST, LANGS, MOVED, ENDED_DIRS, ORG, SITE, foot_lang_control, hreflang_links, redirect_stub, auto_lang_script, check_fresh, esc, font_links, lang_url, meta_desc, parse_when, replace_between, with_localtime  # noqa: E402
 
-ASSET_V = "20261120a"  # ?v= of assets/journal.css — bump when the file changes
+ASSET_V = "20261120b"  # ?v= of assets/journal.css — bump when the file changes
 CF_TOKEN = "eab6249a56894cb084b7bcc8f1a860a6"  # Cloudflare Web Analytics (cookieless), same as the home page
 REQUIRED = ("title", "date", "slug", "lang", "description", "category")
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -648,15 +648,6 @@ def header(lang, targets, neutral=None, nav="current"):
 """
 
 
-def lang_links(lang, targets, label):
-    """the language switch as plain links (the <select> needs JS): one <a href> per language this page exists in."""
-    if not targets:
-        return ""
-    links = "\n".join('      <a href="%s" hreflang="%s" lang="%s"%s>%s</a>' % (esc(targets[l]), l, l, ' aria-current="true"' if l == lang else "", esc(LANGS[l]["name"]))
-                      for l in LANGS if l in targets)
-    return '    <nav class="foot-langs" aria-label="%s">\n%s\n    </nav>\n' % (esc(label), links)
-
-
 def footer(lang, targets=None, current=None, journal=True):
     """journal=False: no Journal/RSS links (info pages while there is no post — like the home page)."""
     t, h = ui(lang), HOME.get(lang) or HOME["en"]
@@ -674,7 +665,7 @@ def footer(lang, targets=None, current=None, journal=True):
       <a href="/terms/">{esc(g('foot_terms'))}</a>
       <a href="mailto:ipe.haven@gmail.com">{esc(g('foot_support'))}</a>
     </nav>
-{lang_links(lang if current is None else current, targets, g('aria_lang'))}    <div class="foot-studio">{esc(g('foot_studio'))}</div>
+{foot_lang_control(g('aria_lang'), [(l, targets[l]) for l in LANGS if targets and l in targets], lang if current is None else current)}    <div class="foot-studio">{esc(g('foot_studio'))}</div>
   </div>
 </footer>
 <script>
@@ -685,13 +676,9 @@ def footer(lang, targets=None, current=None, journal=True):
     try {{ if (m) localStorage.setItem('still_lang', m[1]); }} catch (e) {{}}
     location.href = this.value;
   }});
-  var foot = document.querySelector('.foot-langs');
-  if (foot) foot.addEventListener('click', function (e) {{
-    var a = e.target.closest && e.target.closest('a[hreflang]');
-    if (a) {{ try {{ localStorage.setItem('still_lang', a.getAttribute('hreflang')); }} catch (e2) {{}} }}
-  }});
 }})();
 </script>
+{FOOT_LANG_JS}
 </body>
 </html>
 """

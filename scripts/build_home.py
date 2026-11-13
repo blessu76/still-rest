@@ -25,7 +25,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from site_common import GA_SNIPPET, LANGS, MOVED, hreflang_links, sitemap_links, redirect_stub, auto_lang_script, SITE, check_fresh, esc, font_links, lang_url, meta_desc, replace_between, stamped_date, with_localtime  # noqa: E402
+from site_common import GA_SNIPPET, FOOT_LANG_JS, foot_lang_control, LANGS, MOVED, hreflang_links, sitemap_links, redirect_stub, auto_lang_script, SITE, check_fresh, esc, font_links, lang_url, meta_desc, replace_between, stamped_date, with_localtime  # noqa: E402
 
 TEMPLATE = Path("content") / "home" / "template.html"
 STRINGS = Path("content") / "home" / "i18n.json"
@@ -40,11 +40,6 @@ NAV_SCRIPT = """<script>
   if (sel) sel.addEventListener('change', function () {
     try { localStorage.setItem('still_lang', this.value); } catch (e) {}
     location.href = '/' + this.value + '/';
-  });
-  var foot = document.querySelector('.foot-langs');
-  if (foot) foot.addEventListener('click', function (e) {
-    var a = e.target.closest && e.target.closest('a[hreflang]');
-    if (a) { try { localStorage.setItem('still_lang', a.getAttribute('hreflang')); } catch (e2) {} }
   });
 })();
 </script>"""
@@ -89,12 +84,11 @@ def render_page(tpl, strings, lang, root, cards_html=None, journal_href="/journa
     if not root:
         title, desc = strings[lang].get("page_meta_title") or title, strings[lang].get("page_meta_desc") or desc
     ld_desc = strings[lang].get("ld_desc") or d["meta_desc"]  # structured data: English has its own long text, the others reuse their meta description
-    lang_links = '<nav class="foot-langs" aria-label="%s">\n%s\n    </nav>' % (esc(d["aria_lang"]), "\n".join(
-        '      <a href="%s/" hreflang="%s" lang="%s"%s>%s</a>' % ("/" + l, l, l, ' aria-current="true"' if l == lang and not root else "", LANGS[l]["name"]) for l in LANGS))
+    lang_links = foot_lang_control(d["aria_lang"], [(l, "/" + l + "/") for l in LANGS], None if root else lang)
     subs = {
         "LANG": lang, "DIR": LANGS[lang]["dir"], "CANONICAL": esc(canonical), "HREFLANG": hreflang, "OG_LOCALE": og,
         "LANG_OPTIONS": options, "LANG_SCRIPT": auto_lang_script("/", LANGS) if root else "", "PAGE_SCRIPT": page_script,
-        "NAV_SCRIPT": NAV_SCRIPT,
+        "NAV_SCRIPT": NAV_SCRIPT + FOOT_LANG_JS,
         "FONT_LINKS": font_links(),
         "GA_SNIPPET": GA_SNIPPET,
         "meta_title": esc(title), "meta_desc": esc(meta_desc(desc)),

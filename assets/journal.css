@@ -150,6 +150,13 @@ a.help-num{text-decoration:underline;text-underline-offset:3px;min-height:44px;d
 .foot-langs{margin-top:14px;display:flex;flex-wrap:wrap;gap:0 18px;justify-content:center;font-size:12px;color:#8b93a1;}
 .foot-langs a{text-decoration:none;min-height:44px;display:inline-flex;align-items:center;transition:color .3s;}
 .foot-langs a:hover,.foot-langs a[aria-current]{color:var(--cream);}
+.foot-lang{margin-top:14px;display:flex;justify-content:center;}
+.foot-langsel{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 6px 0 14px;border:1px solid rgba(35,42,54,.16);border-radius:999px;background:var(--surface);color:var(--ink);font-size:13px;}
+.foot-langsel:hover{border-color:rgba(201,168,76,.7);}
+.foot-langsel:focus-within{outline:2px solid var(--gold-deep);outline-offset:2px;}
+.foot-langsel-text{color:#6b7280;}
+.foot-langsel select{background:transparent;border:0;color:inherit;font:inherit;font-weight:500;cursor:pointer;outline:none;min-height:44px;max-width:14em;}
+.foot-langsel select option{color:#1a1f28;background:#fff;}
 .foot-studio{margin-top:18px;font-size:12px;letter-spacing:.06em;color:#565e6b;}
 
 @media (max-width:640px){

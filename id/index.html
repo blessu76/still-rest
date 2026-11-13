@@ -420,6 +420,13 @@
   .foot-langs{margin-top:18px;display:flex;flex-wrap:wrap;gap:0 18px;justify-content:center;font-size:12px;color:#8b93a1;}
   .foot-langs a{text-decoration:none;min-height:44px;display:inline-flex;align-items:center;transition:color .3s;}
   .foot-langs a:hover,.foot-langs a[aria-current]{color:var(--cream);}
+  .foot-lang{margin-top:18px;display:flex;justify-content:center;}
+  .foot-langsel{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 8px 0 14px;border:1px solid rgba(245,240,232,.16);border-radius:999px;background:rgba(245,240,232,.04);color:var(--cream);font-size:12.5px;transition:border-color .3s ease;}
+  .foot-langsel:hover{border-color:rgba(201,168,76,.5);}
+  .foot-langsel:focus-within{outline:2px solid var(--gold);outline-offset:2px;}
+  .foot-langsel-text{color:#8b93a1;}
+  .foot-langsel select{background:transparent;border:0;color:inherit;font:inherit;font-weight:500;cursor:pointer;outline:none;min-height:44px;max-width:14em;}
+  .foot-langsel select option{color:#1a1f28;background:#fff;}
   .foot-studio{margin-top:26px;font-size:12px;letter-spacing:.06em;color:#565e6b;}
 
   /* ---------- journal link (calm, top-left — mirrors the language selector; removed while there is no post) ---------- */
@@ -740,20 +747,40 @@
       <a href="/terms/" data-i18n="foot_terms">Ketentuan</a>
       <a href="mailto:ipe.haven@gmail.com" data-i18n="foot_support">Dukungan</a>
     </nav>
-    <nav class="foot-langs" aria-label="Bahasa">
-      <a href="/en/" hreflang="en" lang="en">English</a>
-      <a href="/ko/" hreflang="ko" lang="ko">한국어</a>
-      <a href="/ja/" hreflang="ja" lang="ja">日本語</a>
-      <a href="/zh-Hant/" hreflang="zh-Hant" lang="zh-Hant">繁體中文</a>
-      <a href="/es/" hreflang="es" lang="es">Español</a>
-      <a href="/pt-BR/" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a>
-      <a href="/fr/" hreflang="fr" lang="fr">Français</a>
-      <a href="/de/" hreflang="de" lang="de">Deutsch</a>
-      <a href="/id/" hreflang="id" lang="id" aria-current="true">Bahasa Indonesia</a>
-      <a href="/th/" hreflang="th" lang="th">ไทย</a>
-      <a href="/vi/" hreflang="vi" lang="vi">Tiếng Việt</a>
-      <a href="/tr/" hreflang="tr" lang="tr">Türkçe</a>
-    </nav>
+    <div class="foot-lang">
+    <label class="foot-langsel">
+      <span class="foot-langsel-text">Bahasa</span>
+      <select id="foot-lang">
+        <option value="/en/">English</option>
+        <option value="/ko/">한국어</option>
+        <option value="/ja/">日本語</option>
+        <option value="/zh-Hant/">繁體中文</option>
+        <option value="/es/">Español</option>
+        <option value="/pt-BR/">Português (Brasil)</option>
+        <option value="/fr/">Français</option>
+        <option value="/de/">Deutsch</option>
+        <option value="/id/" selected>Bahasa Indonesia</option>
+        <option value="/th/">ไทย</option>
+        <option value="/vi/">Tiếng Việt</option>
+        <option value="/tr/">Türkçe</option>
+      </select>
+    </label>
+    <noscript><nav class="foot-langs" aria-label="Bahasa">
+        <a href="/en/" hreflang="en" lang="en">English</a>
+        <a href="/ko/" hreflang="ko" lang="ko">한국어</a>
+        <a href="/ja/" hreflang="ja" lang="ja">日本語</a>
+        <a href="/zh-Hant/" hreflang="zh-Hant" lang="zh-Hant">繁體中文</a>
+        <a href="/es/" hreflang="es" lang="es">Español</a>
+        <a href="/pt-BR/" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a>
+        <a href="/fr/" hreflang="fr" lang="fr">Français</a>
+        <a href="/de/" hreflang="de" lang="de">Deutsch</a>
+        <a href="/id/" hreflang="id" lang="id" aria-current="true">Bahasa Indonesia</a>
+        <a href="/th/" hreflang="th" lang="th">ไทย</a>
+        <a href="/vi/" hreflang="vi" lang="vi">Tiếng Việt</a>
+        <a href="/tr/" hreflang="tr" lang="tr">Türkçe</a>
+    </nav></noscript>
+  </div>
+
     <div class="foot-studio" data-i18n="foot_studio">an ipe studio app</div>
   </div>
 </footer>
@@ -767,10 +794,14 @@
     try { localStorage.setItem('still_lang', this.value); } catch (e) {}
     location.href = '/' + this.value + '/';
   });
-  var foot = document.querySelector('.foot-langs');
-  if (foot) foot.addEventListener('click', function (e) {
-    var a = e.target.closest && e.target.closest('a[hreflang]');
-    if (a) { try { localStorage.setItem('still_lang', a.getAttribute('hreflang')); } catch (e2) {} }
+})();
+</script><script>
+(function () {
+  var sel = document.getElementById('foot-lang');
+  if (sel) sel.addEventListener('change', function () {
+    var m = String(this.value).match(/^\/(?:journal\/)?([A-Za-z]{2}(?:-[A-Za-z]{4}|-[A-Za-z]{2})?)\//);
+    try { if (m) localStorage.setItem('still_lang', m[1]); } catch (e) {}
+    location.href = this.value;
   });
 })();
 </script>

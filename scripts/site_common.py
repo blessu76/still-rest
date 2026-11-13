@@ -63,6 +63,41 @@ def sitemap_links(pairs, default):
     return "".join('    <xhtml:link rel="alternate" hreflang="%s" href="%s"/>\n' % (l, u) for l, u in ordered + [("x-default", default)])
 
 
+# footer language switch: a <select> (values = site paths) that goes to the picked language; the same languages as plain links for no-JS
+FOOT_LANG_JS = r"""<script>
+(function () {
+  var sel = document.getElementById('foot-lang');
+  if (sel) sel.addEventListener('change', function () {
+    var m = String(this.value).match(/^\/(?:journal\/)?([A-Za-z]{2}(?:-[A-Za-z]{4}|-[A-Za-z]{2})?)\//);
+    try { if (m) localStorage.setItem('still_lang', m[1]); } catch (e) {}
+    location.href = this.value;
+  });
+})();
+</script>"""
+
+
+def foot_lang_control(label, pairs, current):
+    """pairs = [(lang, path)] in the site's order; current = the language of this page or None. Returns '' for no pairs."""
+    if not pairs:
+        return ""
+    opts = "\n".join('        <option value="%s"%s>%s</option>' % (esc(path), " selected" if l == current else "", esc(LANGS[l]["name"]))
+                     for l, path in pairs)
+    links = "\n".join('        <a href="%s" hreflang="%s" lang="%s"%s>%s</a>' % (esc(path), l, l, ' aria-current="true"' if l == current else "", esc(LANGS[l]["name"]))
+                      for l, path in pairs)
+    return f"""<div class="foot-lang">
+    <label class="foot-langsel">
+      <span class="foot-langsel-text">{esc(label)}</span>
+      <select id="foot-lang">
+{opts}
+      </select>
+    </label>
+    <noscript><nav class="foot-langs" aria-label="{esc(label)}">
+{links}
+    </nav></noscript>
+  </div>
+"""
+
+
 # Google Fonts CSS. A plain <link rel="stylesheet"> blocks rendering until fonts.googleapis.com answers (~0.9 s on mobile, Lighthouse FCP 3.4 s),
 # so every page loads it the non-blocking way: media="print" (fetched at low priority, never blocks paint) flipped to "all" on load, with a
 # <noscript> fallback. The font files themselves still come from fonts.gstatic.com; display=swap shows the fallback font until they arrive.
