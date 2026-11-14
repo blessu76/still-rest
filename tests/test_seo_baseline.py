@@ -112,7 +112,7 @@ class Checks:
         lists = [r for r in self.pages if re.fullmatch(r"journal/(([A-Za-z-]+/)?(page/\d+/)?)index\.html", r)]
         self.assertTrue(lists)
         for rel in lists:
-            if rel.split("/")[1] in MOVED:  # /journal/pt/ is a redirect stub (noindex, no og tags): checked in test_moved_pt_lists_are_redirect_stubs
+            if rel.split("/")[1] in (*MOVED, *ENDED_DIRS):  # (ended languages are kit redirect pages too) # /journal/pt/ is a redirect stub (noindex, no og tags): checked in test_moved_pt_lists_are_redirect_stubs
                 continue
             self.assertIn('<meta property="og:type" content="website">', self.pages[rel], rel)
 

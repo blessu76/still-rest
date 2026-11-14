@@ -86,13 +86,15 @@ class Checks:
                 self.assertIn('http-equiv="refresh" content="0; url=%s"' % new, (root / url[len("https://still.ipe.rest/"):] / "index.html").read_text(encoding="utf-8"), (name, url))
                 self.assertEqual(p.hreflangs, [], (name, url))  # a stub is not part of any language cluster
 
-    def test_frozen_ended_language_pages_are_not_noindexed_by_accident(self):
-        # they are left as they were: still indexable pages with their own canonical (they are only absent from sitemap / hreflang of the live pages)
+    def test_ended_language_pages_are_kit_redirects_to_the_new_language(self):
+        # zh -> zh-Hant, ru/ar/hi -> en (ipe_web_kit.redirects): noindex, canonical = the new address, never self-canonical
         for name, (root, pages) in self.sites:
             frozen = [u for u in pages if is_frozen(u)]
             self.assertTrue(frozen, name)
             for u in frozen:
-                self.assertEqual(pages[u].canonicals, [u], (name, u))
+                self.assertEqual(len(pages[u].canonicals), 1, (name, u))
+                self.assertNotEqual(pages[u].canonicals[0], u, (name, u))
+                self.assertIn("noindex", pages[u].robots, (name, u))
 
 
 class CommittedPages(Checks, unittest.TestCase):

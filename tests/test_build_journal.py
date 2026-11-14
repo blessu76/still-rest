@@ -602,14 +602,20 @@ class RepoState(unittest.TestCase):
         for old, new in (("pt/index.html", "pt-BR/"), ("pt/faq/index.html", "pt-BR/faq/"), ("pt/about/index.html", "pt-BR/about/")):
             h = (REPO / old).read_text(encoding="utf-8")
             self.assertIn(sc.GEN_MARK, h, old)
-            self.assertIn('<meta name="robots" content="noindex, follow">', h, old)
+            self.assertIn('<meta name="robots" content="noindex,follow">', h, old)
             self.assertIn('<link rel="canonical" href="https://still.ipe.rest/%s">' % new, h, old)
             self.assertIn('http-equiv="refresh" content="0; url=https://still.ipe.rest/%s"' % new, h, old)
             self.assertIn(sc.GA_SNIPPET, h, old)
         locs = (REPO / "sitemap.xml").read_text(encoding="utf-8")
         self.assertNotIn("still.ipe.rest/pt/", locs)
         self.assertNotIn("/journal/pt/", locs)
-        for l in ("zh", "ru", "ar", "hi"):  # ended languages: frozen files may remain but are not in the sitemap
+        legacy = {"zh": "zh-Hant", "ru": "en", "ar": "en", "hi": "en"}  # kit redirects rules; the old folders are redirect pages now
+        for old, new in legacy.items():
+            h = (REPO / old / "faq/index.html").read_text(encoding="utf-8")
+            self.assertIn('<meta name="robots" content="noindex,follow">', h, old)
+            self.assertIn('<link rel="canonical" href="https://still.ipe.rest/%s/faq/">' % new, h, old)
+            self.assertIn('http-equiv="refresh" content="0; url=https://still.ipe.rest/%s/faq/"' % new, h, old)
+        for l in ("zh", "ru", "ar", "hi"):  # ended languages: redirect pages remain but are not in the sitemap
             self.assertNotIn("still.ipe.rest/%s/" % l, locs)
             self.assertNotIn("/journal/%s/" % l, locs)
 
