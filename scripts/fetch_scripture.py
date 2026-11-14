@@ -46,6 +46,10 @@ SOURCES = {
            "copyright": "https://ebible.org/engwebp/copyright.htm"},
     "zh": {"mode": "text", "ebible": "cmn-cu89s", "version": "和合本", "name": "和合本（新标点，简体）",
            "copyright": "https://ebible.org/cmn-cu89s/copyright.htm"},
+    "zh-Hant": {"mode": "text", "ebible": "cmn-cu89t", "version": "和合本", "name": "和合本（新標點，繁體）",
+           "copyright": "https://ebible.org/cmn-cu89t/copyright.htm"},
+    "th": {"mode": "text", "ebible": "thafb", "version": "พระคัมภีร์แห่งเสรีภาพ", "name": "พระคัมภีร์แห่งเสรีภาพ (Freedom Bible)",
+           "copyright": "https://ebible.org/thafb/copyright.htm"},
     "es": {"mode": "text", "ebible": "spaRV1909", "version": "Reina-Valera 1909", "name": "Santa Biblia — Reina Valera 1909",
            "copyright": "https://ebible.org/spaRV1909/copyright.htm"},
     "ru": {"mode": "text", "ebible": "russyn", "version": "Синодальный перевод", "name": "Синодальный перевод",
@@ -60,6 +64,9 @@ SOURCES = {
     "ja": {"mode": "reference", "version": "口語訳",
            "why": "口語訳(1955) public-domain status is unconfirmed (no statement from the Japan Bible Society; the Japanese Wikisource copy is "
                   "under a copyright deletion review, checked 2026-10-25). Verse text is left out until it is confirmed."},
+    "tr": {"mode": "reference", "version": "Kutsal Kitap",
+           "why": "no public-domain Turkish Bible that covers the Old Testament is on ebible (turytc is (c) 2023-2025 İsmail Serinken / eBible.org, "
+                  "turobt is a New Testament only). Verse text is left out until a source is confirmed (2026-11-14, Paul)."},
     "pt-BR": {"mode": "reference", "version": "Almeida",
            "why": "no confirmed public-domain copy of Almeida Revista e Corrigida (1898) was found (ebible has none; later ARC/ACF "
                   "editions are copyrighted). Verse text is left out until a source is confirmed."},
@@ -70,6 +77,9 @@ BOOK_NAMES = {
     "en": {"PSA": "Psalm", "ISA": "Isaiah", "LAM": "Lamentations", "MAT": "Matthew", "1PE": "1 Peter", "PHP": "Philippians", "JHN": "John", "EXO": "Exodus", "JOS": "Joshua"},
     "ja": {"PSA": "詩篇", "ISA": "イザヤ書", "LAM": "哀歌", "MAT": "マタイによる福音書", "1PE": "ペテロの第一の手紙", "PHP": "ピリピ人への手紙", "JHN": "ヨハネによる福音書", "EXO": "出エジプト記", "JOS": "ヨシュア記"},
     "zh": {"PSA": "诗篇", "ISA": "以赛亚书", "LAM": "耶利米哀歌", "MAT": "马太福音", "1PE": "彼得前书", "PHP": "腓立比书", "JHN": "约翰福音", "EXO": "出埃及记", "JOS": "约书亚记"},
+    "zh-Hant": {"PSA": "詩篇", "ISA": "以賽亞書", "LAM": "耶利米哀歌", "MAT": "馬太福音", "1PE": "彼得前書", "PHP": "腓立比書", "JHN": "約翰福音", "EXO": "出埃及記", "JOS": "約書亞記"},
+    "th": {"PSA": "สดุดี", "ISA": "อิสยาห์", "LAM": "เพลงคร่ำครวญ", "MAT": "มัทธิว", "1PE": "1 เปโตร", "PHP": "ฟิลิปปี", "JHN": "ยอห์น", "EXO": "อพยพ", "JOS": "โยชูวา"},
+    "tr": {"PSA": "Mezmur", "ISA": "Yeşaya", "LAM": "Ağıtlar", "MAT": "Matta", "1PE": "1. Petrus", "PHP": "Filipililer", "JHN": "Yuhanna", "EXO": "Mısır'dan Çıkış", "JOS": "Yeşu"},
     "es": {"PSA": "Salmos", "ISA": "Isaías", "LAM": "Lamentaciones", "MAT": "Mateo", "1PE": "1 Pedro", "PHP": "Filipenses", "JHN": "Juan", "EXO": "Éxodo", "JOS": "Josué"},
     "pt-BR": {"PSA": "Salmos", "ISA": "Isaías", "LAM": "Lamentações", "MAT": "Mateus", "1PE": "1 Pedro", "PHP": "Filipenses", "JHN": "João", "EXO": "Êxodo", "JOS": "Josué"},
     "ru": {"PSA": "Псалом", "ISA": "Исаия", "LAM": "Плач Иеремии", "MAT": "От Матфея", "1PE": "1 Петра", "PHP": "К Филиппийцам", "JHN": "От Иоанна", "EXO": "Исход", "JOS": "Иисус Навин"},
@@ -90,7 +100,7 @@ HAND_MAPPED = {"ru": ("PSA",), "fr": ("PSA",)}  # books whose numbering differs 
 SOURCE_FIXES = {
     ("vi", "LAM 3:22"): ("Aáy là", "Ấy là"),
 }
-NO_SPACE = ("zh", "ja")  # scripts without spaces between words: the line breaks of poetry are joined without a space
+NO_SPACE = ("zh", "zh-Hant", "ja")  # scripts without spaces between words: the line breaks of poetry are joined without a space
 
 
 def ko_books():

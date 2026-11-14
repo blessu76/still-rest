@@ -25,8 +25,8 @@ from test_home_journal import CARD, PAGES, PINNED, PINNED_I18N, section  # noqa:
 J = REPO / "content/journal"
 SCRIPTURE = json.loads((J / "scripture.json").read_text(encoding="utf-8"))
 HELD = {k for k in json.loads((J / "hold.json").read_text(encoding="utf-8")) if not k.startswith("_")}
-# new languages (2026-11): home / FAQ / about / ui / safety data only, no journal posts yet -> not translated, no /journal/<lang>/
-NO_POSTS_YET = {"zh-Hant", "th", "tr"}
+# new languages (zh-Hant / th / tr, 2026-11-14): journal posts exist as `draft: true` Iris-review drafts (safety lines still draft) -> not built
+NO_POSTS_YET = set()
 # ended languages: their files are frozen (not built, not read); they are in no list
 ENDED = {"zh", "ru", "ar", "hi"}
 TARGETS = [l for l in LANGS if l != "ko" and l not in HELD and l not in NO_POSTS_YET]
@@ -40,8 +40,8 @@ PSALM_46_10_STARTS = {"en": "“Be still, and know that I am God.", "zh": "你�
                       "ru": "Остановитесь и познайте, что Я - Бог", "vi": "Hãy yên lặng và biết rằng ta là Đức Chúa Trời",
                       "fr": "Arrêtez, et sachez que je suis Dieu", "de": "Seid stille und erkennet, daß ich GOTT bin"}
 VERSIONS = {"en": "WEB", "zh": "和合本", "es": "Reina-Valera 1909", "ru": "Синодальный перевод", "vi": "Kinh Thánh 1925", "fr": "Louis Segond 1910",
-            "de": "Lutherbibel 1912"}
-REFERENCE_ONLY = {"ja", "pt-BR"}  # no confirmed public-domain text yet (room note 20261022-221259): the reference only, no verse wording
+            "de": "Lutherbibel 1912", "zh-Hant": "和合本", "th": "พระคัมภีร์แห่งเสรีภาพ", "tr": "Kutsal Kitap"}
+REFERENCE_ONLY = {"ja", "pt-BR", "tr"}  # no confirmed public-domain text yet (room note 20261022-221259): the reference only, no verse wording
 
 
 def originals():
@@ -60,7 +60,7 @@ class Coverage(unittest.TestCase):
             for slug in orig:
                 self.assertTrue((J / l / (slug + ".md")).is_file(), "%s/%s.md missing — python3 scripts/journal_i18n.py status" % (l, slug))
         self.assertTrue(set(TARGETS) <= set(PINNED_I18N))
-        self.assertEqual(set(TARGETS), {"en", "ja", "es", "pt-BR", "fr", "de", "vi"})
+        self.assertEqual(set(TARGETS), {"en", "ja", "es", "pt-BR", "fr", "de", "vi", "zh-Hant", "th", "tr"})
 
     def test_held_languages_stay_held(self):
         self.assertIn("id", HELD)  # decision 2026-10-23 (Matt·ops): no free Indonesian Bible covering the Old Testament yet
@@ -69,17 +69,16 @@ class Coverage(unittest.TestCase):
                 self.assertTrue(bj.parse_post(f)["draft"], f)
             self.assertFalse((REPO / "journal" / l).exists(), l)
 
-    def test_new_languages_are_home_about_faq_only_until_they_get_posts(self):
-        # th / tr / zh-Hant: the static pages (home / FAQ / about) exist but no journal posts yet -> no md folder, no /journal/<lang>/, not in the sitemap
-        for l in NO_POSTS_YET:
+    def test_new_languages_have_only_draft_posts_until_iris_review(self):
+        # zh-Hant / th / tr: the posts exist but stay `draft: true` (no /journal/<lang>/, not in the sitemap) until a native review + verified crisis lines
+        for l in ("zh-Hant", "th", "tr"):
             self.assertIn(l, LANGS, l)
-            self.assertFalse((J / l).exists() and any((J / l).glob("*.md")), l)
+            for f in (J / l).glob("*.md"):
+                self.assertTrue(bj.parse_post(f)["draft"], f)
             self.assertFalse((REPO / "journal" / l).exists(), l)
             for sub in ("", "faq/", "about/"):
                 self.assertTrue((REPO / l / sub / "index.html").is_file(), (l, sub))
             self.assertNotIn("/journal/%s/" % l, (REPO / "sitemap.xml").read_text(encoding="utf-8"), l)
-            for page in (REPO / "journal").rglob("index.html"):
-                self.assertNotIn("/journal/%s/" % l, page.read_text(encoding="utf-8"), (str(page), l))
 
     def test_ended_languages_are_in_no_list(self):
         sitemap = (REPO / "sitemap.xml").read_text(encoding="utf-8")
@@ -94,7 +93,7 @@ class Coverage(unittest.TestCase):
             self.assertEqual(bj.parse_post(f)["lang"], "pt-BR", f.name)
 
     def test_vi_stays_private_until_its_crisis_lines_are_verified(self):
-        self.assertEqual(SAFETY_DRAFT, {"vi"})  # (zh-Hant / th / tr are draft too but have no posts at all yet)
+        self.assertEqual(SAFETY_DRAFT, {"vi", "zh-Hant", "th", "tr"})
         for l in NO_POSTS_YET:
             self.assertEqual(SAFETY[l]["status"], "draft", l)
             self.assertEqual(SAFETY[l]["regions"], [], l)  # every other translated language was verified 2026-10-25
