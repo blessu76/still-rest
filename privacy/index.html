@@ -109,6 +109,9 @@
   }
   .back:hover{color:var(--ink);}
   .jlink{color:var(--ink);font-weight:600;}
+  /* ipe kit language select (ipe_web_kit.langswitch.CSS) */
+  .ipe-lang{display:inline-flex;align-items:center;max-width:100%;font-family:var(--ipe-font-sans,system-ui,sans-serif);font-size:.8125rem}.ipe-lang__label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.ipe-lang__select{max-width:100%;min-height:44px;padding:0 8px;font:inherit;color:var(--ipe-text,#1a1a1a);background:var(--ipe-bg,#fff);border:1px solid var(--ipe-line,#e3e3df);border-radius:var(--ipe-radius,12px)}.ipe-lang__links{display:flex;flex-wrap:wrap;gap:4px 10px}.ipe-lang__links a{color:var(--ipe-muted,#6b6b6b)}.ipe-lang__links a[aria-current]{color:var(--ipe-text,#1a1a1a);font-weight:600}
+  .ipe-lang__select{font-family:var(--sans);font-size:13px;font-weight:600;border-radius:999px;padding:0 12px;background:transparent;color:var(--ink);border-color:rgba(35,42,54,.16);}
   .langtoggle{display:inline-flex;gap:2px;font-size:13px;font-weight:600;}
   .langtoggle button{
     background:none;border:0;cursor:pointer;padding:4px 8px;border-radius:6px;
@@ -172,11 +175,7 @@
     <div class="topbar-right">
       <a class="back jlink" href="/journal/" data-t="journal">Journal</a>
       <a class="back" href="/" data-t="back">&larr; back</a>
-      <div class="langtoggle" role="group" aria-label="Language">
-        <button type="button" data-setlang="en" aria-pressed="true">EN</button>
-        <span class="sep">/</span>
-        <button type="button" data-setlang="ko" aria-pressed="false">KO</button>
-      </div>
+      <div class="ipe-lang"><label class="ipe-lang__label" for="ipe-lang-select">Language</label><select class="ipe-lang__select" id="ipe-lang-select" aria-label="Language" onchange="var o=this.options[this.selectedIndex];try{localStorage.setItem(&#x27;ipe_lang&#x27;,o.lang)}catch(e){}if(o.value)location.href=o.value"><option value="/privacy/?lang=en" lang="en" selected>English</option><option value="/privacy/?lang=ko" lang="ko">한국어</option></select><noscript><nav class="ipe-lang__links" aria-label="Language"><a href="/privacy/?lang=en" hreflang="en" aria-current="page">English</a><a href="/privacy/?lang=ko" hreflang="ko">한국어</a></nav></noscript></div>
     </div>
   </div>
 </header>
@@ -513,6 +512,7 @@
       if(back) back.textContent=STR[lang].back;
       var jl=document.querySelector('[data-t="journal"]');
       if(jl){ jl.textContent=STR[lang].journal; jl.setAttribute('href', STR[lang].jhref); }
+      var ls=document.getElementById('ipe-lang-select'); if(ls) ls.value=location.pathname+'?lang='+lang;
       document.documentElement.lang=STR[lang].htmlLang;
       document.title=STR[lang].title;
       try{ localStorage.setItem('still_privacy_lang', lang); }catch(e){}

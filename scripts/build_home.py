@@ -25,24 +25,15 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from site_common import GA_SNIPPET, FOOT_LANG_JS, foot_lang_control, LANGS, MOVED, hreflang_links, sitemap_links, redirect_stub, auto_lang_script, SITE, check_fresh, esc, font_links, lang_url, meta_desc, replace_between, stamped_date, with_localtime  # noqa: E402
+from site_common import GA_SNIPPET, FOOT_LANG_JS, foot_lang_control, LANGS, MOVED, hreflang_links, sitemap_links, redirect_stub, lang_script, lang_select, SITE, check_fresh, esc, font_links, lang_url, meta_desc, replace_between, stamped_date, with_localtime  # noqa: E402
 
 TEMPLATE = Path("content") / "home" / "template.html"
 STRINGS = Path("content") / "home" / "i18n.json"
 STAMP = Path("content") / "home" / "stamp.json"  # {hash, date}: when template/i18n last changed (sitemap lastmod); written by this script
 LANG_ATTR = re.compile(r'(<(?P<tag>[a-zA-Z0-9]+)(?P<attrs>[^>]*?\sdata-i18n="(?P<key>[^"]+)"[^>]*)>)(?P<inner>.*?)(</(?P=tag)>)', re.S)
 PH_ATTR = re.compile(r'<[a-zA-Z0-9]+[^>]*?\sdata-i18n-ph="([^"]+)"[^>]*>')
-# the visitor's own choice - the language <select> or a footer language link - is remembered (localStorage still_lang); the neutral entries (/ and
-# /journal/) read it back, see site_common.AUTO_LANG_JS. The select/link also go to the language's address, so ① (the URL) wins on that page.
-NAV_SCRIPT = """<script>
-(function () {
-  var sel = document.getElementById('lang');
-  if (sel) sel.addEventListener('change', function () {
-    try { localStorage.setItem('still_lang', this.value); } catch (e) {}
-    location.href = '/' + this.value + '/';
-  });
-})();
-</script>"""
+# the visitor's own choice (the top kit <select> or a footer language link) is remembered in localStorage ipe_lang; the neutral entries (/ and
+# /journal/) read it back (kit ipe-lang.js, see site_common.lang_script).
 ARIA_KEYS = ("aria_lang", "aria_verse_card", "aria_save", "aria_listen", "aria_email", "aria_footer", "og_image_alt")  # {{key}} in the template
 
 
@@ -75,7 +66,7 @@ def render_page(tpl, strings, lang, root, cards_html=None, journal_href="/journa
     hreflang = hreflang_links({l: lang_url(l) for l in LANGS}, SITE + "/")
     og = '<meta property="og:locale" content="%s">' % LANGS[lang]["og"] + "".join(
         '\n<meta property="og:locale:alternate" content="%s">' % LANGS[l]["og"] for l in LANGS if l != lang)
-    options = "\n".join('    <option value="%s"%s>%s</option>' % (l, " selected" if l == lang else "", LANGS[l]["name"]) for l in LANGS)
+    select = lang_select(lang, lambda l: "/%s/" % l)  # on the root (x-default, English) `en` is the selected option
     page_dict = {k: d[k] for k in ("letters_thanks",) if k in d}
     page_script = "<script>window.__PAGE=%s;</script>" % json.dumps({"lang": lang, "dict": page_dict}, ensure_ascii=False)
     # the root (x-default) and /en/ are both English: /en/ may carry its own wording (page_meta_title / page_meta_desc in the en strings) so the
@@ -87,8 +78,8 @@ def render_page(tpl, strings, lang, root, cards_html=None, journal_href="/journa
     lang_links = foot_lang_control(d["aria_lang"], [(l, "/" + l + "/") for l in LANGS], None if root else lang)
     subs = {
         "LANG": lang, "DIR": LANGS[lang]["dir"], "CANONICAL": esc(canonical), "HREFLANG": hreflang, "OG_LOCALE": og,
-        "LANG_OPTIONS": options, "LANG_SCRIPT": auto_lang_script("/", LANGS) if root else "", "PAGE_SCRIPT": page_script,
-        "NAV_SCRIPT": NAV_SCRIPT + FOOT_LANG_JS,
+        "LANG_SELECT": select, "LANG_SCRIPT": lang_script(redirect=root) + "\n", "PAGE_SCRIPT": page_script,
+        "NAV_SCRIPT": FOOT_LANG_JS,
         "FONT_LINKS": font_links(),
         "GA_SNIPPET": GA_SNIPPET,
         "meta_title": esc(title), "meta_desc": esc(meta_desc(desc)),

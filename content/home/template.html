@@ -79,6 +79,9 @@
 
 {{FONT_LINKS}}
 <style>
+  /* ipe kit language select (ipe_web_kit.langswitch.CSS) */
+  .ipe-lang{display:inline-flex;align-items:center;max-width:100%;font-family:var(--ipe-font-sans,system-ui,sans-serif);font-size:.8125rem}.ipe-lang__label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.ipe-lang__select{max-width:100%;min-height:44px;padding:0 8px;font:inherit;color:var(--ipe-text,#1a1a1a);background:var(--ipe-bg,#fff);border:1px solid var(--ipe-line,#e3e3df);border-radius:var(--ipe-radius,12px)}.ipe-lang__links{display:flex;flex-wrap:wrap;gap:4px 10px}.ipe-lang__links a{color:var(--ipe-muted,#6b6b6b)}.ipe-lang__links a[aria-current]{color:var(--ipe-text,#1a1a1a);font-weight:600}
+
   :root{
     --navy:#0F1218;          /* Deep Navy, warmed slightly (less blue than #0D1117) */
     --ink:#232A36;
@@ -416,29 +419,24 @@
   .topnav:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
 
   /* ---------- language selector (calm, top-right) ---------- */
-  .langsel{
-    position:fixed;top:18px;inset-inline-end:18px;z-index:50;
-    display:inline-flex;align-items:center;gap:7px;
+  .langsel{position:fixed;top:18px;inset-inline-end:18px;z-index:50;}
+  .langsel .ipe-lang__select{
+    appearance:none;-webkit-appearance:none;min-height:40px;padding:0 14px;max-width:9.5em;
     background:rgba(15,18,24,.55);backdrop-filter:blur(8px);
     border:1px solid rgba(245,240,232,.16);border-radius:999px;
-    padding:7px 12px;padding-inline-start:13px;color:var(--cream);
+    color:var(--cream);font-family:var(--sans);font-size:12.5px;font-weight:500;letter-spacing:.02em;cursor:pointer;
     transition:border-color .3s ease,background .3s ease;
   }
-  .langsel:hover{border-color:rgba(201,168,76,.5);}
-  .langsel:focus-within{outline:2px solid var(--gold);outline-offset:2px;}
-  .langsel svg{width:14px;height:14px;opacity:.75;flex-shrink:0;}
-  .langsel select{
-    appearance:none;-webkit-appearance:none;background:transparent;border:0;
-    color:var(--cream);font-family:var(--sans);font-size:12.5px;font-weight:500;
-    letter-spacing:.02em;cursor:pointer;padding-inline-end:2px;outline:none;
-  }
-  .langsel select option{color:#1a1f28;background:#fff;}
+  .langsel .ipe-lang__select:hover{border-color:rgba(201,168,76,.5);}
+  .langsel .ipe-lang__select:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
+  .langsel .ipe-lang__select option{color:#1a1f28;background:#fff;}
   @media (max-width:640px){
     .plans{grid-template-columns:1fr;}
     .verse-card-body{padding:36px 28px 30px;}
     .verse-actions{padding:0 28px 22px;}
     .step{grid-template-columns:48px 1fr;gap:18px;}
-    .langsel{top:12px;inset-inline-end:12px;padding:6px 10px;}
+    .langsel{top:12px;inset-inline-end:12px;}
+    .langsel .ipe-lang__select{min-height:36px;padding:0 10px;max-width:7.5em;}
     .topnav{top:12px;inset-inline-start:12px;min-height:36px;padding:0 13px;font-size:13px;}
   }
 
@@ -473,12 +471,7 @@
 <a class="topnav" href="{{JOURNAL_HREF}}" data-i18n="foot_journal" data-journal-top>Journal</a>
 
 <!-- language selector -->
-<label class="langsel" aria-label="{{aria_lang}}">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.8 5.8 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.8-3.8-9S9.5 5.5 12 3z"/></svg>
-  <select id="lang" aria-label="{{aria_lang}}">
-{{LANG_OPTIONS}}
-  </select>
-</label>
+{{LANG_SELECT}}
 
 <!-- 1 · HERO -->
 <header class="hero dark">

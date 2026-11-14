@@ -152,7 +152,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gentium+Book+Plus:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gentium+Book+Plus:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap"></noscript>
-<link rel="stylesheet" href="/assets/journal.css?v=20261120b">
+<link rel="stylesheet" href="/assets/journal.css?v=20261120c">
+<script src="/assets/ipe-lang.js?v=1-db7589a7" defer></script>
 <link rel="stylesheet" href="/assets/consent.css?v=20261113a"><script src="/assets/consent.js?v=20261113a" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "eab6249a56894cb084b7bcc8f1a860a6"}'></script>
 </head>
@@ -162,18 +163,7 @@
   <div class="wrap-wide bar">
     <a class="brand" href="/es/" aria-label="Inicio de still()">still<span class="paren">(</span><span class="paren">)</span></a>
     <nav class="bar-nav" aria-label="Principal"><a href="/journal/es/" aria-current="page">Diario</a></nav>
-    <label class="langsel">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.8 5.8 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.8-3.8-9S9.5 5.5 12 3z"/></svg>
-    <select id="lang" aria-label="Idioma">
-      <option value="/journal/en/evening-after-the-meeting/">English</option>
-      <option value="/journal/ko/evening-after-the-meeting/">한국어</option>
-      <option value="/journal/ja/evening-after-the-meeting/">日本語</option>
-      <option value="/journal/es/evening-after-the-meeting/" selected>Español</option>
-      <option value="/journal/pt-BR/evening-after-the-meeting/">Português (Brasil)</option>
-      <option value="/journal/fr/evening-after-the-meeting/">Français</option>
-      <option value="/journal/de/evening-after-the-meeting/">Deutsch</option>
-    </select>
-  </label>
+    <div class="langsel"><div class="ipe-lang"><label class="ipe-lang__label" for="ipe-lang-select">Idioma</label><select class="ipe-lang__select" id="ipe-lang-select" aria-label="Idioma" onchange="var o=this.options[this.selectedIndex];try{localStorage.setItem(&#x27;ipe_lang&#x27;,o.lang)}catch(e){}if(o.value)location.href=o.value"><option value="/journal/en/evening-after-the-meeting/" lang="en">English</option><option value="/journal/ko/evening-after-the-meeting/" lang="ko">한국어</option><option value="/journal/ja/evening-after-the-meeting/" lang="ja">日本語</option><option value="/journal/es/evening-after-the-meeting/" lang="es" selected>Español</option><option value="/journal/pt-BR/evening-after-the-meeting/" lang="pt-BR">Português (Brasil)</option><option value="/journal/fr/evening-after-the-meeting/" lang="fr">Français</option><option value="/journal/de/evening-after-the-meeting/" lang="de">Deutsch</option></select><noscript><nav class="ipe-lang__links" aria-label="Idioma"><a href="/journal/en/evening-after-the-meeting/" hreflang="en">English</a><a href="/journal/ko/evening-after-the-meeting/" hreflang="ko">한국어</a><a href="/journal/ja/evening-after-the-meeting/" hreflang="ja">日本語</a><a href="/journal/es/evening-after-the-meeting/" hreflang="es" aria-current="page">Español</a><a href="/journal/pt-BR/evening-after-the-meeting/" hreflang="pt-BR">Português (Brasil)</a><a href="/journal/fr/evening-after-the-meeting/" hreflang="fr">Français</a><a href="/journal/de/evening-after-the-meeting/" hreflang="de">Deutsch</a></nav></noscript></div></div>
   </div>
 </header>
 <main id="main" class="wrap">
@@ -281,20 +271,10 @@
 </footer>
 <script>
 (function () {
-  var sel = document.getElementById('lang');
-  if (sel) sel.addEventListener('change', function () {
-    var m = String(this.value).match(/^\/(?:journal\/)?([A-Za-z]{2}(?:-[A-Za-z]{4}|-[A-Za-z]{2})?)\//);
-    try { if (m) localStorage.setItem('still_lang', m[1]); } catch (e) {}
-    location.href = this.value;
-  });
-})();
-</script>
-<script>
-(function () {
   var sel = document.getElementById('foot-lang');
   if (sel) sel.addEventListener('change', function () {
     var m = String(this.value).match(/^\/(?:journal\/)?([A-Za-z]{2}(?:-[A-Za-z]{4}|-[A-Za-z]{2})?)\//);
-    try { if (m) localStorage.setItem('still_lang', m[1]); } catch (e) {}
+    try { if (m) localStorage.setItem('ipe_lang', m[1]); } catch (e) {}
     location.href = this.value;
   });
 })();

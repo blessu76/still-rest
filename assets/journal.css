@@ -37,20 +37,16 @@ img{max-width:100%;height:auto;}
 .bar-nav{margin-inline-start:auto;display:flex;gap:18px;font-size:14px;font-weight:500;}
 .bar-nav a{color:var(--ink);text-decoration:none;min-height:44px;display:inline-flex;align-items:center;font-weight:600;border-bottom:2px solid transparent;}
 .bar-nav a:hover,.bar-nav a[aria-current]{border-bottom-color:var(--gold);}
-.langsel{
-  display:inline-flex;align-items:center;gap:7px;
-  background:var(--surface);border:1px solid rgba(35,42,54,.16);border-radius:999px;
-  padding:0 12px 0 13px;padding-inline:13px 12px;min-height:44px;color:var(--ink);
+/* top language select = the ipe kit component (ipe_web_kit.langswitch.select_html); the kit's own CSS first, the site's pill look on top */
+.ipe-lang{display:inline-flex;align-items:center;max-width:100%;font-family:var(--ipe-font-sans,system-ui,sans-serif);font-size:.8125rem}.ipe-lang__label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.ipe-lang__select{max-width:100%;min-height:44px;padding:0 8px;font:inherit;color:var(--ipe-text,#1a1a1a);background:var(--ipe-bg,#fff);border:1px solid var(--ipe-line,#e3e3df);border-radius:var(--ipe-radius,12px)}.ipe-lang__links{display:flex;flex-wrap:wrap;gap:4px 10px}.ipe-lang__links a{color:var(--ipe-muted,#6b6b6b)}.ipe-lang__links a[aria-current]{color:var(--ipe-text,#1a1a1a);font-weight:600}
+.langsel{display:inline-flex;align-items:center;}
+.langsel .ipe-lang__select{
+  appearance:none;-webkit-appearance:none;background:var(--surface);border:1px solid rgba(35,42,54,.16);border-radius:999px;
+  color:var(--ink);font-family:var(--sans);font-size:13px;font-weight:500;cursor:pointer;padding:0 14px;min-height:44px;max-width:9.5em;
 }
-.langsel:hover{border-color:rgba(201,168,76,.7);}
-.langsel svg{width:14px;height:14px;opacity:.7;flex-shrink:0;}
-.langsel select{
-  appearance:none;-webkit-appearance:none;background:transparent;border:0;
-  color:var(--ink);font-family:var(--sans);font-size:13px;font-weight:500;
-  cursor:pointer;padding-inline-end:2px;outline:none;max-width:9.5em;min-height:44px;
-}
-.langsel select option{color:#1a1f28;background:#fff;}
-.langsel:focus-within{outline:2px solid var(--gold-deep);outline-offset:2px;}
+.langsel .ipe-lang__select:hover{border-color:rgba(201,168,76,.7);}
+.langsel .ipe-lang__select:focus-visible{outline:2px solid var(--gold-deep);outline-offset:2px;}
+.langsel .ipe-lang__select option{color:#1a1f28;background:#fff;}
 
 /* ---------- shared text ---------- */
 .eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:14px;}
@@ -175,8 +171,7 @@ a.help-num{text-decoration:underline;text-underline-offset:3px;min-height:44px;d
 @media (max-width:360px){
   .bar{gap:8px;}
   .bar-nav{gap:8px;font-size:13px;}
-  .langsel{padding:0 8px 0 10px;padding-inline:10px 8px;gap:5px;}
-  .langsel select{max-width:6.5em;}
+  .langsel .ipe-lang__select{padding:0 8px;max-width:6.5em;}
 }
 :lang(ko) .article-head h1,:lang(ko) .prose,:lang(ko) .lede,:lang(ko) .j-list,:lang(ko) .help{word-break:keep-all;}
 

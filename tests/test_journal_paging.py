@@ -291,8 +291,8 @@ class Paging(Base):
         self.assertEqual({k: v for k, v in h2.items() if k != "x-default"}, {"ko": "/journal/ko/page/2/", "en": "/journal/en/page/2/"})
         self.assertEqual(h2["x-default"], "/journal/page/2/")
         # the language <select>: same page number when that language has it, else its first page
-        for sid in ("lang", "foot-lang"):
-            block = re.search(r'<select id="%s".*?</select>' % sid, self.list_html("ko", 3), re.S).group(0)
+        for sid in ("ipe-lang-select", "foot-lang"):
+            block = re.search(r'<select [^>]*id="%s".*?</select>' % sid, self.list_html("ko", 3), re.S).group(0)
             self.assertEqual(re.findall(r'<option value="([^"]+)"', block), ["/journal/en/", "/journal/ko/page/3/", "/journal/ja/"], sid)
 
     def test_sitemap_lists_every_page_and_passes_the_checker(self):

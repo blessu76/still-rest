@@ -26,6 +26,12 @@
   body{margin:0;font-family:var(--sans);background:var(--parchment);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;}
   .wrap{max-width:44rem;margin:0 auto;padding:0 22px;}
   .topbar{border-bottom:1px solid rgba(35,42,54,.1);padding:20px 0;}
+  .topbar .wrap{display:flex;align-items:center;gap:16px;}
+  .bar-nav{margin-inline-start:auto;font-size:14px;font-weight:600;}.bar-nav a{color:var(--ink);text-decoration:none;min-height:44px;display:inline-flex;align-items:center;}
+  /* ipe kit language select (ipe_web_kit.langswitch.CSS) */
+  .ipe-lang{display:inline-flex;align-items:center;max-width:100%;font-family:var(--ipe-font-sans,system-ui,sans-serif);font-size:.8125rem}.ipe-lang__label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.ipe-lang__select{max-width:100%;min-height:44px;padding:0 8px;font:inherit;color:var(--ipe-text,#1a1a1a);background:var(--ipe-bg,#fff);border:1px solid var(--ipe-line,#e3e3df);border-radius:var(--ipe-radius,12px)}.ipe-lang__links{display:flex;flex-wrap:wrap;gap:4px 10px}.ipe-lang__links a{color:var(--ipe-muted,#6b6b6b)}.ipe-lang__links a[aria-current]{color:var(--ipe-text,#1a1a1a);font-weight:600}
+  .ipe-lang__select{font-family:var(--sans);font-size:13px;font-weight:600;border-radius:999px;padding:0 12px;background:transparent;color:var(--ink);border-color:rgba(35,42,54,.16);}
+
   .brand{font-family:var(--serif);font-size:26px;color:var(--ink);text-decoration:none;display:inline-flex;align-items:baseline;}
   .brand .paren{color:var(--gold);}
   main{padding:64px 0 96px;}
@@ -47,6 +53,8 @@
 <header class="topbar">
   <div class="wrap">
     <a class="brand" href="/">still<span class="paren">(</span><span class="paren">)</span></a>
+    <nav class="bar-nav" aria-label="Primary"><a href="/journal/">Journal</a></nav>
+    <div class="ipe-lang"><label class="ipe-lang__label" for="ipe-lang-select">Language</label><select class="ipe-lang__select" id="ipe-lang-select" aria-label="Language" onchange="var o=this.options[this.selectedIndex];try{localStorage.setItem(&#x27;ipe_lang&#x27;,o.lang)}catch(e){}if(o.value)location.href=o.value"><option value="/en/" lang="en" selected>English</option><option value="/ko/" lang="ko">한국어</option><option value="/ja/" lang="ja">日本語</option><option value="/zh-Hant/" lang="zh-Hant">繁體中文</option><option value="/es/" lang="es">Español</option><option value="/pt-BR/" lang="pt-BR">Português (Brasil)</option><option value="/fr/" lang="fr">Français</option><option value="/de/" lang="de">Deutsch</option><option value="/id/" lang="id">Bahasa Indonesia</option><option value="/th/" lang="th">ไทย</option><option value="/vi/" lang="vi">Tiếng Việt</option><option value="/tr/" lang="tr">Türkçe</option></select><noscript><nav class="ipe-lang__links" aria-label="Language"><a href="/en/" hreflang="en" aria-current="page">English</a><a href="/ko/" hreflang="ko">한국어</a><a href="/ja/" hreflang="ja">日本語</a><a href="/zh-Hant/" hreflang="zh-Hant">繁體中文</a><a href="/es/" hreflang="es">Español</a><a href="/pt-BR/" hreflang="pt-BR">Português (Brasil)</a><a href="/fr/" hreflang="fr">Français</a><a href="/de/" hreflang="de">Deutsch</a><a href="/id/" hreflang="id">Bahasa Indonesia</a><a href="/th/" hreflang="th">ไทย</a><a href="/vi/" hreflang="vi">Tiếng Việt</a><a href="/tr/" hreflang="tr">Türkçe</a></nav></noscript></div>
   </div>
 </header>
 

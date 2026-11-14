@@ -218,14 +218,13 @@ class AllLanguages(Base):
 
     def test_hub_follows_the_language_rule_and_language_lists_never_move(self):
         hub = self.page("journal/index.html")
-        self.assertIn(bj.auto_lang_script("/journal/", LANGS).strip(), hub)
-        self.assertIn('PRE="/journal/"' if False else 'PRE=', hub)
-        self.assertIn("location.replace(PRE+pick+'/'", hub)
-        self.assertIn("still_lang", hub)
+        self.assertRegex(hub, r'<script src="/assets/ipe-lang\.js\?v=[^"]+" data-redirect defer></script>')  # kit redirect: hub only
+        self.assertNotIn("still_lang", hub)
         for l in LANGS:  # the language lists and the posts stay where they are
             for p in ("journal/%s/index.html" % l, "journal/%s/hello/index.html" % l):
                 h = self.page(p)
                 self.assertNotIn("location.replace", h, p)
+                self.assertNotIn("data-redirect", h, p)
         # the footer language select stores the choice
         self.assertIn('<select id="foot-lang"', self.page("journal/ko/hello/index.html"))
 

@@ -77,6 +77,12 @@ class TopJournalLink(unittest.TestCase):
         css = (REPO / "assets/journal.css").read_text(encoding="utf-8")
         self.assertRegex(css, r"\.bar-nav a\{color:var\(--ink\)")
 
+    def test_every_page_has_the_kit_language_select_and_the_kit_asset_is_vendored(self):
+        for label, lang, h in pages():
+            self.assertIn('id="ipe-lang-select"', h, label)  # ipe_web_kit langswitch.select_html, not a custom select
+            self.assertIn(".ipe-lang__select", h if "<style" in h and ".ipe-lang__select" in h else (REPO / "assets/journal.css").read_text(encoding="utf-8"), label)
+        self.assertEqual((REPO / "assets/ipe-lang.js").read_bytes(), (REPO / "vendor/ipe_web_kit/assets/ipe-lang.js").read_bytes())
+
 
 if __name__ == "__main__":
     unittest.main()

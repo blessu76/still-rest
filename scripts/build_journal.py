@@ -90,9 +90,9 @@ import urllib.parse
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from site_common import GA_SNIPPET, FOOT_LANG_JS, GEN_MARK, KST, LANGS, MOVED, ENDED_DIRS, ORG, SITE, foot_lang_control, hreflang_links, redirect_stub, auto_lang_script, check_fresh, esc, font_links, lang_url, meta_desc, parse_when, replace_between, with_localtime  # noqa: E402
+from site_common import GA_SNIPPET, FOOT_LANG_JS, GEN_MARK, KST, LANGS, MOVED, ENDED_DIRS, ORG, SITE, foot_lang_control, hreflang_links, redirect_stub, lang_script, lang_select as kit_lang_select, sync_lang_asset, check_fresh, esc, font_links, lang_url, meta_desc, parse_when, replace_between, with_localtime  # noqa: E402
 
-ASSET_V = "20261120b"  # ?v= of assets/journal.css — bump when the file changes
+ASSET_V = "20261120c"  # ?v= of assets/journal.css — bump when the file changes
 CF_TOKEN = "eab6249a56894cb084b7bcc8f1a860a6"  # Cloudflare Web Analytics (cookieless), same as the home page
 REQUIRED = ("title", "date", "slug", "lang", "description", "category")
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -576,7 +576,7 @@ def og_image_alt(lang):
     return (HOME.get(lang) or {}).get("og_image_alt") or HOME["en"]["og_image_alt"]
 
 
-def head(title, desc, canonical, lang, noindex, extra="", hint="edit content/journal/*.md and rebuild", image=None, alternates="", locales=(), image_alt=None):
+def head(title, desc, canonical, lang, noindex, extra="", hint="edit content/journal/*.md and rebuild", image=None, alternates="", locales=(), image_alt=None, lang_redirect=False):
     image_alt = image_alt if image else og_image_alt(lang)  # the default card has a description in the page's language
     image_size = "" if image else '<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">\n'  # og-image.png is 1200x630; a hero image's size is unknown
     image = image or SITE + "/og-image.png"
@@ -609,6 +609,7 @@ def head(title, desc, canonical, lang, noindex, extra="", hint="edit content/jou
 <meta name="twitter:image" content="{esc(image)}">
 {extra}{font_links()}
 <link rel="stylesheet" href="/assets/journal.css?v={ASSET_V}">
+{lang_script(lang_redirect)}
 {GA_SNIPPET}
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{{"token": "{CF_TOKEN}"}}'></script>
 </head>
@@ -617,19 +618,14 @@ def head(title, desc, canonical, lang, noindex, extra="", hint="edit content/jou
 
 
 def lang_select(lang, targets, neutral=None):
-    """the home page's language <select> (same look), option value = site path of the same page in that language.
-    targets = {lang: path}; only languages that really have this page. neutral = (label, path): a first, selected
-    option for pages that belong to no single language (the x-default hub). No targets -> no select at all."""
+    """the top language <select> = the kit component (site_common.lang_select). targets = {lang: path}: only the languages that really have this
+    page. The x-default hub (neutral) is English content: `en` is the selected option there. No targets -> no select at all."""
     if not targets:
         return ""
-    opts = ('      <option value="%s" selected>%s</option>\n' % (esc(neutral[1]), esc(neutral[0])) if neutral else "") + "\n".join('      <option value="%s"%s>%s</option>' % (esc(targets[l]), " selected" if l == lang and not neutral else "", esc(LANGS[l]["name"]))
-                     for l in LANGS if l in targets)
-    return f"""<label class="langsel">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.8 5.8 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.8-3.8-9S9.5 5.5 12 3z"/></svg>
-    <select id="lang" aria-label="{esc(ui(lang)['other_langs'])}">
-{opts}
-    </select>
-  </label>"""
+    targets = dict(targets)
+    if neutral:  # the hub: English is selected and its option is the hub itself (also when English has no list of its own)
+        lang, targets["en"] = "en", targets.get("en") or neutral[1]
+    return kit_lang_select(lang, lambda l: targets[l], [l for l in LANGS if l in targets])
 
 
 def header(lang, targets, neutral=None, nav="current"):
@@ -668,16 +664,6 @@ def footer(lang, targets=None, current=None, journal=True):
 {foot_lang_control(g('aria_lang'), [(l, targets[l]) for l in LANGS if targets and l in targets], lang if current is None else current)}    <div class="foot-studio">{esc(g('foot_studio'))}</div>
   </div>
 </footer>
-<script>
-(function () {{
-  var sel = document.getElementById('lang');
-  if (sel) sel.addEventListener('change', function () {{
-    var m = String(this.value).match(/^\\/(?:journal\\/)?([A-Za-z]{{2}}(?:-[A-Za-z]{{4}}|-[A-Za-z]{{2}})?)\\//);
-    try {{ if (m) localStorage.setItem('still_lang', m[1]); }} catch (e) {{}}
-    location.href = this.value;
-  }});
-}})();
-</script>
 {FOOT_LANG_JS}
 </body>
 </html>
@@ -1054,9 +1040,8 @@ def render_list(posts, lang=None, list_langs=("en",), page=1, counts=None):
         list_desc = meta_desc(list_desc, 160 - len(suffix))
     # the language-neutral hub (page 1) applies the common language rule (URL -> chosen -> browser -> English): a visitor whose language has a list
     # goes to /journal/<lang>/, everyone else (English, vi/id without posts, no preference, crawlers) stays. Language lists never move the visitor.
-    hub_lang_script = auto_lang_script("/journal/", list_langs) if not lang and page == 1 else ""
     return with_localtime(head("%s — still() · %s%s" % (t["journal"], scope, suffix), list_desc + suffix, url, loc, not posts,
-                 '<meta property="og:type" content="website">\n' + ld(data) + ld(itemlist) + ld(crumb) + hub_lang_script, alternates=alts, locales=list(pages))
+                 '<meta property="og:type" content="website">\n' + ld(data) + ld(itemlist) + ld(crumb), alternates=alts, locales=list(pages), lang_redirect=not lang and page == 1)
             + header(loc, targets, None if lang else (t['other_langs'], list_path(None, page))) + f"""<main id="main" class="wrap">
   <div class="page-head">
     <p class="eyebrow">still(){esc(suffix)}</p>
@@ -1508,6 +1493,7 @@ def build(root, drafts=False, strict_safety=False, check_only=False, now=None, l
             write(out / old / path.relative_to(pre), render_redirect(SITE + "/journal/" + new + "/" + path.relative_to(pre).parent.as_posix() + "/" if path.parent != pre else SITE + "/journal/" + new + "/"))
     write(out / "feed.xml", render_feed(originals))
     sweep_generated(root, written)
+    sync_lang_asset(root)  # assets/ipe-lang.js = the kit's language-detection script (byte-identical copy)
 
     sm = root / "sitemap.xml"
     sm_xml = replace_between(sm.read_text(encoding="utf-8"), r"<!-- journal:start[^>]*-->",
