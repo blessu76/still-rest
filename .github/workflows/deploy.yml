@@ -5,11 +5,10 @@ on:
     branches: [main]
   workflow_dispatch:
   schedule:
-    # BACKUP only. Scheduled journal posts (front matter `publish_at`, KST) go live at random times inside two windows
-    # (am 09:00-11:59, pm 16:00-17:59); the MAIN trigger is the Mac mini dispatcher (scripts/dispatch_due.py, launchd every 5 min,
-    # `gh workflow run`). GitHub cron is UTC and can start hours late (2026-10-24: ~4h50m), so it only sweeps the windows once an hour.
-    - cron: '45 0-3 * * *'   # 09:45 10:45 11:45 12:45 KST (covers the am window)
-    - cron: '45 7-9 * * *'   # 16:45 17:45 18:45 KST (covers the pm window)
+    # BACKUP only. Scheduled journal posts (front matter `publish_at`, KST) go live at a random time between 12:00 and 17:59
+    # (one post a day); the MAIN trigger is the Mac mini dispatcher (scripts/dispatch_due.py, launchd every 5 min,
+    # `gh workflow run`). GitHub cron is UTC and can start hours late (2026-10-24: ~4h50m), so it only sweeps the window once an hour.
+    - cron: '45 3-9 * * *'   # 12:45 13:45 14:45 15:45 16:45 17:45 18:45 KST (covers the publish window)
 
 permissions:
   contents: read
