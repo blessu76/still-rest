@@ -61,7 +61,7 @@ class Errors(Base):
         self.assertIn("publish_at", r.stderr)  # the message says how to publish later
 
     def test_a_scheduled_future_post_is_fine(self):
-        post(self.tmp, date="2999-01-01", extra="publish_at: 2999-01-01 10:00\n")
+        post(self.tmp, date="2999-01-01", extra="publish_at: 2999-01-01 10:00\ncopy_review: iris 2026-11-14\n")
         r = check(self.tmp)
         self.assertEqual(r.returncode, 0, r.stderr)
 
@@ -168,7 +168,7 @@ class Warnings(Base):
         self.assertEqual([x for x in w if "same title" in x], ["en/a.md, en/b.md: the same title is used by 2 posts in en"])
 
     def test_scheduled_posts_are_linted_too_and_drafts_are_not(self):
-        post(self.tmp, lang="en", slug="s", date="2999-01-01", title="t" * 70, extra="publish_at: 2999-01-01 10:00\n")
+        post(self.tmp, lang="en", slug="s", date="2999-01-01", title="t" * 70, extra="publish_at: 2999-01-01 10:00\ncopy_review: iris 2026-11-14\n")
         post(self.tmp, lang="en", slug="d", title="t" * 70, extra="draft: true\n")
         w = self.lines(check(self.tmp))
         self.assertTrue(any(x.startswith("en/s.md: title is 70") for x in w), w)

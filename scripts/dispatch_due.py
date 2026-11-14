@@ -28,7 +28,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from pick_publish_time import front_matter  # noqa: E402
-from site_common import KST, SITE, parse_when  # noqa: E402
+from site_common import KST, SITE, copy_review_missing, parse_when  # noqa: E402
 
 REPO = "blessu76/still-rest"
 WORKFLOW = "deploy.yml"
@@ -46,6 +46,8 @@ def due_posts(root, now, max_age_hours=72):
             if not meta.get("publish_at") or meta.get("draft", "").lower() in ("true", "yes", "1"):
                 continue
             when = parse_when(meta["publish_at"])
+            if copy_review_missing(meta):  # the build would reject it (lint) — a deploy now would only fail, so do not trigger one
+                continue
         except (OSError, ValueError):
             continue
         if when <= now and now - when <= dt.timedelta(hours=max_age_hours):

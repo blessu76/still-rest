@@ -90,7 +90,7 @@ import urllib.parse
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from site_common import GA_SNIPPET, FOOT_LANG_JS, GEN_MARK, KST, LANGS, MOVED, ENDED_DIRS, ORG, SITE, foot_lang_control, hreflang_links, redirect_stub, lang_script, lang_select as kit_lang_select, sync_lang_asset, check_fresh, esc, font_links, lang_url, meta_desc, parse_when, replace_between, with_localtime  # noqa: E402
+from site_common import GA_SNIPPET, FOOT_LANG_JS, GEN_MARK, KST, LANGS, MOVED, ENDED_DIRS, ORG, SITE, foot_lang_control, COPY_REVIEW_AFTER, copy_review_missing, hreflang_links, redirect_stub, lang_script, lang_select as kit_lang_select, sync_lang_asset, check_fresh, esc, font_links, lang_url, meta_desc, parse_when, replace_between, with_localtime  # noqa: E402
 
 ASSET_V = "20261120c"  # ?v= of assets/journal.css — bump when the file changes
 CF_TOKEN = "eab6249a56894cb084b7bcc8f1a860a6"  # Cloudflare Web Analytics (cookieless), same as the home page
@@ -1305,7 +1305,7 @@ def length_soft_mode():
 
 def lint_posts(all_posts, now=None, length_errors_as_warnings=False):
     """-> (errors, warnings) for the posts that are not drafts — scheduled ones included, so a mistake is caught the day it is written.
-    errors (the build/check fails): placeholder text, a date in the future for a post that is not scheduled (`publish_at` is the only way to
+    errors (the build/check fails): an original dated after COPY_REVIEW_AFTER (2026-11-14) without `copy_review: iris YYYY-MM-DD` (the publish gate; older posts are legacy-exempt), placeholder text, a date in the future for a post that is not scheduled (`publish_at` is the only way to
     publish later), `updated` in the future or before `date`, a NEW original (date >= LENGTH_ERROR_FROM) under 300 words / 600 CJK characters
     — unless `length_errors_as_warnings` (the deploy runner), where that one case becomes a loud warning so a scheduled post never drops out.
     warnings (printed, never fail): original body shorter than 400 words / 800 CJK characters (aim), title longer than 60 (CJK 40) characters, description longer than 160 (CJK 110), the same title twice in one language.
@@ -1325,6 +1325,8 @@ def lint_posts(all_posts, now=None, length_errors_as_warnings=False):
             m = PLACEHOLDER_RE.search(p.get(field, ""))
             if m:
                 errs.append("%s: placeholder text %r in %s" % (src, m.group(0), field))
+        if copy_review_missing(p):
+            errs.append("%s: no `copy_review: iris YYYY-MM-DD` in the front matter — an original dated after %s is not published without Iris's copy review" % (src, COPY_REVIEW_AFTER))
         if not p["_publish_at"] and p["_date"] > today:
             errs.append("%s: date %s is in the future (today is %s) and the post is not scheduled — use `publish_at` to publish later" % (src, p["date"], today))
         if p["_published_at"] and p["_published_at"].astimezone(KST).date() > today:

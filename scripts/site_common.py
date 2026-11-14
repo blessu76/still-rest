@@ -230,6 +230,22 @@ def check_fresh(root, build_fn):
         shutil.rmtree(tmp, ignore_errors=True)
 
 
+# Copy review gate (Matt·w00 2026-11-14): an original post dated AFTER this day needs `copy_review: iris YYYY-MM-DD` in its front matter,
+# or it is not published (build/lint error + the dispatcher ignores it). Posts dated on/before it are legacy and exempt.
+COPY_REVIEW_AFTER = "2026-11-14"
+COPY_REVIEW_RE = re.compile(r"^iris\s+\d{4}-\d{2}-\d{2}$", re.I)
+
+
+def copy_review_missing(meta):
+    """True when this front matter (dict of strings; needs `date`, optional `translation_of`/`copy_review`) must carry a copy_review and does not.
+    Translations follow their original (the review is of the copy), so only originals are gated."""
+    if meta.get("translation_of"):
+        return False
+    if str(meta.get("date", "")) <= COPY_REVIEW_AFTER:
+        return False
+    return not COPY_REVIEW_RE.match(str(meta.get("copy_review", "")).strip())
+
+
 def parse_when(value):
     """`2026-10-24 11:00` / `2026-10-24T11:00:00+09:00` -> aware datetime; no offset = KST. `now` = the current time. Raises ValueError."""
     value = str(value).strip()
