@@ -10,6 +10,7 @@ verse: João 14:27
 bible_version: none
 translation_of: ko
 publish_at: 2026-11-18 16:33
+draft: true
 ---
 
 Pouco antes de sair do trabalho, uma colega mais experiente comentou de passagem no corredor que o aviso de reorganização sairia amanhã de manhã. Ninguém sabia quais equipes se juntariam nem quem seria transferido. Ela também riu e disse: «Eu só ouvi falar», mas aquele riso soou meio sem jeito.

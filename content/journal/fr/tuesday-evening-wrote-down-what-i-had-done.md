@@ -9,6 +9,7 @@ keywords: mardi, soir, tâches, repos, novembre
 bible_version: Louis Segond 1910
 translation_of: ko
 publish_at: 2026-11-17 16:08
+draft: true
 ---
 
 Mardi soir, en rentrant du travail, avant même d'ôter mon manteau, j'ai ouvert le carnet posé sur le bureau. J'ai l'habitude d'y noter ce que je n'ai pas fait aujourd'hui. Finir le rapport, appeler pour le rendez-vous chez le dentiste, trois courriels sans réponse : en les écrivant, j'ai vite rempli une page. Au moment de refermer le carnet, je me suis aperçu que mes épaules étaient dures comme de la pierre.

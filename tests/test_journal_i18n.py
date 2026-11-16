@@ -29,6 +29,8 @@ HELD = {k for k in json.loads((J / "hold.json").read_text(encoding="utf-8")) if 
 NO_POSTS_YET = set()
 # ended languages: their files are frozen (not built, not read); they are in no list
 ENDED = {"zh", "ru", "ar", "hi"}
+# ko originals Iris put on hold (2026-11-17, copy_review 보류): `draft: true` in every language until fixed + re-reviewed -> not published
+REVIEW_HOLD = {"tuesday-evening-wrote-down-what-i-had-done", "wednesday-evening-reorg-news-rinsed-dishes-twice"}
 TARGETS = [l for l in LANGS if l != "ko" and l not in HELD and l not in NO_POSTS_YET]
 SAFETY = json.loads((J / "safety.json").read_text(encoding="utf-8"))["lines"]
 # a language whose crisis-line list is not verified may not publish: its translations stay `draft: true` (vi: no official adult line yet)
@@ -55,7 +57,7 @@ def translation(lang, slug):
 class Coverage(unittest.TestCase):
     def test_every_original_in_every_language_but_the_held_ones(self):
         orig = originals()
-        self.assertEqual(set(orig), set(PINNED))
+        self.assertEqual(set(orig), set(PINNED) - REVIEW_HOLD)
         for l in TARGETS:
             for slug in orig:
                 self.assertTrue((J / l / (slug + ".md")).is_file(), "%s/%s.md missing — python3 scripts/journal_i18n.py status" % (l, slug))

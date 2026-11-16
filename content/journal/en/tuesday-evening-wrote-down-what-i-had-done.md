@@ -9,6 +9,7 @@ keywords: Tuesday, evening, to-do list, rest, November
 bible_version: WEB
 translation_of: ko
 publish_at: 2026-11-17 16:08
+draft: true
 ---
 
 On Tuesday evening, I came home from work and opened the notebook on my desk before I had even taken off my coat. It's a habit of mine: writing down what I didn't get done. Finishing the report, calling to book the dentist, three emails I hadn't answered. The page filled up quickly. Just as I was about to close the notebook, I realized my shoulders were knotted like stones.

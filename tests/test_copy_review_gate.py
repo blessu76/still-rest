@@ -10,7 +10,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "scripts"))
 import dispatch_due as dd  # noqa: E402
-from site_common import COPY_REVIEW_LEGACY, KST, copy_review_missing  # noqa: E402
+from site_common import KST, copy_review_missing  # noqa: E402
 from test_build_journal import Base, run  # noqa: E402
 from test_publish_lint import post  # noqa: E402
 
@@ -26,17 +26,6 @@ class Helper(unittest.TestCase):
         self.assertTrue(copy_review_missing({"date": "2026-11-15", "copy_review": "dane 2026-11-15"}))  # not Iris
         self.assertFalse(copy_review_missing({"date": "2026-11-15", "copy_review": "iris 2026-11-15"}))
         self.assertFalse(copy_review_missing({"date": "2026-11-15", "translation_of": "ko"}))  # a translation rides on its original
-
-    def test_legacy_allowlist_is_pinned(self):
-        """the 12 originals origin/main scheduled for 11-15..11-20 before the gate (rebase 2026-11-17) — the list never grows"""
-        self.assertEqual(len(COPY_REVIEW_LEGACY), 12)
-        for slug in COPY_REVIEW_LEGACY:
-            f = REPO / "content" / "journal" / "ko" / ("%s.md" % slug)
-            self.assertTrue(f.exists(), slug)
-            date = dd.front_matter(f)["date"]
-            self.assertTrue("2026-11-15" <= date <= "2026-11-20", (slug, date))
-            self.assertFalse(copy_review_missing({"date": date, "slug": slug}))
-        self.assertTrue(copy_review_missing({"date": "2026-11-21", "slug": "some-new-post"}))
 
 
 class BuildGate(Base):

@@ -10,6 +10,7 @@ verse: Mateus 11:29
 bible_version: none
 translation_of: ko
 publish_at: 2026-11-17 16:08
+draft: true
 ---
 
 Na noite de terça, cheguei do trabalho e, antes mesmo de tirar o casaco, abri o caderninho sobre a mesa. É o meu hábito de anotar o que não consegui fazer hoje. Terminar o relatório, ligar para marcar o dentista, três e-mails sem resposta, e a página logo ficou cheia. Quando ia fechar o caderno, só então percebi que meus ombros estavam duros como pedra.

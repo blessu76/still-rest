@@ -234,17 +234,6 @@ def check_fresh(root, build_fn):
 # or it is not published (build/lint error + the dispatcher ignores it). Posts dated on/before it are legacy and exempt.
 COPY_REVIEW_AFTER = "2026-11-14"
 COPY_REVIEW_RE = re.compile(r"^iris\s+\d{4}-\d{2}-\d{2}$", re.I)
-# Originals dated 11-15..11-20 that origin/main had already written and scheduled (some already live) before the gate landed on this branch
-# (rebase onto 422b84d, 2026-11-17 KST). Exempt by slug so the build and the daily dispatch keep running; NOT a review record —
-# Iris may still review them and add `copy_review:`. No new slug is ever added here: new originals go through the gate.
-COPY_REVIEW_LEGACY = frozenset((
-    "sunday-morning-towels-folded-while-waiting-for-results", "sunday-evening-walked-the-whole-stream-path",
-    "monday-morning-unread-messages-over-ninety-nine", "monday-evening-sat-five-minutes-in-the-parked-car",
-    "tuesday-morning-wrote-a-script-before-the-phone-call", "tuesday-evening-wrote-down-what-i-had-done",
-    "wednesday-morning-counting-days-left-until-friday", "wednesday-evening-reorg-news-rinsed-dishes-twice",
-    "thursday-morning-asked-friend-to-help-carry-bookshelf", "thursday-evening-let-go-of-sibling-resume",
-    "friday-morning-opened-one-moving-box", "friday-evening-replayed-the-wrong-email",
-))
 
 
 def copy_review_missing(meta):
@@ -253,8 +242,6 @@ def copy_review_missing(meta):
     if meta.get("translation_of"):
         return False
     if str(meta.get("date", "")) <= COPY_REVIEW_AFTER:
-        return False
-    if meta.get("slug") in COPY_REVIEW_LEGACY:
         return False
     return not COPY_REVIEW_RE.match(str(meta.get("copy_review", "")).strip())
 

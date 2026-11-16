@@ -9,6 +9,7 @@ keywords: Mittwoch, Abend, Umstrukturierung, Angst, November
 bible_version: Lutherbibel 1912
 translation_of: ko
 publish_at: 2026-11-18 16:33
+draft: true
 ---
 
 Kurz vor Feierabend sagte ein älterer Kollege im Flur im Vorbeigehen, morgen früh komme die Mitteilung zur Umstrukturierung. Welche Teams zusammengelegt würden und wer versetzt werde, wusste niemand. Er lachte und sagte: „Ich habe es auch nur gehört“, aber das Lachen wirkte ein wenig gezwungen.

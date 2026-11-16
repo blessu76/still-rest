@@ -9,6 +9,7 @@ keywords: mercredi, soir, réorganisation, anxiété, novembre
 bible_version: Louis Segond 1910
 translation_of: ko
 publish_at: 2026-11-18 16:33
+draft: true
 ---
 
 Juste avant de quitter le bureau, un collègue plus ancien a dit en passant, dans le couloir, que l'annonce de la réorganisation tomberait demain matin. Personne ne savait quelles équipes fusionneraient ni qui bougerait. Lui aussi a ri : « Moi aussi, je l'ai juste entendu dire », mais ce rire sonnait un peu faux.

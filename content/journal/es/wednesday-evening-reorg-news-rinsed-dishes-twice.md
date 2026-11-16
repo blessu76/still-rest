@@ -9,6 +9,7 @@ keywords: miércoles, noche, reorganización, ansiedad, noviembre
 bible_version: Reina-Valera 1909
 translation_of: ko
 publish_at: 2026-11-18 16:33
+draft: true
 ---
 
 Justo antes de salir del trabajo, un compañero mayor me dijo de pasada en el pasillo que mañana por la mañana saldría el aviso de reorganización. Nadie sabía qué equipos se fusionarían ni quién se movería. Él también rio y dijo: «Yo solo lo he oído por ahí», pero esa risa sonó un poco forzada.

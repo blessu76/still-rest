@@ -9,6 +9,7 @@ keywords: Wednesday, evening, reorganization, anxiety, November
 bible_version: WEB
 translation_of: ko
 publish_at: 2026-11-18 16:33
+draft: true
 ---
 
 Just before I left work, a senior colleague said in passing in the hallway that the reorganization notice would come out tomorrow morning. Nobody knew which teams would merge or who would move. My colleague laughed and said, "I only heard it secondhand," but the laugh felt a little off.
