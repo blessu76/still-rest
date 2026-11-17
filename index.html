@@ -340,6 +340,7 @@
     transition:border-color .3s ease;
   }
   .letters-form input[type=email]:focus{border-color:var(--sage);}
+  .letters-form input[type=email]:focus-visible{outline:2px solid var(--gold-deep);outline-offset:2px;}
   .letters-form input[type=email]::placeholder{color:var(--muted);}
   .btn-sage{background:var(--sage);color:var(--cream);border:1px solid var(--sage);white-space:nowrap;}
   .btn-sage:hover{background:transparent;color:var(--sage);}
@@ -446,6 +447,7 @@
     transition:border-color .3s ease,background .3s ease;
   }
   .langsel:hover{border-color:rgba(201,168,76,.5);}
+  .langsel:focus-within{outline:2px solid var(--gold);outline-offset:2px;}
   .langsel svg{width:14px;height:14px;opacity:.75;flex-shrink:0;}
   .langsel select{
     appearance:none;-webkit-appearance:none;background:transparent;border:0;
