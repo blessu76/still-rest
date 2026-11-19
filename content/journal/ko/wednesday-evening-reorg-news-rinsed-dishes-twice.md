@@ -8,6 +8,7 @@ category: 불안
 keywords: 수요일, 저녁, 조직 개편, 불안, 11월
 bible_version: 개역한글(1961)
 publish_at: 2026-11-18 16:33
+copy_review: iris 2026-11-19
 draft: true
 ---
 

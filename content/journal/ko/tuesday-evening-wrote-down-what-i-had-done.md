@@ -8,6 +8,7 @@ category: 쉼
 keywords: 화요일, 저녁, 할 일, 쉼, 11월
 bible_version: 개역한글(1961)
 publish_at: 2026-11-17 16:08
+copy_review: iris 2026-11-19
 draft: true
 ---
 
