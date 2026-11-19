@@ -14,7 +14,7 @@ draft: true
 
 Justo antes de salir del trabajo, un compañero mayor me dijo de pasada en el pasillo que mañana por la mañana saldría el aviso de reorganización. Nadie sabía qué equipos se fusionarían ni quién se movería. Él también rio y dijo: «Yo solo lo he oído por ahí», pero esa risa sonó un poco forzada.
 
-En casa cené y empecé a fregar. Las manos se movían, pero mi cabeza seguía en la sala de reuniones de mañana por la mañana. ¿Y si desaparece nuestro equipo?, ¿y si cambia la jefa de equipo, qué pasará con lo que hago ahora? Estuve un buen rato dándole vueltas, y cuando reaccioné ya tenía bajo el grifo un plato enjuagado otra vez. El vaso era la tercera vez. Mientras el agua tibia me corría por el dorso de la mano, yo seguía imaginando solo el peor caso. Y una vez imaginado, también eso pesaba, así que esta vez imaginé el segundo peor caso.
+En casa cené y empecé a fregar. Las manos se movían, pero mi cabeza seguía en la sala de reuniones de mañana por la mañana. ¿Y si desaparece nuestro equipo?, ¿y si cambia la jefa de equipo, qué pasará con lo que hago ahora? Estuve un buen rato dándole vueltas, y cuando reaccioné ya tenía bajo el grifo un plato enjuagado otra vez. El vaso era la segunda vez. Mientras el agua tibia me corría por el dorso de la mano, yo seguía imaginando solo el peor caso. Y una vez imaginado, también eso pesaba, así que esta vez imaginé el segundo peor caso.
 
 Cerré el grifo y me quedé de pie, con la mano mojada apoyada en el borde del fregadero. No era algo que pudiera acertar adivinando, y yo había gastado toda la tarde en intentarlo.
 

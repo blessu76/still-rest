@@ -14,7 +14,7 @@ draft: true
 
 Just before I left work, a senior colleague said in passing in the hallway that the reorganization notice would come out tomorrow morning. Nobody knew which teams would merge or who would move. My colleague laughed and said, "I only heard it secondhand," but the laugh felt a little off.
 
-At home I ate dinner and started the dishes. My hands were moving, but my mind stayed in tomorrow morning's meeting room. What if our team disappears, what if the team lead changes and what happens to the work I'm doing now. I kept turning those over for a long while, and when I came to, I was holding an already rinsed bowl under the faucet again. The cup was the third one. While warm water ran over the back of my hand, I kept picturing only the worst case. And once I had pictured it, that weighed on me too, so this time I pictured the second worst case.
+At home I ate dinner and started the dishes. My hands were moving, but my mind stayed in tomorrow morning's meeting room. What if our team disappears, what if the team lead changes and what happens to the work I'm doing now. I kept turning those over for a long while, and when I came to, I was holding an already rinsed bowl under the faucet again. The cup was the second one. While warm water ran over the back of my hand, I kept picturing only the worst case. And once I had pictured it, that weighed on me too, so this time I pictured the second worst case.
 
 I turned off the water and stood there with a wet hand on the edge of the sink. It wasn't something I could get right by guessing, yet I had spent the whole evening trying to.
 

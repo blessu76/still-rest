@@ -14,7 +14,7 @@ publish_at: 2026-11-18 16:33
 
 Ngay trước giờ tan làm, một đàn anh nói vu vơ ngoài hành lang rằng sáng mai sẽ có thông báo tái cơ cấu. Nhóm nào sáp nhập, ai chuyển đi, không ai biết. Anh ấy cũng cười bảo: "Anh cũng chỉ nghe kể lại thôi", nhưng nụ cười ấy có chút gượng gạo.
 
-Về nhà, tôi ăn tối rồi bắt đầu rửa bát. Tay thì cử động, nhưng đầu óc cứ ở mãi trong phòng họp sáng mai. Nhóm mình mà mất thì sao, trưởng nhóm đổi thì công việc đang làm sẽ ra sao. Tôi xoay đi xoay lại những ý nghĩ ấy một lúc lâu, đến khi sực tỉnh thì đã đang đặt chiếc bát tráng xong dưới vòi nước lần nữa. Chiếc cốc là lần thứ ba. Trong lúc nước ấm chảy qua mu bàn tay, tôi vẫn chỉ vẽ ra trường hợp tệ nhất. Vẽ ra rồi lại thấy nặng nề, nên lần này tôi vẽ trường hợp tệ thứ hai.
+Về nhà, tôi ăn tối rồi bắt đầu rửa bát. Tay thì cử động, nhưng đầu óc cứ ở mãi trong phòng họp sáng mai. Nhóm mình mà mất thì sao, trưởng nhóm đổi thì công việc đang làm sẽ ra sao. Tôi xoay đi xoay lại những ý nghĩ ấy một lúc lâu, đến khi sực tỉnh thì đã đang đặt chiếc bát tráng xong dưới vòi nước lần nữa. Chiếc cốc là lần thứ hai. Trong lúc nước ấm chảy qua mu bàn tay, tôi vẫn chỉ vẽ ra trường hợp tệ nhất. Vẽ ra rồi lại thấy nặng nề, nên lần này tôi vẽ trường hợp tệ thứ hai.
 
 Tôi tắt nước, đứng đó, tay ướt chống lên thành bồn rửa. Đây không phải việc có thể đoán trúng, vậy mà tôi đã dùng cả buổi tối để đoán.
 

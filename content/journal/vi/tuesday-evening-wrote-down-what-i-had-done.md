@@ -26,6 +26,6 @@ Tôi đẩy cuốn sổ sang một bên và mở still().
 
 Cụm "ách của ta" làm tôi để ý. Ách là gánh nặng, nhưng tôi nghĩ đó không phải thứ mình gánh một mình mà là gánh cùng. Rồi tôi thấy thứ tự: sau "học theo ta" thì mới đến sự yên nghỉ. Nếu phải học từ một người nhu mì, có lẽ trước hết tôi nên học cách đừng thúc ép bản thân như thế này.
 
-Tôi đi lại cả ngày hôm đó từ đầu. Dậy theo tiếng báo thức và gấp chăn, suýt lỡ xe buýt mà rốt cuộc vẫn lên kịp, ăn trưa với đồng nghiệp, nhường ghế cho một cụ già ở trạm trên đường về. Ở trang mới của cuốn sổ, tôi viết "Việc hôm nay đã làm". Tôi viết những gì nhớ ra theo thứ tự, và cả việc đã nộp tài liệu họp trước bữa trưa, việc đã trả lời điều đồng nghiệp hỏi. Được bảy dòng. Ít hơn danh sách việc chưa làm, nhưng trên giấy trông khá vững chãi. Đến lúc ấy tôi mới cởi áo khoác treo lên cửa. Vai tôi dịu đi một chút.
+Tôi đi lại cả ngày hôm đó từ đầu. Dậy theo tiếng báo thức và gấp chăn, suýt lỡ xe buýt mà rốt cuộc vẫn lên kịp, ăn trưa với đồng nghiệp, nhường ghế cho một cụ già ở trạm trên đường về. Ở trang mới của cuốn sổ, tôi viết "Việc hôm nay đã làm". Tôi viết những gì nhớ ra theo thứ tự, và cả việc đã nộp tài liệu họp trước bữa trưa, việc đã trả lời điều đồng nghiệp hỏi. Được sáu dòng. Ít hơn danh sách việc chưa làm, nhưng trên giấy trông khá vững chãi. Đến lúc ấy tôi mới cởi áo khoác treo lên cửa. Vai tôi dịu đi một chút.
 
 **Hơi thở hôm nay** — thầm nói ra một việc mình đã làm được hôm nay, rồi thở ra và hạ vai xuống.

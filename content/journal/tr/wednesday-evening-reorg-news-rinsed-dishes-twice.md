@@ -15,7 +15,7 @@ publish_at: 2026-11-18 16:33
 
 Mesaiden hemen önce koridorda bir kıdemli sanki geçerken söyledi. Yarın sabah yeniden yapılanma duyurusu çıkacakmış. Hangi ekiplerin birleşeceğini, kimin yer değiştireceğini kimse bilmiyordu. Kıdemli de "Ben de duydum sadece" deyip güldü, o gülüş bir yerinden yapmacıktı.
 
-Eve gelip akşam yemeğini yedikten sonra bulaşığa başladım. Ama ellerim çalışırken kafam hep yarın sabahki toplantı odasındaydı. Ekibimiz kapanırsa ne olacak, müdürüm değişirse şimdi yaptığım iş ne olacak diye bir süre döndükten sonra kendime geldiğimde zaten durulamış tabağı yeniden musluğun altına tutuyordum. Bardak üçüncü kezdi. Ilık su elimin sırtından akarken ben en kötü ihtimali hayal etmeyi sürdürüyordum. Hayal edince bu kez o yüzden içim yeniden ağırlaşıyor, ikinci en kötü ihtimali hayal etmeye başlıyordum.
+Eve gelip akşam yemeğini yedikten sonra bulaşığa başladım. Ama ellerim çalışırken kafam hep yarın sabahki toplantı odasındaydı. Ekibimiz kapanırsa ne olacak, müdürüm değişirse şimdi yaptığım iş ne olacak diye bir süre döndükten sonra kendime geldiğimde zaten durulamış tabağı yeniden musluğun altına tutuyordum. Bardak ikinci kezdi. Ilık su elimin sırtından akarken ben en kötü ihtimali hayal etmeyi sürdürüyordum. Hayal edince bu kez o yüzden içim yeniden ağırlaşıyor, ikinci en kötü ihtimali hayal etmeye başlıyordum.
 
 Suyu kapatıp ıslak elimle evyenin kenarına tutunarak durdum. Tahminle bulunacak bir şey değildi, ben ise tahmin etmeye çalışarak akşamımın hepsini harcıyordum.
 

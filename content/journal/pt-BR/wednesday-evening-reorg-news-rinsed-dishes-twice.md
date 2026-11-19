@@ -15,7 +15,7 @@ draft: true
 
 Pouco antes de sair do trabalho, uma colega mais experiente comentou de passagem no corredor que o aviso de reorganização sairia amanhã de manhã. Ninguém sabia quais equipes se juntariam nem quem seria transferido. Ela também riu e disse: «Eu só ouvi falar», mas aquele riso soou meio sem jeito.
 
-Em casa, jantei e comecei a lavar a louça. As mãos se mexiam, mas a cabeça continuava na sala de reunião de amanhã de manhã. E se a nossa equipe acabar, e se o líder mudar, o que vai ser do trabalho que faço agora? Fiquei um bom tempo dando voltas nisso e, quando me dei conta, já estava com uma tigela enxaguada de novo debaixo da torneira. O copo era a terceira vez. Enquanto a água morna escorria pelas costas da minha mão, eu só imaginava o pior caso. E, depois de imaginado, isso também pesava, então dessa vez imaginei o segundo pior caso.
+Em casa, jantei e comecei a lavar a louça. As mãos se mexiam, mas a cabeça continuava na sala de reunião de amanhã de manhã. E se a nossa equipe acabar, e se o líder mudar, o que vai ser do trabalho que faço agora? Fiquei um bom tempo dando voltas nisso e, quando me dei conta, já estava com uma tigela enxaguada de novo debaixo da torneira. O copo era a segunda vez. Enquanto a água morna escorria pelas costas da minha mão, eu só imaginava o pior caso. E, depois de imaginado, isso também pesava, então dessa vez imaginei o segundo pior caso.
 
 Fechei a torneira e fiquei de pé, com a mão molhada apoiada na borda da pia. Não era algo que eu pudesse acertar por adivinhação, mas eu tinha gastado a noite inteira tentando.
 
