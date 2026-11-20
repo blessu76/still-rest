@@ -45,6 +45,26 @@ class DueTests(unittest.TestCase):
         got = sorted((l, s) for l, s, _ in dd.due_posts(self.root, at("2026-10-26 11:00")))
         self.assertEqual(got, [("en", "due"), ("ko", "due")])  # not later / draft / published_at / older than 72 h
 
+    def test_ended_languages_are_not_due(self):
+        # zh/ru/ar/hi journal folders stay frozen (404 for good): they must not count as "not live yet" and re-trigger a deploy each tick
+        for lang in ("zh", "ru", "ar", "hi"):
+            post(self.root, lang, "due", "publish_at: 2026-10-26 10:43")
+        got = sorted((l, s) for l, s, _ in dd.due_posts(self.root, at("2026-10-26 11:00")))
+        self.assertEqual(got, [("en", "due"), ("ko", "due")])
+        seen = []
+        code, calls = self.go("2026-10-26 11:00", lambda u: seen.append(u) or 404)
+        self.assertFalse(any("/journal/zh/" in u or "/journal/ru/" in u for u in seen))
+        self.assertEqual(len(calls), 1)  # the ko/en 404s still dispatch
+
+    def test_only_ended_language_due_does_nothing(self):
+        d = tempfile.TemporaryDirectory()
+        self.addCleanup(d.cleanup)
+        post(d.name, "zh", "due", "publish_at: 2026-10-26 10:43")
+        seen = []
+        code = dd.run(d.name, at("2026-10-26 11:00"), False, status_fn=lambda u: seen.append(u) or 404, runs_fn=lambda: [],
+                      dispatch_fn=lambda: self.fail("must not dispatch"), log=self.log.append)
+        self.assertEqual((code, seen), (0, []))
+
     def test_live_url(self):
         self.assertEqual(dd.live_url("ko", "x"), "https://still.ipe.rest/journal/ko/x/")
 

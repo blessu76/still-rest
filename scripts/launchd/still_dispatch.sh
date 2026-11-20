@@ -17,4 +17,12 @@ if [ ! -d "$CLONE/.git" ]; then
 fi
 git -C "$CLONE" pull --ff-only --quiet || { echo "ERROR git pull --ff-only failed"; exit 1; }
 [ -f "$CLONE/scripts/dispatch_due.py" ] || { echo "dispatch_due.py is not in the clone yet (not pushed to main?) - nothing to do"; exit 0; }
+# The clone has only vendor/ipe_web_kit.lock (the kit is private, never committed): install the locked kit from the local kit clone
+# before the script imports ipe_web_kit. Without it every tick dies with ModuleNotFoundError (2026-11-20). Failure = loud, exit 1.
+KIT="${IPE_WEB_KIT_DIR:-$HOME/Developer/ipe_web_kit}"
+[ -f "$CLONE/scripts/kit_lock.py" ] || { echo "ERROR kit_lock.py is missing in the clone - cannot install ipe_web_kit, not dispatching"; exit 1; }
+if ! python3 "$CLONE/scripts/kit_lock.py" --root "$CLONE" sync --kit "$KIT"; then
+  echo "ERROR ipe_web_kit sync failed (kit clone: $KIT; set IPE_WEB_KIT_DIR if it lives elsewhere) - not dispatching"
+  exit 1
+fi
 exec python3 "$CLONE/scripts/dispatch_due.py" "$@"

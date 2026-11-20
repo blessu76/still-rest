@@ -28,7 +28,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from pick_publish_time import front_matter  # noqa: E402
-from site_common import KST, SITE, copy_review_missing, parse_when  # noqa: E402
+from site_common import ENDED_DIRS, KST, SITE, copy_review_missing, parse_when  # noqa: E402
 
 REPO = "blessu76/still-rest"
 WORKFLOW = "deploy.yml"
@@ -39,7 +39,7 @@ def due_posts(root, now, max_age_hours=72):
     """-> [(lang, slug, publish_at)] of scheduled, non-draft posts with now - max_age <= publish_at <= now."""
     out = []
     for f in sorted((Path(root) / "content" / "journal").glob("*/*.md")):
-        if f.name.lower() == "readme.md":
+        if f.name.lower() == "readme.md" or f.parent.name in ENDED_DIRS:  # ended languages are frozen: never rebuilt, so never "not live yet"
             continue
         try:
             meta = front_matter(f)

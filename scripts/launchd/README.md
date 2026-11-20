@@ -10,6 +10,10 @@ GitHub 의 `schedule` cron 은 늦게 돈다(2026-10-24: 약 4h50m). 그래서 *
 - 이미 `queued`/`in_progress` run 이 있거나 마지막 run 이 10분(`--cooldown-min`) 안에 만들어졌으면 걸지 않는다.
 - 래퍼(`still_dispatch.sh`)는 창 밖(KST 12:00–18:40 외)에는 바로 종료. `STILL_DISPATCH_ANYTIME=1` 이면 창 검사를 건너뛴다(수동 확인용).
 - 런타임: 전용 읽기 클론 `~/.ipe/still-rest-dispatch`(없으면 clone, 매 실행 `git pull --ff-only`), 로그 `~/.ipe/logs/still-dispatch.log`.
+- **래퍼가 킷을 동기화한다**: 레포에는 `vendor/ipe_web_kit.lock` 만 있고 킷(비공개)은 없다. 그래서 `git pull` 뒤, `dispatch_due.py` 를 돌리기 전에 래퍼가
+  `python3 scripts/kit_lock.py --root <클론> sync --kit <킷 경로>` 를 돈다. 킷 경로는 환경변수 **`IPE_WEB_KIT_DIR`**(기본 `~/Developer/ipe_web_kit`).
+  동기화가 실패하면(킷 없음·잠금 태그와 커밋 불일치 등) 로그에 `ERROR ipe_web_kit sync failed` 를 남기고 **0 이 아닌 코드로 끝난다**(디스패치하지 않음).
+  킷 클론을 다른 곳에 두면 plist 의 `EnvironmentVariables` 에 `IPE_WEB_KIT_DIR` 를 넣는다.
 
 ## 설치 (레포 밖 파일 — 이 폴더는 템플릿 사본)
 ```
