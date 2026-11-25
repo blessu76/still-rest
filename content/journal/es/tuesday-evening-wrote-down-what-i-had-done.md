@@ -1,6 +1,6 @@
 ---
 title: Martes por la tarde, anoté por primera vez lo que hice
-date: 2026-11-17
+date: 2026-12-01
 slug: tuesday-evening-wrote-down-what-i-had-done
 lang: es
 description: Alguien que solo anotaba lo pendiente escribe lo que logró y se alivia de un peso. Incluye Mateo 11:29 (Reina-Valera 1909).
@@ -8,8 +8,7 @@ category: Descanso
 keywords: martes, tarde, tareas, descanso, noviembre
 bible_version: Reina-Valera 1909
 translation_of: ko
-publish_at: 2026-11-17 16:08
-draft: true
+publish_at: 2026-12-01 16:41
 ---
 
 Martes por la tarde. Al llegar del trabajo, antes incluso de quitarme el abrigo, abrí la libreta que tenía sobre el escritorio. Tengo la costumbre de apuntar lo que hoy no he hecho. Terminar el informe, llamar para pedir cita con el dentista, tres correos sin contestar: al apuntarlo, una página se llenó enseguida. Cuando iba a cerrar la libreta me di cuenta de que tenía los hombros duros como piedra.

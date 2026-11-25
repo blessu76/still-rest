@@ -1,6 +1,6 @@
 ---
 title: Tuesday Evening, I Wrote Down What I Had Done Today
-date: 2026-11-17
+date: 2026-12-01
 slug: tuesday-evening-wrote-down-what-i-had-done
 lang: en
 description: A first-person story of someone who always listed unfinished tasks writing down what got done on a Tuesday evening, with Matthew 11:29 (WEB).
@@ -8,8 +8,7 @@ category: Rest
 keywords: Tuesday, evening, to-do list, rest, November
 bible_version: WEB
 translation_of: ko
-publish_at: 2026-11-17 16:08
-draft: true
+publish_at: 2026-12-01 16:41
 ---
 
 On Tuesday evening, I came home from work and opened the notebook on my desk before I had even taken off my coat. It's a habit of mine: writing down what I didn't get done. Finishing the report, calling to book the dentist, three emails I hadn't answered. The page filled up quickly. Just as I was about to close the notebook, I realized my shoulders were knotted like stones.

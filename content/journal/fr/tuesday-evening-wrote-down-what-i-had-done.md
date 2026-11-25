@@ -1,6 +1,6 @@
 ---
 title: Mardi soir, j'ai noté pour la première fois ce que j'ai fait
-date: 2026-11-17
+date: 2026-12-01
 slug: tuesday-evening-wrote-down-what-i-had-done
 lang: fr
 description: Quelqu'un qui ne notait que ce qu'il n'avait pas fait écrit ce qu'il a accompli. Avec Matthieu 11:29 (Louis Segond 1910).
@@ -8,8 +8,7 @@ category: Repos
 keywords: mardi, soir, tâches, repos, novembre
 bible_version: Louis Segond 1910
 translation_of: ko
-publish_at: 2026-11-17 16:08
-draft: true
+publish_at: 2026-12-01 16:41
 ---
 
 Mardi soir, en rentrant du travail, avant même d'ôter mon manteau, j'ai ouvert le carnet posé sur le bureau. J'ai l'habitude d'y noter ce que je n'ai pas fait aujourd'hui. Finir le rapport, appeler pour le rendez-vous chez le dentiste, trois courriels sans réponse : en les écrivant, j'ai vite rempli une page. Au moment de refermer le carnet, je me suis aperçu que mes épaules étaient dures comme de la pierre.

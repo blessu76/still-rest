@@ -29,8 +29,11 @@ HELD = {k for k in json.loads((J / "hold.json").read_text(encoding="utf-8")) if 
 NO_POSTS_YET = set()
 # ended languages: their files are frozen (not built, not read); they are in no list
 ENDED = {"zh", "ru", "ar", "hi"}
-# ko originals Iris put on hold (2026-11-17, copy_review 보류): `draft: true` in every language until fixed + re-reviewed -> not published
-REVIEW_HOLD = {"tuesday-evening-wrote-down-what-i-had-done", "wednesday-evening-reorg-news-rinsed-dishes-twice"}
+# Safety-draft translations keep their original schedule when the reviewed editions are rescheduled.
+DRAFT_PUBLISH_AT = {
+    "tuesday-evening-wrote-down-what-i-had-done": "2026-11-17 16:08",
+    "wednesday-evening-reorg-news-rinsed-dishes-twice": "2026-11-18 16:33",
+}
 TARGETS = [l for l in LANGS if l != "ko" and l not in HELD and l not in NO_POSTS_YET]
 SAFETY = json.loads((J / "safety.json").read_text(encoding="utf-8"))["lines"]
 # a language whose crisis-line list is not verified may not publish: its translations stay `draft: true` (vi: no official adult line yet)
@@ -57,7 +60,7 @@ def translation(lang, slug):
 class Coverage(unittest.TestCase):
     def test_every_original_in_every_language_but_the_held_ones(self):
         orig = originals()
-        self.assertEqual(set(orig), set(PINNED) - REVIEW_HOLD)
+        self.assertEqual(set(orig), set(PINNED))
         for l in TARGETS:
             for slug in orig:
                 self.assertTrue((J / l / (slug + ".md")).is_file(), "%s/%s.md missing — python3 scripts/journal_i18n.py status" % (l, slug))
@@ -115,10 +118,11 @@ class Coverage(unittest.TestCase):
                 t = translation(l, slug)
                 self.assertEqual(t["lang"], l)
                 self.assertEqual(t["translation_of"], "ko", (l, slug))
-                self.assertEqual(t["date"], o["date"], (l, slug))
-                for k in ("publish_at", "published_at"):
-                    self.assertEqual(t.get(k), o.get(k), (l, slug, k))  # the same time in every language
                 self.assertEqual(t["draft"], l in SAFETY_DRAFT, (l, slug))
+                draft_time = DRAFT_PUBLISH_AT.get(slug) if l in SAFETY_DRAFT else None
+                self.assertEqual(t["date"], draft_time.split()[0] if draft_time else o["date"], (l, slug))
+                self.assertEqual(t.get("publish_at"), draft_time or o.get("publish_at"), (l, slug))
+                self.assertEqual(t.get("published_at"), o.get("published_at"), (l, slug))
                 for k in ("title", "description", "category"):
                     self.assertNotEqual(t[k], o[k], (l, slug, k))  # translated, not copied
                     self.assertFalse(re.search(r"[가-힣]", t[k]), (l, slug, k))  # no Hangul left

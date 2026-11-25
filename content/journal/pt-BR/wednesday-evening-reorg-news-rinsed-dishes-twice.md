@@ -1,6 +1,6 @@
 ---
 title: Quarta-feira à noite, ao ouvir que a equipe ia mudar, enxaguei a louça duas vezes
-date: 2026-11-18
+date: 2026-11-25
 slug: wednesday-evening-reorg-news-rinsed-dishes-twice
 lang: pt-BR
 description: Relato em primeira pessoa de uma noite de quarta-feira em que, depois de ouvir no caminho de casa o boato de que o aviso de reorganização sairia amanhã, enxaguei a mesma louça duas vezes enquanto tentava adivinhar o resultado. Inclui João 14:27.
@@ -9,8 +9,7 @@ keywords: quarta-feira, noite, reorganização, ansiedade, novembro
 verse: João 14:27
 bible_version: none
 translation_of: ko
-publish_at: 2026-11-18 16:33
-draft: true
+publish_at: 2026-11-25 17:13
 ---
 
 Pouco antes de sair do trabalho, uma colega mais experiente comentou de passagem no corredor que o aviso de reorganização sairia amanhã de manhã. Ninguém sabia quais equipes se juntariam nem quem seria transferido. Ela também riu e disse: «Eu só ouvi falar», mas aquele riso soou meio sem jeito.

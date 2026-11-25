@@ -1,6 +1,6 @@
 ---
 title: Dienstagabend notierte ich zum ersten Mal, was ich schaffte
-date: 2026-11-17
+date: 2026-12-01
 slug: tuesday-evening-wrote-down-what-i-had-done
 lang: de
 description: Jemand, der nur Unerledigtes aufschrieb, notiert, was gelungen ist, und wird leichter. Mit Matthäus 11:29 (Lutherbibel 1912).
@@ -8,8 +8,7 @@ category: Ruhe
 keywords: Dienstag, Abend, Aufgaben, Ruhe, November
 bible_version: Lutherbibel 1912
 translation_of: ko
-publish_at: 2026-11-17 16:08
-draft: true
+publish_at: 2026-12-01 16:41
 ---
 
 Dienstagabend. Nach der Arbeit, noch bevor ich den Mantel auszog, schlug ich das Notizbuch auf dem Schreibtisch auf. Ich habe die Gewohnheit, darin festzuhalten, was ich heute nicht geschafft habe. Den Bericht abschließen, den Zahnarzttermin ausmachen, drei unbeantwortete E-Mails: Beim Aufschreiben war die Seite schnell voll. Als ich das Notizbuch zuklappen wollte, merkte ich, dass meine Schultern hart wie Stein waren.

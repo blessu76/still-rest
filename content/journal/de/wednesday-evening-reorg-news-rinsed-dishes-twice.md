@@ -1,6 +1,6 @@
 ---
 title: Mittwochabend, nach dem Gerücht, das Team ändere sich, spülte ich das Geschirr zweimal ab
-date: 2026-11-18
+date: 2026-11-25
 slug: wednesday-evening-reorg-news-rinsed-dishes-twice
 lang: de
 description: Eine Ich-Erzählung von einem Mittwochabend, an dem das auf dem Heimweg gehörte Gerücht über die Umstrukturierungsmitteilung des nächsten Tages mich dasselbe Geschirr zweimal abspülen ließ, während ich das Ergebnis erriet. Mit Johannes 14:27 (Lutherbibel 1912).
@@ -8,8 +8,7 @@ category: Angst
 keywords: Mittwoch, Abend, Umstrukturierung, Angst, November
 bible_version: Lutherbibel 1912
 translation_of: ko
-publish_at: 2026-11-18 16:33
-draft: true
+publish_at: 2026-11-25 17:13
 ---
 
 Kurz vor Feierabend sagte ein älterer Kollege im Flur im Vorbeigehen, morgen früh komme die Mitteilung zur Umstrukturierung. Welche Teams zusammengelegt würden und wer versetzt werde, wusste niemand. Er lachte und sagte: „Ich habe es auch nur gehört“, aber das Lachen wirkte ein wenig gezwungen.

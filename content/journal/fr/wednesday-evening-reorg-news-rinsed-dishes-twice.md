@@ -1,6 +1,6 @@
 ---
 title: Mercredi soir, en apprenant que l'équipe allait changer, j'ai rincé la vaisselle deux fois
-date: 2026-11-18
+date: 2026-11-25
 slug: wednesday-evening-reorg-news-rinsed-dishes-twice
 lang: fr
 description: Récit à la première personne d'un mercredi soir où la rumeur, entendue en rentrant, d'une annonce de réorganisation pour le lendemain m'a fait rincer deux fois la même vaisselle en devinant le résultat. Avec Jean 14:27 (Louis Segond 1910).
@@ -8,8 +8,7 @@ category: Anxiété
 keywords: mercredi, soir, réorganisation, anxiété, novembre
 bible_version: Louis Segond 1910
 translation_of: ko
-publish_at: 2026-11-18 16:33
-draft: true
+publish_at: 2026-11-25 17:13
 ---
 
 Juste avant de quitter le bureau, un collègue plus ancien a dit en passant, dans le couloir, que l'annonce de la réorganisation tomberait demain matin. Personne ne savait quelles équipes fusionneraient ni qui bougerait. Lui aussi a ri : « Moi aussi, je l'ai juste entendu dire », mais ce rire sonnait un peu faux.

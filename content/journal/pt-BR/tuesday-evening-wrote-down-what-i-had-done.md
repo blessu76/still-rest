@@ -1,6 +1,6 @@
 ---
 title: Terça à noite, anotei o que eu tinha feito
-date: 2026-11-17
+date: 2026-12-01
 slug: tuesday-evening-wrote-down-what-i-had-done
 lang: pt-BR
 description: Relato em primeira pessoa de quem só listava o que não fez e, numa terça à noite, anotou o que realizou no dia, com Mateus 11:29.
@@ -9,8 +9,7 @@ keywords: terça-feira, noite, lista de tarefas, descanso, novembro
 verse: Mateus 11:29
 bible_version: none
 translation_of: ko
-publish_at: 2026-11-17 16:08
-draft: true
+publish_at: 2026-12-01 16:41
 ---
 
 Na noite de terça, cheguei do trabalho e, antes mesmo de tirar o casaco, abri o caderninho sobre a mesa. É o meu hábito de anotar o que não consegui fazer hoje. Terminar o relatório, ligar para marcar o dentista, três e-mails sem resposta, e a página logo ficou cheia. Quando ia fechar o caderno, só então percebi que meus ombros estavam duros como pedra.

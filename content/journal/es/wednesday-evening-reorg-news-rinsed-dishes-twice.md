@@ -1,6 +1,6 @@
 ---
 title: Miércoles por la noche, al oír que el equipo iba a cambiar, enjuagué los platos dos veces
-date: 2026-11-18
+date: 2026-11-25
 slug: wednesday-evening-reorg-news-rinsed-dishes-twice
 lang: es
 description: Relato en primera persona de un miércoles por la noche en que, tras oír de camino a casa el rumor de que mañana saldría el aviso de reorganización, enjuagué dos veces los mismos platos mientras adivinaba el resultado. Incluye Juan 14:27 (Reina-Valera 1909).
@@ -8,8 +8,7 @@ category: Ansiedad
 keywords: miércoles, noche, reorganización, ansiedad, noviembre
 bible_version: Reina-Valera 1909
 translation_of: ko
-publish_at: 2026-11-18 16:33
-draft: true
+publish_at: 2026-11-25 17:13
 ---
 
 Justo antes de salir del trabajo, un compañero mayor me dijo de pasada en el pasillo que mañana por la mañana saldría el aviso de reorganización. Nadie sabía qué equipos se fusionarían ni quién se movería. Él también rio y dijo: «Yo solo lo he oído por ahí», pero esa risa sonó un poco forzada.

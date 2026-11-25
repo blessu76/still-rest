@@ -1,6 +1,6 @@
 ---
 title: Wednesday Evening, After Hearing the Team Might Change, I Rinsed the Dishes Twice
-date: 2026-11-18
+date: 2026-11-25
 slug: wednesday-evening-reorg-news-rinsed-dishes-twice
 lang: en
 description: A first-person story of a Wednesday evening, when a rumor heard on the way home about tomorrow's reorganization notice led me to rinse the same dishes twice while guessing at the outcome. It includes John 14:27 (WEB).
@@ -8,8 +8,7 @@ category: Anxiety
 keywords: Wednesday, evening, reorganization, anxiety, November
 bible_version: WEB
 translation_of: ko
-publish_at: 2026-11-18 16:33
-draft: true
+publish_at: 2026-11-25 17:13
 ---
 
 Just before I left work, a senior colleague said in passing in the hallway that the reorganization notice would come out tomorrow morning. Nobody knew which teams would merge or who would move. My colleague laughed and said, "I only heard it secondhand," but the laugh felt a little off.
